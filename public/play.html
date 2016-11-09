@@ -1,0 +1,119 @@
+<html>
+<head>
+    <title>在线学英语</title>
+    <style>
+        .highlight {
+            color: red;
+        }
+
+        .script {
+            cursor: pointer;
+        }
+
+        .script:hover {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body ng-app="buzzModule" ng-controller="videoCtrl">
+<div class="video" style="height: 50%; width: 50%;">
+    <video width="320" height="240" controls style="width: 100%; height: auto;">
+        <source src='http://blob.bridgeplus.cn/EF_HD.mp4' type='video/mp4'/>
+        <source src='http://blob.bridgeplus.cn/EF_HD.webm'
+                type='video/webm; codecs="vp8, vorbis"'>
+        <source src='http://blob.bridgeplus.cn/EF_HD.ogv'
+                type='video/ogv; codecs="theora, vorbis"'>
+        <object id="flowplayer"
+                data="http://blob.bridgeplus.cn/flowplayer-3.2.2.swf"
+                type="application/x-shockwave-flash" width="320" height="240">
+            <param name="movie"
+                   value="blob.bridgeplus.cn/flowplayer-3.2.2.swf">
+            <param name="allowfullscreen" value="true">
+            <param name="flashvars"
+                   value="config={'clip':{'url':'http://blob.bridgeplus.cn/EF_HD.mp4','autoPlay':false}}">
+        </object>
+    </video>
+</div>
+<div class="subtitle">
+    <a class="script" ng-repeat="(time, text) in subtitle"
+       ng-class="{'highlight': currentTime == time}" ng-click="playTo(time)">{{text}}</a>
+</div>
+<script src="//cdn.bridgeplus.cn/bower/jquery/dist/jquery.min.js?4.0.2_20161106_0316"></script>
+<script src="//cdn.bridgeplus.cn/bower/angular/angular.min.js?4.0.2_20161106_0316"></script>
+<script>
+    angular.module('buzzModule', [])
+            .value('subtitle', {
+                '1': '我是 Carol',
+                '2': '目前在 EF',
+                '3': '英孚教育',
+                '4': '招聘与员工',
+                '5': '发展，那',
+                '6': '很高兴这次跟Bridgeplus',
+                '7': '建立',
+                '8': '这样的战略',
+                '9': '合作的关系',
+                '10': '嗯那在校园',
+                '11': '招聘这一',
+                '12': '块呢我们目前',
+                '13': '面临比较大的',
+                '14': '一个困',
+                '15': '惑是我们',
+                '16': '并不那么看重',
+                '17': '学生的',
+                '18': '专业或者',
+                '19': '他之前的一个',
+                '20': '经历',
+                '21': '我们更多的',
+                '22': '是看重他们的软',
+                '23': '技能以及他们',
+                '24': '跟企业价值',
+                '25': '观的匹配',
+                '26': '程度',
+                '27': '那对HR而言',
+                '28': '这个',
+                '29': '需要花费',
+                '30': '大量的',
+                '31': '时间和精力',
+                '32': '去找到',
+                '33': '我们合适的这样的一个',
+                '34': '候选人',
+                '35': '那跟BridgePlus',
+                '36': '的合作',
+                '37': '能够帮助我们以',
+                '38': '相对比较',
+                '39': '精准的来',
+                '40': '找到我们',
+                '41': '需要的人才',
+                '42': '那也大大地提',
+                '43': '高了我们的工作',
+                '44': '效率',
+                '45': '呃那我们也相信',
+                '46': '这样精准',
+                '47': '招聘的方式',
+                '48': '是目前互',
+                '49': '联网招聘',
+                '50': '很大的一个趋势',
+                '51': '那我们也很期待',
+                '52': '接下来和',
+                '53': 'BridgePlus',
+                '54': '长期合作',
+                '55': '的关系 '
+            })
+            .controller('videoCtrl', ['$scope', '$interval', 'subtitle', function ($scope, $interval, subtitle) {
+                $scope.subtitle = subtitle;
+
+                $scope.currentTime = Math.round($('video')[0].currentTime);
+                $interval(function () {
+                    $scope.currentTime = Math.round($('video')[0].currentTime);
+                    console.log($scope.currentTime);
+                }, 500);
+
+                $scope.playTo = function (time) {
+                    var video = $('video')[0];
+                    video.currentTime = time;
+                    video.play();
+                };
+            }]);
+</script>
+</body>
+</html>
