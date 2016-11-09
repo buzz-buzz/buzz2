@@ -27,7 +27,7 @@ app.use(route.get('/env', function *(next) {
 
 
 if (!module.parent) {
-    var port = process.env.PORT || config.port || 8002;
+    var port = process.env.PORT || config.port || 16000;
     app.listen(port);
     console.log('Running %s site at: http://localhost:%d', config.mode, port);
 }

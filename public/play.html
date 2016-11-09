@@ -13,30 +13,49 @@
         .script:hover {
             font-weight: bold;
         }
+
+        .subtitle {
+            text-align: left;
+        }
+    </style>
+    <style>
+        .full.screen.container {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        .center.aligned.container {
+            text-align: center;
+            margin: 0 auto;
+        }
     </style>
 </head>
-<body ng-app="buzzModule" ng-controller="videoCtrl">
-<div class="video" style="height: 50%; width: 50%;">
-    <video width="320" height="240" controls style="width: 100%; height: auto;">
-        <source src='http://blob.bridgeplus.cn/EF_HD.mp4' type='video/mp4'/>
-        <source src='http://blob.bridgeplus.cn/EF_HD.webm'
-                type='video/webm; codecs="vp8, vorbis"'>
-        <source src='http://blob.bridgeplus.cn/EF_HD.ogv'
-                type='video/ogv; codecs="theora, vorbis"'>
-        <object id="flowplayer"
-                data="http://blob.bridgeplus.cn/flowplayer-3.2.2.swf"
-                type="application/x-shockwave-flash" width="320" height="240">
-            <param name="movie"
-                   value="blob.bridgeplus.cn/flowplayer-3.2.2.swf">
-            <param name="allowfullscreen" value="true">
-            <param name="flashvars"
-                   value="config={'clip':{'url':'http://blob.bridgeplus.cn/EF_HD.mp4','autoPlay':false}}">
-        </object>
-    </video>
-</div>
-<div class="subtitle">
-    <a class="script" ng-repeat="(time, text) in subtitle"
-       ng-class="{'highlight': currentTime == time}" ng-click="playTo(time)">{{text}}</a>
+<body ng-app="buzzModule" ng-controller="videoCtrl" class="full screen container">
+<div class="center aligned container" style="width: 800px;">
+    <div class="video" style="width: 100%;">
+        <video width="320" height="240" controls style="width: 100%; height: auto;">
+            <source src='http://blob.bridgeplus.cn/EF_HD.mp4' type='video/mp4'/>
+            <source src='http://blob.bridgeplus.cn/EF_HD.webm'
+                    type='video/webm; codecs="vp8, vorbis"'>
+            <source src='http://blob.bridgeplus.cn/EF_HD.ogv'
+                    type='video/ogv; codecs="theora, vorbis"'>
+            <object id="flowplayer"
+                    data="http://blob.bridgeplus.cn/flowplayer-3.2.2.swf"
+                    type="application/x-shockwave-flash" width="320" height="240">
+                <param name="movie"
+                       value="blob.bridgeplus.cn/flowplayer-3.2.2.swf">
+                <param name="allowfullscreen" value="true">
+                <param name="flashvars"
+                       value="config={'clip':{'url':'http://blob.bridgeplus.cn/EF_HD.mp4','autoPlay':false}}">
+            </object>
+        </video>
+    </div>
+    <div class="subtitle">
+        <a class="script" ng-repeat="(time, text) in subtitle"
+           ng-class="{'highlight': currentTime == time}" ng-click="playTo(time)">{{text}}</a>
+    </div>
 </div>
 <script src="//cdn.bridgeplus.cn/bower/jquery/dist/jquery.min.js?4.0.2_20161106_0316"></script>
 <script src="//cdn.bridgeplus.cn/bower/angular/angular.min.js?4.0.2_20161106_0316"></script>
