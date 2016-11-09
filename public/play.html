@@ -2,6 +2,13 @@
 <head>
     <title>在线学英语</title>
     <style>
+        @import url('css/style.css');
+    </style>
+    <style>
+        * {
+            font-family: Arial;
+        }
+
         .highlight {
             color: blue !important;
             font-weight: bold;
@@ -27,8 +34,27 @@
             font-family: Arial;
             line-height: 2rem;
         }
+
+        .header {
+            background-color: #f7b52a;
+            border: solid 1px #f7b52a;
+        }
     </style>
     <style>
+        .fluid {
+            width: 100%;
+        }
+
+        .padded {
+            padding: 16px;
+        }
+
+        .white.title {
+            color: white;
+            font-weight: bold;
+            text-align: left;
+        }
+
         .full.screen.container {
             width: 100%;
             height: 100%;
@@ -40,10 +66,61 @@
             text-align: center;
             margin: 0 auto;
         }
+
+        .center.column {
+            width: 800px;
+        }
+
+        .right.floated {
+            float: right;
+        }
+
+        .avatar {
+            border-radius: 50%;
+            max-height: 30px;
+        }
+    </style>
+    <style>
+        ul.horizontal.menu {
+            display: flex;
+            align-items: center;
+            list-style-type: none;
+            padding: 0;
+            margin: -5px 0 0 0 ;
+        }
+
+        ul.horizontal.menu li {
+            padding: 0 10px;
+        }
+
+        ul.white.horizontal.menu {
+            color: white;
+        }
+
+        ul.large.menu {
+            font-size: larger;
+        }
     </style>
 </head>
 <body ng-app="buzzModule" ng-controller="videoCtrl" class="full screen container">
-<div class="center aligned container" style="width: 800px;">
+<div class="fluid container header">
+    <div class="center aligned container column">
+        <ul class="large right floated white horizontal menu">
+            <li>
+                <span class="icon-spinner11"></span>
+            </li>
+            <li>
+                <span class="icon-file-text"></span>
+            </li>
+            <li>
+                <img src="https://avatars3.githubusercontent.com/u/3367820?v=3&s=460" class="avatar">
+            </li>
+        </ul>
+        <p class="white title">Hello Shirly, today is the 100st day since you joined NEWS.</p>
+    </div>
+</div>
+<div class="center aligned container column">
+    <div><br></div>
     <div class="video" style="width: 100%;">
         <video width="320" height="240" controls style="width: 100%; height: auto;">
             <source src='http://blob.bridgeplus.cn/EF_HD.mp4' type='video/mp4'/>
@@ -140,7 +217,7 @@
 
                 $scope.currentTime = Math.round($('video')[0].currentTime);
                 var intervalPromise = null;
-                
+
                 $('video')[0].onpause = function () {
                     $interval.cancel(intervalPromise);
                 };
