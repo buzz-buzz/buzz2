@@ -142,9 +142,9 @@
     <div class="subtitle">
         <h2>EF中国招聘及员工发展总监</h2>
         <p ng-repeat="st in subtitles">
-            <a class="script" ng-class="{'highlight': currentTime == time, 'newWord': o.newWord}"
-               ng-click="playTo(time)"
-               ng-repeat="(time, o) in st">{{o.text}}</a>
+            <a class="script" ng-class="{'highlight': currentTime >= startTime&&currentTime <= o.endTime, 'newWord': o.newWord}"
+               ng-click="playTo(startTime)"
+               ng-repeat="(startTime, o) in st">{{o.text}}</a>
         </p>
     </div>
 </div>
@@ -212,8 +212,36 @@
                 '54': {text: '长期合作', newWord: true},
                 '55': {text: '的关系。 ', newWord: false}
             }])
-            .controller('videoCtrl', ['$scope', '$interval', 'subtitles', function ($scope, $interval, subtitles) {
-                $scope.subtitles = subtitles;
+            .controller('videoCtrl', ['$scope', '$interval', 'subtitles', '$http', function ($scope, $interval, subtitles, $http) {
+                $http.get("test.ass").then(function(ret) {
+                    let data = ret.data;
+                    let dataArray = data.split("Dialogue:");
+                    dataArray.shift();
+                    $scope.subtitles = [];
+                    const standard = Date.UTC(1,1,1,0);
+                    let toSecond = function(time) {
+                        var timeAry = time.split(":");
+                        return (Date.UTC(1,1,1,timeAry[0],timeAry[1],timeAry[2].split(".")[0]) - standard)/1000;
+                    }
+                    var obj = {};
+                    var subtitles = [];
+                    var endTime = "";
+                    dataArray.forEach(function(target) {
+                        var targetAry = target.split(",");
+                        var thisEndTime = toSecond(targetAry[2]).toString();
+                        if (endTime !== thisEndTime) {
+                            endTime = thisEndTime;
+                            obj = {};
+                            $scope.subtitles.push(obj);
+                        }
+                        obj[toSecond(targetAry[1]).toString()] = {
+                            endTime: thisEndTime,
+                            text: targetAry[9].split('\n')[0],
+                            newWord: Math.random() > 0.5 ? true : false
+                        };
+                    });
+                });
+                // $scope.subtitles = subtitles;
 
                 $scope.currentTime = Math.round($('video')[0].currentTime);
                 var intervalPromise = null;
