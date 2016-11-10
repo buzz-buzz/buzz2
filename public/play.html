@@ -145,9 +145,11 @@
     <div class="subtitle">
         <h2>EF中国招聘及员工发展总监</h2>
         <p ng-repeat="st in subtitles">
-            <a class="script" ng-class="{'highlight': currentTime >= startTime&&currentTime <= o.endTime, 'newWord': o.newWord}"
+            <a class="script" ng-class="{'highlight': currentTime >= startTime&&currentTime <= o.endTime}"
                ng-click="playTo(startTime)"
-               ng-repeat="(startTime, o) in st">{{o.text}}</a>
+               ng-repeat="(startTime, o) in st">
+               <span ng-repeat="p in o.textArray" ng-class="{'newWord': p.newWord}">{{p.val}}</span>
+            </a>
         </p>
     </div>
 </div>
@@ -236,10 +238,41 @@
                             obj = {};
                             $scope.subtitles.push(obj);
                         }
+                        var targetText = targetAry[9].split('\n')[0];
+                        var textArray = targetText.split("{");
+                        var displayTextArray = [];
+                        if (textArray.length === 1) {
+                            displayTextArray.push({
+                                val: textArray[0],
+                                newWord: false
+                            });
+                        } else {
+                            textArray.forEach(function(textVal){
+                                if (textVal !== "") {
+                                    var bb = textVal.split("}");
+                                    if (bb.length === 1) {
+                                        displayTextArray.push({
+                                            val: bb[0],
+                                            newWord: false
+                                        });
+                                    } else {
+                                        displayTextArray.push({
+                                            val: bb[0],
+                                            newWord: true
+                                        });
+                                    }
+                                    if (bb[1] && bb[1]!=="") {
+                                        displayTextArray.push({
+                                            val: bb[1],
+                                            newWord: false
+                                        });
+                                    }
+                                }
+                            })
+                        }
                         obj[toSecond(targetAry[1]).toString()] = {
                             endTime: thisEndTime,
-                            text: targetAry[9].split('\n')[0],
-                            newWord: Math.random() > 0.9 ? true : false
+                            textArray: displayTextArray
                         };
                     });
                 });
