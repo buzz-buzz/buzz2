@@ -145,7 +145,7 @@
     <div class="subtitle">
         <h2>EF中国招聘及员工发展总监</h2>
         <p ng-repeat="st in subtitles">
-            <a class="script" ng-class="{'highlight': currentTime >= startTime&&currentTime <= o.endTime}"
+            <a class="script" ng-class="{'highlight': currentTime >= startTime&&currentTime < o.endTime}"
                ng-click="playTo(startTime)"
                ng-repeat="(startTime, o) in st">
                <span ng-repeat="p in o.textArray" ng-class="{'newWord': p.newWord}">{{p.val}}</span>
