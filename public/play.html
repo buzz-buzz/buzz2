@@ -126,12 +126,12 @@
 <div class="center aligned container column">
     <div><br></div>
     <div class="video" style="width: 100%;">
-        <video width="320" height="240" controls style="width: 100%; height: auto;" id="main-video">
-            <source src='http://blob.bridgeplus.cn/EF_HD.mp4' type='video/mp4'/>
-            <source src='http://blob.bridgeplus.cn/EF_HD.webm'
+        <video ng-src="{{src}}" width="320" height="240" controls style="width: 100%; height: auto;" id="main-video" type='video/mp4'>
+            <!-- <source ng-src='{{trustSrc(videoUrl)}}' type='video/mp4'/> -->
+            <!-- <source src='http://blob.bridgeplus.cn/EF_HD.webm'
                     type='video/webm; codecs="vp8, vorbis"'>
             <source src='http://blob.bridgeplus.cn/EF_HD.ogv'
-                    type='video/ogv; codecs="theora, vorbis"'>
+                    type='video/ogv; codecs="theora, vorbis"'> -->
             <object id="flowplayer"
                     data="http://blob.bridgeplus.cn/flowplayer-3.2.2.swf"
                     type="application/x-shockwave-flash" width="320" height="240">
@@ -217,8 +217,18 @@
                 '54': {text: '长期合作', newWord: true},
                 '55': {text: '的关系。 ', newWord: false}
             }])
-            .controller('videoCtrl', ['$scope', '$interval', 'subtitles', '$http', function ($scope, $interval, subtitles, $http) {
-                $http.get("test.ass").then(function(ret) {
+            .controller('videoCtrl', ['$scope', '$interval', 'subtitles', '$http', '$sce', function ($scope, $interval, subtitles, $http, $sce) {
+                let searchStr = location.search.substr(1);
+                let queryAry = searchStr.split("&");
+                let queryObj = {};
+                queryAry.forEach(function(val) {
+                    var valAry = val.split("=");
+                    queryObj[valAry[0]] = valAry[1];
+                });
+                var urlhead = `http://buzz-course-video.b0.upaiyun.com/news/${queryObj.cat}/${queryObj.date}-${queryObj.level}`;
+                let videoUrl = urlhead + "-1080w.mp4";
+                $scope.src = $sce.trustAsResourceUrl(videoUrl);
+                $http.get(urlhead + ".ass").then(function(ret) {
                     let data = ret.data;
                     let dataArray = data.split("Dialogue:");
                     dataArray.shift();
