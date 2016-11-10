@@ -249,7 +249,8 @@
                             obj = {};
                             $scope.subtitles.push(obj);
                         }
-                        var targetText = targetAry[9].split('\n')[0];
+                        var tmpText = targetAry.slice(9).join(",");
+                        var targetText = tmpText.split('\n')[0];
                         var textArray = targetText.split("{");
                         var displayTextArray = [];
                         if (textArray.length === 1) {
