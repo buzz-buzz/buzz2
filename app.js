@@ -27,6 +27,10 @@ app.use(route.get('/env', function *(next) {
     this.body = JSON.stringify({});
 }));
 
+app.use(route.get('/healthcheck', function*(next) {
+    this.body = {every: 'is ok', time: new Date()};
+}));
+
 
 if (!module.parent) {
     var port = process.env.PORT || config.port || 16000;
