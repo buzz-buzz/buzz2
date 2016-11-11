@@ -10,6 +10,7 @@ const serveStatic = require('koa-static');
 app.use(logger());
 
 app.use(serveStatic('public'));
+app.use(serveStatic('node_modules'));
 app.use(serveStatic('resource'));
 
 var routesPath = path.join(__dirname, 'routes');

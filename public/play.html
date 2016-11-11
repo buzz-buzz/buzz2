@@ -3,7 +3,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-    <title>在线学英语</title>
+    <!--<link rel="stylesheet" type="text/css" href="/fullpage.js/dist/jquery.fullpage.min.css">-->
+    <title>Buzz English</title>
     <style>
         @import url('css/style.css');
     </style>
@@ -37,11 +38,17 @@
             color: #666;
             font-family: Arial;
             line-height: 2rem;
+            overflow: auto;
         }
 
         .header {
             background-color: #f7b52a;
             border: solid 1px #f7b52a;
+        }
+
+        .fixed {
+            position: fixed;
+            z-index: 1;
         }
     </style>
     <style>
@@ -83,6 +90,16 @@
             border-radius: 50%;
             max-height: 30px;
         }
+
+        .page.with-header {
+            padding-top: 50px;
+        }
+
+        .page {
+            height: 100%;
+            overflow: hidden;
+            box-sizing: border-box;
+        }
     </style>
     <style>
         ul.horizontal.menu {
@@ -103,6 +120,46 @@
 
         ul.large.menu {
             font-size: larger;
+        }
+
+        ul.menu li {
+            cursor: pointer;
+        }
+
+        ul.menu li.active {
+            font-weight: bold;
+        }
+    </style>
+    <style>
+        /* http://stackoverflow.com/questions/90178/make-a-div-fill-the-height-of-the-remaining-screen-space */
+        .flex-box {
+            display: flex;
+            flex-flow: column;
+            height: 100%;
+        }
+
+        .flex-box .row {
+        }
+
+        .flex-box .row.dynamic {
+            flex: 0 1 auto;
+        }
+
+        .flex-box .row.content {
+            flex: 1 1 auto;
+        }
+    </style>
+    <style>
+        @media screen and (max-height: 750px) {
+            #main-video {
+                width: 80% !important;
+            }
+        }
+
+        @media screen and (max-height: 550px) {
+            #main-video {
+                width: 50% !important;
+            }
         }
     </style>
     <style>
@@ -211,7 +268,7 @@
     </style>
 </head>
 <body ng-app="buzzModule" ng-controller="videoCtrl" class="full screen container">
-<div class="fluid container header">
+<div class="fluid container header fixed">
     <div class="center aligned container column">
         <ul class="large right floated white horizontal menu">
             <li>
@@ -227,98 +284,113 @@
         <p class="white title">Hello Shirly, today is the 100st day since you joined NEWS.</p>
     </div>
 </div>
-<div class="center aligned container column">
-    <div><br></div>
-    <div class="video" style="width: 100%;">
-        <video ng-src="{{src}}" width="320" height="240" controls style="width: 100%; height: auto;" id="main-video"
-               type='video/mp4'>
-            <!-- <source ng-src='{{trustSrc(videoUrl)}}' type='video/mp4'/> -->
-            <!-- <source src='http://blob.bridgeplus.cn/EF_HD.webm'
-                    type='video/webm; codecs="vp8, vorbis"'>
-            <source src='http://blob.bridgeplus.cn/EF_HD.ogv'
-                    type='video/ogv; codecs="theora, vorbis"'> -->
-            <object id="flowplayer"
-                    data="http://blob.bridgeplus.cn/flowplayer-3.2.2.swf"
-                    type="application/x-shockwave-flash" width="320" height="240">
-                <param name="movie"
-                       value="blob.bridgeplus.cn/flowplayer-3.2.2.swf">
-                <param name="allowfullscreen" value="true">
-                <param name="flashvars"
-                       value="config={'clip':{'url':'http://blob.bridgeplus.cn/EF_HD.mp4','autoPlay':false}}">
-            </object>
-        </video>
-    </div>
-    <div class="subtitle">
-        <h2>Buzz English</h2>
-        <p ng-repeat="st in subtitles">
-            <a class="script" ng-class="{'highlight': currentTime >= startTime&&currentTime < o.endTime}"
-               ng-click="playTo(startTime)"
-               ng-repeat="(startTime, o) in st">
-                <span ng-repeat="p in o.textArray" ng-class="{'newWord': p.newWord}">{{p.val}}</span>
-            </a>
-        </p>
-    </div>
-</div>
-<div class="center aligned container column">
-  <div class="tabular menu">
-    <div class="item" ng-class="{'active': tabularIndex===1}" ng-click="tabularIndex=1">
-      <span class="icon icon-list2"></span>
-      <span> Daily Exercise </span>
-    </div><!--
-    --><div class="item middle" ng-class="{'active': tabularIndex===2}" ng-click="tabularIndex=2">
-      <span class="icon icon-list2"></span>
-      <span> Today's Vocabulary </span>
-    </div><!--
-    --><div class="item" ng-class="{'active': tabularIndex===3}" ng-click="tabularIndex=3">
-      <span class="icon icon-list2"></span>
-      <span> Weekly Quiz </span>
-    </div>
-  </div>
-  <div class="tabular content">
-    <div class="item" ng-show="tabularIndex===1">
-      item1
-    </div>
-    <div class="item" ng-show="tabularIndex===2">
-      <div class="left arrow">
-        <span class="icon-circle-left"></span>
-      </div>
-      <div class="vocabulary container">
-        <div class="item effect2">
-          <div class="head">
-            <span class="word">act</span>
-            <span class="ipa">[ækt]</span>
-          </div>
-          <div class="body">
-            <div class="explanation">
-              <span class="title">释义:</span>
-              <div class="body">n. 行为，法令;vt&amp;vi. 行动;表演;起作用</div>
-            </div>
-            <div class="explanation">
-              <span class="title">构词:</span>
-              <div class="body">act行动，活动，做-->v.行动，行为，扮演 n.[戏]幕</div>
-            </div>
-            <div class="explanation">
-              <span class="title">例句:</span>
-              <div class="body">
+<div id="fullpage">
+    <a name="page-1" class="page-pos"></a>
+    <div class="page with-header section">
+        <div class="center aligned container column flex-box">
+            <div class="video row dynamic" style="width: 100%;">
+                <br>
+                <video ng-src="{{src}}" width="320" height="240" controls style="width: 100%; height: auto;"
+                       id="main-video"
+                       type='video/mp4'>
+                    <!-- <source ng-src='{{trustSrc(videoUrl)}}' type='video/mp4'/> -->
+                    <!-- <source src='http://blob.bridgeplus.cn/EF_HD.webm'
+                            type='video/webm; codecs="vp8, vorbis"'>
+                    <source src='http://blob.bridgeplus.cn/EF_HD.ogv'
+                            type='video/ogv; codecs="theora, vorbis"'> -->
+                </video>
                 <div>
-                  Her five-year-old daughter likes to act up before socres of vistors.
+                    <div><br></div>
+                    <ul class="horizontal menu">
+                        <li ng-class="{'active': definition === '360w'}">
+                            <a ng-click="definition = '360w'">普清</a>
+                        </li>
+                        <li ng-class="{'active': definition === '1080w'}">
+                            <a ng-click="definition = '1080w'">高清</a>
+                        </li>
+                    </ul>
                 </div>
-                <div>
-                  她那五岁的小女儿喜欢在很多的客人面前表演.
+            </div>
+            <div class="subtitle row content">
+                <h2>Buzz English</h2>
+                <p ng-repeat="st in subtitles">
+                    <a class="script" ng-class="{'highlight': currentTime >= startTime&&currentTime < o.endTime}"
+                       ng-click="playTo(startTime)"
+                       ng-repeat="(startTime, o) in st">
+                        <span ng-repeat="p in o.textArray" ng-class="{'newWord': p.newWord}">{{p.val}}</span>
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+    <a name="page-2" class="page-pos"></a>
+    <div class="page with-header section">
+      <div class="center aligned container column">
+        <div class="tabular menu">
+          <div class="item" ng-class="{'active': tabularIndex===1}" ng-click="tabularIndex=1">
+            <span class="icon icon-list2"></span>
+            <span> Daily Exercise </span>
+          </div><!--
+          --><div class="item middle" ng-class="{'active': tabularIndex===2}" ng-click="tabularIndex=2">
+            <span class="icon icon-list2"></span>
+            <span> Today's Vocabulary </span>
+          </div><!--
+          --><div class="item" ng-class="{'active': tabularIndex===3}" ng-click="tabularIndex=3">
+            <span class="icon icon-list2"></span>
+            <span> Weekly Quiz </span>
+          </div>
+        </div>
+        <div class="tabular content">
+          <div class="item" ng-show="tabularIndex===1">
+            item1
+          </div>
+          <div class="item" ng-show="tabularIndex===2">
+            <div class="left arrow">
+              <span class="icon-circle-left"></span>
+            </div>
+            <div class="vocabulary container">
+              <div class="item effect2">
+                <div class="head">
+                  <span class="word">act</span>
+                  <span class="ipa">[ækt]</span>
+                </div>
+                <div class="body">
+                  <div class="explanation">
+                    <span class="title">释义:</span>
+                    <div class="body">n. 行为，法令;vt&amp;vi. 行动;表演;起作用</div>
+                  </div>
+                  <div class="explanation">
+                    <span class="title">构词:</span>
+                    <div class="body">act行动，活动，做-->v.行动，行为，扮演 n.[戏]幕</div>
+                  </div>
+                  <div class="explanation">
+                    <span class="title">例句:</span>
+                    <div class="body">
+                      <div>
+                        Her five-year-old daughter likes to act up before socres of vistors.
+                      </div>
+                      <div>
+                        她那五岁的小女儿喜欢在很多的客人面前表演.
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
+            <div class="right arrow">
+              <span class="icon-circle-right"></span>
+            </div>
+          </div>
+          <div class="item" ng-show="tabularIndex===3">
+            item3
           </div>
         </div>
       </div>
-      <div class="right arrow">
-        <span class="icon-circle-right"></span>
-      </div>
     </div>
-    <div class="item" ng-show="tabularIndex===3">
-      item3
+    <a name="page-3" class="page-pos"></a>
+    <div class="section page with-header">
+        <h1> 第三页</h1>
     </div>
-  </div>
 </div>
 <script src="http://cdn.bridgeplus.cn/bower/angular/angular.min.js?4.0.2_20161106_0316"></script>
 <script>
@@ -333,8 +405,14 @@
                     queryObj[valAry[0]] = valAry[1];
                 });
                 var urlhead = `http://buzz-course-video.b0.upaiyun.com/news/${queryObj.cat}/${queryObj.date}-${queryObj.level}`;
-                let videoUrl = urlhead + "-1080w.mp4";
-                $scope.src = $sce.trustAsResourceUrl(videoUrl);
+
+                $scope.definition = '1080w';
+
+                $scope.$watch('definition', function (newValue, oldValue) {
+                    var videoUrl = urlhead + "-" + $scope.definition + ".mp4";
+                    $scope.src = $sce.trustAsResourceUrl(videoUrl);
+                });
+
                 $http.get(urlhead + ".ass").then(function (ret) {
                     let data = ret.data;
                     let dataArray = data.split("Dialogue:");
@@ -344,9 +422,8 @@
                     let toSecond = function (time) {
                         var timeAry = time.split(":");
                         return (Date.UTC(1, 1, 1, timeAry[0], timeAry[1], timeAry[2].split(".")[0]) - standard) / 1000;
-                    }
+                    };
                     var obj = {};
-                    var subtitles = [];
                     var endTime = "";
                     dataArray.forEach(function (target) {
                         var targetAry = target.split(",");
@@ -416,7 +493,13 @@
                     video.currentTime = time;
                     video.play();
                 };
+//                angular.element(document).ready(function () {
+//                    $('#fullpage').fullpage({
+//                        scrollOverflow: true
+//                    });
+//                });
             }]);
 </script>
+<script src="/js/fullpage.js"></script>
 </body>
 </html>
