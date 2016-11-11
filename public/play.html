@@ -3,7 +3,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-    <title>在线学英语</title>
+    <title>Buzz English</title>
     <style>
         @import url('css/style.css');
     </style>
@@ -104,6 +104,14 @@
         ul.large.menu {
             font-size: larger;
         }
+
+        ul.menu li {
+            cursor: pointer;
+        }
+
+        ul.menu li.active {
+            font-weight: bold;
+        }
     </style>
 </head>
 <body ng-app="buzzModule" ng-controller="videoCtrl" class="full screen container">
@@ -133,19 +141,21 @@
                     type='video/webm; codecs="vp8, vorbis"'>
             <source src='http://blob.bridgeplus.cn/EF_HD.ogv'
                     type='video/ogv; codecs="theora, vorbis"'> -->
-            <object id="flowplayer"
-                    data="http://blob.bridgeplus.cn/flowplayer-3.2.2.swf"
-                    type="application/x-shockwave-flash" width="320" height="240">
-                <param name="movie"
-                       value="blob.bridgeplus.cn/flowplayer-3.2.2.swf">
-                <param name="allowfullscreen" value="true">
-                <param name="flashvars"
-                       value="config={'clip':{'url':'http://blob.bridgeplus.cn/EF_HD.mp4','autoPlay':false}}">
-            </object>
         </video>
+        <div>
+            <div><br></div>
+            <ul class="horizontal menu">
+                <li ng-class="{'active': definition === '360w'}">
+                    <a ng-click="definition = '360w'">普清</a>
+                </li>
+                <li ng-class="{'active': definition === '1080w'}">
+                    <a ng-click="definition = '1080w'">高清</a>
+                </li>
+            </ul>
+        </div>
     </div>
     <div class="subtitle">
-        <h2>EF中国招聘及员工发展总监</h2>
+        <h2>Buzz English</h2>
         <p ng-repeat="st in subtitles">
             <a class="script" ng-class="{'highlight': currentTime >= startTime&&currentTime < o.endTime}"
                ng-click="playTo(startTime)"
@@ -167,8 +177,14 @@
                     queryObj[valAry[0]] = valAry[1];
                 });
                 var urlhead = `http://buzz-course-video.b0.upaiyun.com/news/${queryObj.cat}/${queryObj.date}-${queryObj.level}`;
-                let videoUrl = urlhead + "-1080w.mp4";
-                $scope.src = $sce.trustAsResourceUrl(videoUrl);
+
+                $scope.definition = '1080w';
+
+                $scope.$watch('definition', function (newValue, oldValue) {
+                    var videoUrl = urlhead + "-" + $scope.definition + ".mp4";
+                    $scope.src = $sce.trustAsResourceUrl(videoUrl);
+                });
+
                 $http.get(urlhead + ".ass").then(function (ret) {
                     let data = ret.data;
                     let dataArray = data.split("Dialogue:");
