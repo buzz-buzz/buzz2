@@ -303,16 +303,22 @@
     <div class="center aligned container column" style="border: none;">
         <ul class="large right floated white horizontal menu">
             <li>
-                <span class="icon-spinner11"></span>
+                <a title="历史课程" class="icon-history"></a>
             </li>
             <li>
-                <span class="icon-file-text"></span>
+                <a title="学习进度" class="icon-stats-bars"></a>
+            </li>
+            <li>
+                <a title="生词本" class="icon-file-text"></a>
             </li>
             <li>
                 <img src="https://avatars3.githubusercontent.com/u/3367820?v=3&s=460" class="avatar">
             </li>
         </ul>
-        <p class="white title">Hello Shirly, today is the 100st day since you joined NEWS.</p>
+        <p class="white title">
+            <img src="/images/logo.png" style="background-color: white; position: absolute; top: 0; max-height: 100%;">
+            <span style="margin-left: 150px;">Hello Shirly, today is the 100st day since you joined NEWS.</span>
+        </p>
     </div>
 </div>
 <div id="fullpage">
@@ -347,16 +353,19 @@
             <div class="subtitle row content" style="display: flex;">
                 <div class="bordered segment" style="max-height: 100%; width: 100%; overflow: auto;">
                     <h2>Buzz English</h2>
-                    <p ng-repeat="st in subtitles">
-                        <a class="script" ng-class="{'highlight': currentTime >= startTime&&currentTime < o.endTime}"
-                           ng-click="playTo(startTime)"
-                           ng-repeat="(startTime, o) in st">
-                            <span ng-repeat="p in o.textArray" ng-class="{'newWord': p.newWord}">{{p.val}}</span>
-                        </a>
-                        <a class="icon-volume-medium" ng-click="playTo(startTime)"
-                           style="color: orange; cursor: pointer;"
-                           ng-repeat="(startTime, o) in st" ng-if="$index === 0"></a>
-                    </p>
+                    <div style="column-count: 2;">
+                        <p ng-repeat="st in subtitles">
+                            <a class="script"
+                               ng-class="{'highlight': currentTime >= startTime&&currentTime < o.endTime}"
+                               ng-click="playTo(startTime)"
+                               ng-repeat="(startTime, o) in st">
+                                <span ng-repeat="p in o.textArray" ng-class="{'newWord': p.newWord}">{{p.val}}</span>
+
+                                &nbsp;<span class="icon-volume-medium" ng-click="playTo(startTime)"
+                                            style="color: orange; cursor: pointer;"></span>
+                            </a>
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
