@@ -37,11 +37,16 @@
             color: #666;
             font-family: Arial;
             line-height: 2rem;
+            overflow: auto;
         }
 
         .header {
             background-color: #f7b52a;
             border: solid 1px #f7b52a;
+        }
+
+        .fixed {
+            position: fixed;
         }
     </style>
     <style>
@@ -83,6 +88,16 @@
             border-radius: 50%;
             max-height: 30px;
         }
+
+        .page.with-header {
+            padding-top: 50px;
+        }
+
+        .page {
+            height: 100%;
+            overflow: hidden;
+            box-sizing: border-box;
+        }
     </style>
     <style>
         ul.horizontal.menu {
@@ -113,9 +128,40 @@
             font-weight: bold;
         }
     </style>
+    <style>
+        .flex-box {
+            display: flex;
+            flex-flow: column;
+            height: 100%;
+        }
+
+        .flex-box .row {
+        }
+
+        .flex-box .row.dynamic {
+            flex: 0 1 auto;
+        }
+
+        .flex-box .row.content {
+            flex: 1 1 auto;
+        }
+    </style>
+    <style>
+        @media screen and (max-height: 750px) {
+            #main-video {
+                width: 80% !important;
+            }
+        }
+
+        @media screen and (max-height: 550px) {
+            #main-video {
+                width: 50% !important;
+            }
+        }
+    </style>
 </head>
 <body ng-app="buzzModule" ng-controller="videoCtrl" class="full screen container">
-<div class="fluid container header">
+<div class="fluid container header fixed">
     <div class="center aligned container column">
         <ul class="large right floated white horizontal menu">
             <li>
@@ -131,38 +177,39 @@
         <p class="white title">Hello Shirly, today is the 100st day since you joined NEWS.</p>
     </div>
 </div>
-<div class="center aligned container column">
-    <div><br></div>
-    <div class="video" style="width: 100%;">
-        <video ng-src="{{src}}" width="320" height="240" controls style="width: 100%; height: auto;" id="main-video"
-               type='video/mp4'>
-            <!-- <source ng-src='{{trustSrc(videoUrl)}}' type='video/mp4'/> -->
-            <!-- <source src='http://blob.bridgeplus.cn/EF_HD.webm'
-                    type='video/webm; codecs="vp8, vorbis"'>
-            <source src='http://blob.bridgeplus.cn/EF_HD.ogv'
-                    type='video/ogv; codecs="theora, vorbis"'> -->
-        </video>
-        <div>
-            <div><br></div>
-            <ul class="horizontal menu">
-                <li ng-class="{'active': definition === '360w'}">
-                    <a ng-click="definition = '360w'">普清</a>
-                </li>
-                <li ng-class="{'active': definition === '1080w'}">
-                    <a ng-click="definition = '1080w'">高清</a>
-                </li>
-            </ul>
+<div class="page with-header">
+    <div class="center aligned container column flex-box">
+        <div class="video row dynamic" style="width: 100%;">
+            <video ng-src="{{src}}" width="320" height="240" controls style="width: 100%; height: auto;" id="main-video"
+                   type='video/mp4'>
+                <!-- <source ng-src='{{trustSrc(videoUrl)}}' type='video/mp4'/> -->
+                <!-- <source src='http://blob.bridgeplus.cn/EF_HD.webm'
+                        type='video/webm; codecs="vp8, vorbis"'>
+                <source src='http://blob.bridgeplus.cn/EF_HD.ogv'
+                        type='video/ogv; codecs="theora, vorbis"'> -->
+            </video>
+            <div>
+                <div><br></div>
+                <ul class="horizontal menu">
+                    <li ng-class="{'active': definition === '360w'}">
+                        <a ng-click="definition = '360w'">普清</a>
+                    </li>
+                    <li ng-class="{'active': definition === '1080w'}">
+                        <a ng-click="definition = '1080w'">高清</a>
+                    </li>
+                </ul>
+            </div>
         </div>
-    </div>
-    <div class="subtitle">
-        <h2>Buzz English</h2>
-        <p ng-repeat="st in subtitles">
-            <a class="script" ng-class="{'highlight': currentTime >= startTime&&currentTime < o.endTime}"
-               ng-click="playTo(startTime)"
-               ng-repeat="(startTime, o) in st">
-                <span ng-repeat="p in o.textArray" ng-class="{'newWord': p.newWord}">{{p.val}}</span>
-            </a>
-        </p>
+        <div class="subtitle row content">
+            <h2>Buzz English</h2>
+            <p ng-repeat="st in subtitles">
+                <a class="script" ng-class="{'highlight': currentTime >= startTime&&currentTime < o.endTime}"
+                   ng-click="playTo(startTime)"
+                   ng-repeat="(startTime, o) in st">
+                    <span ng-repeat="p in o.textArray" ng-class="{'newWord': p.newWord}">{{p.val}}</span>
+                </a>
+            </p>
+        </div>
     </div>
 </div>
 <script src="http://cdn.bridgeplus.cn/bower/angular/angular.min.js?4.0.2_20161106_0316"></script>
@@ -194,9 +241,8 @@
                     let toSecond = function (time) {
                         var timeAry = time.split(":");
                         return (Date.UTC(1, 1, 1, timeAry[0], timeAry[1], timeAry[2].split(".")[0]) - standard) / 1000;
-                    }
+                    };
                     var obj = {};
-                    var subtitles = [];
                     var endTime = "";
                     dataArray.forEach(function (target) {
                         var targetAry = target.split(",");
