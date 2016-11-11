@@ -19,7 +19,7 @@ fs.readdirSync(routesPath).forEach(function (file) {
 });
 
 app.use(route.get('/', function *home(next) {
-    this.body = 'Hello World!';
+    this.redirect('/play.html?date=2016-11-07&cat=science&level=B');
 }));
 
 app.use(route.get('/env', function *(next) {

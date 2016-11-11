@@ -126,7 +126,8 @@
 <div class="center aligned container column">
     <div><br></div>
     <div class="video" style="width: 100%;">
-        <video ng-src="{{src}}" width="320" height="240" controls style="width: 100%; height: auto;" id="main-video" type='video/mp4'>
+        <video ng-src="{{src}}" width="320" height="240" controls style="width: 100%; height: auto;" id="main-video"
+               type='video/mp4'>
             <!-- <source ng-src='{{trustSrc(videoUrl)}}' type='video/mp4'/> -->
             <!-- <source src='http://blob.bridgeplus.cn/EF_HD.webm'
                     type='video/webm; codecs="vp8, vorbis"'>
@@ -149,7 +150,7 @@
             <a class="script" ng-class="{'highlight': currentTime >= startTime&&currentTime < o.endTime}"
                ng-click="playTo(startTime)"
                ng-repeat="(startTime, o) in st">
-               <span ng-repeat="p in o.textArray" ng-class="{'newWord': p.newWord}">{{p.val}}</span>
+                <span ng-repeat="p in o.textArray" ng-class="{'newWord': p.newWord}">{{p.val}}</span>
             </a>
         </p>
     </div>
@@ -157,91 +158,31 @@
 <script src="http://cdn.bridgeplus.cn/bower/angular/angular.min.js?4.0.2_20161106_0316"></script>
 <script>
     angular.module('buzzModule', [])
-            .value('subtitles', [{
-                '1': {text: '我是 Carol', newWord: false},
-                '2': {text: '目前在 EF', newWord: false},
-                '3': {text: '英孚教育', newWord: false},
-                '4': {text: '招聘与员工', newWord: false},
-                '5': {text: '发展，那', newWord: false},
-                '6': {text: '很高兴这次跟Bridgeplus', newWord: false},
-                '7': {text: '建立', newWord: true},
-                '8': {text: '这样的战略', newWord: false},
-                '9': {text: '合作的关系。', newWord: false}
-            }, {
-                '10': {text: '嗯那在校园', newWord: false},
-                '11': {text: '招聘这一', newWord: false},
-                '12': {text: '块呢，我们目前', newWord: false},
-                '13': {text: '面临比较大的', newWord: false},
-                '14': {text: '一个困', newWord: false},
-                '15': {text: '惑是我们', newWord: false},
-                '16': {text: '并不那么看重', newWord: false},
-                '17': {text: '学生的', newWord: false},
-                '18': {text: '专业或者', newWord: false},
-                '19': {text: '他之前的一个', newWord: false},
-                '20': {text: '经历，', newWord: true},
-                '21': {text: '我们更多的', newWord: false},
-                '22': {text: '是看重他们的软', newWord: false},
-                '23': {text: '技能以及他们', newWord: false},
-                '24': {text: '跟企业价值', newWord: false},
-                '25': {text: '观的匹配', newWord: false},
-                '26': {text: '程度。', newWord: false}
-            }, {
-                '27': {text: '那对HR而言', newWord: false},
-                '28': {text: '这个', newWord: true},
-                '29': {text: '需要花费', newWord: false},
-                '30': {text: '大量的', newWord: false},
-                '31': {text: '时间和精力，', newWord: false},
-                '32': {text: '去找到', newWord: false},
-                '33': {text: '我们合适的这样的一个', newWord: false},
-                '34': {text: '候选人。', newWord: false},
-                '35': {text: '那跟BridgePlus', newWord: false},
-                '36': {text: '的合作，', newWord: false},
-                '37': {text: '能够帮助我们以', newWord: false},
-                '38': {text: '相对比较', newWord: false},
-                '39': {text: '精准的来', newWord: false},
-                '40': {text: '找到我们', newWord: false},
-                '41': {text: '需要的人才，', newWord: false},
-                '42': {text: '那也大大地提', newWord: false},
-                '43': {text: '高了我们的工作', newWord: false},
-                '44': {text: '效率。', newWord: false}
-            }, {
-                '45': {text: '呃那我们也相信', newWord: false},
-                '46': {text: '这样精准', newWord: false},
-                '47': {text: '招聘的方式', newWord: false},
-                '48': {text: '是目前互', newWord: false},
-                '49': {text: '联网招聘', newWord: false},
-                '50': {text: '很大的一个趋势。', newWord: false},
-                '51': {text: '那我们也很期待', newWord: false},
-                '52': {text: '接下来和', newWord: false},
-                '53': {text: 'BridgePlus', newWord: false},
-                '54': {text: '长期合作', newWord: true},
-                '55': {text: '的关系。 ', newWord: false}
-            }])
-            .controller('videoCtrl', ['$scope', '$interval', 'subtitles', '$http', '$sce', function ($scope, $interval, subtitles, $http, $sce) {
+            .controller('videoCtrl', ['$scope', '$interval', '$http', '$sce', function ($scope, $interval, $http, $sce) {
                 let searchStr = location.search.substr(1);
                 let queryAry = searchStr.split("&");
                 let queryObj = {};
-                queryAry.forEach(function(val) {
+                queryAry.forEach(function (val) {
                     var valAry = val.split("=");
                     queryObj[valAry[0]] = valAry[1];
                 });
                 var urlhead = `http://buzz-course-video.b0.upaiyun.com/news/${queryObj.cat}/${queryObj.date}-${queryObj.level}`;
                 let videoUrl = urlhead + "-1080w.mp4";
                 $scope.src = $sce.trustAsResourceUrl(videoUrl);
-                $http.get(urlhead + ".ass").then(function(ret) {
+                $http.get(urlhead + ".ass").then(function (ret) {
                     let data = ret.data;
                     let dataArray = data.split("Dialogue:");
                     dataArray.shift();
                     $scope.subtitles = [];
-                    const standard = Date.UTC(1,1,1,0);
-                    let toSecond = function(time) {
+                    const standard = Date.UTC(1, 1, 1, 0);
+                    let toSecond = function (time) {
                         var timeAry = time.split(":");
-                        return (Date.UTC(1,1,1,timeAry[0],timeAry[1],timeAry[2].split(".")[0]) - standard)/1000;
+                        return (Date.UTC(1, 1, 1, timeAry[0], timeAry[1], timeAry[2].split(".")[0]) - standard) / 1000;
                     }
                     var obj = {};
                     var subtitles = [];
                     var endTime = "";
-                    dataArray.forEach(function(target) {
+                    dataArray.forEach(function (target) {
                         var targetAry = target.split(",");
                         var thisEndTime = toSecond(targetAry[2]).toString();
                         if (endTime !== thisEndTime) {
@@ -259,7 +200,7 @@
                                 newWord: false
                             });
                         } else {
-                            textArray.forEach(function(textVal){
+                            textArray.forEach(function (textVal) {
                                 if (textVal !== "") {
                                     var bb = textVal.split("}");
                                     if (bb.length === 1) {
@@ -273,7 +214,7 @@
                                             newWord: true
                                         });
                                     }
-                                    if (bb[1] && bb[1]!=="") {
+                                    if (bb[1] && bb[1] !== "") {
                                         displayTextArray.push({
                                             val: bb[1],
                                             newWord: false
