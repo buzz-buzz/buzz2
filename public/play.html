@@ -257,6 +257,11 @@
             vertical-align: text-top;
         }
 
+        .playsound-volume-icon {
+          color: orange;
+          cursor: pointer;
+        }
+
         .effect2 {
             position: relative;
         }
@@ -353,8 +358,7 @@
                            ng-repeat="(startTime, o) in st">
                             <span ng-repeat="p in o.textArray" ng-class="{'newWord': p.newWord}">{{p.val}}</span>
                         </a>
-                        <a class="icon-volume-medium" ng-click="playTo(startTime)"
-                           style="color: orange; cursor: pointer;"
+                        <a class="icon-volume-medium playsound-volume-icon" ng-click="playTo(startTime)"
                            ng-repeat="(startTime, o) in st" ng-if="$index === 0"></a>
                     </p>
                 </div>
@@ -392,6 +396,7 @@
                             <div class="head">
                                 <span class="word">act</span>
                                 <span class="ipa">[ækt]</span>
+                                <i class="icon-volume-medium playsound-volume-icon"></i>
                             </div>
                             <div class="body">
                                 <div class="explanation">
@@ -406,7 +411,8 @@
                                     <span class="title">例句:</span>
                                     <div class="body">
                                         <div>
-                                            Her five-year-old daughter likes to act up before socres of vistors.
+                                            <span>Her five-year-old daughter likes to act up before socres of vistors.</span>
+                                            <i class="icon-volume-medium playsound-volume-icon"></i>
                                         </div>
                                         <div>
                                             她那五岁的小女儿喜欢在很多的客人面前表演.
