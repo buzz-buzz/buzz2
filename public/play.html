@@ -15,7 +15,6 @@
 
         .highlight {
             color: blue !important;
-            font-weight: bold;
         }
 
         .newWord {
@@ -29,8 +28,7 @@
         }
 
         .script:hover {
-            font-weight: bold;
-            background-color: #edc;
+            /*background-color: #edc;*/
         }
 
         .subtitle {
@@ -319,6 +317,8 @@
                        ng-repeat="(startTime, o) in st">
                         <span ng-repeat="p in o.textArray" ng-class="{'newWord': p.newWord}">{{p.val}}</span>
                     </a>
+                    <a class="icon-volume-medium" ng-click="playTo(startTime)" style="color: orange; cursor: pointer;"
+                       ng-repeat="(startTime, o) in st" ng-if="$index === 0"></a>
                 </p>
             </div>
         </div>
@@ -389,7 +389,7 @@
     </div>
     <a name="page-3" class="page-pos"></a>
     <div class="section page with-header">
-        <h1> 第三页</h1>
+        <h1>第三页</h1>
     </div>
 </div>
 <script src="http://cdn.bridgeplus.cn/bower/angular/angular.min.js?4.0.2_20161106_0316"></script>
