@@ -67,13 +67,13 @@
         .full.screen.container {
             width: 100%;
             /*height: 100%;*/
-            margin: 0 0 100px 0;
+            margin: 0 0 0 0;
             padding: 0;
         }
 
         .center.aligned.container {
             text-align: center;
-            margin: 0 auto 3em auto;
+            margin: 0 auto;
         }
 
         .center.column {
@@ -161,108 +161,122 @@
         }
     </style>
     <style>
-      .tabular.menu {
-        border-bottom: solid 1px #f7b52a;
-      }
-      .tabular.menu .item{
-        display: inline-block;
-        width: 33%;
-        cursor: pointer;
-        color: #666;
-        padding-top: 0.8em;
-        padding-bottom: 0.8em;
-        border-top-left-radius: 4px;
-        border-top-right-radius: 4px;
-      }
-      .tabular.menu .item.middle{
-        width: 34%;
-      }
-      .tabular.menu .item:hover{
-      }
-      .tabular.menu .item.active{
-        background-color: #f7b52a;
-        color: white;
-      }
-      .tabular.menu .item .icon{
-        margin-right: 0.2em;
-        vertical-align: text-top;
-      }
-      .tabular.content {
-        padding-top: 4em;
-      }
-      .tabular.content .item{
-      }
-      .tabular.content .item .arrow{
-        display: inline-block;
-        font-size: 2em;
-        color: #f7b52a;
-        cursor: pointer;
-        padding: 0 1.6em;
-      }
-      .tabular.content .item .vocabulary.container{
-        display: inline-block;
-        width: 60%;
-        vertical-align: middle;
-        padding-bottom: 1em;
-      }
-      .tabular.content .item .vocabulary.container .item{
-        background-color: #f5f5f5;
-        min-height: 100px;
-        padding: 2em;
-        text-align: left;
-      }
-      .tabular.content .item .vocabulary.container .item .head .word{
-        color: #ff6e00;
-      }
-      .tabular.content .item .vocabulary.container .item .body{
-        color: #666;
-      }
-      .tabular.content .item .vocabulary.container .item .body .explanation{
-        margin: 1em 0;
-      }
-      .tabular.content .item .vocabulary.container .item .body .explanation .title{
-        color: #bcbcbc;
-      }
-      .tabular.content .item .vocabulary.container .item .body .explanation .body{
-        display:inline-block;
-        width:85%;
-        vertical-align:text-top;
-      }
+        .tabular.menu {
+            border-bottom: solid 1px #f7b52a;
+        }
 
-      .effect2
-      {
-        position: relative;
-      }
-      .effect2:before, .effect2:after
-      {
-        z-index: -1;
-        position: absolute;
-        content: "";
-        bottom: 15px;
-        left: 10px;
-        width: 50%;
-        top: 80%;
-        max-width:300px;
-        background: #777;
-        -webkit-box-shadow: 0 15px 10px #777;
-        -moz-box-shadow: 0 15px 10px #777;
-        box-shadow: 0 15px 10px #777;
-        -webkit-transform: rotate(-3deg);
-        -moz-transform: rotate(-3deg);
-        -o-transform: rotate(-3deg);
-        -ms-transform: rotate(-3deg);
-        transform: rotate(-3deg);
-      }
-      .effect2:after
-      {
-        -webkit-transform: rotate(3deg);
-        -moz-transform: rotate(3deg);
-        -o-transform: rotate(3deg);
-        -ms-transform: rotate(3deg);
-        transform: rotate(3deg);
-        right: 10px;
-        left: auto;
-      }
+        .tabular.menu .item {
+            display: inline-block;
+            width: 33%;
+            cursor: pointer;
+            color: #666;
+            padding-top: 0.8em;
+            padding-bottom: 0.8em;
+            border-top-left-radius: 4px;
+            border-top-right-radius: 4px;
+        }
+
+        .tabular.menu .item.middle {
+            width: 34%;
+        }
+
+        .tabular.menu .item:hover {
+        }
+
+        .tabular.menu .item.active {
+            background-color: #f7b52a;
+            color: white;
+        }
+
+        .tabular.menu .item .icon {
+            margin-right: 0.2em;
+            vertical-align: text-top;
+        }
+
+        .tabular.content {
+            padding-top: 4em;
+        }
+
+        .tabular.content .item {
+        }
+
+        .tabular.content .item .arrow {
+            display: inline-block;
+            font-size: 2em;
+            color: #f7b52a;
+            cursor: pointer;
+            padding: 0 1.6em;
+        }
+
+        .tabular.content .item .vocabulary.container {
+            display: inline-block;
+            width: 60%;
+            vertical-align: middle;
+            padding-bottom: 1em;
+        }
+
+        .tabular.content .item .vocabulary.container .item {
+            background-color: #f5f5f5;
+            min-height: 100px;
+            padding: 2em;
+            text-align: left;
+        }
+
+        .tabular.content .item .vocabulary.container .item .head .word {
+            color: #ff6e00;
+        }
+
+        .tabular.content .item .vocabulary.container .item .body {
+            color: #666;
+        }
+
+        .tabular.content .item .vocabulary.container .item .body .explanation {
+            margin: 1em 0;
+        }
+
+        .tabular.content .item .vocabulary.container .item .body .explanation .title {
+            color: #bcbcbc;
+        }
+
+        .tabular.content .item .vocabulary.container .item .body .explanation .body {
+            display: inline-block;
+            width: 85%;
+            vertical-align: text-top;
+        }
+
+        .effect2 {
+            position: relative;
+        }
+
+        .effect2:before, .effect2:after {
+            z-index: -1;
+            position: absolute;
+            content: "";
+            bottom: 15px;
+            left: 10px;
+            width: 50%;
+            top: 80%;
+            max-width: 300px;
+            background: #777;
+            -webkit-box-shadow: 0 15px 10px #777;
+            -moz-box-shadow: 0 15px 10px #777;
+            box-shadow: 0 15px 10px #777;
+            -webkit-transform: rotate(-3deg);
+            -moz-transform: rotate(-3deg);
+            -o-transform: rotate(-3deg);
+            -ms-transform: rotate(-3deg);
+            transform: rotate(-3deg);
+        }
+
+        .effect2:after {
+            -webkit-transform: rotate(3deg);
+            -moz-transform: rotate(3deg);
+            -o-transform: rotate(3deg);
+            -ms-transform: rotate(3deg);
+            transform: rotate(3deg);
+            right: 10px;
+            left: auto;
+        }
     </style>
 </head>
 <body ng-app="buzzModule" ng-controller="videoCtrl" class="full screen container">
@@ -275,9 +289,10 @@
             <li>
                 <span class="icon-file-text"></span>
             </li>
-            <li33%>
+            <li33
+                    %>
                 <img src="https://avatars3.githubusercontent.com/u/3367820?v=3&s=460" class="avatar">
-            </li>
+                </li>
         </ul>
         <p class="white title">Hello Shirly, today is the 100st day since you joined NEWS.</p>
     </div>
@@ -325,67 +340,70 @@
     </div>
     <a name="page-2" class="page-pos"></a>
     <div class="page with-header section">
-      <div class="center aligned container column">
-        <div class="tabular menu">
-          <div class="item" ng-class="{'active': tabularIndex===1}" ng-click="tabularIndex=1">
-            <span class="icon icon-list2"></span>
-            <span> Daily Exercise </span>
-          </div><!--
-          --><div class="item middle" ng-class="{'active': tabularIndex===2}" ng-click="tabularIndex=2">
-            <span class="icon icon-list2"></span>
-            <span> Today's Vocabulary </span>
-          </div><!--
-          --><div class="item" ng-class="{'active': tabularIndex===3}" ng-click="tabularIndex=3">
-            <span class="icon icon-list2"></span>
-            <span> Weekly Quiz </span>
-          </div>
-        </div>
-        <div class="tabular content">
-          <div class="item" ng-show="tabularIndex===1">
-            item1
-          </div>
-          <div class="item" ng-show="tabularIndex===2">
-            <div class="left arrow">
-              <span class="icon-circle-left"></span>
-            </div>
-            <div class="vocabulary container">
-              <div class="item effect2">
-                <div class="head">
-                  <span class="word">act</span>
-                  <span class="ipa">[ækt]</span>
+        <br>
+        <div class="center aligned container column">
+            <div class="tabular menu">
+                <div class="item" ng-class="{'active': tabularIndex===1}" ng-click="tabularIndex=1">
+                    <span class="icon icon-list2"></span>
+                    <span> Daily Exercise </span>
+                </div><!--
+          -->
+                <div class="item middle" ng-class="{'active': tabularIndex===2}" ng-click="tabularIndex=2">
+                    <span class="icon icon-list2"></span>
+                    <span> Today's Vocabulary </span>
+                </div><!--
+          -->
+                <div class="item" ng-class="{'active': tabularIndex===3}" ng-click="tabularIndex=3">
+                    <span class="icon icon-list2"></span>
+                    <span> Weekly Quiz </span>
                 </div>
-                <div class="body">
-                  <div class="explanation">
-                    <span class="title">释义:</span>
-                    <div class="body">n. 行为，法令;vt&amp;vi. 行动;表演;起作用</div>
-                  </div>
-                  <div class="explanation">
-                    <span class="title">构词:</span>
-                    <div class="body">act行动，活动，做-->v.行动，行为，扮演 n.[戏]幕</div>
-                  </div>
-                  <div class="explanation">
-                    <span class="title">例句:</span>
-                    <div class="body">
-                      <div>
-                        Her five-year-old daughter likes to act up before socres of vistors.
-                      </div>
-                      <div>
-                        她那五岁的小女儿喜欢在很多的客人面前表演.
-                      </div>
+            </div>
+            <div class="tabular content">
+                <div class="item" ng-show="tabularIndex===1">
+                    item1
+                </div>
+                <div class="item" ng-show="tabularIndex===2">
+                    <div class="left arrow">
+                        <span class="icon-circle-left"></span>
                     </div>
-                  </div>
+                    <div class="vocabulary container">
+                        <div class="item effect2">
+                            <div class="head">
+                                <span class="word">act</span>
+                                <span class="ipa">[ækt]</span>
+                            </div>
+                            <div class="body">
+                                <div class="explanation">
+                                    <span class="title">释义:</span>
+                                    <div class="body">n. 行为，法令;vt&amp;vi. 行动;表演;起作用</div>
+                                </div>
+                                <div class="explanation">
+                                    <span class="title">构词:</span>
+                                    <div class="body">act行动，活动，做-->v.行动，行为，扮演 n.[戏]幕</div>
+                                </div>
+                                <div class="explanation">
+                                    <span class="title">例句:</span>
+                                    <div class="body">
+                                        <div>
+                                            Her five-year-old daughter likes to act up before socres of vistors.
+                                        </div>
+                                        <div>
+                                            她那五岁的小女儿喜欢在很多的客人面前表演.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="right arrow">
+                        <span class="icon-circle-right"></span>
+                    </div>
                 </div>
-              </div>
+                <div class="item" ng-show="tabularIndex===3">
+                    item3
+                </div>
             </div>
-            <div class="right arrow">
-              <span class="icon-circle-right"></span>
-            </div>
-          </div>
-          <div class="item" ng-show="tabularIndex===3">
-            item3
-          </div>
         </div>
-      </div>
     </div>
     <a name="page-3" class="page-pos"></a>
     <div class="section page with-header">
