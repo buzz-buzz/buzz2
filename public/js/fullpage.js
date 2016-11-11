@@ -83,6 +83,7 @@
             timeout = setTimeout(function () {
                 scrollByUser = true;
                 console.log('scroll end by machine');
+
             }, 50);
         }
     };

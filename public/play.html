@@ -259,8 +259,8 @@
         }
 
         .playsound-volume-icon {
-          color: orange;
-          cursor: pointer;
+            color: orange;
+            cursor: pointer;
         }
 
         .effect2 {
@@ -367,7 +367,8 @@
                                ng-repeat="(startTime, o) in st">
                                 <span ng-repeat="p in o.textArray" ng-class="{'newWord': p.newWord}">{{p.val}}</span>
 
-                                &nbsp;<span class="icon-volume-medium playsound-volume-icon" ng-click="playTo(startTime)"
+                                &nbsp;<span class="icon-volume-medium playsound-volume-icon"
+                                            ng-click="playTo(startTime)"
                                             style="color: orange; cursor: pointer;"></span>
                             </a>
                         </p>
@@ -377,8 +378,7 @@
         </div>
     </div>
     <a name="page-2" class="page-pos"></a>
-    <div class="page with-header section">
-        <br>
+    <div class="page section">
         <div class="center aligned container column white background">
             <div class="tabular menu">
                 <div class="item" ng-class="{'active': tabularIndex===1}" ng-click="tabularIndex=1">
@@ -394,11 +394,11 @@
                     <span> Weekly Quiz </span>
                 </div>
             </div>
-            <div class="tabular content">
-                <div class="item" ng-show="tabularIndex===1">
+            <div class="tabular content flex-box">
+                <div class="item row content" ng-show="tabularIndex===1">
                     item1
                 </div>
-                <div class="item" ng-show="tabularIndex===2">
+                <div class="item row content" ng-show="tabularIndex===2">
                     <div class="left arrow">
                         <span class="icon-circle-left"></span>
                     </div>
@@ -437,7 +437,7 @@
                         <span class="icon-circle-right"></span>
                     </div>
                 </div>
-                <div class="item" ng-show="tabularIndex===3">
+                <div class="item row content" ng-show="tabularIndex===3">
                     item3
                 </div>
             </div>
@@ -446,7 +446,7 @@
 </div>
 <script src="http://cdn.bridgeplus.cn/bower/angular/angular.min.js?4.0.2_20161106_0316"></script>
 <script src="/js/buzzModule.js"></script>
-<script src="/fullpage.js/node_modules/jquery/dist/jquery.min.js"></script>
-<script src="/js/fullpage.js"></script>
+<!--<script src="/fullpage.js/node_modules/jquery/dist/jquery.min.js"></script>-->
+<!--<script src="/js/fullpage.js"></script>-->
 </body>
 </html>
