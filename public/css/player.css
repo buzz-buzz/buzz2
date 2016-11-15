@@ -1,6 +1,5 @@
 @import url('style.css');
 
-
 * {
     font-family: Arial;
 }
@@ -39,4 +38,8 @@
 .fixed {
     position: fixed;
     z-index: 1;
+}
+
+.video-wrapper > * {
+    display: inline-block !important;
 }
