@@ -15,6 +15,10 @@ angular.module('buzzModule', [])
         $scope.$watch('definition', function (newValue, oldValue) {
             var videoUrl = urlhead + "-" + $scope.definition + ".mp4";
             $scope.src = $sce.trustAsResourceUrl(videoUrl);
+
+            jwplayer('main-video').setup({
+                file: $scope.src
+            });
         });
 
         $http.get(urlhead + ".ass").then(function (ret) {
@@ -76,27 +80,32 @@ angular.module('buzzModule', [])
                 };
             });
         });
-        var mainVideo = document.getElementById('main-video');
+        // var mainVideo = document.getElementById('main-video');
+        angular.element(document).ready(function () {
+            var mainVideo = jwplayer('main-video');
 
-        $scope.currentTime = Math.round(mainVideo.currentTime);
-        var intervalPromise = null;
+            $scope.currentTime = Math.round(mainVideo.getPosition());
+            var intervalPromise = null;
 
-        mainVideo.onpause = function () {
-            $interval.cancel(intervalPromise);
-        };
+            mainVideo.on('pause', function (event) {
+                console.log('pause');
+                $interval.cancel(intervalPromise);
+            });
 
-        mainVideo.onplay = function () {
-            intervalPromise = $interval(function () {
-                $scope.currentTime = Math.round(mainVideo.currentTime);
-                console.log($scope.currentTime);
-            }, 500);
-        };
+            mainVideo.on('play', function () {
+                console.log('play');
+                intervalPromise = $interval(function () {
+                    $scope.currentTime = Math.round(mainVideo.getPosition());
+                    console.log($scope.currentTime);
+                }, 500);
+            });
 
-        $scope.playTo = function (time) {
-            var video = mainVideo;
-            video.currentTime = time;
-            video.play();
-        };
+            $scope.playTo = function (time) {
+                // mainVideo.currentTime = time;
+                mainVideo.seek(time);
+                mainVideo.play(true);
+            };
+        });
 
         $scope.today = new Date();
     }]);
