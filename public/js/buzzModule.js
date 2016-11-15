@@ -10,15 +10,13 @@ angular.module('buzzModule', [])
         });
         var urlhead = `http://buzz-course-video.b0.upaiyun.com/news/${queryObj.cat}/${queryObj.date}-${queryObj.level}`;
 
+        var smil = '/smil/' + queryObj.date + '-' + queryObj.level + '.smil';
+
         $scope.definition = '1080w';
 
         $scope.$watch('definition', function (newValue, oldValue) {
             var videoUrl = urlhead + "-" + $scope.definition + ".mp4";
             $scope.src = $sce.trustAsResourceUrl(videoUrl);
-
-            jwplayer('main-video').setup({
-                file: $scope.src
-            });
         });
 
         $http.get(urlhead + ".ass").then(function (ret) {
@@ -82,7 +80,22 @@ angular.module('buzzModule', [])
         });
         // var mainVideo = document.getElementById('main-video');
         angular.element(document).ready(function () {
-            var mainVideo = jwplayer('main-video');
+            var mainVideo = jwplayer('main-video').setup({
+                playlist: [{
+                    title: 'Buzz English',
+                    description: 'Buzz English Test',
+                    sources: [{
+                        file: 'http://buzz-course-video.b0.upaiyun.com/news/science/2016-11-07-B-360w.mp4',
+                        label: '普清',
+                        default: true,
+                        image: ''
+                    }, {
+                        file: 'http://buzz-course-video.b0.upaiyun.com/news/science/2016-11-07-B-1080w.mp4',
+                        label: '高清',
+                        image: ''
+                    }]
+                }]
+            });
 
             $scope.currentTime = Math.round(mainVideo.getPosition());
             var intervalPromise = null;
@@ -94,6 +107,11 @@ angular.module('buzzModule', [])
 
             mainVideo.on('play', function () {
                 console.log('play');
+
+                if (intervalPromise) {
+                    $interval.cancel(intervalPromise);
+                }
+
                 intervalPromise = $interval(function () {
                     $scope.currentTime = Math.round(mainVideo.getPosition());
                     console.log($scope.currentTime);

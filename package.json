@@ -5,6 +5,7 @@
     "test": "mocha --harmony"
   },
   "dependencies": {
+    "angular-query-parser-module": "^1.0.1",
     "co-body": "^4.2.0",
     "co-monk": "^1.0.0",
     "koa": "^1.2.4",
