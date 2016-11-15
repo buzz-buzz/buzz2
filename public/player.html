@@ -1,155 +1,46 @@
 <html>
 <head>
-    <title>在线学英语</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>Buzz English</title>
+    <link rel="stylesheet" href="/public/css/flex-box.css">
+    <link rel="stylesheet" href="/public/css/player-layout.css">
+    <link rel="stylesheet" href="/public/css/player.css">
     <style>
-        .highlight {
-            color: blue !important;
-            font-weight: bold;
-        }
-        .newWord {
-            color: #f7b52a;
-            font-weight: bold;
-        }
-        .script {
-            cursor: pointer;
-        }
-        .script:hover {
-            font-weight: bold;
-            background-color: #edc;
-        }
-        .subtitle {
-            text-align: left;
-            color: #666;
-            font-family: Arial;
-            line-height: 2rem;
-        }
-    </style>
-    <style>
-        .full.screen.container {
-            width: 100%;
-            height: 100%;
-            margin: 0;
-            padding: 0;
-        }
-        .center.aligned.container {
-            text-align: center;
-            margin: 0 auto;
-        }
     </style>
 </head>
-<body ng-app="buzzModule" ng-controller="videoCtrl" class="full screen container">
-<div class="center aligned container" style="width: 800px;">
-    <div class="video" style="width: 100%;">
-        <video width="320" height="240" controls style="width: 100%; height: auto;">
-            <source src='http://blob.bridgeplus.cn/EF_HD.mp4' type='video/mp4'/>
-            <source src='http://blob.bridgeplus.cn/EF_HD.webm'
-                    type='video/webm; codecs="vp8, vorbis"'>
-            <source src='http://blob.bridgeplus.cn/EF_HD.ogv'
-                    type='video/ogv; codecs="theora, vorbis"'>
-            <object id="flowplayer"
-                    data="http://blob.bridgeplus.cn/flowplayer-3.2.2.swf"
-                    type="application/x-shockwave-flash" width="320" height="240">
-                <param name="movie"
-                       value="blob.bridgeplus.cn/flowplayer-3.2.2.swf">
-                <param name="allowfullscreen" value="true">
-                <param name="flashvars"
-                       value="config={'clip':{'url':'http://blob.bridgeplus.cn/EF_HD.mp4','autoPlay':false}}">
-            </object>
-        </video>
+<body ng-app="buzzPlayerModule" ng-controller="videoCtrl" class="full screen container">
+<div class="center aligned container flex-box" style="width: 800px;">
+    <div class="video row dynamic" style="width: 100%;">
+        <div style="width: 100%;  background-color: black;">
+            <video width="320" height="240" style="width: auto; height: 50%;"
+                   id="main-video"
+                   type='video/mp4'>
+            </video>
+        </div>
     </div>
-    <div class="subtitle">
-        <h2>EF中国招聘及员工发展总监</h2>
-        <p ng-repeat="st in subtitles">
-            <a class="script" ng-class="{'highlight': currentTime == time, 'newWord': o.newWord}"
-               ng-click="playTo(time)"
-               ng-repeat="(time, o) in st">{{o.text}}</a>
-        </p>
+    <div class="subtitle row content" style="display: flex;">
+        <div class="bordered segment" style="max-height: 100%; width: 100%; overflow: auto;">
+            <h2>{{videoTitle}}</h2>
+            <div style="column-count: 2;">
+                <p ng-repeat="st in subtitles">
+                    <a class="script"
+                       ng-class="{'highlight': currentTime >= st.startTime&&currentTime < st.endTime}"
+                       ng-click="playTo(st)">
+                        <span ng-bind-html="$sce.trustAsHtml(st.text)"></span>
+                        &nbsp;<span class="icon-volume-medium playsound-volume-icon"
+                                    ng-click="playTo(st)"
+                                    style="color: orange; cursor: pointer;"></span>
+                    </a>
+                </p>
+            </div>
+        </div>
     </div>
 </div>
-<script src="//cdn.bridgeplus.cn/bower/jquery/dist/jquery.min.js?4.0.2_20161106_0316"></script>
-<script src="//cdn.bridgeplus.cn/bower/angular/angular.min.js?4.0.2_20161106_0316"></script>
-<script>
-    angular.module('buzzModule', [])
-            .value('subtitles', [{
-                '1': {text: '我是 Carol', newWord: false},
-                '2': {text: '目前在 EF', newWord: false},
-                '3': {text: '英孚教育', newWord: false},
-                '4': {text: '招聘与员工', newWord: false},
-                '5': {text: '发展，那', newWord: false},
-                '6': {text: '很高兴这次跟Bridgeplus', newWord: false},
-                '7': {text: '建立', newWord: true},
-                '8': {text: '这样的战略', newWord: false},
-                '9': {text: '合作的关系。', newWord: false}
-            }, {
-                '10': {text: '嗯那在校园', newWord: false},
-                '11': {text: '招聘这一', newWord: false},
-                '12': {text: '块呢，我们目前', newWord: false},
-                '13': {text: '面临比较大的', newWord: false},
-                '14': {text: '一个困', newWord: false},
-                '15': {text: '惑是我们', newWord: false},
-                '16': {text: '并不那么看重', newWord: false},
-                '17': {text: '学生的', newWord: false},
-                '18': {text: '专业或者', newWord: false},
-                '19': {text: '他之前的一个', newWord: false},
-                '20': {text: '经历，', newWord: true},
-                '21': {text: '我们更多的', newWord: false},
-                '22': {text: '是看重他们的软', newWord: false},
-                '23': {text: '技能以及他们', newWord: false},
-                '24': {text: '跟企业价值', newWord: false},
-                '25': {text: '观的匹配', newWord: false},
-                '26': {text: '程度。', newWord: false}
-            }, {
-                '27': {text: '那对HR而言', newWord: false},
-                '28': {text: '这个', newWord: true},
-                '29': {text: '需要花费', newWord: false},
-                '30': {text: '大量的', newWord: false},
-                '31': {text: '时间和精力，', newWord: false},
-                '32': {text: '去找到', newWord: false},
-                '33': {text: '我们合适的这样的一个', newWord: false},
-                '34': {text: '候选人。', newWord: false},
-                '35': {text: '那跟BridgePlus', newWord: false},
-                '36': {text: '的合作，', newWord: false},
-                '37': {text: '能够帮助我们以', newWord: false},
-                '38': {text: '相对比较', newWord: false},
-                '39': {text: '精准的来', newWord: false},
-                '40': {text: '找到我们', newWord: false},
-                '41': {text: '需要的人才，', newWord: false},
-                '42': {text: '那也大大地提', newWord: false},
-                '43': {text: '高了我们的工作', newWord: false},
-                '44': {text: '效率。', newWord: false}
-            }, {
-                '45': {text: '呃那我们也相信', newWord: false},
-                '46': {text: '这样精准', newWord: false},
-                '47': {text: '招聘的方式', newWord: false},
-                '48': {text: '是目前互', newWord: false},
-                '49': {text: '联网招聘', newWord: false},
-                '50': {text: '很大的一个趋势。', newWord: false},
-                '51': {text: '那我们也很期待', newWord: false},
-                '52': {text: '接下来和', newWord: false},
-                '53': {text: 'BridgePlus', newWord: false},
-                '54': {text: '长期合作', newWord: true},
-                '55': {text: '的关系。 ', newWord: false}
-            }])
-            .controller('videoCtrl', ['$scope', '$interval', 'subtitles', function ($scope, $interval, subtitles) {
-                $scope.subtitles = subtitles;
-                $scope.currentTime = Math.round($('video')[0].currentTime);
-                var intervalPromise = null;
-
-                $('video')[0].onpause = function () {
-                    $interval.cancel(intervalPromise);
-                };
-                $('video')[0].onplay = function () {
-                    intervalPromise = $interval(function () {
-                        $scope.currentTime = Math.round($('video')[0].currentTime);
-                        console.log($scope.currentTime);
-                    }, 500);
-                };
-                $scope.playTo = function (time) {
-                    var video = $('video')[0];
-                    video.currentTime = time;
-                    video.play();
-                };
-            }]);
-</script>
+<script src="/node_modules/angular/angular.min.js"></script>
+<script src="/node_modules/angular-query-parser-module/dist/scripts/all.min.js"></script>
+<script src="/public/lib/jwplayer/jwplayer.js"></script>
+<script src="/public/js/buzzPlayerModule.js"></script>
 </body>
 </html>

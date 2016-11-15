@@ -1,0 +1,18 @@
+
+/* http://stackoverflow.com/questions/90178/make-a-div-fill-the-height-of-the-remaining-screen-space */
+.flex-box {
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+}
+
+.flex-box .row {
+}
+
+.flex-box .row.dynamic {
+    flex: 0 1 auto;
+}
+
+.flex-box .row.content {
+    flex: 1 1 auto;
+}

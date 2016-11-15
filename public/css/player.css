@@ -1,0 +1,42 @@
+@import url('style.css');
+
+
+* {
+    font-family: Arial;
+}
+
+.highlight {
+    color: blue !important;
+}
+
+.newWord {
+    color: #f7b52a;
+    font-weight: bold;
+}
+
+.script {
+    cursor: pointer;
+    display: inline-block;
+}
+
+.script:hover {
+    /*background-color: #edc;*/
+}
+
+.subtitle {
+    text-align: left;
+    color: #666;
+    font-family: Arial;
+    line-height: 2rem;
+    overflow: auto;
+}
+
+.header {
+    background-color: #f7b52a;
+    border: solid 1px #f7b52a;
+}
+
+.fixed {
+    position: fixed;
+    z-index: 1;
+}

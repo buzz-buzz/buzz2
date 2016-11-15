@@ -1,4 +1,4 @@
-angular.module('buzzModule', [])
+angular.module('buzzModule', ['angularQueryParserModule'])
     .controller('videoCtrl', ['$scope', '$interval', '$http', '$sce', function ($scope, $interval, $http, $sce) {
         $scope.tabularIndex = 1;
         let searchStr = location.search.substr(1);

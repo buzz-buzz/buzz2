@@ -6,12 +6,15 @@ const fs = require('fs');
 const route = require('koa-route');
 const logger = require('koa-logger');
 const serveStatic = require('koa-static');
+const koaMount = require('koa-mount');
 
 app.use(logger());
 
 app.use(serveStatic('public'));
-app.use(serveStatic('node_modules'));
+app.use(koaMount('/public/', serveStatic('public')));
+app.use(koaMount('/node_modules', serveStatic('node_modules')));
 app.use(serveStatic('resource'));
+app.use(koaMount('/resource', serveStatic('resource')));
 
 var routesPath = path.join(__dirname, 'routes');
 fs.readdirSync(routesPath).forEach(function (file) {
