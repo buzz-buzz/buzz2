@@ -60,3 +60,12 @@
     margin: 10px 15px;
     padding: 0 20px 20px 20px;
 }
+
+.borderless.segment {
+    margin: 10px 15px;
+    padding: 0 20px 20px 20px;
+}
+
+.transparent {
+    background: transparent;
+}

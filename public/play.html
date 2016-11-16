@@ -307,7 +307,7 @@
         }
     </style>
 </head>
-<body ng-app="buzzModule" ng-controller="videoCtrl" class="full screen container">
+<body ng-app="buzzModule" class="full screen container">
 <div class="fluid container header fixed">
     <div class="center aligned container column" style="border: none;">
         <ul class="large right floated white horizontal menu">
@@ -332,52 +332,14 @@
 </div>
 <div id="fullpage">
     <a name="page-1" class="page-pos"></a>
-    <div class="page with-header section">
-        <div class="center aligned container column flex-box white background">
-            <div class="video row dynamic" style="width: 100%;">
-                <p>&nbsp;
-                    <span class="right floated" style="color: #666; font-size: small;">
-                        {{today | date}}
-                        <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                    </span>
-                </p>
-                <div style="width: 100%;  background-color: black;">
-                    <video ng-src="{{src}}" width="320" height="240" style="width: auto; height: 50%;"
-                           id="main-video"
-                           type='video/mp4'>
-                    </video>
-                </div>
-                <div>
-                    <div><br></div>
-                    <ul class="horizontal menu">
-                        <li ng-class="{'active': definition === '360w'}">
-                            <a ng-click="definition = '360w'">普清</a>
-                        </li>
-                        <li ng-class="{'active': definition === '1080w'}">
-                            <a ng-click="definition = '1080w'">高清</a>
-                        </li>
-                    </ul>
-                </div>
+    <div class="page with-header section transparent">
+        <div class="center aligned container column flex-box transparent">
+            <div class="row dynamic transparent">
+                <br>
             </div>
-            <div class="subtitle row content" style="display: flex;">
-                <div class="bordered segment" style="max-height: 100%; width: 100%; overflow: auto;">
-                    <h2>Buzz English</h2>
-                    <div style="column-count: 2;">
-                        <p ng-repeat="st in subtitles">
-                            <a class="script"
-                               ng-class="{'highlight': currentTime >= startTime&&currentTime < o.endTime}"
-                               ng-click="playTo(startTime)"
-                               ng-repeat="(startTime, o) in st">
-                                <span ng-repeat="p in o.textArray" ng-class="{'newWord': p.newWord}">{{p.val}}</span>
-
-                                &nbsp;<span class="icon-volume-medium playsound-volume-icon"
-                                            ng-click="playTo(startTime)"
-                                            style="color: orange; cursor: pointer;"></span>
-                            </a>
-                        </p>
-                    </div>
-                </div>
-            </div>
+            <iframe ng-src="{{'player.html' + queryString}}" ng-controller="VideoPlayerCtrl"
+                    class="row content white background"
+                    style="border: none;"></iframe>
         </div>
     </div>
     <a name="page-2" class="page-pos"></a>

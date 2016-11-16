@@ -10,6 +10,7 @@ angular.module('buzzPlayerModule', ['angularQueryParserModule'])
             var smil = result.data;
 
             var mainVideo = jwplayer('main-video').setup({
+                height: document.querySelector('.video-wrapper').offsetHeight,
                 playlist: [{
                     title: smil.title,
                     description: smil.description,
