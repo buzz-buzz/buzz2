@@ -1,0 +1,19 @@
+{
+  "title": "Buzz English",
+  "description": "Buzz Buzz English",
+  "subtitle": "http://buzz-course-video.b0.upaiyun.com/news/science/2016-11-07-A.ass",
+  "newWords": "/resource/newWords/2016-11-07-A.json",
+  "switch": [
+    {
+      "src": "http://buzz-course-video.b0.upaiyun.com/news/science/2016-11-07-A-360w.mp4",
+      "title": "普清",
+      "default": true,
+      "image": ""
+    },
+    {
+      "src": "http://buzz-course-video.b0.upaiyun.com/news/science/2016-11-07-A-1080w.mp4",
+      "title": "高清",
+      "image": ""
+    }
+  ]
+}
