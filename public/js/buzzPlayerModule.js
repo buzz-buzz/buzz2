@@ -20,7 +20,7 @@ angular.module('buzzPlayerModule', ['angularQueryParserModule'])
                             label: s.title,
                             default: s.default,
                             image: s.image
-                        }
+                        };
                     })
                 }]
             });
@@ -101,19 +101,13 @@ angular.module('buzzPlayerModule', ['angularQueryParserModule'])
                     if (smil.newWords) {
                         $http.get(smil.newWords).then(function (result) {
                             var newWords = result.data;
-
                             if (newWords.array) {
-                                for (var i = 0; i < newWords.array.length; i++) {
+                                var rules = new RegExp("(" + newWords.array.join("|") + ")", "g");
                                     for (var j = 0; j < $scope.subtitles.length; j++) {
-                                        var match = $scope.subtitles[j].text.match(new RegExp(newWords.array[i], 'i'));
-
-                                        if (match) {
-                                            $scope.subtitles[j].text = $scope.subtitles[j].text.replace(match[0], '<strong class="newWord">' + match[0] + '</strong>');
-
-                                            break;
-                                        }
+                                        $scope.subtitles[j].text = $scope.subtitles[j].text.replace(rules, function(newWord) {
+                                            return '<strong class="newWord">' + newWord + '</strong>';
+                                        });
                                     }
-                                }
                             }
                         });
                     }
