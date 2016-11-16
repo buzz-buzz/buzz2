@@ -15,6 +15,31 @@ module.exports = function (app, route, parse) {
             }), method: 'POST'
         });
 
-        this.body = result.body;
+        result = result.body;
+
+        if (result.isSuccess) {
+            this.state.hcd_user = {
+                member_id: result.result.member_id,
+                token: result.result.token
+            };
+        }
+
+        let clearCookieOption = {
+            expires: new Date(1970, 1, 1),
+            path: '/',
+            httpOnly: true
+        };
+
+        let cookieOption = {
+            expires: 0,
+            path: '/',
+            httpOnly: true
+        };
+
+        this.cookies.set('token', '', clearCookieOption);
+
+        this.cookies.set('token', result.result.token, cookieOption);
+
+        this.body = result;
     }));
 };
