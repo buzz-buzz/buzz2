@@ -7,6 +7,9 @@ const route = require('koa-route');
 const logger = require('koa-logger');
 const serveStatic = require('koa-static');
 const koaMount = require('koa-mount');
+const views = require('co-views');
+
+const render = views(path.join(__dirname, 'views'), {default: 'pug'});
 
 app.use(logger());
 
@@ -19,7 +22,7 @@ app.use(koaMount('/resource', serveStatic('resource')));
 var routesPath = path.join(__dirname, 'routes');
 fs.readdirSync(routesPath).forEach(function (file) {
     if (file[0] === '.') return;
-    require(routesPath + '/' + file)(app, require('koa-route'));
+    require(routesPath + '/' + file)(app, require('koa-route'), render);
 });
 
 app.use(route.get('/', function *home(next) {

@@ -1,0 +1,27 @@
+ul.horizontal.menu {
+    display: flex;
+    align-items: center;
+    list-style-type: none;
+    padding: 0;
+    margin: -5px 0 0 0;
+}
+
+ul.horizontal.menu li {
+    padding: 0 10px;
+}
+
+ul.white.horizontal.menu {
+    color: white;
+}
+
+ul.large.menu {
+    font-size: larger;
+}
+
+ul.menu li {
+    cursor: pointer;
+}
+
+ul.menu li.active {
+    font-weight: bold;
+}

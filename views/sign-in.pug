@@ -1,0 +1,25 @@
+extends layout
+
+block content
+    .grid
+        .column
+            img(src="http://source.bridgeplus.cn/image/png/login-bg.png")
+        .column
+            form(name="signInForm")
+                .header
+                    span 立即注册，即可获得
+                    strong.red 两周免费使用
+                    span ，每天15分钟，轻松体会英语进步的惊喜吧！
+                .field
+                    label
+                        input(type="text", placeholder="请输入登录账号")
+                .field
+                    label
+                        input(type="password", placeholder="请输入登录密码")
+
+                .field
+                    .right.floated
+                        a(href="/sign-up") 立即注册
+                    a(href="/reset-password") 忘记密码？
+                .field
+                    button(type="submit") 登录

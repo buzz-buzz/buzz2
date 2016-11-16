@@ -1,3 +1,7 @@
+* {
+    box-sizing: border-box;
+    font-family: Arial, serif;
+}
 
 .fluid {
     width: 100%;
@@ -68,4 +72,40 @@
 
 .transparent {
     background: transparent;
+}
+
+span.space {
+    width: 1em;
+    display: inline-block;
+}
+
+.black {
+    color: black;
+}
+
+.red {
+    color: red;
+}
+
+.grid {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    height: 100%;
+}
+
+.grid .row {
+    width: auto;
+}
+
+.grid .column {
+    text-align: left;
+}
+
+.grid .column {
+
+}
+
+.one.wide.column {
+    width: 6.25%;
 }
