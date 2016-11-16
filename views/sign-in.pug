@@ -6,17 +6,17 @@ block content
             img(src="http://source.bridgeplus.cn/image/png/login-bg.png")
         .one.wide.column
         .eight.wide.column
-            form(name="signInForm")
+            form(name="signInForm", ng-controller="signInCtrl", ng-app="signInModule", ng-submit="signIn()")
                 .header
                     span 立即注册，即可获得
                     strong.red 两周免费使用
                     span ，每天15分钟，轻松体会英语进步的惊喜吧！
                 .field
                     label
-                        input(type="text", placeholder="请输入登录账号")
+                        input(type="text", placeholder="请输入登录账号", ng-model="signInData.account")
                 .field
                     label
-                        input(type="password", placeholder="请输入登录密码")
+                        input(type="password", placeholder="请输入登录密码", ng-model="signInData.password")
 
                 .field
                     .right.floated
@@ -24,3 +24,6 @@ block content
                     a(href="/reset-password") 忘记密码？
                 .field
                     button(type="submit") 登录
+
+block js
+    script(src="/public/js/signInModule.js")

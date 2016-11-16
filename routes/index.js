@@ -8,4 +8,12 @@ module.exports = function (app, route, render) {
             this.body = yield render(routes[i], {});
         }));
     }
+
+    app.use(route.get('/my', function *(next) {
+        if (this.state.hcd_user) {
+            this.redirect('/');
+        } else {
+            this.redirect('/sign-in?return_url=' + encodeURIComponent(this.request.href));
+        }
+    }));
 };
