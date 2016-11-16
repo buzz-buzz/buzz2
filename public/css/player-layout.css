@@ -3,6 +3,10 @@
     font-family: Arial, serif;
 }
 
+html, body {
+    height: 100%;
+}
+
 .fluid {
     width: 100%;
 }
@@ -19,9 +23,13 @@
 
 .full.screen.container {
     width: 100%;
-    /*height: 100%;*/
+    height: 100%;
     margin: 0 0 0 0;
     padding: 0;
+}
+
+.full.height.container {
+    height: 100%;
 }
 
 .center.aligned.container {
@@ -29,8 +37,16 @@
     margin: 0 auto;
 }
 
+.left.aligned.container {
+    text-align: left;
+}
+
 .white.background {
     background-color: white;
+}
+
+.light.yellow.background {
+    background-color: #f7e6bd;
 }
 
 .center.column {
@@ -52,6 +68,10 @@
     padding-top: 50px;
 }
 
+.fixed.header {
+    position: fixed;
+}
+
 .page {
     height: 100%;
     overflow: hidden;
@@ -68,6 +88,10 @@
 .borderless.segment {
     margin: 10px 15px;
     padding: 0 20px 20px 20px;
+}
+
+.borderless.column {
+    border: none;
 }
 
 .transparent {
@@ -94,8 +118,20 @@ span.space {
     height: 100%;
 }
 
+.middle.aligned.grid {
+    align-items: center;
+}
+
+.top.aligned.grid {
+    align-items: baseline;
+}
+
 .grid .row {
     width: auto;
+}
+
+.column img {
+    max-width: 100%;
 }
 
 .grid .column {
@@ -108,4 +144,16 @@ span.space {
 
 .one.wide.column {
     width: 6.25%;
+}
+
+.seven.wide.column {
+    width: 43.75%;
+}
+
+.eight.wide.column {
+    width: 50%;
+}
+
+.sixteen.wide.column {
+    width: 100%;
 }
