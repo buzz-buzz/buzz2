@@ -227,3 +227,92 @@ span.top.aligned {
 span.middle.aligned {
     vertical-align: middle;
 }
+
+.button {
+    cursor: pointer;
+    border: none;
+    border-radius: 3px;
+    font-size: medium;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.fluid.button {
+    width: 100%;
+}
+
+.yellow.button {
+    background-color: #f6b52a;
+    color: white;
+}
+
+a:link {
+    text-decoration: none;
+    color: black;
+}
+
+a:visited {
+    text-decoration: none;
+    color: black;
+}
+
+a:hover, a:active {
+    text-decoration: underline;
+    color: #f7b52a;
+}
+
+a.active {
+    color: #f7b52a;
+}
+
+form input {
+    border: none;
+    padding: 8px 15px;
+}
+
+form .field label {
+    cursor: pointer;
+}
+
+form .fluid.field {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+form .fluid.field > * {
+    display: flex;
+    border: solid 1px #f0f0f0;
+    background-color: #f8f8f8;
+}
+
+form .fluid.field > * > * {
+    flex: 1 1 auto;
+    align-self: center;
+}
+
+form .fluid.field > * > *:first-child {
+    vertical-align: middle;
+    text-align: center;
+    color: #d2d2d2;
+    font-size: larger;
+}
+
+form .fluid.field > * > *:nth-child(2) {
+    border-left: solid 1px #f0f0f0;
+}
+
+form .error.message {
+    word-wrap: break-word;
+    background-color: red;
+    color: white;
+    padding: 8px 15px;
+}
+
+[ng\:cloak],
+[ng-cloak],
+[data-ng-cloak],
+[x-ng-cloak],
+.ng-cloak,
+.x-ng-cloak {
+    display: none !important;
+}
