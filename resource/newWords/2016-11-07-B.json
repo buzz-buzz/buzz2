@@ -8,10 +8,25 @@
     "creative"
   ],
   "dictionary": {
-    "pumpkins": {},
-    "Smart": {},
-    "Planet": {},
-    "exciting": {},
-    "creative": {}
+    "pumpkins": {
+      "id": 1,
+      "ipa": "1.mp3"
+    },
+    "Smart": {
+      "id": 2,
+      "ipa": "2.mp3"
+    },
+    "Planet": {
+      "id": 3,
+      "ipa": "3.mp3"
+    },
+    "exciting": {
+      "id": 4,
+      "ipa": "4.mp3"
+    },
+    "creative": {
+      "id": 5,
+      "ipa": "5.mp3"
+    }
   }
 }
