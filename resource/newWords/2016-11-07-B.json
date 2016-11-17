@@ -10,23 +10,28 @@
   "dictionary": {
     "pumpkins": {
       "id": 1,
-      "ipa": "1.mp3"
+      "ipa": "1.mp3",
+      "url": "http://www.baidu.com"
     },
     "Smart": {
       "id": 2,
-      "ipa": "2.mp3"
+      "ipa": "2.mp3",
+      "url": "http://www.sina.com"
     },
     "Planet": {
       "id": 3,
-      "ipa": "3.mp3"
+      "ipa": "3.mp3",
+      "url": "http://www.163.com"
     },
     "exciting": {
       "id": 4,
-      "ipa": "4.mp3"
+      "ipa": "4.mp3",
+      "url": "http://www.qq.com"
     },
     "creative": {
       "id": 5,
-      "ipa": "5.mp3"
+      "ipa": "5.mp3",
+      "url": "http://www.baidu.com"
     }
   }
 }
