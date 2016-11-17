@@ -36,7 +36,7 @@ fs.readdirSync(routesPath).forEach(function (file) {
 });
 
 app.use(route.get('/', function *home(next) {
-    this.redirect('/play.html?date=2016-11-07&cat=science&level=B');
+    this.redirect('/my/today');
 }));
 
 app.use(route.get('/env', function *(next) {
@@ -57,6 +57,26 @@ app.use(route.get('/clientConfig.js', function *(next) {
     }
 
     this.body = 'angular.module("clientConfigModule", []).value("clientConfig", ' + JSON.stringify(filterConfig(config)) + ');';
+}));
+
+app.use(route.get('/whoami', function *(next) {
+    let token = this.cookies.get('token');
+
+    if (token) {
+        let request = require('co-request');
+
+        let result = yield request({
+            uri: 'http://' + config.sso.inner.host + ':' + config.sso.inner.port + '/token/parse',
+            json: {token: token},
+            method: 'POST'
+        });
+
+        result = result.body;
+
+        this.body = result;
+    } else {
+        this.body = 'nobody';
+    }
 }));
 
 if (!module.parent) {

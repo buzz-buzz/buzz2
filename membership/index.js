@@ -1,56 +1,45 @@
 'use strict';
 
 const util = require('util');
-const proxy = require('node-service-proxy');
 const config = require('../config');
+const request = require('co-request');
 
-function parseHcdUserByToken(req, res, next) {
-    let token = req.cookies.token;
+let membership = {
+    setHcdUser: function *(next) {
+        let context = this;
+        let token = context.cookies.get('token');
 
-    if (token) {
-        proxy(req, res, next, {
-            host: config.sso.inner.host,
-            port: config.sso.inner.port,
-            path: '/token/parse',
-            dataMapper: function (d) {
-                d.token = token;
+        if (token) {
+            let result = yield request({
+                uri: 'http://' + config.sso.inner.host + ':' + config.sso.inner.port + '/token/parse',
+                json: {token: token},
+                method: 'POST'
+            });
 
-                return d;
-            },
-            continueNext: true,
-            method: 'POST'
-        });
-    } else {
-        next();
-    }
-}
+            result = result.body;
 
-module.exports = {
-    parseHcdUserByToken: parseHcdUserByToken,
-    setHcdUser: [parseHcdUserByToken, function (req, res, next) {
-        if (req.upstreamData) {
-            try {
-                var response = JSON.parse(req.upstreamData.toString());
-                if (response.isSuccess) {
-                    res.locals.hcd_user = response.result;
-                }
-            } catch (ex) {
-                return next(ex);
-            }
-        } else if (require('../config').mock) {
-            res.locals.hcd_user = {member_id: 'mock'};
+            context.state.hcd_user = {
+                member_id: result.result.member_id,
+                token: token
+            };
         }
 
-        next();
-    }],
-
-    setAuthTokenToCookie: function (req, res, next, token) {
-        var cookieOption = {
-            expires: 0,
-            path: '/',
-            httpOnly: true
-        };
-
-        res.cookie('token', token, cookieOption);
+        yield next;
     }
 };
+
+membership.ensureAuthenticated = function *(next) {
+    let context = this;
+
+    yield membership.setHcdUser.apply(context, [next])
+
+    if (!context.state.hcd_user) {
+        context.redirect('/sign-in?return_url=' + encodeURIComponent(context.request.href));
+
+        console.log('======== stop ! you are not allowed to visit: ', context.request.href);
+    }
+
+    yield next;
+};
+
+module.exports = membership;

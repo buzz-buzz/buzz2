@@ -40,6 +40,16 @@ module.exports = function (app, route, parse) {
 
         this.cookies.set('token', result.result.token, cookieOption);
 
-        this.body = result;
+        let returnUrl = decodeURIComponent(data.return_url);
+
+        if (this.request.get('X-Request-With') === 'XMLHttpRequest') {
+            result.isSuccess = false;
+            result.code = 302;
+            result.message = returnUrl;
+
+            this.body = result;
+        } else {
+            this.redirect(returnUrl || '/');
+        }
     }));
 };

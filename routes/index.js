@@ -1,5 +1,9 @@
 'use strict';
 
+const config = require('../config');
+const membership = require('../membership');
+const mount = require('koa-mount');
+
 module.exports = function (app, route, render) {
     let routes = ['sign-up', 'sign-in', 'agreement', 'reset-password'];
 
@@ -9,11 +13,7 @@ module.exports = function (app, route, render) {
         }));
     }
 
-    app.use(route.get('/my', function *(next) {
-        if (this.state.hcd_user) {
-            this.redirect('/');
-        } else {
-            this.redirect('/sign-in?return_url=' + encodeURIComponent(this.request.href));
-        }
-    }));
+    app.use(mount('/my', membership.ensureAuthenticated));
+
+    require('./my')(app, route, render);
 };

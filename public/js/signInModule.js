@@ -1,4 +1,7 @@
 angular.module('signInModule', ['angularQueryParserModule', 'clientConfigModule', 'servicesModule'])
+    .config(['$httpProvider', function ($httpProvider) {
+        $httpProvider.defaults.headers.common['X-Request-With'] = 'XMLHttpRequest';
+    }])
     .controller('signInCtrl', ['$scope', 'clientConfig', 'service', 'queryParser', function ($scope, clientConfig, service, queryParser) {
         $scope.signInData = {
             account: '',
