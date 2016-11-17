@@ -270,6 +270,10 @@ form input {
     padding: 8px 15px;
 }
 
+form .field {
+    margin: 1em 0;
+}
+
 form .field label {
     cursor: pointer;
 }
@@ -295,6 +299,11 @@ form .fluid.field > * > *:first-child {
     text-align: center;
     color: #d2d2d2;
     font-size: larger;
+}
+
+form.text-label .fluid.field > * > *:first-child {
+    font-size: small;
+    color: black;
 }
 
 form .fluid.field > * > *:nth-child(2) {
