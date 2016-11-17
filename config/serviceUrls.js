@@ -15,6 +15,19 @@ module.exports = {
         signIn: {
             frontEnd: '/service-proxy/sso/sign-in',
             upstream: '/logon/authentication'
+        },
+        signUp: {
+            frontEnd: '/service-proxy/sso/sign-up',
+            upstream: '/member/register'
+        }
+    },
+    sms: {
+        sendWithCaptcha: {
+            frontEnd: '/service-proxy/sms/send',
+            upstream: '/service/sms/send'
+        },
+        validate: {
+            upstream: '/service/sms/validate'
         }
     }
 };

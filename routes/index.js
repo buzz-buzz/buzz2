@@ -29,6 +29,7 @@ function virtualFile(app, router) {
         function filterConfig(config) {
             let ret = {};
             ret.cdn = config.cdn;
+            ret.captcha = config.captcha.public;
             ret.serviceUrls = config.serviceUrls;
 
             return ret;
@@ -49,6 +50,7 @@ function helper(app, router) {
 }
 function serviceProxy(app, router) {
     require('../service-proxy/sso')(app, router, require('co-body'));
+    require('../service-proxy/sms')(app, router, require('co-body'));
 }
 function staticFiles(app) {
     require('./static')(app);

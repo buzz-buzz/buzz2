@@ -242,8 +242,12 @@ span.middle.aligned {
 }
 
 .yellow.button {
-    background-color: #f6b52a;
+    background-color: #f6b52a !important;
     color: white;
+}
+
+.yellow.button:disabled, .yellow.button.disabled {
+    opacity: 0.5;
 }
 
 a:link {
@@ -283,7 +287,7 @@ form .fluid.field {
     border-collapse: collapse;
 }
 
-form .fluid.field > * {
+form .fluid.field > *:first-child {
     display: flex;
     border: solid 1px #f0f0f0;
     background-color: #f8f8f8;
