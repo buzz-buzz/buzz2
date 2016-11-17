@@ -5,7 +5,7 @@ const config = require('../config');
 const request = require('co-request');
 
 module.exports = function (app, route, parse) {
-    app.use(route.post(serviceUrls.sso.signIn.frontEnd, function *(next) {
+    route.post(serviceUrls.sso.signIn.frontEnd, function *(next) {
         const url = 'http://' + config.sso.inner.host + ':' + config.sso.inner.port + serviceUrls.sso.signIn.upstream;
         let data = yield parse(this.request);
 
@@ -51,5 +51,5 @@ module.exports = function (app, route, parse) {
         } else {
             this.redirect(returnUrl || '/');
         }
-    }));
+    });
 };

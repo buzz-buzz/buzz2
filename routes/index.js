@@ -4,16 +4,65 @@ const config = require('../config');
 const membership = require('../membership');
 const mount = require('koa-mount');
 
-module.exports = function (app, route, render) {
+function simpleRender(app, router, render) {
     let routes = ['sign-up', 'sign-in', 'agreement', 'reset-password'];
 
     for (let i = 0; i < routes.length; i++) {
-        app.use(route.get('/' + routes[i], function *(next) {
+        router.get('/' + routes[i], function *(next) {
             this.body = yield render(routes[i], {});
-        }));
+        });
     }
-
+}
+function redirect(app, router) {
+    router.get('/', function *home(next) {
+        this.redirect('/my/today');
+    });
+}
+function auth(app, router, render) {
     app.use(mount('/my', membership.ensureAuthenticated));
 
-    require('./my')(app, route, render);
+    require('./my')(app, router, render);
+}
+
+function virtualFile(app, router) {
+    router.get('/clientConfig.js', function *(next) {
+        function filterConfig(config) {
+            let ret = {};
+            ret.cdn = config.cdn;
+            ret.serviceUrls = config.serviceUrls;
+
+            return ret;
+        }
+
+        this.body = 'angular.module("clientConfigModule", []).value("clientConfig", ' + JSON.stringify(filterConfig(config)) + ');';
+    });
+}
+
+function helper(app, router) {
+    router.get('/healthcheck', function*(next) {
+        this.body = {every: 'is ok', time: new Date()};
+    });
+
+    router.get('/whoami', membership.setHcdUser, function *(next) {
+        this.body = this.state.hcd_user;
+    });
+}
+function serviceProxy(app, router) {
+    require('../service-proxy/sso')(app, router, require('co-body'));
+}
+function staticFiles(app) {
+    require('./static')(app);
+}
+module.exports = function (app, router, render) {
+    helper(app, router);
+    staticFiles(app);
+    virtualFile(app, router);
+    redirect(app, router);
+    serviceProxy(app, router);
+    simpleRender(app, router, render);
+    auth(app, router, render);
+
+    app
+        .use(router.routes())
+        .use(router.allowedMethods());
 };
