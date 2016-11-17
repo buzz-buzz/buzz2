@@ -3,13 +3,11 @@ module.exports = {
         profile: {
             load: {
                 frontEnd: '/service-proxy/sso/profile/load',
-                abbr: '/profile/load',
-                upstream: '/profile/load'
+                upstream: '/profile/load/:member_id'
             },
 
             peek: {
                 frontEnd: '/service-proxy/sso/profile/peek',
-                abbr: '/profile/peek',
                 upstream: '/profile/load/:member_id'
             }
 

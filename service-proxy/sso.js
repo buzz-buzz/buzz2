@@ -2,54 +2,81 @@
 
 const serviceUrls = require('../config/serviceUrls');
 const config = require('../config');
+const membership = require('../membership');
 const request = require('co-request');
 
-module.exports = function (app, route, parse) {
-    route.post(serviceUrls.sso.signIn.frontEnd, function *(next) {
-        const url = 'http://' + config.sso.inner.host + ':' + config.sso.inner.port + serviceUrls.sso.signIn.upstream;
-        let data = yield parse(this.request);
+function composeUrl(path) {
+    return 'http://' + config.sso.inner.host + ':' + config.sso.inner.port + path;
+}
 
-        let result = yield request({
-            uri: url, json: Object.assign(data, {
-                application_id: config.applicationId
-            }), method: 'POST'
+function setHcdUser(result) {
+    this.state.hcd_user = {
+        member_id: result.result.member_id,
+        token: result.result.token
+    };
+}
+function setTokenCookie(result) {
+    let clearCookieOption = {
+        expires: new Date(1970, 1, 1),
+        path: '/',
+        httpOnly: true
+    };
+
+    let cookieOption = {
+        expires: 0,
+        path: '/',
+        httpOnly: true
+    };
+
+    this.cookies.set('token', '', clearCookieOption);
+
+    this.cookies.set('token', result.result.token, cookieOption);
+}
+function redirectToReturnUrl(result, returnUrl) {
+    if (this.request.get('X-Request-With') === 'XMLHttpRequest') {
+        result.isSuccess = false;
+        result.code = 302;
+        result.message = returnUrl;
+
+        this.body = result;
+    } else {
+        this.redirect(returnUrl || '/');
+    }
+}
+function *proxy(url, data, method) {
+    let option = {
+        uri: url,
+        method: method || 'POST'
+    };
+
+    if (data) {
+        option.json = Object.assign(data, {
+            application_id: config.applicationId
         });
+    }
 
-        result = result.body;
+    let result = yield request(option);
 
-        if (result.isSuccess) {
-            this.state.hcd_user = {
-                member_id: result.result.member_id,
-                token: result.result.token
-            };
-        }
+    result = result.body;
+    return result;
+}
+module.exports = function (app, router, parse) {
+    router
+        .post(serviceUrls.sso.signIn.frontEnd, function *(next) {
+            const url = composeUrl(serviceUrls.sso.signIn.upstream);
+            let data = yield parse(this.request);
+            let result = yield proxy.call(this, url, data);
 
-        let clearCookieOption = {
-            expires: new Date(1970, 1, 1),
-            path: '/',
-            httpOnly: true
-        };
-
-        let cookieOption = {
-            expires: 0,
-            path: '/',
-            httpOnly: true
-        };
-
-        this.cookies.set('token', '', clearCookieOption);
-
-        this.cookies.set('token', result.result.token, cookieOption);
-
-        let returnUrl = decodeURIComponent(data.return_url);
-
-        if (this.request.get('X-Request-With') === 'XMLHttpRequest') {
-            result.isSuccess = false;
-            result.code = 302;
-            result.message = returnUrl;
+            if (result.isSuccess) {
+                setHcdUser.call(this, result);
+                setTokenCookie.call(this, result);
+                redirectToReturnUrl.call(this, result, decodeURIComponent(data.return_url));
+            }
 
             this.body = result;
-        } else {
-            this.redirect(returnUrl || '/');
-        }
-    });
+        })
+        .get(serviceUrls.sso.profile.load.frontEnd, membership.ensureAuthenticated, function *(next) {
+            this.body = yield proxy.call(this, composeUrl(serviceUrls.sso.profile.load.upstream.replace(':member_id', this.state.hcd_user.member_id)), null, 'GET');
+        })
+    ;
 };
