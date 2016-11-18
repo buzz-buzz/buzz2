@@ -66,8 +66,8 @@ html
                         br
                     iframe.row.content.white.background(ng-src="{{'player' + queryString}}" ng-controller="VideoPlayerCtrl", style="border:none;")
             a.page-pos(name="page-2")
-            .page.section
-                .center.aligned.container.column.white.background
+            .page.section(ng-controller="page2ParentCtrl")
+                .center.aligned.container.column.white.background.flex-box
                     .tabular.menu
                         .item(ng-class="{'active': tabularIndex===1}",ng-click="tabularIndex=1")
                             span.icon.icon-list2

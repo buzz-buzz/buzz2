@@ -14,6 +14,9 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
         $scope.queryString = location.search;
         $scope.$sce = $sce;
     }])
+    .controller('page2ParentCtrl', ['$scope', function ($scope) {
+        $scope.tabularIndex = 2;
+    }])
     .controller('newWordCtrl', ['$scope', '$http', 'queryParser', '$timeout', '$sce', function ($scope, $http, queryParser, $timeout, $sce) {
         $scope.$sce = $sce;
         var query = queryParser.parse();
@@ -24,19 +27,19 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
         $http.get(smilJson).then(function (result) {
             var smil = result.data;
             return smil.newWords;
-        }).then(function(ret) {
+        }).then(function (ret) {
             if (ret && ret !== "") {
                 return $http.get(ret);
             } else {
                 return null;
             }
-        }).then(function(ret) {
+        }).then(function (ret) {
             if (!ret || !ret.data) {
                 return null;
             }
             var wordsData = ret.data;
             if (wordsData.dictionary) {
-                Object.keys(wordsData.dictionary).forEach(function(key) {
+                Object.keys(wordsData.dictionary).forEach(function (key) {
                     var thisWord = wordsData.dictionary[key];
                     newWords.push({
                         "word": key,
@@ -48,7 +51,7 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                 // $scope.wordURL = $sce.trustAsResourceUrl(newWords[wordIndex].url);
             }
         });
-        $scope.turnWord = function(isNext) {
+        $scope.turnWord = function (isNext) {
             var length = newWords.length;
             wordIndex = isNext ? ++wordIndex : --wordIndex;
             if (wordIndex >= length) {
