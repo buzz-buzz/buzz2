@@ -1,0 +1,16 @@
+doctype html
+html
+    head
+        meta(charset="utf-8")
+        meta(http-equiv="X-UA-Compatible", content="IE=edge, chrome=1")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0, maximum-scale=1.0")
+        link(rel="stylesheet", href="/public/css/player.css")
+        link(rel="stylesheet", href="/public/css/player-layout.css")
+        link(rel="stylesheet", href="/public/css/horizontal-menu.css")
+        link(rel="stylesheet", href="/public/css/flex-box.css")
+        link(rel="stylesheet", href="/public/css/media-query.css")
+        title=title || 'Buzz English'
+body.full.screen.container(ng-app="buzzModule")
+        .fluid.container.header.fixed(ng-controller="headerCtrl")
+            .center.aligned.container.column.borderless
+            include vocabulary.html

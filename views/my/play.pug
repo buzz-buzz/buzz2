@@ -23,7 +23,7 @@ block content
                 iframe.row.content.white.background(ng-src="{{'player' + queryString}}" ng-controller="VideoPlayerCtrl", style="border:none;")
         a.page-pos(name="page-2")
         .page.section(ng-controller="page2ParentCtrl")
-            .center.aligned.container.column.white.background.flex-box
+            .center.aligned.container.column.white.background
                 .tabular.menu
                     .item(ng-class="{'active': tabularIndex===1}",ng-click="tabularIndex=1")
                         span.icon.icon-list2
@@ -35,7 +35,9 @@ block content
                         span.icon.icon-list2
                         span Weekly Quiz
                 .tabular.content.flex-box
-                    .item.row.content(ng-show="tabularIndex===1") item1
+                    .item.row.content(ng-show="tabularIndex===1")
+                        .exercise.container
+                            iframe(ng-src="/exercise/my",frameborder="0",style="width: 100%;height: 500px")
                     .item.row.content(ng-show="tabularIndex===2",ng-controller="newWordCtrl")
                         .left.arrow(ng-click="turnWord(false)")
                             span.icon-circle-left

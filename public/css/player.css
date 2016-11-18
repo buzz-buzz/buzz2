@@ -103,11 +103,17 @@
     padding: 0 1.6em;
 }
 
+.tabular.content .item .exercise.container,
 .tabular.content .item .vocabulary.container {
     display: inline-block;
-    width: 60%;
     vertical-align: middle;
     padding-bottom: 1em;
+}
+.tabular.content .item .exercise.container {
+    width: 620px;
+}
+.tabular.content .item .vocabulary.container {
+    width: 60%;
 }
 
 .tabular.content .item .vocabulary.container .item {

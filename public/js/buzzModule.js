@@ -4,7 +4,7 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
         $scope.$sce = $sce;
     }])
     .controller('page2ParentCtrl', ['$scope', function ($scope) {
-        $scope.tabularIndex = 2;
+        $scope.tabularIndex = 1;
     }])
     .controller('newWordCtrl', ['$scope', '$http', 'queryParser', '$timeout', '$sce', function ($scope, $http, queryParser, $timeout, $sce) {
         $scope.$sce = $sce;
