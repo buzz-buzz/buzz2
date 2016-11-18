@@ -40,17 +40,23 @@ style.
 
     .calendar .body .grid .row.day .column {
         background-color: #eee;
-        min-height: 50px;
+        min-height: 80px;
         border: solid 1px white;
+    }
+
+    .dayOfWeek {
+        position: absolute;
+        width: 100%;
     }
 
 mixin weeks()
     - var week = 0;
     while week < 5
         .row.day
-            - var day = 7 * week;
-                while day < 7 * (week + 1)
-                    .column {{weekDays[#{week * day}]}}
+            - var day = 0;
+                while day < 7
+                    .column(style="position: relative;")
+                        p.dayOfWeek {{weekDays[#{week}][#{day}]}}
                     - day++;
         - week++;
 

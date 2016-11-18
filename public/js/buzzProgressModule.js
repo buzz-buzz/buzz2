@@ -1,6 +1,7 @@
 angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModule', 'clientConfigModule', 'buzzHeaderModule'])
     .controller('calendarCtrl', ['$scope', function ($scope) {
         $scope.current = new Date();
+        dateChanged();
 
         $scope.gotoMonth = function (diff) {
             $scope.current.setMonth($scope.current.getMonth() + diff);
@@ -18,10 +19,16 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
         };
 
         function dateChanged() {
-            $scope.days = new Date($scope.current.getFullYear(), $scope.current.getMonth() + 1, 0).getDate();
+            var days = new Date($scope.current.getFullYear(), $scope.current.getMonth() + 1, 0).getDate();
             var theFirstDayOfCurrentMonth = new Date($scope.current.getFullYear(), $scope.current.getMonth(), 1).getDay();
             console.log(theFirstDayOfCurrentMonth);
-            $scope.weekDays = [[], [], [], [], []];
+            $scope.weekDays = [
+                [null, null, null, null, null, null, null],
+                [null, null, null, null, null, null, null],
+                [null, null, null, null, null, null, null],
+                [null, null, null, null, null, null, null],
+                [null, null, null, null, null, null, null]
+            ];
             var day = 1;
             for (var i = 0; i < $scope.weekDays.length; i++) {
                 var start = 0;
@@ -30,7 +37,8 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
                     start = theFirstDayOfCurrentMonth;
                 }
 
-                for (var j = start; j < $scope.weekDays[i].length; j++) {
+                for (var j = start; j < $scope.weekDays[i].length && day <= days; j++) {
+
                     $scope.weekDays[i][j] = day++;
                 }
             }
