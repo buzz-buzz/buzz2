@@ -1,0 +1,67 @@
+body {
+    text-align: center;
+}
+.vocabulary-printable-container {
+    padding: 2em 4em;
+    width: 660px;
+    display: inline-block;
+    text-align: left;
+}
+.vp-signature {
+    display: inline-block;
+    margin-left: 5em;
+    margin-right: 1em;
+}
+.vp-signature-printable-after {
+    display: inline-block;
+    width: 124px;
+    margin-left: 0.6em;
+    border-bottom: black 2px solid;
+}
+.vp-title {
+    font-size: 18px;
+    margin-top: 1em;
+    margin-bottom: 3em;
+}
+.vp-title-printable-after,
+.vp-title-printable-before {
+    display: inline-block;
+    width: 13.5em;
+    border-top: #f7b52a 4px solid;
+    height: 4px;
+}
+.vp-title-printable-after {
+    margin-left: 1em;
+}
+.vp-title-printable-before {
+    margin-right: 1em;
+}
+.last {
+    margin-right: 0em!important;
+}
+.vp-description {
+    margin-top: 2em;
+}
+.vp-description i {
+    color: #f7b52a;
+    margin-left: 0.2em;
+    margin-right: 0.2em;
+}
+.vp-body {
+}
+.vp-word-check {
+    font-size: 22px;
+    display: inline-block;
+    width: 44%;
+}
+.vp-word-check {
+    margin-right: 11%;
+}
+.vp-word-check:after {
+    content: "\ea53\ea53\ea53\ea53\ea53";
+    font-family: 'icomoon' !important;
+    font-style: normal;
+    color: #f7b52a;
+    float: right;
+    letter-spacing: 0.2em;
+}

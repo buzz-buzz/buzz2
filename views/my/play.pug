@@ -65,7 +65,30 @@ html
                     .row.dynamic.transparent
                         br
                     iframe.row.content.white.background(ng-src="{{'player' + queryString}}" ng-controller="VideoPlayerCtrl", style="border:none;")
-
+            a.page-pos(name="page-2")
+            .page.section
+                .center.aligned.container.column.white.background
+                    .tabular.menu
+                        .item(ng-class="{'active': tabularIndex===1}",ng-click="tabularIndex=1")
+                            span.icon.icon-list2
+                            span Daily Exercise
+                        .item.middle(ng-class="{'active': tabularIndex===2}",ng-click="tabularIndex=2")
+                            span.icon.icon-list2
+                            span Today's Vocabulary
+                        .item(ng-class="{'active': tabularIndex===3}",ng-click="tabularIndex=2")
+                            span.icon.icon-list2
+                            span Weekly Quiz
+                    .tabular.content.flex-box
+                        .item.row.content(ng-show="tabularIndex===1") item1
+                        .item.row.content(ng-show="tabularIndex===2",ng-controller="newWordCtrl")
+                            .left.arrow(ng-click="turnWord(false)")
+                                span.icon-circle-left
+                            .vocabulary.container
+                                .item.effect2
+                                    iframe(ng-src="{{$sce.trustAsResourceUrl(wordURL)}}",frameborder="0",style="width: 100%;height: 300px")
+                            .right.arrow(ng-click="turnWord(true)")
+                                span.icon-circle-right
+                        .item.row.content(ng-show="tabularIndex===3") item3
         include ../js
         script(src="/js/buzzModule.js")
         script(src="/lib/jwplayer/jwplayer.js")

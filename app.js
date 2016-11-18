@@ -9,7 +9,9 @@ const router = require('koa-router')();
 const logger = require('koa-logger');
 const views = require('co-views');
 
-const render = views(path.join(__dirname, 'views'), {default: 'pug'});
+const render = views(path.join(__dirname, 'views'), {default: "pug",extension: "pug", map: {
+    "html": "underscore"
+}});
 
 app.use(logger());
 

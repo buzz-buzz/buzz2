@@ -8,10 +8,30 @@
     "creative"
   ],
   "dictionary": {
-    "pumpkins": {},
-    "Smart": {},
-    "Planet": {},
-    "exciting": {},
-    "creative": {}
+    "pumpkins": {
+      "id": 1,
+      "ipa": "1.mp3",
+      "url": "/mock/a.html"
+    },
+    "Smart": {
+      "id": 2,
+      "ipa": "2.mp3",
+      "url": "/mock/b.html"
+    },
+    "Planet": {
+      "id": 3,
+      "ipa": "3.mp3",
+      "url": "/mock/c.html"
+    },
+    "exciting": {
+      "id": 4,
+      "ipa": "4.mp3",
+      "url": "/mock/d.html"
+    },
+    "creative": {
+      "id": 5,
+      "ipa": "5.mp3",
+      "url": "/mock/e.html"
+    }
   }
 }
