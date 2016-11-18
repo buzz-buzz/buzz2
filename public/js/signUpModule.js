@@ -166,4 +166,17 @@ angular.module('signUpModule', ['angularQueryParserModule', 'clientConfigModule'
                 });
         };
     }])
+    .controller('infoCtrl', ['$scope', 'clientConfig', 'service', 'queryParser', 'serviceErrorParser', function ($scope, clientConfig, service, queryParser, serviceErrorParser) {
+        $scope.infoData = {
+            name: '',
+            gender: 'U',
+            grade: null,
+            favoriteTopics: [],
+            level: null
+        };
+
+        $scope.submitInfo = function () {
+            location.href = '/';
+        };
+    }])
 ;

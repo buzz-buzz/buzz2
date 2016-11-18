@@ -14,15 +14,17 @@ function simpleRender(app, router, render) {
     }
 }
 function renderWithServerData(app, router, render) {
-    let routes = ['sign-up'];
-
-    for (let i = 0; i < routes.length; i++) {
-        router.get('/' + routes[i], membership.setHcdUser, function *(next) {
-            this.body = yield render(routes[i], {
+    router.get('/sign-up', membership.setHcdUser, function *(next) {
+        if (this.query.step && this.query.step == 2 && !this.state.hcd_user) {
+            this.redirect('/sign-up?step=1');
+        } else if (this.query.step && this.query.step == 1 && this.state.hcd_user) {
+            this.redirect('/sign-up?step=2');
+        } else {
+            this.body = yield render('sign-up', {
                 hcd_user: this.state.hcd_user
             });
-        });
-    }
+        }
+    });
 }
 function redirect(app, router) {
     router.get('/', function *home(next) {
