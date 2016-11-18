@@ -11,6 +11,10 @@ let envConfig = require(configPath);
 
 config = Object.assign(config, envConfig);
 
+if (process.env.DATACENTER) {
+    config.captcha.public.host = process.env.DATACENTER + '-' + config.captcha.public.host;
+}
+
 config.serviceUrls = require('./serviceUrls');
 
 module.exports = config;
