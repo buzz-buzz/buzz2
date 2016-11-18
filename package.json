@@ -9,6 +9,7 @@
     "angular-query-parser-module": "^1.0.1",
     "angular-service": "^1.1.0",
     "angular-service-error-parser": "^0.2.2",
+    "angular-translate": "*",
     "co-body": "^4.2.0",
     "co-monk": "^1.0.0",
     "co-request": "^1.0.0",
