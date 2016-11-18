@@ -31,12 +31,10 @@ let membership = {
 membership.ensureAuthenticated = function *(next) {
     let context = this;
 
-    yield membership.setHcdUser.apply(context, [next])
+    yield membership.setHcdUser.apply(context, [next]);
 
     if (!context.state.hcd_user) {
-        context.redirect('/sign-in?return_url=' + encodeURIComponent(context.request.href));
-
-        console.log('======== stop ! you are not allowed to visit: ', context.request.href);
+        context.redirect('/sign-in?return_url=' + encodeURIComponent(context.request.path));
     }
 
     yield next;
