@@ -3,7 +3,7 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
         service.get(clientConfig.serviceUrls.sso.profile.load.frontEnd).then(function (result) {
             $rootScope.profile = result;
 
-            if ($rootScope.profile.avatar && $rootScope.profile.avatar.indexOf('upload.bridgeplus.cn') === 0) {
+            if ($rootScope.profile.avatar && $rootScope.profile.avatar.indexOf('//upload.bridgeplus.cn') === 0) {
                 $rootScope.profile.avatar += '-minor';
             }
         });
