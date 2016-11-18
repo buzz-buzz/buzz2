@@ -34,7 +34,8 @@ membership.ensureAuthenticated = function *(next) {
     yield membership.setHcdUser.apply(context, [next]);
 
     if (!context.state.hcd_user) {
-        context.redirect('/sign-in?return_url=' + encodeURIComponent(context.request.path));
+        console.log('you should login to visit: ', context.request.originalUrl);
+        context.redirect('/sign-in?return_url=' + encodeURIComponent(context.request.originalUrl));
     }
 
     yield next;

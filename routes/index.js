@@ -17,8 +17,6 @@ function renderWithServerData(app, router, render) {
     router.get('/sign-up', membership.setHcdUser, function *(next) {
         if (this.query.step && this.query.step == 2 && !this.state.hcd_user) {
             this.redirect('/sign-up?step=1');
-        } else if (this.query.step && this.query.step == 1 && this.state.hcd_user) {
-            this.redirect('/sign-up?step=2');
         } else {
             this.body = yield render('sign-up', {
                 hcd_user: this.state.hcd_user
