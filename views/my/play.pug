@@ -1,0 +1,96 @@
+doctype html
+html
+    head
+        meta(charset="utf-8")
+        meta(http-equiv="X-UA-Compatible", content="IE=edge, chrome=1")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0, maximum-scale=1.0")
+        link(rel="stylesheet", href="/public/css/player.css")
+        link(rel="stylesheet", href="/public/css/player-layout.css")
+        link(rel="stylesheet", href="/public/css/horizontal-menu.css")
+        link(rel="stylesheet", href="/public/css/flex-box.css")
+        link(rel="stylesheet", href="/public/css/media-query.css")
+        title=title || 'Buzz English'
+        style.
+            .header .logo {
+                height: 40px;
+            }
+
+            .header .right.floated.menu {
+                margin-top: 10px;
+                margin-bottom: 1px;
+            }
+
+            .header .welcome.message {
+                margin-top: 10px;
+                display: inline-block;
+            }
+
+            .header a:link {
+            }
+
+            .header a:visited {
+            }
+
+            .header a:hover, .header a:active, .header a.active {
+                color: white !important;
+                text-decoration: none !important;
+            }
+
+            body {
+                background: url('http://source.bridgeplus.cn/image/png/skin2.png') repeat-x 0 0;
+                background-size: contain;
+            }
+    body.full.screen.container(ng-app="buzzModule")
+        .fluid.container.header.fixed(ng-controller="headerCtrl")
+            .center.aligned.container.column.borderless
+                ul.large.right.floated.white.horizontal.menu
+                    li
+                        a.icon-history(title="历史课程")
+                    li
+                        a.icon-stats-bars(title="学习进度")
+                    li
+                        a.icon-file-text(title="生词本")
+                    li
+                        img.avatar(ng-src="{{profile.avatar}}", ng-if="profile.avatar")
+                        a(ng-if="!profile.avatar") 欢迎你
+                .white.title
+                    img.white.background.logo(src="/images/logo.png")
+                    span.space
+                    span.top.aligned.welcome.message Hello Shirly, today is the 100st day since you joined NEWS.
+
+        #full-page.full.height.container
+            a.page-pos(name="page-1")
+            .page.with-header.section.transparent
+                .center.aligned.container.column.flex-box.transparent
+                    .row.dynamic.transparent
+                        br
+                    iframe.row.content.white.background(ng-src="{{'player' + queryString}}" ng-controller="VideoPlayerCtrl", style="border:none;")
+            a.page-pos(name="page-2")
+            .page.section
+                .center.aligned.container.column.white.background
+                    .tabular.menu
+                        .item(ng-class="{'active': tabularIndex===1}",ng-click="tabularIndex=1")
+                            span.icon.icon-list2
+                            span Daily Exercise
+                        .item.middle(ng-class="{'active': tabularIndex===2}",ng-click="tabularIndex=2")
+                            span.icon.icon-list2
+                            span Today's Vocabulary
+                        .item(ng-class="{'active': tabularIndex===3}",ng-click="tabularIndex=2")
+                            span.icon.icon-list2
+                            span Weekly Quiz
+                    .tabular.content.flex-box
+                        .item.row.content(ng-show="tabularIndex===1") item1
+                        .item.row.content(ng-show="tabularIndex===2",ng-controller="newWordCtrl")
+                            .left.arrow(ng-click="turnWord(false)")
+                                span.icon-circle-left
+                            .vocabulary.container
+                                .item.effect2
+                                    iframe(ng-src="{{$sce.trustAsResourceUrl(wordURL)}}",frameborder="0",style="width: 100%;height: 300px")
+                            .right.arrow(ng-click="turnWord(true)")
+                                span.icon-circle-right
+                        .item.row.content(ng-show="tabularIndex===3") item3
+        include ../js
+        script(src="/js/buzzModule.js")
+        script(src="/lib/jwplayer/jwplayer.js")
+        script.
+            jwplayer.key = 'lG24bAGJCRLF1gi4kajg4EnUKi+ujyUyKMoSNA==';

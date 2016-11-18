@@ -32,7 +32,11 @@
                         <span ng-bind-html="$sce.trustAsHtml(st.text)"></span>
                         &nbsp;<span class="icon-volume-medium playsound-volume-icon"
                                     ng-click="playTo(st)"
-                                    style="color: orange; cursor: pointer;"></span>
+                                    style="color: orange; cursor: pointer;"
+                                    ng-if="!currentTime || currentTime < st.startTime || currentTime >= st.endTime"></span>
+                        <span class="icon-volume-high playsound-volume-icon" ng-click="playTo(st)"
+                              style="color: orange; cursor: pointer;"
+                              ng-if="currentTime >= st.startTime && currentTime < st.endTime"></span>
                     </a>
                 </p>
             </div>

@@ -1,0 +1,130 @@
+extends layout
+
+block head
+    style.
+        form {
+            font-size: small;
+        }
+
+        form label {
+            background-color: transparent !important;
+            border-radius: 4px !important;
+        }
+
+        ul.indicator li {
+            margin: 2em 0;
+            color: #999;
+            font-size: smaller;
+        }
+
+        ul.indicator li.active {
+            color: black;
+            font-size: medium;
+        }
+
+        .verification {
+            position: absolute;
+            left: 100%;
+            margin-left: 10px;
+            top: 0;
+            white-space: nowrap;
+        }
+
+        .captcha {
+            height: 100%;
+            position: absolute;
+            width: auto;
+            min-width: 100px;
+            left: 100%;
+            margin-left: 10px;
+            top: 0;
+            cursor: pointer;
+        }
+block js
+    script(src="/js/signUpModule.js")
+
+block content
+    .top.aligned.grid(ng-app="signUpModule", ng-controller="signUpParentCtrl")
+        .column
+            ul.indicator
+                li(ng-class="{'active': step == 1}") 创建账号
+                li(ng-class="{'active': step == 2}") 信息填写
+        .one.wide.column
+        .column(ng-cloak)
+            form.sign-up-form.text-label(name="signUpForm", ng-submit="signUp()", ng-if="step == 1", ng-controller="signUpCtrl")
+                .error.message(ng-if="errorMessage") {{errorMessage}}
+                .fluid.field
+                    label
+                        span 手机号码
+                        input(type="phone", placeholder="请输入您的手机号码", ng-model="signUpData.mobile", ng-required="true", maxlength="11", minlength="11")
+                .fluid.field(style="position: relative;")
+                    label
+                        span 图形验证码
+                        input(type="text", placeholder="请输入右侧图形验证码", ng-model="signUpData.captcha", ng-required="true", maxlength="4", minlength="4")
+                    div.captcha(ng-model="signUpData.captchaId", captcha)
+                .fluid.field(style="position: relative;")
+                    label
+                        span 短信验证码
+                        input(type="text", placeholder="请输入您收到的短信验证码", ng-model="signUpData.verificationCode", ng-required="true", maxlength="6", minlength="6")
+                    resend-verification
+                .fluid.field
+                    label
+                        span 设置密码
+                        input(type="password", placeholder="请设置您的密码", ng-model="signUpData.password", ng-required="true", minlength="6")
+                .field
+                    button.fluid.yellow.button(type="submit", ng-disabled="!signUpForm.$valid") 下一步
+                .field
+                    .center.aglined.container
+                        input(type="checkbox", id="agree", ng-model="signUpData.agreed")
+                        label(for="agree") 我已阅读并同意
+                            a.active(href="/agreement") 《BUZZ 用户注册协议》
+
+            form.info-form.text-label.loose(name="infoForm", ng-if="step == 2", ng-controller="infoCtrl", ng-submit="submitInfo()", style="min-width: 250px;")
+                .error.message(ng-if="errorMessage") {{errorMessage}}
+                .fluid.field
+                    label
+                        span 姓名
+                        input(type="text", placeholder="请输入您的姓名", ng-model="infoData.name", ng-required="true")
+                .fluid.field
+                    label.borderless
+                        span 性别
+                        div
+                            input(type="radio", name="gender", ng-model="infoData.gender", value="M", id="boy", ng-required="true")
+                            label(for="boy") 金童
+                            span.space
+                            input(type="radio", name="gender", ng-model="infoData.gender", value="F", id="girl", ng-required="true")
+                            label(for="girl") 玉女
+                .fluid.field
+                    label.padded
+                        span 年级
+                        select(ng-model="infoData.grade", ng-required="true")
+                            option(value="1") 一年级
+                            option(value="2") 二年级
+                            option(value="3") 三年级
+                            option(value="4") 四年级
+                            option(value="5") 五年级
+                            option(value="6") 六年级
+                .fluid.field
+                    label.padded
+                        span 喜欢的主题
+                        select(ng-model="infoData.favoriteTopics", ng-required="true")
+                            option(value="1") 运动
+                            option(value="2") 主题2
+                            option(value="3") 主题3
+                            option(value="4") 主题4
+                            option(value="5") 主题5
+                .fluid.field
+                    label.borderless.left.floated
+                        span 选择难度版本
+                    div.right.floated
+                        input(type="radio", name="level", value="A", ng-model="infoData.level", id="levelA",ng-required="true")
+                        label(for="levelA") 基础（推荐1~3年级）
+                        br
+                        input(type="radio", name="level", value="B", ng-model="infoData.level", id="levelB", ng-required="true")
+                        label(for="levelB") 进阶（推荐4~6年级）
+
+                .field
+                    br
+                    br
+                .field
+                    button.fluid.yellow.button(type="submit", ng-disabled="!infoForm.$valid") 完成

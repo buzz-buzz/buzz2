@@ -1,40 +1,21 @@
+'use strict';
+
 const koa = require('koa');
 const app = module.exports = koa();
 const config = require('./config');
 const path = require('path');
 const fs = require('fs');
-const route = require('koa-route');
+const router = require('koa-router')();
 const logger = require('koa-logger');
-const serveStatic = require('koa-static');
-const koaMount = require('koa-mount');
+const views = require('co-views');
+
+const render = views(path.join(__dirname, 'views'), {default: "pug",extension: "pug", map: {
+    "html": "underscore"
+}});
 
 app.use(logger());
 
-app.use(serveStatic('public'));
-app.use(koaMount('/public/', serveStatic('public')));
-app.use(koaMount('/mock/', serveStatic('mock')));
-app.use(koaMount('/node_modules', serveStatic('node_modules')));
-app.use(serveStatic('resource'));
-app.use(koaMount('/resource', serveStatic('resource')));
-
-var routesPath = path.join(__dirname, 'routes');
-fs.readdirSync(routesPath).forEach(function (file) {
-    if (file[0] === '.') return;
-    require(routesPath + '/' + file)(app, require('koa-route'));
-});
-
-app.use(route.get('/', function *home(next) {
-    this.redirect('/play.html?date=2016-11-07&cat=science&level=B');
-}));
-
-app.use(route.get('/env', function *(next) {
-    this.body = JSON.stringify({});
-}));
-
-app.use(route.get('/healthcheck', function*(next) {
-    this.body = {every: 'is ok', time: new Date()};
-}));
-
+require('./routes')(app, router, render);
 
 if (!module.parent) {
     var port = process.env.PORT || config.port || 16000;

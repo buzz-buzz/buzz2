@@ -1,0 +1,64 @@
+.header {
+    border-bottom: solid 2px #f7b52a;
+}
+
+.header .column {
+    border: none;
+}
+
+.header .logo {
+    height: 40px;
+}
+
+.header .right.floated.menu {
+    font-size: small;
+    color: #666;
+    margin-top: 0;
+    height: 42px;
+    line-height: 42px;
+}
+
+.header .welcome.message {
+    margin-top: -10px;
+}
+
+.header .right.floated.menu a:link {
+    color: blue;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.header .right.floated.menu a:visited {
+    color: blue;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.header .right.floated.menu a:hover {
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.header .right.floated.menu a:active {
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.sign-in-form {
+    border: solid 2px #f3d48a;
+    border-radius: 5px;
+    max-width: 300px;
+    font-size: smaller;
+}
+
+.sign-in-form .header {
+    font-size: smaller;
+    padding: 10px 15px;
+    border-bottom: solid 2px #f3d48a;
+}
+
+.sign-in-form .body {
+    padding: 30px 25px;
+}

@@ -1,3 +1,162 @@
+* {
+    box-sizing: border-box;
+    font-family: Arial, serif;
+}
+
+html, body {
+    height: 100%;
+}
+
+.fluid {
+    width: 100%;
+}
+
+.padded {
+    padding: 16px;
+}
+
+.white.title {
+    color: white;
+    font-weight: bold;
+    text-align: left;
+}
+
+.full.screen.container {
+    width: 100%;
+    height: 100%;
+    margin: 0 0 0 0;
+    padding: 0;
+}
+
+.full.height.container {
+    height: 100%;
+}
+
+.center.aligned.container {
+    text-align: center;
+    margin: 0 auto;
+}
+
+.left.aligned.container {
+    text-align: left;
+}
+
+.white.background {
+    background-color: white;
+}
+
+.light.yellow.background {
+    background-color: #f7e6bd;
+}
+
+.center.column {
+    width: 900px;
+    border-left: solid 1px #ddd;
+    border-right: solid 1px #ddd;
+}
+
+.right.floated {
+    float: right;
+}
+
+.avatar {
+    border-radius: 50%;
+    max-height: 30px;
+}
+
+.page.with-header {
+    padding-top: 50px;
+}
+
+.fixed.header {
+    position: fixed;
+}
+
+.page {
+    height: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.bordered.segment {
+    border: solid 1px #eee;
+    border-bottom: solid 2px #ccc;
+    margin: 10px 15px;
+    padding: 0 20px 20px 20px;
+}
+
+.borderless.segment {
+    margin: 10px 15px;
+    padding: 0 20px 20px 20px;
+}
+
+.borderless.column {
+    border: none !important;
+}
+
+.transparent {
+    background: transparent;
+}
+
+span.space {
+    width: 1em;
+    display: inline-block;
+}
+
+.black {
+    color: black;
+}
+
+.red {
+    color: red;
+}
+
+.grid {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    height: 100%;
+}
+
+.middle.aligned.grid {
+    align-items: center;
+}
+
+.top.aligned.grid {
+    align-items: baseline;
+}
+
+.grid .row {
+    width: auto;
+}
+
+.column img {
+    max-width: 100%;
+}
+
+.grid .column {
+    text-align: left;
+}
+
+.grid .column {
+
+}
+
+.one.wide.column {
+    width: 6.25%;
+}
+
+.seven.wide.column {
+    width: 43.75%;
+}
+
+.eight.wide.column {
+    width: 50%;
+}
+
+.sixteen.wide.column {
+    width: 100%;
+}
 
 .fluid {
     width: 100%;
@@ -39,6 +198,10 @@
     float: right;
 }
 
+.left.floated {
+    float: left;
+}
+
 .avatar {
     border-radius: 50%;
     max-height: 30px;
@@ -61,11 +224,137 @@
     padding: 0 20px 20px 20px;
 }
 
-.borderless.segment {
-    margin: 10px 15px;
-    padding: 0 20px 20px 20px;
+span.top.aligned {
+    vertical-align: top;
 }
 
-.transparent {
+span.middle.aligned {
+    vertical-align: middle;
+}
+
+.button {
+    cursor: pointer;
+    border: none;
+    border-radius: 3px;
+    font-size: medium;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.fluid.button {
+    width: 100%;
+}
+
+.yellow.button {
+    background-color: #f6b52a !important;
+    color: white;
+}
+
+.yellow.button:disabled, .yellow.button.disabled {
+    opacity: 0.5;
+}
+
+a:link {
+    text-decoration: none;
+    color: black;
+}
+
+a:visited {
+    text-decoration: none;
+    color: black;
+}
+
+a:hover, a:active {
+    text-decoration: underline;
+    color: #f7b52a;
+}
+
+a.active {
+    color: #f7b52a;
+}
+
+form input {
+    border: none;
+    padding: 8px 15px;
+}
+
+form .field {
+    margin: 1em 0;
+}
+
+form.loose .field {
+    margin: 2em 0;
+}
+
+form label.borderless {
+    border: none !important;
+}
+
+form label.padded {
+    padding: 0;
+}
+
+form label.padded * {
+    padding: 5px;
+}
+
+form label select {
+    border: none;
+    height: 100%;
     background: transparent;
+    line-height: 1;
+    border-radius: 0;
+    /*-webkit-appearance: none;*/
+}
+
+form .field label {
+    cursor: pointer;
+}
+
+form .fluid.field {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+form .fluid.field > *:first-child {
+    display: flex;
+    border: solid 1px #f0f0f0;
+    background-color: #f8f8f8;
+}
+
+form .fluid.field > * > * {
+    flex: 1 1 auto;
+    align-self: center;
+}
+
+form .fluid.field > * > *:first-child {
+    vertical-align: middle;
+    text-align: center;
+    color: #d2d2d2;
+    font-size: larger;
+}
+
+form.text-label .fluid.field > * > *:first-child {
+    font-size: small;
+    color: black;
+}
+
+form .fluid.field > * > *:nth-child(2) {
+    border-left: solid 1px #f0f0f0;
+}
+
+form .error.message {
+    word-wrap: break-word;
+    background-color: red;
+    color: white;
+    padding: 8px 15px;
+}
+
+[ng\:cloak],
+[ng-cloak],
+[data-ng-cloak],
+[x-ng-cloak],
+.ng-cloak,
+.x-ng-cloak {
+    display: none !important;
 }
