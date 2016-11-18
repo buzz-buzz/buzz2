@@ -79,7 +79,8 @@ mixin weeks()
                 while day < 7
                     .column(style="position: relative;")
                         p.dayOfWeek {{weekDays[#{week}][#{day}] | date: 'd'}}
-                        .performance
+                        - var showPerformance = 'performances[' + week + '][' + day + '] !== ""';
+                        .performance(ng-if=showPerformance)
                         a
                             - var good = 'performances[' + week + '][' + day + '] === "good"'
                             - var bad = 'performances[' + week + '][' + day + '] === "bad"'
