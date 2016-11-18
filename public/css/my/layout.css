@@ -1,0 +1,24 @@
+.header .logo {
+    height: 40px;
+}
+
+.header .right.floated.menu {
+    margin-top: 10px;
+    margin-bottom: 1px;
+}
+
+.header .welcome.message {
+    margin-top: 10px;
+    display: inline-block;
+}
+
+.header a:link {
+}
+
+.header a:visited {
+}
+
+.header a:hover, .header a:active, .header a.active {
+    color: white !important;
+    text-decoration: none !important;
+}

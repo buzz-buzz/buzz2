@@ -1,0 +1,39 @@
+doctype html
+html
+    head
+        meta(charset="utf-8")
+        meta(http-equiv="X-UA-Compatible", content="IE=edge, chrome=1")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0, maximum-scale=1.0")
+        link(rel="stylesheet", href="/public/css/player.css")
+        link(rel="stylesheet", href="/public/css/player-layout.css")
+        link(rel="stylesheet", href="/public/css/horizontal-menu.css")
+        link(rel="stylesheet", href="/public/css/flex-box.css")
+        link(rel="stylesheet", href="/public/css/media-query.css")
+        link(rel="stylesheet", href="/public/css/my/layout.css")
+        title=title || 'Buzz English'
+        block head
+    body.full.screen.container
+        #buzz-header.fluid.container.header.fixed(ng-controller="headerCtrl")
+            .center.aligned.container.column.borderless
+                ul.large.right.floated.white.horizontal.menu
+                    li
+                        a.icon-history(title="历史课程")
+                    li
+                        a.icon-stats-bars(title="学习进度")
+                    li
+                        a.icon-file-text(title="生词本")
+                    li
+                        img.avatar(ng-src="{{profile.avatar}}", ng-if="profile.avatar")
+                        a(ng-if="!profile.avatar") 欢迎你
+                .white.title
+                    img.white.background.logo(src="/images/logo.png")
+                    span.space
+                    span.top.aligned.welcome.message Hello Shirly, today is the 100st day since you joined NEWS.
+        block content
+        include ../js
+        script(src="/js/buzzHeaderModule.js")
+        script.
+            angular.element(document).ready(function () {
+                angular.bootstrap(document.getElementById('buzz-header'), ['buzzHeaderModule']);
+            });
+        block js
