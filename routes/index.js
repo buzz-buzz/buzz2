@@ -39,6 +39,10 @@ function auth(app, router, render) {
     app.use(mount('/vocabulary', membership.ensureAuthenticated));
 
     require('./vocabulary')(app, router, render);
+
+    app.use(mount('/exercise', membership.ensureAuthenticated));
+
+    require('./exercise')(app, router, render);
 }
 
 function virtualFile(app, router) {
