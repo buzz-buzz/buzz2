@@ -24,8 +24,19 @@ html
                 margin-top: 10px;
                 display: inline-block;
             }
+
+            .header a:link {
+            }
+
+            .header a:visited {
+            }
+
+            .header a:hover, .header a:active, .header a.active {
+                color: white !important;
+                text-decoration: none !important;
+            }
     body.full.screen.container(ng-app="buzzModule")
-        .fluid.container.header.fixed
+        .fluid.container.header.fixed(ng-controller="headerCtrl")
             .center.aligned.container.column.borderless
                 ul.large.right.floated.white.horizontal.menu
                     li
@@ -35,7 +46,8 @@ html
                     li
                         a.icon-file-text(title="生词本")
                     li
-                        img.avatar(ng-src="{{profile.avatar}}")
+                        img.avatar(ng-src="{{profile.avatar}}", ng-if="profile.avatar")
+                        a(ng-if="!profile.avatar") 欢迎你
                 .white.title
                     img.white.background.logo(src="/images/logo.png")
                     span.space

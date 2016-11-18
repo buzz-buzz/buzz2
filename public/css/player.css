@@ -4,12 +4,31 @@
     font-family: Arial;
 }
 
-.highlight {
+.subtitle {
+    text-align: left;
+    color: #666;
+    font-family: Arial;
+    line-height: 2rem;
+    overflow: auto;
+}
+
+.subtitle a:link {
+}
+
+.subtitle a:visited {
+}
+
+.subtitle a:hover, .subtitle a:active {
+    text-decoration: none !important;
+    color: black;
+}
+
+.highlight, a.highlight {
     color: blue !important;
 }
 
-.newWord {
-    color: #f7b52a;
+.newWord, a.newWord {
+    color: #f7b52a !important;
     font-weight: bold;
 }
 
@@ -20,14 +39,6 @@
 
 .script:hover {
     /*background-color: #edc;*/
-}
-
-.subtitle {
-    text-align: left;
-    color: #666;
-    font-family: Arial;
-    line-height: 2rem;
-    overflow: auto;
 }
 
 .header {
