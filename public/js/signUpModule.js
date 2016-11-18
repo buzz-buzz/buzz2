@@ -138,8 +138,8 @@ angular.module('signUpModule', ['angularQueryParserModule', 'clientConfigModule'
             }
         };
     }])
-    .controller('signUpParentCtrl', ['$scope', function ($scope) {
-        $scope.step = 1;
+    .controller('signUpParentCtrl', ['$scope', 'queryParser', function ($scope, queryParser) {
+        $scope.step = queryParser.get('step') || 1;
     }])
     .controller('signUpCtrl', ['$scope', 'clientConfig', 'service', 'queryParser', 'serviceErrorParser', function ($scope, clientConfig, service, queryParser, serviceErrorParser) {
         $scope.signUpData = {
@@ -152,11 +152,18 @@ angular.module('signUpModule', ['angularQueryParserModule', 'clientConfigModule'
         };
 
         $scope.signUp = function () {
-            service.put(clientConfig.serviceUrls.sso.signUp.frontEnd, $scope.signUpData).then(function (member_id) {
-                console.log(member_id);
-            }).catch(function (reason) {
-                $scope.errorMessage = serviceErrorParser.getErrorMessage(reason);
-            });
+            service.put(clientConfig.serviceUrls.sso.signUp.frontEnd, $scope.signUpData)
+                .then(function (member_id) {
+                    return service.post(clientConfig.serviceUrls.sso.signIn.frontEnd, {
+                        value: $scope.signUpData.mobile,
+                        password: $scope.signUpData.password,
+                        return_url: encodeURIComponent(location.pathname + '?step=2')
+                    });
+                })
+                .then()
+                .catch(function (reason) {
+                    $scope.errorMessage = serviceErrorParser.getErrorMessage(reason);
+                });
         };
     }])
 ;

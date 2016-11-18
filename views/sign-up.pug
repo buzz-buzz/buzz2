@@ -47,8 +47,8 @@ block content
     .top.aligned.grid(ng-app="signUpModule", ng-controller="signUpParentCtrl")
         .column
             ul.indicator
-                li(ng-class="{'active': step === 1}") 创建账号
-                li(ng-class="{'active': step === 2}") 信息填写
+                li(ng-class="{'active': step == 1}") 创建账号
+                li(ng-class="{'active': step == 2}") 信息填写
         .one.wide.column
         .column(ng-cloak)
             form.sign-up-form.text-label(name="signUpForm", ng-submit="signUp()", ng-if="step === 1", ng-controller="signUpCtrl")
@@ -56,30 +56,30 @@ block content
                 .fluid.field
                     label
                         span 手机号码
-                        input(type="phone", placeholder="请输入您的手机号码", ng-model="signUpData.mobile", ng-required="true")
+                        input(type="phone", placeholder="请输入您的手机号码", ng-model="signUpData.mobile", ng-required="true", maxlength="11", minlength="11")
                 .fluid.field(style="position: relative;")
                     label
                         span 图形验证码
-                        input(type="text", placeholder="请输入右侧图形验证码", ng-model="signUpData.captcha", ng-required="true", maxlength="4")
+                        input(type="text", placeholder="请输入右侧图形验证码", ng-model="signUpData.captcha", ng-required="true", maxlength="4", minlength="4")
                     div.captcha(ng-model="signUpData.captchaId", captcha)
                 .fluid.field(style="position: relative;")
                     label
                         span 短信验证码
-                        input(type="number", placeholder="请输入您收到的短信验证码", ng-model="signUpData.verificationCode", ng-required="true", maxlength="6")
+                        input(type="text", placeholder="请输入您收到的短信验证码", ng-model="signUpData.verificationCode", ng-required="true", maxlength="6", minlength="6")
                     resend-verification
                 .fluid.field
                     label
                         span 设置密码
-                        input(type="password", placeholder="请设置您的密码", ng-model="signUpData.password", ng-required="true")
+                        input(type="password", placeholder="请设置您的密码", ng-model="signUpData.password", ng-required="true", minlength="6")
                 .field
-                    button.fluid.yellow.button(type="submit") 下一步
+                    button.fluid.yellow.button(type="submit", ng-disabled="!signUpForm.$valid") 下一步
                 .field
                     .center.aglined.container
                         input(type="checkbox", id="agree", ng-model="signUpData.agreed")
                         label(for="agree") 我已阅读并同意
                             a.active(href="/agreement") 《BUZZ 用户注册协议》
 
-            form.info-form.text-label(name="infoForm", ng-if="step === 2")
+            form.info-form.text-label(name="infoForm", ng-if="step == 2")
                 .error.message(ng-if="errorMessage") {{errorMessage}}
                 .fluid.field
                     label

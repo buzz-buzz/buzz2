@@ -5,11 +5,22 @@ const membership = require('../membership');
 const mount = require('koa-mount');
 
 function simpleRender(app, router, render) {
-    let routes = ['sign-up', 'sign-in', 'agreement', 'reset-password'];
+    let routes = ['sign-in', 'agreement', 'reset-password'];
 
     for (let i = 0; i < routes.length; i++) {
         router.get('/' + routes[i], function *(next) {
             this.body = yield render(routes[i], {});
+        });
+    }
+}
+function renderWithServerData(app, router, render) {
+    let routes = ['sign-up'];
+
+    for (let i = 0; i < routes.length; i++) {
+        router.get('/' + routes[i], membership.setHcdUser, function *(next) {
+            this.body = yield render(routes[i], {
+                hcd_user: this.state.hcd_user
+            });
         });
     }
 }
@@ -62,6 +73,7 @@ module.exports = function (app, router, render) {
     redirect(app, router);
     serviceProxy(app, router);
     simpleRender(app, router, render);
+    renderWithServerData(app, router, render);
     auth(app, router, render);
 
     app

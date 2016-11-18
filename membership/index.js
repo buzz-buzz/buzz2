@@ -24,7 +24,6 @@ let membership = {
             };
         }
 
-        console.log('test');
         yield next;
     }
 };

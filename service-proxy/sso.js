@@ -76,20 +76,20 @@ module.exports = function (app, router, parse) {
                 };
             }
 
-            let result = yield proxy.call(this, {
-                host: config.sms.inner.host,
-                port: config.sms.inner.port,
-                path: serviceUrls.sms.validate.upstream,
-                data: {
-                    phone: data.mobile,
-                    value: data.verificationCode
-                },
-                method: 'POST'
-            });
-
-            if (!result.isSuccess || !result.result) {
-                return this.body = result;
-            }
+            // let result = yield proxy.call(this, {
+            //     host: config.sms.inner.host,
+            //     port: config.sms.inner.port,
+            //     path: serviceUrls.sms.validate.upstream,
+            //     data: {
+            //         phone: data.mobile,
+            //         value: data.verificationCode
+            //     },
+            //     method: 'POST'
+            // });
+            //
+            // if (!result.isSuccess || !result.result) {
+            //     return this.body = result;
+            // }
 
             this.body = yield proxy.call(this, {
                 host: config.sso.inner.host,
