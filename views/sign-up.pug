@@ -79,22 +79,23 @@ block content
                         label(for="agree") 我已阅读并同意
                             a.active(href="/agreement") 《BUZZ 用户注册协议》
 
-            form.info-form.text-label(name="infoForm", ng-if="step == 2", ng-controller="infoCtrl", ng-submit="submitInfo()")
+            form.info-form.text-label.loose(name="infoForm", ng-if="step == 2", ng-controller="infoCtrl", ng-submit="submitInfo()", style="min-width: 250px;")
                 .error.message(ng-if="errorMessage") {{errorMessage}}
                 .fluid.field
                     label
                         span 姓名
                         input(type="text", placeholder="请输入您的姓名", ng-model="infoData.name", ng-required="true")
                 .fluid.field
-                    label
+                    label.borderless
                         span 性别
-                        input(type="radio", name="gender", ng-model="infoData.gender", value="M", id="boy", ng-required="true")
-                        label(for="boy") 金童
-                        span.space
-                        input(type="radio", name="gender", ng-model="infoData.gender", value="F", id="girl", ng-required="true")
-                        label(for="girl") 玉女
+                        div
+                            input(type="radio", name="gender", ng-model="infoData.gender", value="M", id="boy", ng-required="true")
+                            label(for="boy") 金童
+                            span.space
+                            input(type="radio", name="gender", ng-model="infoData.gender", value="F", id="girl", ng-required="true")
+                            label(for="girl") 玉女
                 .fluid.field
-                    label
+                    label.padded
                         span 年级
                         select(ng-model="infoData.grade", ng-required="true")
                             option(value="1") 一年级
@@ -104,22 +105,26 @@ block content
                             option(value="5") 五年级
                             option(value="6") 六年级
                 .fluid.field
-                    label
+                    label.padded
                         span 喜欢的主题
-                        select(ng-model="infoData.favoriteTopics", multiple, ng-required="true")
-                            option(value="1") 主题1
+                        select(ng-model="infoData.favoriteTopics", ng-required="true")
+                            option(value="1") 运动
                             option(value="2") 主题2
                             option(value="3") 主题3
                             option(value="4") 主题4
                             option(value="5") 主题5
                 .fluid.field
-                    label
+                    label.borderless.left.floated
                         span 选择难度版本
-                    input(type="radio", name="level", value="A", ng-model="infoData.level", id="levelA",ng-required="true")
-                    label(for="levelA") 基础（推荐1~3年级）
-                    br
-                    input(type="radio", name="level", value="B", ng-model="infoData.level", id="levelB", ng-required="true")
-                    label(for="levelB") 进阶（推荐4~6年级）
+                    div.right.floated
+                        input(type="radio", name="level", value="A", ng-model="infoData.level", id="levelA",ng-required="true")
+                        label(for="levelA") 基础（推荐1~3年级）
+                        br
+                        input(type="radio", name="level", value="B", ng-model="infoData.level", id="levelB", ng-required="true")
+                        label(for="levelB") 进阶（推荐4~6年级）
 
+                .field
+                    br
+                    br
                 .field
                     button.fluid.yellow.button(type="submit", ng-disabled="!infoForm.$valid") 完成

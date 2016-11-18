@@ -198,6 +198,10 @@ span.space {
     float: right;
 }
 
+.left.floated {
+    float: left;
+}
+
 .avatar {
     border-radius: 50%;
     max-height: 30px;
@@ -276,6 +280,31 @@ form input {
 
 form .field {
     margin: 1em 0;
+}
+
+form.loose .field {
+    margin: 2em 0;
+}
+
+form label.borderless {
+    border: none !important;
+}
+
+form label.padded {
+    padding: 0;
+}
+
+form label.padded * {
+    padding: 5px;
+}
+
+form label select {
+    border: none;
+    height: 100%;
+    background: transparent;
+    line-height: 1;
+    border-radius: 0;
+    /*-webkit-appearance: none;*/
 }
 
 form .field label {
