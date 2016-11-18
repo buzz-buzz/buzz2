@@ -49,6 +49,28 @@ style.
         width: 100%;
     }
 
+    .performance {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        border-top: solid 25px transparent;
+        border-right: solid 25px white;
+        border-bottom: solid 25px white;
+        border-left: solid 25px transparent;
+        background-color: transparent;
+        z-index: 1;
+        cursor: pointer;
+    }
+
+    .performance + a {
+        background: transparent;
+        position: absolute;
+        right: 1px;
+        bottom: 0;
+        z-index: 2;
+        cursor: pointer;
+    }
+
 mixin weeks()
     - var week = 0;
     while week < 5
@@ -56,7 +78,20 @@ mixin weeks()
             - var day = 0;
                 while day < 7
                     .column(style="position: relative;")
-                        p.dayOfWeek {{weekDays[#{week}][#{day}]}}
+                        p.dayOfWeek {{weekDays[#{week}][#{day}] | date: 'd'}}
+                        .performance
+                        a
+                            - var good = 'performances[' + week + '][' + day + '] === "good"'
+                            - var bad = 'performances[' + week + '][' + day + '] === "bad"'
+                            - var none = 'performances[' + week + '][' + day + '] === "none"'
+                            if day > 0 && day < 6
+                                img(ng-src="http://source.bridgeplus.cn/image/png/%E5%AD%A6%E4%B9%A0%E8%BF%9B%E5%BA%A6_06.png", ng-if=good)
+                                img(ng-src="http://source.bridgeplus.cn/image/png/%E5%AD%A6%E4%B9%A0%E8%BF%9B%E5%BA%A6_10.png", ng-if=bad)
+                                img(ng-src="http://source.bridgeplus.cn/image/png/%E5%AD%A6%E4%B9%A0%E8%BF%9B%E5%BA%A6_13.png", ng-if=none)
+                            else
+                                img(ng-src="http://source.bridgeplus.cn/image/png/%E5%AD%A6%E4%B9%A0%E8%BF%9B%E5%BA%A6_08.png", ng-if=good)
+                                img(ng-src="http://source.bridgeplus.cn/image/png/%E5%AD%A6%E4%B9%A0%E8%BF%9B%E5%BA%A6_03.png", ng-if=bad)
+                                img(ng-src="http://source.bridgeplus.cn/image/png/%E5%AD%A6%E4%B9%A0%E8%BF%9B%E5%BA%A6_13.png", ng-if=none)
                     - day++;
         - week++;
 
@@ -72,11 +107,18 @@ mixin weeks()
     .body.very.padded.horizontal
         .grid(ng-cloak)
             .row.weekday.padded.vertical
-                .column Su
-                .column Mo
-                .column Tu
-                .column We
-                .column Th
-                .column Fr
-                .column Sa
+                .column
+                    strong Su
+                .column
+                    strong Mo
+                .column
+                    strong Tu
+                .column
+                    strong We
+                .column
+                    strong Th
+                .column
+                    strong Fr
+                .column
+                    strong Sa
             + weeks
