@@ -47,25 +47,25 @@
             width: 1%;
         }
         .table-column.part3 {
-            width: 10%;
+            width: 15%;
         }
         .table-column.part4 {
-            width: 10%
+            width: 15%
         }
         .table-column.part5 {
             width: 4%;
         }
         .table-column.part6 {
-            width: 45%;
+            width: 25%;
         }
         .table-column.part7 {
-            width: 6%;
+            width: 10%;
         }
         .table-column.part8 {
-            width: 6%;
+            width: 10%;
         }
         .table-column.part9 {
-            width: 6%;
+            width: 10%;
         }
         .head .part1 {
             padding-top:0.4em;
@@ -100,10 +100,17 @@
         .table-column.part3 .word{
             padding: 0em 0 0.4em 0.6em;
         }
+        .mark,
         .sound,
         .explanation,
         .ipa {
             padding-bottom: 0.4em;
+        }
+        .mark i,
+        .sound i {
+            color: #f7b52a;
+            font-size: 16px;
+            line-height: 1.6em;
         }
         .body .part3:after,
         .body .part4:after,
@@ -113,12 +120,21 @@
         .body .part8:after,
         .body .part9:after {
             content: "";
-            background-color: #bcbcbc;
+            background-color: #cdcdcd;
             width: 100%;
-            height: 2px;
+            height: 3px;
             display: block;
             position: absolute;
             bottom: 0;
+        }
+        .body .part3.last:after,
+        .body .part4.last:after,
+        .body .part5.last:after,
+        .body .part6.last:after,
+        .body .part7.last:after,
+        .body .part8.last:after,
+        .body .part9.last:after {
+            display: none;
         }
         .center {
             text-align: center;
@@ -134,7 +150,7 @@
             font-size: 10px;
         }
         .line {
-            background-color: grey;
+            background-color: #bcbcbc;
             position: absolute;
         }
         .line.head {
@@ -186,12 +202,12 @@
                 <div class="word">hair</div>
                 <div class="word">pumpkin</div>
             </div>
-            <div class='table-column part4'>
+            <div class='table-column part4 left'>
                 <div class="ipa">[ˈpʌmpkɪn]</div>
                 <div class="ipa">[ˈpʌmpkɪn]</div>
                 <div class="ipa">[ˈpʌmpkɪn]</div>
             </div>
-            <div class='table-column part5'>
+            <div class='table-column part5 left'>
                 <div class="sound">
                     <i class="icon-volume-medium"></i>
                 </div>
@@ -207,10 +223,39 @@
                 <div class="explanation">解释</div>
                 <div class="explanation">解释</div>
             </div>
-            <div class='table-column part7'>6
+            <div class='table-column part7'>
+                <div class="mark">
+                    <i class="icon-checkmark"></i>
+                </div>
+                <div class="mark">
+                    <i class="icon-checkmark"></i>
+                </div>
+                <div class="mark">
+                    <i class="icon-checkmark"></i>
+                </div>
             </div>
-            <div class='table-column part8'>7</div>
-            <div class='table-column part9'>8</div>
+            <div class='table-column part8'>
+                <div class="mark">
+                    <i class="icon-cancel-circle"></i>
+                </div>
+                <div class="mark">
+                    <i class="icon-cancel-circle"></i>
+                </div>
+                <div class="mark">
+                    <i class="icon-cancel-circle"></i>
+                </div>
+            </div>
+            <div class='table-column part9'>
+                <div class="mark">
+                    <i class="icon-question"></i>
+                </div>
+                <div class="mark">
+                    <i class="icon-question"></i>
+                </div>
+                <div class="mark">
+                    <i class="icon-question"></i>
+                </div>
+            </div>
         </div>
         <div class="table-row center body">
             <div class='table-column part1'>
@@ -224,12 +269,17 @@
             <div class='table-column part3 left'>
                 <div class="word">pumpkin</div>
                 <div class="word">hair</div>
+                <div class="word">pumpkin</div>
             </div>
-            <div class='table-column part4'>
+            <div class='table-column part4 left'>
                 <div class="ipa">[ˈpʌmpkɪn]</div>
                 <div class="ipa">[ˈpʌmpkɪn]</div>
+                <div class="ipa">[ˈpʌmpkɪn]</div>
             </div>
-            <div class='table-column part5'>
+            <div class='table-column part5 left'>
+                <div class="sound">
+                    <i class="icon-volume-medium"></i>
+                </div>
                 <div class="sound">
                     <i class="icon-volume-medium"></i>
                 </div>
@@ -240,11 +290,95 @@
             <div class='table-column part6 left'>
                 <div class="explanation">解释</div>
                 <div class="explanation">解释</div>
+                <div class="explanation">解释</div>
             </div>
-            <div class='table-column part7'>6
+            <div class='table-column part7'>
+                <div class="mark">
+                    <i class="icon-checkmark"></i>
+                </div>
+                <div class="mark">
+                    <i class="icon-checkmark"></i>
+                </div>
+                <div class="mark">
+                    <i class="icon-checkmark"></i>
+                </div>
             </div>
-            <div class='table-column part8'>7</div>
-            <div class='table-column part9'>8</div>
+            <div class='table-column part8'>
+                <div class="mark">
+                    <i class="icon-cancel-circle"></i>
+                </div>
+                <div class="mark">
+                    <i class="icon-cancel-circle"></i>
+                </div>
+                <div class="mark">
+                    <i class="icon-cancel-circle"></i>
+                </div>
+            </div>
+            <div class='table-column part9'>
+                <div class="mark">
+                    <i class="icon-question"></i>
+                </div>
+                <div class="mark">
+                    <i class="icon-question"></i>
+                </div>
+                <div class="mark">
+                    <i class="icon-question"></i>
+                </div>
+            </div>
+        </div>
+        <div class="table-row center body">
+            <div class='table-column part1 last'>
+                <div>2016</div>
+                <div class="monthday">Oct.21th</div>
+            </div>
+            <div class='table-column part2 last'>
+                <div class="line head"></div>
+                <div class="line body"></div>
+            </div>
+            <div class='table-column part3 left last'>
+                <div class="word">pumpkin</div>
+                <div class="word">hair</div>
+            </div>
+            <div class='table-column part4 left last'>
+                <div class="ipa">[ˈpʌmpkɪn]</div>
+                <div class="ipa">[ˈpʌmpkɪn]</div>
+            </div>
+            <div class='table-column part5 left last'>
+                <div class="sound">
+                    <i class="icon-volume-medium"></i>
+                </div>
+                <div class="sound">
+                    <i class="icon-volume-medium"></i>
+                </div>
+            </div>
+            <div class='table-column part6 left last'>
+                <div class="explanation">解释</div>
+                <div class="explanation">解释</div>
+            </div>
+            <div class='table-column part7 last'>
+                <div class="mark">
+                    <i class="icon-checkmark"></i>
+                </div>
+                <div class="mark">
+                    <i class="icon-checkmark"></i>
+                </div>
+            </div>
+            <div class='table-column part8 last'>
+                <div class="mark">
+                    <i class="icon-cancel-circle"></i>
+                </div>
+                <div class="mark">
+                    <i class="icon-cancel-circle"></i>
+                </div>
+            </div>
+            <div class='table-column part9 last'>
+                <div class="mark">
+                    <i class="icon-question"></i>
+                </div>
+                <div class="mark">
+                    <i class="icon-question"></i>
+                </div>
+            </div>
         </div>
     </div>
 </body>
