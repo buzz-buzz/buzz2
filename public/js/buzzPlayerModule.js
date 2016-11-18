@@ -25,6 +25,14 @@ angular.module('buzzPlayerModule', ['angularQueryParserModule'])
                 }]
             });
 
+            mainVideo.onReady = function () {
+                console.log('ready"');
+                // mainVideo.play(true);
+                // setTimeout(function () {
+                //     mainVideo.play(false);
+                // }, 1000);
+            };
+
             $scope.videoTitle = smil.title;
 
             if (smil.subtitle) {
@@ -103,11 +111,11 @@ angular.module('buzzPlayerModule', ['angularQueryParserModule'])
                             var newWords = result.data;
                             if (newWords.array) {
                                 var rules = new RegExp("(" + newWords.array.join("|") + ")", "g");
-                                    for (var j = 0; j < $scope.subtitles.length; j++) {
-                                        $scope.subtitles[j].text = $scope.subtitles[j].text.replace(rules, function(newWord) {
-                                            return '<strong class="newWord">' + newWord + '</strong>';
-                                        });
-                                    }
+                                for (var j = 0; j < $scope.subtitles.length; j++) {
+                                    $scope.subtitles[j].text = $scope.subtitles[j].text.replace(rules, function (newWord) {
+                                        return '<strong class="newWord">' + newWord + '</strong>';
+                                    });
+                                }
                             }
                         });
                     }
