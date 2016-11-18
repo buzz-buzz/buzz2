@@ -15,6 +15,20 @@ html, body {
     padding: 16px;
 }
 
+.very.padded {
+    padding: 32px;
+}
+
+.horizontal.padded {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.vertical.padded {
+    padding-left: 0;
+    padding-right: 0;
+}
+
 .white.title {
     color: white;
     font-weight: bold;
@@ -184,6 +198,10 @@ span.space {
     margin: 0 auto;
 }
 
+.left.aligned {
+    text-align: left;
+}
+
 .white.background {
     background-color: white;
 }
@@ -200,6 +218,11 @@ span.space {
 
 .left.floated {
     float: left;
+}
+
+.clear.float {
+    float: none;
+    clear: both;
 }
 
 .avatar {
@@ -228,7 +251,11 @@ span.top.aligned {
     vertical-align: top;
 }
 
-span.middle.aligned {
+.middle.aligned {
+    vertical-align: middle;
+}
+
+.middle.aligned.all > * {
     vertical-align: middle;
 }
 

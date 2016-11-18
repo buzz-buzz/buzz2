@@ -1,0 +1,76 @@
+style.
+    .calendar .header .grid {
+        display: flex;
+    }
+
+    .calendar .header .grid .column {
+        flex-grow: 2;
+        text-align: center;
+        border-left: solid 1px white;
+        border-right: solid 1px white;
+        color: white;
+        padding: 8px 0;
+        display: block;
+        cursor: pointer;
+    }
+
+    .calendar .header .grid .column:first-child {
+        flex-grow: 1;
+        border: none;
+    }
+
+    .calendar .header .grid .column:last-child {
+        flex-grow: 1;
+        border: none;
+    }
+
+    .calendar .body .grid {
+        display: block;
+    }
+
+    .calendar .body .grid .row {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .calendar .body .grid .row .column {
+        flex-grow: 1;
+        text-align: center;
+    }
+
+    .calendar .body .grid .row.day .column {
+        background-color: #eee;
+        min-height: 50px;
+        border: solid 1px white;
+    }
+
+mixin weeks()
+    - var week = 0;
+    while week < 5
+        .row.day
+            - var day = 7 * week;
+                while day < 7 * (week + 1)
+                    .column {{weekDays[#{week * day}]}}
+                    - day++;
+        - week++;
+
+
+.calendar(ng-controller="calendarCtrl")
+    .header
+        .grid
+            a.column(ng-click="gotoMonth(-1)")
+                span.icon-play3(style="transform: rotate(180deg); display: inline-block;")
+            a.column {{current | date: 'MMM, yyyy'}}
+            a.column(ng-click="gotoMonth(+1)")
+                span.icon-play3
+    .body.very.padded.horizontal
+        .grid(ng-cloak)
+            .row.weekday.padded.vertical
+                .column Su
+                .column Mo
+                .column Tu
+                .column We
+                .column Th
+                .column Fr
+                .column Sa
+            + weeks

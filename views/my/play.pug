@@ -9,8 +9,8 @@ block js
 block head
     style.
         body {
-            background: url('http://source.bridgeplus.cn/image/png/skin2.png') repeat-x 0 0;
-            background-size: contain;
+            background: url('http://source.bridgeplus.cn/image/png/skin2.png') repeat 0 0;
+            background-size: cover;
         }
 
 block content
@@ -23,7 +23,7 @@ block content
                 iframe.row.content.white.background(ng-src="{{'player' + queryString}}" ng-controller="VideoPlayerCtrl", style="border:none;")
         a.page-pos(name="page-2")
         .page.section(ng-controller="page2ParentCtrl")
-            .center.aligned.container.column.white.background
+            .center.aligned.container.column.white.background.flex-box
                 .tabular.menu
                     .item(ng-class="{'active': tabularIndex===1}",ng-click="tabularIndex=1")
                         span.icon.icon-list2

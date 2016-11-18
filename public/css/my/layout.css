@@ -13,9 +13,11 @@
 }
 
 .header a:link {
+    color: white;
 }
 
 .header a:visited {
+    color: white;
 }
 
 .header a:hover, .header a:active, .header a.active {

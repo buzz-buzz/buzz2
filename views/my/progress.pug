@@ -1,0 +1,50 @@
+extends layout
+
+block js
+    script(src="/js/buzzProgressModule.js")
+
+block head
+    style.
+        body {
+            background: url('http://source.bridgeplus.cn/image/png/skin.png') repeat-x 0 0;
+            background-size: contain;
+        }
+
+block content
+    #full-page.full.height.container(ng-app="buzzProgressModule")
+        a.page-pos(name="page-1")
+        .page.with-header.section.transparent
+            .center.aligned.container.column.flex-box.white.background(style="padding-left: 50px; padding-right: 50px;")
+                .row.dynamic
+                    p.left.aligned 练习打卡
+                    ul.right.floated.horizontal.menu
+                        li
+                            img.middle.aligned(ng-src="http://source.bridgeplus.cn/image/png/%E5%AD%A6%E4%B9%A0%E8%BF%9B%E5%BA%A6_06.png")
+                            span.middle.aligned （&nbsp;
+                            img.middle.aligned(ng-src="http://source.bridgeplus.cn/image/png/%E5%AD%A6%E4%B9%A0%E8%BF%9B%E5%BA%A6_08.png")
+                            span.middle.aligned &nbsp;）
+                            div 好棒！练习全对
+                        li
+                            img.middle.aligned(ng-src="http://source.bridgeplus.cn/image/png/%E5%AD%A6%E4%B9%A0%E8%BF%9B%E5%BA%A6_10.png")
+                            span.middle.aligned （&nbsp;
+                            img.middle.aligned(ng-src="http://source.bridgeplus.cn/image/png/%E5%AD%A6%E4%B9%A0%E8%BF%9B%E5%BA%A6_03.png")
+                            span.middle.aligned &nbsp;）
+                            div 有错误，继续努力
+                        li
+                            img.middle.aligned(ng-src="http://source.bridgeplus.cn/image/png/%E5%AD%A6%E4%B9%A0%E8%BF%9B%E5%BA%A6_13.png")
+                            div 练习未做
+                    ul.left.floated.horizontal.menu
+                        li.middle.aligned.all
+                            div &nbsp;
+                            img(ng-src="http://source.bridgeplus.cn/image/png/%E5%AD%A6%E4%B9%A0%E8%BF%9B%E5%BA%A6_19.png")
+                            span.space
+                            span 200分
+                            span.space
+                            span.space
+                        li.middle.aligned.all
+                            div &nbsp;
+                            img(ng-src="http://source.bridgeplus.cn/image/png/%E5%AD%A6%E4%B9%A0%E8%BF%9B%E5%BA%A6_16.png")
+                            span.space
+                            span 16个
+                    div.clear.float
+                    include calendar
