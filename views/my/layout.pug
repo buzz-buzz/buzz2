@@ -26,7 +26,8 @@ html
                         img.avatar(ng-src="{{profile.avatar}}", ng-if="profile.avatar")
                         a(ng-if="!profile.avatar") 欢迎你
                 .white.title
-                    img.white.background.logo(src="/images/logo.png")
+                    a(href="/")
+                        img.white.background.logo(src="/images/logo.png")
                     span.space
                     span.top.aligned.welcome.message Hello Shirly, today is the 100st day since you joined NEWS.
         block content
