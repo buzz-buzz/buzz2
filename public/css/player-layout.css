@@ -84,6 +84,7 @@ html, body {
 
 .fixed.header {
     position: fixed;
+    z-index: 9999;
 }
 
 .page {

@@ -1,13 +1,41 @@
 extends layout
 
 block js
+    script(src="/node_modules/chart.js/dist/Chart.js")
+    script(src="/node_modules/angular-chart.js/dist/angular-chart.min.js")
     script(src="/js/buzzProgressModule.js")
 
 block head
+    link(rel="stylesheet", href="/public/css/progress-table.css")
     style.
         body {
             background: url('http://source.bridgeplus.cn/image/png/skin.png') repeat-x 0 0;
             background-size: contain;
+        }
+
+        .separate.title {
+            color: #666;
+        }
+
+        .separate.title:before {
+            content: ' ';
+            display: inline-block;
+            border-bottom: solid 1px black;
+            width: 20%;
+            margin-right: 3em;
+            vertical-align: middle;
+        }
+
+        .separate.title:after {
+            content: ' ';
+            width: 20%;
+            margin-left: 3em;
+            display: inline-block;
+            border-bottom: solid 1px black;
+            vertical-align: middle;
+        }
+
+        #history-chart {
         }
 
 block content
@@ -48,3 +76,36 @@ block content
                             span 16个
                     div.clear.float
                     include calendar
+
+        a.page-pos(name="page-2")
+        .page.with-header.section.transparent
+            .center.aligned.container.column.flex-box.white.background(style="padding-left: 50px; padding-right: 50px;")
+                .row.dynamic
+                    p.left.aligned 学习进度
+                    table.progress.table
+                        thead
+                            tr
+                                th 练习全对
+                                th 练习有错
+                                th 打败多少选手
+                        tbody
+                            tr
+                                td
+                                    + goodPerformance
+                                    + goodPerformance
+                                    + goodPerformance
+                                    + goodPerformance
+                                td
+                                    + badPerformance
+                                td  2028
+                .row.content(ng-controller="chartCtrl")
+                    p &nbsp;
+                    p &nbsp;
+                    p.left.aligned 历史成绩
+                    p.separate.title
+                        span 你累计学习多少单词
+
+                    canvas#history-chart.chart.chart-bar(chart-data="data", chart-labels="labels", chart-series="series", chart-options="options", chart-dataset-override="datasetOverride")
+                    p &nbsp;
+                    p &nbsp;
+                    p test
