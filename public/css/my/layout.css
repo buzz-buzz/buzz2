@@ -1,9 +1,11 @@
 .header .logo {
     height: 40px;
+    display: block;
+    float: left;
 }
 
 .header .right.floated.menu {
-    margin-top: 10px;
+    margin-top: 4px;
     margin-bottom: 1px;
 }
 
