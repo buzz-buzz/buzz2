@@ -1,425 +1,373 @@
 html
-  head
-    meta(charset='utf-8')
-    |     
-    meta(http-equiv='X-UA-Compatible', content='IE=edge, chrome=1')
-    |     
-    meta(name='viewport', content='width=device-width, initial-scale=1.0, maximum-scale=1.0')
-    |     
-    title Buzz English
-    |     
-    link(rel="stylesheet", href="/public/css/horizontal-menu.css")
-    link(rel="stylesheet", href="/public/css/player-layout.css")
-    link(rel="stylesheet", href="/public/css/my/layout.css")
-    link(rel='stylesheet', href='/public/css/player.css')
-    |     
-    link(rel='stylesheet', href='/public/css/vocabulary.css')
-    |     
-    style.
-      .table-cell {
-      display: flex;
-      flex-direction: row;
-      width: 100%;
-      flex-wrap: wrap;
-      }
-      .table-row {
-      display: flex;
-      flex-direction: row;
-      width: 100%;
-      flex-wrap: wrap;
-      }
-      .table-row.head{
-      margin-bottom: 0.6em;
-      border-bottom: #f7b52a 4px solid;
-      }
-      .button {
-      padding: 0.4em;
-      background-color: #f7b52a;
-      border-radius: 4px;
-      color: white;
-      text-align: center;
-      }
-      .button.small {
-      display: inline-block;
-      padding: 0;
-      width: 80%;
-      }
-      .table-column {
-      display: inline-block;
-      word-wrap: break-word;
-      position: relative;
-      }
-      .table-column.part1 {
-      width: 10%
-      }
-      .table-column.part2 {
-      width: 1%;
-      }
-      .table-column.part3 {
-      width: 15%;
-      }
-      .table-column.part4 {
-      width: 15%
-      }
-      .table-column.part5 {
-      width: 4%;
-      }
-      .table-column.part6 {
-      width: 25%;
-      }
-      .table-column.part7 {
-      width: 10%;
-      }
-      .table-column.part8 {
-      width: 10%;
-      }
-      .table-column.part9 {
-      width: 10%;
-      }
-      .head .part1 {
-      padding-top:0.4em;
-      padding-bottom:0.4em;
-      font-size: 18px;
-      font-weight: bold;
-      }
-      .head .part7,
-      .head .part8,
-      .head .part9 {
-      padding-top: 0.4em;
-      padding-bottom: 0.4em;
-      font-weight: bold;
-      font-size: 14px;
-      }
-      .body {
-      line-height: 1.6em;
-      }
-      .body .part1 {
-      padding-top: 0.6em;
-      }
-      .body .part3,
-      .body .part4,
-      .body .part5,
-      .body .part6,
-      .body .part7,
-      .body .part8,
-      .body .part9{
-      padding-top: 1em;
-      padding-bottom: 0.6em;
-      }
-      .table-column.part3 .word{
-      padding: 0em 0 0.4em 0.6em;
-      }
-      .mark,
-      .sound,
-      .explanation,
-      .ipa {
-      padding-bottom: 0.4em;
-      }
-      .mark i,
-      .sound i {
-      color: #f7b52a;
-      font-size: 16px;
-      line-height: 1.6em;
-      }
-      .body .part3:after,
-      .body .part4:after,
-      .body .part5:after,
-      .body .part6:after,
-      .body .part7:after,
-      .body .part8:after,
-      .body .part9:after {
-      content: "";
-      background-color: #cdcdcd;
-      width: 100%;
-      height: 3px;
-      display: block;
-      position: absolute;
-      bottom: 0;
-      }
-      .body .part3.last:after,
-      .body .part4.last:after,
-      .body .part5.last:after,
-      .body .part6.last:after,
-      .body .part7.last:after,
-      .body .part8.last:after,
-      .body .part9.last:after {
-      display: none;
-      }
-      .center {
-      text-align: center;
-      }
-      .left {
-      text-align: left;
-      }
-      .year {
-      }
-      .monthday {
-      font-size: 10px;
-      }
-      .line {
-      background-color: #bcbcbc;
-      position: absolute;
-      }
-      .line.head {
-      width: 0.6em;
-      height: 0.6em;
-      border-radius: 50%;
-      left: -0.3em;
-      top: 0.2em;
-      }
-      .line.body {
-      height: 100%;
-      width: 2px;
-      left: -1px;
-      }
-     .body-container {
-        width: 900;
-        padding-top: 60px;
-        display:inline-block;
-        text-align:center;
-        background-color:white;
-      }
-      }
-  body.full.screen.container(style="text-align:center;background:url('http://source.bridgeplus.cn/image/png/skin.png') repeat 0 0")
-    #buzz-header.fluid.container.header.fixed(ng-controller="headerCtrl")
-        .center.aligned.container.column.borderless
-            ul.large.right.floated.white.horizontal.menu
-                li
-                    a.icon-history(title="历史课程")
-                li
-                    a.icon-stats-bars(title="学习进度", href="/my/progress")
-                li
-                    a.icon-file-text(title="生词本")
-                li
-                    img.avatar(ng-src="{{profile.avatar}}", ng-if="profile.avatar")
-                    a(ng-if="!profile.avatar") 欢迎你
-            .white.title
-                a(href="/")
-                    img.white.background.logo(src="/images/logo.png")
-                span.space
-                span.top.aligned.welcome.message Hello Shirly, today is the 100st day since you joined NEWS.
-    .body-container
-        .table-cell
-          .table-row.center.head
-            .table-column.part1 &#x7B2C;&#x4E94;&#x5468;
-            |             
-            .table-column.part2
-            |             
-            .table-column.part3.left
-              .button &#x91CD;&#x65B0;&#x7EC3;&#x4E60;
-            |             
-            .table-column.part4
-            |             
-            .table-column.part5
-            |             
-            .table-column.part6
-            |             
-            .table-column.part7
-              div &#x7406;&#x89E3;
-              |                 
-              .button.small &#x6253;&#x5370;
-            |             
-            .table-column.part8
-              div &#x4E0D;&#x7406;&#x89E3;
-              |                 
-              .button.small &#x6253;&#x5370;
-            |             
-            .table-column.part9 &#x672A;&#x7EC3;&#x4E60;
-          |         
-          .table-row.center.body
-            .table-column.part1
-              div 2016
-              |                 
-              .monthday Oct.21th
-            |             
-            .table-column.part2
-              .line.head
-              |                 
-              .line.body
-            |             
-            .table-column.part3.left
-              .word pumpkin
-              |                 
-              .word hair
-              |                 
-              .word pumpkin
-            |             
-            .table-column.part4.left
-              .ipa [&#x2C8;p&#x28C;mpk&#x26A;n]
-              |                 
-              .ipa [&#x2C8;p&#x28C;mpk&#x26A;n]
-              |                 
-              .ipa [&#x2C8;p&#x28C;mpk&#x26A;n]
-            |             
-            .table-column.part5.left
-              .sound
-                i.icon-volume-medium
-              |                 
-              .sound
-                i.icon-volume-medium
-              |                 
-              .sound
-                i.icon-volume-medium
-            |             
-            .table-column.part6.left
-              .explanation &#x89E3;&#x91CA;
-              |                 
-              .explanation &#x89E3;&#x91CA;
-              |                 
-              .explanation &#x89E3;&#x91CA;
-            |             
-            .table-column.part7
-              .mark
-                i.icon-checkmark
-              |                 
-              .mark
-                i.icon-checkmark
-              |                 
-              .mark
-                i.icon-checkmark
-            |             
-            .table-column.part8
-              .mark
-                i.icon-cancel-circle
-              |                 
-              .mark
-                i.icon-cancel-circle
-              |                 
-              .mark
-                i.icon-cancel-circle
-            |             
-            .table-column.part9
-              .mark
-                i.icon-question
-              |                 
-              .mark
-                i.icon-question
-              |                 
-              .mark
-                i.icon-question
-          |         
-          .table-row.center.body
-            .table-column.part1
-              div 2016
-              |                 
-              .monthday Oct.21th
-            |             
-            .table-column.part2
-              .line.head
-              |                 
-              .line.body
-            |             
-            .table-column.part3.left
-              .word pumpkin
-              |                 
-              .word hair
-              |                 
-              .word pumpkin
-            |             
-            .table-column.part4.left
-              .ipa [&#x2C8;p&#x28C;mpk&#x26A;n]
-              |                 
-              .ipa [&#x2C8;p&#x28C;mpk&#x26A;n]
-              |                 
-              .ipa [&#x2C8;p&#x28C;mpk&#x26A;n]
-            |             
-            .table-column.part5.left
-              .sound
-                i.icon-volume-medium
-              |                 
-              .sound
-                i.icon-volume-medium
-              |                 
-              .sound
-                i.icon-volume-medium
-            |             
-            .table-column.part6.left
-              .explanation &#x89E3;&#x91CA;
-              |                 
-              .explanation &#x89E3;&#x91CA;
-              |                 
-              .explanation &#x89E3;&#x91CA;
-            |             
-            .table-column.part7
-              .mark
-                i.icon-checkmark
-              |                 
-              .mark
-                i.icon-checkmark
-              |                 
-              .mark
-                i.icon-checkmark
-            |             
-            .table-column.part8
-              .mark
-                i.icon-cancel-circle
-              |                 
-              .mark
-                i.icon-cancel-circle
-              |                 
-              .mark
-                i.icon-cancel-circle
-            |             
-            .table-column.part9
-              .mark
-                i.icon-question
-              |                 
-              .mark
-                i.icon-question
-              |                 
-              .mark
-                i.icon-question
-          |         
-          .table-row.center.body
-            .table-column.part1.last
-              div 2016
-              |                 
-              .monthday Oct.21th
-            |             
-            .table-column.part2.last
-              .line.head
-              |                 
-              .line.body
-            |             
-            .table-column.part3.left.last
-              .word pumpkin
-              |                 
-              .word hair
-            |             
-            .table-column.part4.left.last
-              .ipa [&#x2C8;p&#x28C;mpk&#x26A;n]
-              |                 
-              .ipa [&#x2C8;p&#x28C;mpk&#x26A;n]
-            |             
-            .table-column.part5.left.last
-              .sound
-                i.icon-volume-medium
-              |                 
-              .sound
-                i.icon-volume-medium
-            |             
-            .table-column.part6.left.last
-              .explanation &#x89E3;&#x91CA;
-              |                 
-              .explanation &#x89E3;&#x91CA;
-            |             
-            .table-column.part7.last
-              .mark
-                i.icon-checkmark
-              |                 
-              .mark
-                i.icon-checkmark
-            |             
-            .table-column.part8.last
-              .mark
-                i.icon-cancel-circle
-              |                 
-              .mark
-                i.icon-cancel-circle
-            |             
-            .table-column.part9.last
-              .mark
-                i.icon-question
-              |                 
-              .mark
-                i.icon-question
+    head
+        meta(charset='utf-8')
+        meta(http-equiv='X-UA-Compatible', content='IE=edge, chrome=1')
+        meta(name='viewport', content='width=device-width, initial-scale=1.0, maximum-scale=1.0')
+        title Buzz English
+        link(rel="stylesheet", href="/public/css/horizontal-menu.css")
+        link(rel="stylesheet", href="/public/css/player-layout.css")
+        link(rel="stylesheet", href="/public/css/my/layout.css")
+        link(rel='stylesheet', href='/public/css/player.css')
+        link(rel='stylesheet', href='/public/css/vocabulary.css')
+        style.
+            .table-cell {
+                display: flex;
+                flex-direction: row;
+                width: 100%;
+                flex-wrap: wrap;
+            }
+
+            .table-row {
+                display: flex;
+                flex-direction: row;
+                width: 100%;
+                flex-wrap: wrap;
+            }
+
+            .table-row.head {
+                margin-bottom: 0.6em;
+                border-bottom: #f7b52a 4px solid;
+            }
+
+            .button {
+                padding: 0.4em;
+                background-color: #f7b52a;
+                border-radius: 4px;
+                color: white;
+                text-align: center;
+            }
+
+            .button.small {
+                display: inline-block;
+                padding: 0;
+                width: 80%;
+            }
+
+            .table-column {
+                display: inline-block;
+                word-wrap: break-word;
+                position: relative;
+            }
+
+            .table-column.part1 {
+                width: 10%
+            }
+
+            .table-column.part2 {
+                width: 1%;
+            }
+
+            .table-column.part3 {
+                width: 15%;
+            }
+
+            .table-column.part4 {
+                width: 15%
+            }
+
+            .table-column.part5 {
+                width: 4%;
+            }
+
+            .table-column.part6 {
+                width: 25%;
+            }
+
+            .table-column.part7 {
+                width: 10%;
+            }
+
+            .table-column.part8 {
+                width: 10%;
+            }
+
+            .table-column.part9 {
+                width: 10%;
+            }
+
+            .head .part1 {
+                padding-top: 0.4em;
+                padding-bottom: 0.4em;
+                font-size: 18px;
+                font-weight: bold;
+            }
+
+            .head .part7,
+            .head .part8,
+            .head .part9 {
+                padding-top: 0.4em;
+                padding-bottom: 0.4em;
+                font-weight: bold;
+                font-size: 14px;
+            }
+
+            .body {
+                line-height: 1.6em;
+            }
+
+            .body .part1 {
+                padding-top: 0.6em;
+            }
+
+            .body .part3,
+            .body .part4,
+            .body .part5,
+            .body .part6,
+            .body .part7,
+            .body .part8,
+            .body .part9 {
+                padding-top: 1em;
+                padding-bottom: 0.6em;
+            }
+
+            .table-column.part3 .word {
+                padding: 0em 0 0.4em 0.6em;
+            }
+
+            .mark,
+            .sound,
+            .explanation,
+            .ipa {
+                padding-bottom: 0.4em;
+            }
+
+            .mark i,
+            .sound i {
+                color: #f7b52a;
+                font-size: 16px;
+                line-height: 1.6em;
+            }
+
+            .body .part3:after,
+            .body .part4:after,
+            .body .part5:after,
+            .body .part6:after,
+            .body .part7:after,
+            .body .part8:after,
+            .body .part9:after {
+                content: "";
+                background-color: #cdcdcd;
+                width: 100%;
+                height: 3px;
+                display: block;
+                position: absolute;
+                bottom: 0;
+            }
+
+            .body .part3.last:after,
+            .body .part4.last:after,
+            .body .part5.last:after,
+            .body .part6.last:after,
+            .body .part7.last:after,
+            .body .part8.last:after,
+            .body .part9.last:after {
+                display: none;
+            }
+
+            .center {
+                text-align: center;
+            }
+
+            .left {
+                text-align: left;
+            }
+
+            .year {
+            }
+
+            .monthday {
+                font-size: 10px;
+            }
+
+            .line {
+                background-color: #bcbcbc;
+                position: absolute;
+            }
+
+            .line.head {
+                width: 0.6em;
+                height: 0.6em;
+                border-radius: 50%;
+                left: -0.3em;
+                top: 0.2em;
+            }
+
+            .line.body {
+                height: 100%;
+                width: 2px;
+                left: -1px;
+            }
+
+            .body-container {
+                width: 900px;
+                padding-top: 60px;
+                display: inline-block;
+                text-align: center;
+                background-color: white;
+            }
+
+    body.full.screen.container(style="text-align:center;background:url('http://source.bridgeplus.cn/image/png/skin.png') repeat 0 0")
+        #buzz-header.fluid.container.header.fixed(ng-controller="headerCtrl")
+            .center.aligned.container.column.borderless
+                ul.large.right.floated.white.horizontal.menu
+                    li
+                        a.icon-history(title="历史课程")
+                    li
+                        a.icon-stats-bars(title="学习进度", href="/my/progress")
+                    li
+                        a.icon-file-text(title="生词本")
+                    li
+                        img.avatar(ng-src="{{profile.avatar}}", ng-if="profile.avatar")
+                        a(ng-if="!profile.avatar") 欢迎你
+                .white.title
+                    a(href="/")
+                        img.white.background.logo(src="/images/logo.png")
+                    span.space
+                    span.top.aligned.welcome.message Hello Shirly, today is the 100st day since you joined NEWS.
+        .body-container
+            .table-cell
+                .table-row.center.head
+                    .table-column.part1 &#x7B2C;&#x4E94;&#x5468;
+                    .table-column.part2
+                    .table-column.part3.left
+                        .button &#x91CD;&#x65B0;&#x7EC3;&#x4E60;
+                    .table-column.part4
+                    .table-column.part5
+                    .table-column.part6
+                    .table-column.part7
+                        div &#x7406;&#x89E3;
+                        .button.small &#x6253;&#x5370;
+                    .table-column.part8
+                        div &#x4E0D;&#x7406;&#x89E3;
+                        .button.small &#x6253;&#x5370;
+                    .table-column.part9 &#x672A;&#x7EC3;&#x4E60;
+                .table-row.center.body
+                    .table-column.part1
+                        div 2016
+                        .monthday Oct.21th
+                    .table-column.part2
+                        .line.head
+                        .line.body
+                    .table-column.part3.left
+                        .word pumpkin
+                        .word hair
+                        .word pumpkin
+                    .table-column.part4.left
+                        .ipa [&#x2C8;p&#x28C;mpk&#x26A;n]
+                        .ipa [&#x2C8;p&#x28C;mpk&#x26A;n]
+                        .ipa [&#x2C8;p&#x28C;mpk&#x26A;n]
+                    .table-column.part5.left
+                        .sound
+                            i.icon-volume-medium
+                        .sound
+                            i.icon-volume-medium
+                        .sound
+                            i.icon-volume-medium
+                    .table-column.part6.left
+                        .explanation &#x89E3;&#x91CA;
+                        .explanation &#x89E3;&#x91CA;
+                        .explanation &#x89E3;&#x91CA;
+                    .table-column.part7
+                        .mark
+                            i.icon-checkmark
+                        .mark
+                            i.icon-checkmark
+                        .mark
+                            i.icon-checkmark
+                    .table-column.part8
+                        .mark
+                            i.icon-cancel-circle
+                        .mark
+                            i.icon-cancel-circle
+                        .mark
+                            i.icon-cancel-circle
+                    .table-column.part9
+                        .mark
+                            i.icon-question
+                        .mark
+                            i.icon-question
+                        .mark
+                            i.icon-question
+                .table-row.center.body
+                    .table-column.part1
+                        div 2016
+                        .monthday Oct.21th
+                    .table-column.part2
+                        .line.head
+                        .line.body
+                    .table-column.part3.left
+                        .word pumpkin
+                        .word hair
+                        .word pumpkin
+                    .table-column.part4.left
+                        .ipa [&#x2C8;p&#x28C;mpk&#x26A;n]
+                        .ipa [&#x2C8;p&#x28C;mpk&#x26A;n]
+                        .ipa [&#x2C8;p&#x28C;mpk&#x26A;n]
+                    .table-column.part5.left
+                        .sound
+                            i.icon-volume-medium
+                        .sound
+                            i.icon-volume-medium
+                        .sound
+                            i.icon-volume-medium
+                    .table-column.part6.left
+                        .explanation &#x89E3;&#x91CA;
+                        .explanation &#x89E3;&#x91CA;
+                        .explanation &#x89E3;&#x91CA;
+                    .table-column.part7
+                        .mark
+                            i.icon-checkmark
+                        .mark
+                            i.icon-checkmark
+                        .mark
+                            i.icon-checkmark
+                    .table-column.part8
+                        .mark
+                            i.icon-cancel-circle
+                        .mark
+                            i.icon-cancel-circle
+                        .mark
+                            i.icon-cancel-circle
+                    .table-column.part9
+                        .mark
+                            i.icon-question
+                        .mark
+                            i.icon-question
+                        .mark
+                            i.icon-question
+                .table-row.center.body
+                    .table-column.part1.last
+                        div 2016
+                        .monthday Oct.21th
+                    .table-column.part2.last
+                        .line.head
+                        .line.body
+                    .table-column.part3.left.last
+                        .word pumpkin
+                        .word hair
+                    .table-column.part4.left.last
+                        .ipa [&#x2C8;p&#x28C;mpk&#x26A;n]
+                        .ipa [&#x2C8;p&#x28C;mpk&#x26A;n]
+                    .table-column.part5.left.last
+                        .sound
+                            i.icon-volume-medium
+                        .sound
+                            i.icon-volume-medium
+                    .table-column.part6.left.last
+                        .explanation &#x89E3;&#x91CA;
+                        .explanation &#x89E3;&#x91CA;
+                    .table-column.part7.last
+                        .mark
+                            i.icon-checkmark
+                        .mark
+                            i.icon-checkmark
+                    .table-column.part8.last
+                        .mark
+                            i.icon-cancel-circle
+                        .mark
+                            i.icon-cancel-circle
+                    .table-column.part9.last
+                        .mark
+                            i.icon-question
+                        .mark
+                            i.icon-question
