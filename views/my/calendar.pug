@@ -44,6 +44,10 @@ style.
         border: solid 1px white;
     }
 
+    .calendar .body .grid .row.day .column.future {
+        background-color: #ddd;
+    }
+
     .dayOfWeek {
         position: absolute;
         width: 100%;
@@ -71,24 +75,34 @@ style.
         cursor: pointer;
     }
 
+mixin goodPerformance()
+    img(ng-src="http://source.bridgeplus.cn/image/png/%E5%AD%A6%E4%B9%A0%E8%BF%9B%E5%BA%A6_06.png")&attributes(attributes)
+
+mixin badPerformance()
+    img(ng-src="http://source.bridgeplus.cn/image/png/%E5%AD%A6%E4%B9%A0%E8%BF%9B%E5%BA%A6_10.png")&attributes(attributes)
+
+mixin noPerformance()
+    img(ng-src="http://source.bridgeplus.cn/image/png/%E5%AD%A6%E4%B9%A0%E8%BF%9B%E5%BA%A6_13.png")&attributes(attributes)
+
 mixin weeks()
     - var week = 0;
     while week < 5
         .row.day
             - var day = 0;
                 while day < 7
-                    .column(style="position: relative;")
+                    - var showPerformance = 'performances[' + week + '][' + day + '] !== ""';
+                    .column(style="position: relative;", ng-class="{'future': today < weekDays[" + week + "][" + day + "]}")
                         p.dayOfWeek {{weekDays[#{week}][#{day}] | date: 'd'}}
-                        - var showPerformance = 'performances[' + week + '][' + day + '] !== ""';
                         .performance(ng-if=showPerformance)
                         a
                             - var good = 'performances[' + week + '][' + day + '] === "good"'
                             - var bad = 'performances[' + week + '][' + day + '] === "bad"'
                             - var none = 'performances[' + week + '][' + day + '] === "none"'
-                            if day > 0 && day < 6
-                                img(ng-src="http://source.bridgeplus.cn/image/png/%E5%AD%A6%E4%B9%A0%E8%BF%9B%E5%BA%A6_06.png", ng-if=good)
-                                img(ng-src="http://source.bridgeplus.cn/image/png/%E5%AD%A6%E4%B9%A0%E8%BF%9B%E5%BA%A6_10.png", ng-if=bad)
-                                img(ng-src="http://source.bridgeplus.cn/image/png/%E5%AD%A6%E4%B9%A0%E8%BF%9B%E5%BA%A6_13.png", ng-if=none)
+                            - var isTodayWeekDay = day > 0 && day < 6
+                            if isTodayWeekDay
+                                + goodPerformance(ng-if=good)
+                                + badPerformance(ng-if=bad)
+                                + noPerformance(ng-if=none)
                             else
                                 img(ng-src="http://source.bridgeplus.cn/image/png/%E5%AD%A6%E4%B9%A0%E8%BF%9B%E5%BA%A6_08.png", ng-if=good)
                                 img(ng-src="http://source.bridgeplus.cn/image/png/%E5%AD%A6%E4%B9%A0%E8%BF%9B%E5%BA%A6_03.png", ng-if=bad)
@@ -123,3 +137,4 @@ mixin weeks()
                 .column
                     strong Sa
             + weeks
+

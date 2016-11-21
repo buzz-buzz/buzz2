@@ -1,4 +1,4 @@
-angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModule', 'clientConfigModule', 'buzzHeaderModule'])
+angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModule', 'clientConfigModule', 'buzzHeaderModule', 'chart.js'])
     .controller('calendarCtrl', ['$scope', function ($scope) {
         $scope.today = new Date();
         $scope.current = new Date();
@@ -20,7 +20,6 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
         function dateChanged() {
             var days = new Date($scope.current.getFullYear(), $scope.current.getMonth() + 1, 0).getDate();
             var theFirstDayOfCurrentMonth = new Date($scope.current.getFullYear(), $scope.current.getMonth(), 1).getDay();
-            console.log(theFirstDayOfCurrentMonth);
             $scope.weekDays = [
                 [null, null, null, null, null, null, null],
                 [null, null, null, null, null, null, null],
@@ -46,17 +45,13 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
         }
 
         function getPerformance(date) {
-            console.log('today = ', $scope.today, '; date = ', date);
             if (!date || date >= $scope.today) {
-                console.log('not valid');
                 return '';
             }
 
             var a = ['good', 'bad', 'none'];
 
-            let result = a[Math.round(Math.random() * 2)];
-            console.log('result = ', result);
-            return result;
+            return a[Math.round(Math.random() * 2)];
         }
 
 
@@ -67,6 +62,34 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
                 }
             }
         }
+    }])
+    .controller('chartCtrl', ['$scope', function ($scope) {
+        $scope.labels = ['第一周', '第二周', '第三周', '第四周', '第五周'];
+        $scope.series = ['你累计学习单词量：个/周', '系统整体排名：名/周'];
+        $scope.data = [
+            [65, 59, 84, 81, 56],
+            [28, 48, 40, 19, 86]
+        ];
+        $scope.datasetOverride = [
+            {
+                label: '你累计学习单词量：个/周',
+                borderWidth: 0,
+                type: 'bar'
+            },
+            {
+                label: '系统整体排名：名/周',
+                borderWidth: 1,
+                type: 'line'
+            }
+        ];
+        $scope.options = {
+            scales: {
+                yAxes: [
+                    {id: '你累计学习单词量：个/周', type: 'linear', display: true, position: 'left'},
+                    {id: '系统整体排名：名/周', type: 'bar', display: true, position: 'right'}
+                ]
+            }
+        };
     }])
     .controller('topCtrl', ['$scope', function ($scope) {
 

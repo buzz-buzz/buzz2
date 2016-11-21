@@ -1,0 +1,40 @@
+table.progress.table {
+    border-top: solid 2px #f7b52a;
+    border-left: solid 1px #ddd;
+    border-right: solid 1px #ddd;
+    border-bottom: solid 1px #ccc;
+    text-align: center;
+    table-layout: auto;
+    width: 100%;
+}
+
+table.progress.table thead {
+}
+
+table.progress.table th, table.progress.table td {
+    position: relative;
+}
+
+table.progress.table th:after, table.progress.table td:after {
+    border-right: solid 1px #ddd;
+    height: 60%;
+    display: block;
+    content: ' ';
+    position: absolute;
+    top: -2px;
+    right: 0;
+}
+
+table.progress.table th:after {
+    bottom: 0 !important;
+    top: auto !important;
+}
+
+table.progress.table th:last-child:after, table.progress.table td:last-child:after {
+    display: none;
+}
+
+table.progress.table th, table.progress.table td {
+    padding: 10px 20px;
+}
+
