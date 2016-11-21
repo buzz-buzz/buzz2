@@ -1,0 +1,105 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='UTF-8')
+    |     
+    title Buzz
+    |     
+    link(rel='stylesheet', href='/public/css/player.css')
+    |     
+    style.
+      .cross.red {
+      color: white;
+      background-color: red;
+      padding: 4px;
+      font-size: 10px;
+      border-radius: 4px;
+      }
+      .checkmark.orange {
+      color: white;
+      background-color: orange;
+      padding: 4px;
+      font-size: 10px;
+      border-radius: 4px;
+      }
+      .icon {
+      color: white;
+      padding: 4px;
+      font-size: 10px;
+      border-radius: 4px;
+      }
+      .icon.red {
+      background-color: red;
+      }
+      .icon.orange {
+      background-color: orange;
+      }
+      .icon.blue {
+      background-color: blue;
+      }
+      .border-bottom {
+      border-bottom: #bcbcbc 2px solid;
+      }
+      .checkbox-checked {
+      position: relative;
+      }
+      .checkbox-checked:after {
+      content: "\ea10";
+      font-family: 'icomoon' !important;
+      position: absolute;
+      left: 0em;
+      color: blue;
+      font-size: 26px;
+      top: -0.2em;
+      }
+      .question.selected {
+      color: #f7b52a;
+      border-bottom-color: #f7b52a;
+      }
+  body(style='width: 600px;')
+    div(style='display: block;border:#f0f0f0 1px solid; margin-bottom: 2em;')
+      div(style='width: 198px;display: inline-block; background-color: white;')
+        div(style='line-height: 2em;text-align: center;padding-left: 2em;')
+          div(style='font-size: 18px; border-bottom: black 2px solid;') &#x4ECA;&#x65E5;&#x7EC3;&#x4E60;
+          |                 
+          .border-bottom.question.selected(style='')
+            i.icon-cross.icon.red(style='margin-right:1em;')
+            |                     
+            span &#x7B2C;&#x2460;&#x9898;
+          |                 
+          .border-bottom(style='')
+            i.icon-checkmark.icon.orange(style='margin-right:1em;')
+            |                     
+            span &#x7B2C;&#x2461;&#x9898;
+          |                 
+          .border-bottom(style='')
+            i.icon-cross.icon.red(style='margin-right:1em;')
+            |                     
+            span &#x7B2C;&#x2462;&#x9898;
+          |                 
+          .border-bottom(style='')
+            i.icon-question.icon.blue(style='margin-right:1em;')
+            |                     
+            span &#x7B2C;&#x2463;&#x9898;
+          |                 
+          .border-bottom(style='')
+            i.icon-checkmark.icon.orange(style='margin-right:1em;')
+            |                     
+            span &#x7B2C;&#x2464;&#x9898;
+      //
+                
+      div(style='width: 400px;display: inline-block; background-color: #f6f6f6; vertical-align: top; min-height: 300px; text-align: center;')
+        div(style='font-size: 24px;margin-top: 2em; margin-bottom: 2em;') Is this an apple?
+        |             
+        div(style='font-size: 20px; text-align: left; padding-left: 4em; margin-bottom: 1em;')
+          i.icon-checkbox-unchecked.checkbox-checked(style='margin-right: 2em; color: orange;')
+          |                 
+          span &#x662F;
+        |             
+        div(style='font-size: 20px; text-align: left; padding-left: 4em;')
+          i.icon-checkbox-unchecked(style='margin-right: 2em; color: orange;')
+          |                 
+          span &#x5426;
+    |     
+    div(style='text-align: right;')
+      div(style='display: inline-block;padding: 0.4em;width: 14em;text-align: center; background-color: #f7b52a; color: white; border-radius: 4px;') &#x4E0B;&#x4E00;&#x9898;

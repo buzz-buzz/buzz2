@@ -1,0 +1,17 @@
+#buzz-header.fluid.container.header.fixed(ng-controller="headerCtrl")
+    .center.aligned.container.column.borderless
+        ul.large.right.floated.white.horizontal.menu
+            li
+                a.icon-history(title="历史课程")
+            li
+                a.icon-stats-bars(title="学习进度", href="/my/progress")
+            li
+                a.icon-file-text(title="生词本")
+            li
+                img.avatar(ng-src="{{profile.avatar}}", ng-if="profile.avatar")
+                a(ng-if="!profile.avatar") 欢迎你
+        .white.title
+            a(href="/")
+                img.white.background.logo(src="/images/logo.png")
+            span.space
+            span.top.aligned.welcome.message Hello Shirly, today is the 100st day since you joined NEWS.
