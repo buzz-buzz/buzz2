@@ -3,6 +3,7 @@
 const config = require('../config');
 const membership = require('../membership');
 const mount = require('koa-mount');
+const cookie = require('../helpers/cookie');
 
 function simpleRender(app, router, render) {
     let routes = ['sign-in', 'agreement', 'reset-password'];
@@ -27,6 +28,13 @@ function renderWithServerData(app, router, render) {
 function redirect(app, router) {
     router.get('/', function *home(next) {
         this.redirect('/my/today');
+    });
+
+    router.get('/sign-out', function *deleteCookie(next) {
+        cookie.deleteToken.apply(this);
+        yield next;
+    }, function *home(next) {
+        this.redirect('/sign-in');
     });
 }
 function auth(app, router, render) {

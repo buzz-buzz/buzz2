@@ -11,6 +11,7 @@
     "angular-service": "^1.1.0",
     "angular-service-error-parser": "^0.2.2",
     "angular-translate": "*",
+    "bootstrap": "^3.3.7",
     "co-body": "^4.2.0",
     "co-monk": "^1.0.0",
     "co-request": "^1.0.0",
@@ -24,6 +25,9 @@
     "node-service-proxy": "^1.0.4",
     "pug": "^2.0.0-beta6",
     "request": "^2.78.0",
+    "select2": "^4.0.3",
+    "selectize": "^0.12.4",
+    "ui-select": "^0.19.6",
     "underscore": "^1.8.3"
   },
   "devDependencies": {

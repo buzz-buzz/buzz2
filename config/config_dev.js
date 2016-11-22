@@ -23,11 +23,11 @@ module.exports = {
         inner: {
             "host": "uat.service.hcd.com",
             "port": "10002",
-            "code": "BP_S1"
+            "code": "BUZZ_S1_cn"
         }
     },
 
-    applicationId: "2b33cf2c-e5dd-4e82-8687-d3fe099a3504",
+    applicationId: "4f6b3929-38c3-4828-88a7-11da836cae34",
 
     logger: {
         appName: 'buzz'

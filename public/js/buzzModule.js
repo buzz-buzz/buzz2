@@ -3,6 +3,14 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
         $scope.queryString = location.search;
         $scope.$sce = $sce;
     }])
+    .controller('LevelCtrl', ['$scope', 'queryParser', '$httpParamSerializer', function ($scope, queryParser, $httpParamSerializer) {
+        var query = queryParser.parse();
+
+        $scope.switchToLevel = function (level) {
+            query.level = level;
+            location.href = '/my/play?' + $httpParamSerializer(query);
+        };
+    }])
     .controller('page2ParentCtrl', ['$scope', function ($scope) {
         $scope.tabularIndex = 1;
     }])

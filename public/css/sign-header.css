@@ -49,12 +49,9 @@
 .sign-in-form {
     border: solid 2px #f3d48a;
     border-radius: 5px;
-    max-width: 300px;
-    font-size: smaller;
 }
 
 .sign-in-form .header {
-    font-size: smaller;
     padding: 10px 15px;
     border-bottom: solid 2px #f3d48a;
 }
@@ -62,3 +59,5 @@
 .sign-in-form .body {
     padding: 30px 25px;
 }
+
+

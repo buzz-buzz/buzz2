@@ -1,4 +1,4 @@
-angular.module('signUpModule', ['angularQueryParserModule', 'clientConfigModule', 'servicesModule', 'errorParserModule'])
+angular.module('signUpModule', ['angularQueryParserModule', 'clientConfigModule', 'servicesModule', 'errorParserModule', 'ui.select'])
     .config(['$httpProvider', function ($httpProvider) {
         $httpProvider.defaults.headers.common['X-Request-With'] = 'XMLHttpRequest';
     }])
@@ -9,7 +9,8 @@ angular.module('signUpModule', ['angularQueryParserModule', 'clientConfigModule'
             'validate not pass': '图形验证码未通过，请重新输入',
             "Password can't be empty": '密码不能为空',
             'Identity already existed': '该手机号已注册',
-            'sms validate error': '短信验证码不正确'
+            'sms validate error': '短信验证码不正确',
+            '/sign-up?step=2': '注册成功，正在跳转至信息填写页面'
         });
         $translateProvider.preferredLanguage('zh');
     }])
@@ -169,14 +170,38 @@ angular.module('signUpModule', ['angularQueryParserModule', 'clientConfigModule'
     .controller('infoCtrl', ['$scope', 'clientConfig', 'service', 'queryParser', 'serviceErrorParser', function ($scope, clientConfig, service, queryParser, serviceErrorParser) {
         $scope.infoData = {
             name: '',
-            gender: 'U',
-            grade: null,
-            favoriteTopics: [],
-            level: null
+            gender: null,
+            grade: null
         };
 
+        $scope.grades = [
+            {
+                key: '3',
+                name: '三年级'
+            }, {
+                key: '4',
+                name: '四年级'
+            }, {
+                key: '5',
+                name: '五年级'
+            }, {
+                key: '6',
+                name: '六年级'
+            }, {
+                key: '7',
+                name: '七年级'
+            }, {
+                key: '8',
+                name: '八年级'
+            }, {
+                key: '9',
+                name: '九年级'
+            }
+        ];
+
         $scope.submitInfo = function () {
-            location.href = '/';
+            var level = $scope.infoData.grade > 6 ? 'A' : 'B';
+            location.href = '/my/play?date=2016-11-07&cat=science&level=' + level;
         };
     }])
 ;

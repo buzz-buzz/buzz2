@@ -137,6 +137,14 @@ span.space {
     align-items: center;
 }
 
+.center.aligned.container, .center.aligned.grid {
+    text-align: center;
+}
+
+.right.aligned.container, .right.aligned.grid {
+    text-align: right;
+}
+
 .top.aligned.grid {
     align-items: baseline;
 }
@@ -353,6 +361,7 @@ form .fluid.field > *:first-child {
 form .fluid.field > * > * {
     flex: 1 1 auto;
     align-self: center;
+    font-size: medium;
 }
 
 form .fluid.field > * > *:first-child {

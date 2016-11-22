@@ -1,6 +1,8 @@
 extends layout
 
 block head
+    //link(rel="stylesheet", href="/node_modules/bootstrap/dist/css/bootstrap.min.css")
+    //link(rel="stylesheet", href="/node_modules/ui-select/dist/select.min.css")
     style.
         form {
             font-size: small;
@@ -15,6 +17,7 @@ block head
             margin: 2em 0;
             color: #999;
             font-size: smaller;
+            list-style-type: none;
         }
 
         ul.indicator li.active {
@@ -41,6 +44,7 @@ block head
             cursor: pointer;
         }
 block js
+    script(src="/node_modules/ui-select/dist/select.min.js")
     script(src="/js/signUpModule.js")
 
 block content
@@ -88,7 +92,7 @@ block content
                 .fluid.field
                     label.borderless
                         span 性别
-                        div
+                        div(style="border-left: none; text-align: right;")
                             input(type="radio", name="gender", ng-model="infoData.gender", value="M", id="boy", ng-required="true")
                             label(for="boy") 金童
                             span.space
@@ -97,31 +101,12 @@ block content
                 .fluid.field
                     label.padded
                         span 年级
-                        select(ng-model="infoData.grade", ng-required="true")
-                            option(value="1") 一年级
-                            option(value="2") 二年级
-                            option(value="3") 三年级
-                            option(value="4") 四年级
-                            option(value="5") 五年级
-                            option(value="6") 六年级
-                .fluid.field
-                    label.padded
-                        span 喜欢的主题
-                        select(ng-model="infoData.favoriteTopics", ng-required="true")
-                            option(value="1") 运动
-                            option(value="2") 主题2
-                            option(value="3") 主题3
-                            option(value="4") 主题4
-                            option(value="5") 主题5
-                .fluid.field
-                    label.borderless.left.floated
-                        span 选择难度版本
-                    div.right.floated
-                        input(type="radio", name="level", value="A", ng-model="infoData.level", id="levelA",ng-required="true")
-                        label(for="levelA") 基础（推荐1~3年级）
-                        br
-                        input(type="radio", name="level", value="B", ng-model="infoData.level", id="levelB", ng-required="true")
-                        label(for="levelB") 进阶（推荐4~6年级）
+                        select(ng-model="infoData.grade", placeholder="请选择你所在的年级", ng-required="true")
+                            option(ng-repeat="grade in grades", value="{{grade.key}}") {{grade.name}}
+                        //ui-select(ng-model="infoData.grade", title="请选择你所在的年级", ng-required="true", theme="bootstrap")
+                            ui-select-match(placeholder="请选择你所在的年级") {{$select.selected.name}}
+                            ui-select-choices(repeat="grade in grades | filter: $select.search")
+                                span(ng-bind="grade.name | highlight: $select.search")
 
                 .field
                     br
