@@ -19,8 +19,38 @@ ul.large.menu {
 
 ul.menu li {
     cursor: pointer;
+    position: relative;
 }
 
 ul.menu li.active {
     font-weight: bold;
+}
+
+ul.menu li:hover .sub.menu {
+    display: block;
+}
+
+ul.sub.vertical.menu {
+    background-color: #f7b52a;
+    color: white;
+    border-radius: 5px;
+    list-style-type: none;
+    position: absolute;
+    z-index: auto;
+    padding-left: 0;
+    right: 0;
+    display: none;
+}
+
+ul.sub.vertical.menu li a {
+    display: inline-block;
+    white-space: nowrap;
+    padding-left: 1em;
+    padding-right: 1em;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+}
+
+ul.sub.vertical.menu li:hover {
+    background-color: black;
 }

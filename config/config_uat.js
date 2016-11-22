@@ -27,7 +27,7 @@ module.exports = {
         }
     },
 
-    applicationId: "2b33cf2c-e5dd-4e82-8687-d3fe099a3504",
+    applicationId: "4f6b3929-38c3-4828-88a7-11da836cae34",
 
     logger: {
         appName: 'buzz'

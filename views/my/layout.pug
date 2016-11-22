@@ -25,6 +25,9 @@ html
                     li
                         img.avatar(ng-src="{{profile.avatar}}", ng-if="profile.avatar")
                         a(ng-if="!profile.avatar") 欢迎你
+                        ul.sub.vertical.menu
+                            li
+                                a(href="/sign-out") 退出
                 .white.title
                     a(href="/")
                         img.white.background.logo(src="/images/logo.png")

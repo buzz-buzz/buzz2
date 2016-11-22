@@ -9,3 +9,25 @@
         width: 50% !important;
     }
 }
+
+@media screen  and (max-width: 900px) {
+    .center.column {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 720px) {
+    .grid {
+        flex-direction: column;
+        padding: 20px;
+    }
+
+    .grid .seven.wide.column {
+        width: 100%;
+    }
+
+    .one.wide.column {
+        min-height: 10px;
+        height: 6.25%;
+    }
+}

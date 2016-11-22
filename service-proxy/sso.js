@@ -4,6 +4,7 @@ const serviceUrls = require('../config/serviceUrls');
 const config = require('../config');
 const membership = require('../membership');
 const proxy = require('./proxy');
+const cookie = require('../helpers/cookie');
 
 function setHcdUser(result) {
     this.state.hcd_user = {
@@ -12,19 +13,13 @@ function setHcdUser(result) {
     };
 }
 function setTokenCookie(result) {
-    let clearCookieOption = {
-        expires: new Date(1970, 1, 1),
-        path: '/',
-        httpOnly: true
-    };
-
     let cookieOption = {
         expires: 0,
         path: '/',
         httpOnly: true
     };
 
-    this.cookies.set('token', '', clearCookieOption);
+    cookie.deleteToken.call(this);
 
     this.cookies.set('token', result.result.token, cookieOption);
 }
