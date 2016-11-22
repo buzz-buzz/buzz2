@@ -86,6 +86,18 @@ html(lang='en')
         height: 3px;
         background-color: #bcbcbc;
       }
+      .exercise-title i {
+        line-height: 1.4em;
+        font-size: 8px;
+      }
+      .exercise-title.correct {
+        background-color: orange;
+        color: white;
+      }
+      .exercise-title.wrong {
+        background-color: red;
+        color: white;
+      }
   body(style='width: 600px;')
     div(style='display: block;border:#f0f0f0 1px solid; margin-bottom: 2em;')
       div(style="height: 76px;") 
@@ -109,4 +121,19 @@ html(lang='en')
           span &#x5426;
     |     
     div(style='text-align: right;')
-      div(style='display: inline-block;padding: 0.4em;width: 14em;text-align: center; background-color: #f7b52a; color: white; border-radius: 4px;') &#x4E0B;&#x4E00;&#x9898;
+      div(style='display: inline-block;padding: 0.4em;width: 14em;text-align: center; background-color: #f7b52a; color: white; border-radius: 4px;',onclick="next()") &#x4E0B;&#x4E00;&#x9898;
+    script.
+      var next = function() {
+        var elements = document.getElementsByClassName("exercise-title");
+        Array.prototype.forEach.call(elements, (function(ele, index) {
+          var classname = ele.className;
+          if (classname.indexOf("select") > -1) {
+            classname = classname.replace("select", "wrong");
+            ele.innerHTML = "<i class='icon-cross'>";
+          } else {
+            classname += " correct";
+            ele.innerHTML = "<i class='icon-checkmark'>";
+          }
+          ele.className = classname;
+        }));
+      }
