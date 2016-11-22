@@ -137,7 +137,7 @@ span.space {
     align-items: center;
 }
 
-.center.aligned.grid, .center.aligned.grid .column {
+.center.aligned.grid, .center.aligned.grid  {
     text-align: center;
 }
 
