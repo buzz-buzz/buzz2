@@ -12,6 +12,7 @@
     "angular-service-error-parser": "^0.2.2",
     "angular-translate": "*",
     "bootstrap": "^3.3.7",
+    "chart.js": "^2.4.0",
     "co-body": "^4.2.0",
     "co-monk": "^1.0.0",
     "co-request": "^1.0.0",
