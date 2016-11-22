@@ -23,7 +23,7 @@ module.exports = {
         inner: {
             "host": "service.bridgeplus.cn",
             "port": "10002",
-            "code": "BP_S1"
+            "code": "BUZZ_S1"
         }
     },
 

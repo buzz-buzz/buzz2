@@ -14,6 +14,7 @@ angular.module('buzzPlayerModule', ['angularQueryParserModule'])
                 playlist: [{
                     title: smil.title,
                     description: smil.description,
+                    image: smil.image,
                     sources: smil.switch.map(function (s) {
                         return {
                             file: s.src,
@@ -26,11 +27,6 @@ angular.module('buzzPlayerModule', ['angularQueryParserModule'])
             });
 
             mainVideo.onReady = function () {
-                console.log('ready"');
-                // mainVideo.play(true);
-                // setTimeout(function () {
-                //     mainVideo.play(false);
-                // }, 1000);
             };
 
             $scope.videoTitle = smil.title;
