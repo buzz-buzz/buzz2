@@ -372,8 +372,8 @@ html
                             i.icon-question
                         .mark
                             i.icon-question
-        .popup-mask(style="display:none;position:fixed;height:100%;width:100%;background-color:rgba(0,0,0,0.4);top:0;left:0")
-        .popup(style="display:none;position:fixed;top: 5em;margin:auto;left:0;right:0")
+        .popup-mask(style="display:none;position:fixed;height:100%;width:100%;background-color:rgba(0,0,0,0.4);top:0;left:0",onClick="hidePopup()")
+        .popup(style="display:none;position:fixed;top: 5em;margin:auto;left:0;right:0",onClick="hidePopup()")
             iframe(id="printPage",width=800,height=600,frameborder="no",border="0")
         include ../js
         script(src="/js/buzzHeaderModule.js")
@@ -382,4 +382,9 @@ html
                 document.getElementsByClassName("popup-mask")[0].style.display="block";
                 document.getElementById("printPage").src="/vocabulary/print";
                 document.getElementsByClassName("popup")[0].style.display="block";
+            }
+            var hidePopup = function() {
+                document.getElementsByClassName("popup-mask")[0].style.display="none";
+                document.getElementById("printPage").src="";
+                document.getElementsByClassName("popup")[0].style.display="none";
             }
