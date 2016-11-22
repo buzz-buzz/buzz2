@@ -16,9 +16,13 @@ block head
 block content
     #full-page.full.height.container(ng-app="buzzModule")
         a.page-pos(name="page-1")
-        .page.with-header.section.transparent
+        .page.with-header.section.transparent(ng-controller="LevelCtrl")
             .center.aligned.container.column.flex-box.transparent
                 .row.dynamic.transparent
+                .right.aligned.container
+                    a(href="javascript: void(0);", ng-click="switchToLevel('B')") 初级
+                    a &nbsp;
+                    a(href="javascript: void(0);", ng-click="switchToLevel('A')") 进阶
                 iframe.row.content.white.background(ng-src="{{'player' + queryString}}" ng-controller="VideoPlayerCtrl", style="border:none;")
         a.page-pos(name="page-2")
         .page.section(ng-controller="page2ParentCtrl")

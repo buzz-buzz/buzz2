@@ -137,8 +137,12 @@ span.space {
     align-items: center;
 }
 
-.center.aligned.grid, .center.aligned.grid  {
+.center.aligned.container, .center.aligned.grid {
     text-align: center;
+}
+
+.right.aligned.container, .right.aligned.grid {
+    text-align: right;
 }
 
 .top.aligned.grid {
