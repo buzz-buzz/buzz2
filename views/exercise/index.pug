@@ -82,7 +82,7 @@ html(lang='en')
         position: absolute;
         top: 0.7em;
         left: 18px;
-        width: 4em;
+        width: 3.2em;
         height: 3px;
         background-color: #bcbcbc;
       }
@@ -98,15 +98,13 @@ html(lang='en')
         background-color: red;
         color: white;
       }
-  body(style='width: 600px;')
+  body(style='width: 600px;' ng-app="exerciseModule" ng-controller="exerciseCtrl")
     div(style='display: block;border:#f0f0f0 1px solid; margin-bottom: 2em;')
       div(style="height: 76px;") 
         div(style="padding-top: 25px;text-align:center;")
-          .exercise-title.not-last 1
-          .exercise-title.not-last.select 2
-          .exercise-title.not-last 3
-          .exercise-title.not-last 4
-          .exercise-title 5
+          .exercise-title(ng-repeat="question in questions",ng-class="{'not-last':$index!==(questions.length-1),'select': !checked && $index===selectedIndex,'wrong':checked && question.isCorrect,'correct':checked && !question.isCorrect}")
+            span(ng-show="!checked") {{$index+1}}
+            i(ng-class="{'icon-checkmark': question.isCorrect, 'icon-cross': !question.isCorrect}" ng-show="checked")
       div(style='width: 600px;background-color: #f6f6f6; vertical-align: top; min-height: 300px; text-align: center;')
         div(style='font-size: 24px;padding-top: 2em; margin-bottom: 2em;') Is this an apple?
         |             
@@ -121,20 +119,6 @@ html(lang='en')
           span &#x5426;
     |     
     div(style='text-align: right;')
-      div(style='display: inline-block;padding: 0.4em;width: 14em;text-align: center; background-color: #f7b52a; color: white; border-radius: 4px;',onclick="next()") &#x4E0B;&#x4E00;&#x9898;
+      div(style='display: inline-block;padding: 0.4em;width: 14em;text-align: center; background-color: #f7b52a; color: white; border-radius: 4px;',ng-click="next()") &#x4E0B;&#x4E00;&#x9898;
+    include ../js
     script(src="/js/exerciseModule.js")
-    script.
-      var next = function() {
-        var elements = document.getElementsByClassName("exercise-title");
-        Array.prototype.forEach.call(elements, (function(ele, index) {
-          var classname = ele.className;
-          if (classname.indexOf("select") > -1) {
-            classname = classname.replace("select", "wrong");
-            ele.innerHTML = "<i class='icon-cross'>";
-          } else {
-            classname += " correct";
-            ele.innerHTML = "<i class='icon-checkmark'>";
-          }
-          ele.className = classname;
-        }));
-      }

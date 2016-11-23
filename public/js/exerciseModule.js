@@ -1,5 +1,29 @@
 angular.module('exerciseModule', [])
     .controller('exerciseCtrl', ['$scope', '$sce', function ($scope, $sce) {
-        $scope.queryString = location.search;
-        $scope.$sce = $sce;
+        // $scope.
+        $scope.questions = [
+            {
+                isCorrect: false
+            },
+            {
+                isCorrect: false
+            },
+            {
+                isCorrect: false
+            },
+            {
+                isCorrect: false
+            },
+            {
+                isCorrect: false
+            }
+        ];
+        $scope.selectedIndex = 3;
+        $scope.checked = false;
+        $scope.next = function() {
+            $scope.questions.forEach(function(ret) {
+                ret.isCorrect = Math.random() > 0.5 ? true: false;
+            });
+            $scope.checked = true;
+        };
     }]);
