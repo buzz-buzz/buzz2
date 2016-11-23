@@ -15,13 +15,13 @@ html
     body.full.screen.container
         #buzz-header.fluid.container.header.fixed(ng-controller="headerCtrl")
             .center.aligned.container.column.borderless
-                ul.large.right.floated.white.horizontal.menu(style="margin-top: 8px;")
+                ul.large.right.floated.white.horizontal.menu
                     block extraMenus
                     li
                         a.icon-history(title="历史课程")
-                    li
+                    li(ng-class="{'active': isActive('/my/progress')}")
                         a.icon-stats-bars(title="学习进度", href="/my/progress")
-                    li
+                    li(ng-class="{'active': isActive('/vocabulary/my')}")
                         a.icon-file-text(title="生词本",href="/vocabulary/my")
                     li
                         img.avatar(ng-src="{{profile.avatar}}", ng-if="profile.avatar")

@@ -22,8 +22,8 @@ ul.menu li {
     position: relative;
 }
 
-ul.menu li.active {
-    font-weight: bold;
+#buzz-header ul.menu li:hover, ul.menu li:active, ul.menu li.active {
+    background-color: #f2c855;
 }
 
 ul.menu li:hover .sub.menu {
@@ -47,10 +47,8 @@ ul.sub.vertical.menu li a {
     white-space: nowrap;
     padding-left: 1em;
     padding-right: 1em;
-    padding-top: 0.5em;
-    padding-bottom: 0.5em;
 }
 
 ul.sub.vertical.menu li:hover {
-    background-color: black;
+    background-color: #f2c855;
 }

@@ -9,5 +9,8 @@ angular.module('buzzHeaderModule', ['angularQueryParserModule', 'servicesModule'
         });
     }])
     .controller('headerCtrl', ['$scope', '$rootScope', function ($scope, $rootScope) {
+        $scope.isActive = function (link) {
+            return location.pathname === link;
+        };
     }])
 ;

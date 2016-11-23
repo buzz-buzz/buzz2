@@ -5,8 +5,14 @@
 }
 
 .header .right.floated.menu {
-    margin-top: 4px;
-    margin-bottom: 1px;
+    margin-top: 0;
+    margin-bottom: 0;
+    height: 40px;
+}
+
+.header .right.floated.menu > li {
+    height: 40px;
+    line-height: 40px;
 }
 
 .header .welcome.message {

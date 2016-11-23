@@ -39,12 +39,25 @@ module.exports = function (app, router, parse) {
     router
         .post(serviceUrls.sso.signIn.frontEnd, function *(next) {
             let data = yield parse(this.request);
-            let result = yield proxy.call(this, {
-                host: config.sso.inner.host,
-                port: config.sso.inner.port,
-                path: serviceUrls.sso.signIn.upstream,
-                data: data
-            });
+
+            let result = {};
+
+            if (config.mock) {
+                result = {
+                    isSuccess: true,
+                    result: {
+                        member_id: 'fake',
+                        token: 'fake'
+                    }
+                };
+            } else {
+                result = yield proxy.call(this, {
+                    host: config.sso.inner.host,
+                    port: config.sso.inner.port,
+                    path: serviceUrls.sso.signIn.upstream,
+                    data: data
+                });
+            }
 
             if (result.isSuccess) {
                 setHcdUser.call(this, result);
