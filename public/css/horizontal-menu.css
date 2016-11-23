@@ -28,6 +28,7 @@ ul.menu li {
 
 ul.menu li:hover .sub.menu {
     display: block;
+    top: 100%;
 }
 
 ul.sub.vertical.menu {
