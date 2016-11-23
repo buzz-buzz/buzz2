@@ -153,6 +153,10 @@
     cursor: pointer;
 }
 
+.hidden {
+    visibility: hidden;
+}
+
 .effect2 {
     position: relative;
 }

@@ -19,7 +19,7 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
         var query = queryParser.parse();
         var newWords = [];
         $scope.word = {};
-        var wordIndex = 0;
+        var wordIndex = $scope.wordIndex = 0;
         var smilJson = '/resource/smil/' + query.date + '-' + query.level + '.json';
         $http.get(smilJson).then(function (result) {
             var smil = result.data;
@@ -44,6 +44,7 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                         "url": thisWord.url
                     });
                 });
+                $scope.WORD_MAX_INDEX = newWords.length - 1;
                 $scope.wordURL = newWords[wordIndex].url;
                 // $scope.wordURL = $sce.trustAsResourceUrl(newWords[wordIndex].url);
             }
@@ -52,10 +53,11 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
             var length = newWords.length;
             wordIndex = isNext ? ++wordIndex : --wordIndex;
             if (wordIndex >= length) {
-                wordIndex = 0;
-            } else if (wordIndex < 0) {
                 wordIndex = length - 1;
+            } else if (wordIndex < 0) {
+                wordIndex = 0;
             }
+            $scope.wordIndex = wordIndex;
             $scope.wordURL = newWords[wordIndex].url;
             // $scope.wordURL = $sce.trustAsResourceUrl(newWords[wordIndex].url);
         };

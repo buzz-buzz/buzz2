@@ -28,25 +28,25 @@ block content
         .page.section(ng-controller="page2ParentCtrl")
             .center.aligned.container.column.white.background.flex-box
                 .tabular.menu
-                    .item(ng-class="{'active': tabularIndex===1}",ng-click="tabularIndex=1")
-                        span.icon.icon-list2
-                        span Daily Exercise
-                    .item.middle(ng-class="{'active': tabularIndex===2}",ng-click="tabularIndex=2")
+                    .item.middle(ng-class="{'active': tabularIndex===1}",ng-click="tabularIndex=1")
                         span.icon.icon-list2
                         span Today's Vocabulary
+                    .item(ng-class="{'active': tabularIndex===2}",ng-click="tabularIndex=2")
+                        span.icon.icon-list2
+                        span Daily Exercise
                     .item(ng-class="{'active': tabularIndex===3}",ng-click="tabularIndex=2")
                         span.icon.icon-list2
                         span Weekly Quiz
                 .tabular.content.flex-box
-                    .item.row.content(ng-show="tabularIndex===1")
-                        .exercise.container
-                            iframe(ng-src="/exercise/my",frameborder="0",style="width: 100%;height: 500px")
-                    .item.row.content(ng-show="tabularIndex===2",ng-controller="newWordCtrl")
-                        .left.arrow(ng-click="turnWord(false)")
+                    .item.row.content(ng-show="tabularIndex===1",ng-controller="newWordCtrl")
+                        .left.arrow(ng-click="turnWord(false)",ng-class="{'hidden':wordIndex===0}")
                             span.icon-circle-left
                         .vocabulary.container
                             .item.effect2
                                 iframe(ng-src="{{$sce.trustAsResourceUrl(wordURL)}}",frameborder="0",style="width: 100%;height: 300px")
-                        .right.arrow(ng-click="turnWord(true)")
+                        .right.arrow(ng-click="turnWord(true)",ng-class="{'hidden':wordIndex===WORD_MAX_INDEX}")
                             span.icon-circle-right
+                    .item.row.content(ng-show="tabularIndex===2")
+                        .exercise.container
+                            iframe(ng-src="/exercise/my",frameborder="0",style="width: 100%;height: 500px")
                     .item.row.content(ng-show="tabularIndex===3") item3
