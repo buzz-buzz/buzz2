@@ -26,9 +26,35 @@ block head
             background-size: cover;
         }
 
+        a.toggle {
+            background-color: white;
+            padding: 5px 15px;
+            border-radius: 30px;
+            color: black !important;
+        }
+
+        a.toggle:hover, a.toggle:active {
+            color: black !important;
+        }
+
+        .circle {
+            background-color: #f6b52a;
+            color: white;
+            border-radius: 50%;
+            padding: 5px;
+            font-size: smaller;
+        }
+
 block extraMenus
-    li#level-switcher(ng-controller="LevelCtrl")
-        a(href="javascript: void(0);", ng-click="switchToLevelFrom(currentLevel)") Level {{currentLevel}}
+    li#level-switcher(ng-controller="LevelCtrl", ng-cloak)
+        a(href="javascript: void(0);", ng-click="switchToLevelFrom(currentLevel)", class="toggle")
+            span.icon-menu.circle(ng-if="currentLevel === 'B'", style="margin-left: -8px;")
+            span &nbsp;
+            span Level
+            span &nbsp;
+            strong {{currentLevel}}
+            span &nbsp;
+            span.icon-menu.circle(ng-if="currentLevel === 'A'", style="margin-right: -8px;")
 
 block content
     #full-page.full.height.container(ng-app="buzzModule")
