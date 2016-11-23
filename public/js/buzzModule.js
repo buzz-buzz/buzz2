@@ -10,6 +10,14 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
             query.level = level;
             location.href = '/my/play?' + $httpParamSerializer(query);
         };
+
+        $scope.switchToLevelFrom = function (currentLevel) {
+            var to = currentLevel === 'A' ? 'B' : 'A';
+            query.level = to;
+            location.href = '/my/play?' + $httpParamSerializer(query);
+        };
+
+        $scope.currentLevel = query.level;
     }])
     .controller('page2ParentCtrl', ['$scope', function ($scope) {
         $scope.tabularIndex = 1;

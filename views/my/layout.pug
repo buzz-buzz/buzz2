@@ -13,7 +13,27 @@ html
         title=title || 'Buzz English'
         block head
     body.full.screen.container
-        include header
+        #buzz-header.fluid.container.header.fixed(ng-controller="headerCtrl")
+            .center.aligned.container.column.borderless
+                ul.large.right.floated.white.horizontal.menu(style="margin-top: 8px;")
+                    block extraMenus
+                    li
+                        a.icon-history(title="历史课程")
+                    li
+                        a.icon-stats-bars(title="学习进度", href="/my/progress")
+                    li
+                        a.icon-file-text(title="生词本",href="/vocabulary/my")
+                    li
+                        img.avatar(ng-src="{{profile.avatar}}", ng-if="profile.avatar")
+                        a(ng-if="!profile.avatar") 欢迎你
+                        ul.sub.vertical.menu
+                            li
+                                a(href="/sign-out") 退出
+                .white.title
+                    a(href="/")
+                        img.white.background.logo(src="/images/logo.png")
+                    span.space
+                    span.top.aligned.welcome.message Hello Shirly, today is the 100st day since you joined NEWS.
         block content
         include ../js
         script(src="/js/buzzHeaderModule.js")

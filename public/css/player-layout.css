@@ -78,10 +78,6 @@ html, body {
     max-height: 30px;
 }
 
-.page.with-header {
-    padding-top: 50px;
-}
-
 .fixed.header {
     position: fixed;
     z-index: 9999;
@@ -240,7 +236,7 @@ span.space {
 }
 
 .page.with-header {
-    padding-top: 50px;
+    padding-top: 40px;
 }
 
 .page {
