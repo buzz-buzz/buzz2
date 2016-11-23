@@ -31,5 +31,7 @@ module.exports = {
 
     logger: {
         appName: 'buzz'
-    }
+    },
+
+    mock: true
 };

@@ -55,6 +55,13 @@ module.exports = function (app, router, parse) {
             this.body = result;
         })
         .get(serviceUrls.sso.profile.load.frontEnd, membership.ensureAuthenticated, function *(next) {
+            if (config.mock) {
+                return this.body = {
+                    isSuccess: true,
+                    result: {}
+                };
+            }
+
             this.body = yield proxy.call(this, {
                 host: config.sso.inner.host,
                 port: config.sso.inner.port,

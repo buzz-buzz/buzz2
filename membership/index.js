@@ -10,13 +10,25 @@ let membership = {
         let token = context.cookies.get('token');
 
         if (token) {
-            let result = yield request({
-                uri: 'http://' + config.sso.inner.host + ':' + config.sso.inner.port + '/token/parse',
-                json: {token: token},
-                method: 'POST'
-            });
+            let result = {
+                result: {}
+            };
 
-            result = result.body;
+            if (config.mock) {
+                result = {
+                    result: {
+                        member_id: 'fake member'
+                    }
+                };
+            } else {
+                result = yield request({
+                    uri: 'http://' + config.sso.inner.host + ':' + config.sso.inner.port + '/token/parse',
+                    json: {token: token},
+                    method: 'POST'
+                });
+
+                result = result.body;
+            }
 
             context.state.hcd_user = {
                 member_id: result.result.member_id,
@@ -34,7 +46,6 @@ membership.ensureAuthenticated = function *(next) {
     yield membership.setHcdUser.apply(context, [next]);
 
     if (!context.state.hcd_user) {
-        console.log('you should login to visit: ', context.request.originalUrl);
         context.redirect('/sign-in?return_url=' + encodeURIComponent(context.request.originalUrl));
     }
 
