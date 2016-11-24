@@ -62,7 +62,7 @@ block content
         a.page-pos(name="page-1")
         .page.with-header.section.transparent
             .center.aligned.container.column.flex-box.transparent
-                iframe.row.content.white.background(ng-src="{{'player' + queryString}}" ng-controller="VideoPlayerCtrl", style="border:none;")
+                iframe.row.content.white.background(ng-src="{{'player' + queryString}}" ng-controller="VideoPlayerCtrl", style="border:none;", allowfullscreen)
                 #page-2-header.center.aligned.container.column.white.background.row.dynamic
                     .tabular.menu
                         .item.middle(ng-class="{'active': $root.tabularIndex===1}",ng-click="$root.tabularIndex=1")

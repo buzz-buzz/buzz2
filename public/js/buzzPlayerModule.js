@@ -26,9 +26,6 @@ angular.module('buzzPlayerModule', ['angularQueryParserModule'])
                 }]
             });
 
-            mainVideo.onReady = function () {
-            };
-
             $scope.videoTitle = smil.title;
 
             if (smil.subtitle) {

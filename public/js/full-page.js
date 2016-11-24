@@ -7,7 +7,7 @@
     var moved = false;
 
     function adjustPage2Header() {
-        if (document.body.scrollTop > 40) {
+        if (document.body.scrollTop > document.getElementById('buzz-header').offsetHeight) {
             if (!moved) {
                 page2.insertBefore(page2Header, page2.firstChild);
                 moved = true;
