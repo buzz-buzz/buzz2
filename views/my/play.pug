@@ -81,10 +81,10 @@ block content
                             span.icon-circle-left
                         .vocabulary.container
                             .item.effect2
-                                iframe(ng-src="{{$sce.trustAsResourceUrl(wordURL)}}",frameborder="0",style="width: 100%;height: 300px")
+                                iframe(ng-src="{{$sce.trustAsResourceUrl(wordURL)}}",frameborder="0",style="width: 100%;height: 500px")
                         .right.arrow(ng-click="turnWord(true)",ng-class="{'hidden':wordIndex===WORD_MAX_INDEX}")
                             span.icon-circle-right
-                    .item.row.content(ng-show="tabularIndex===2")
+                    .item.row.content(ng-show="tabularIndex===2",ng-controller="quizCtrl")
                         .exercise.container
-                            iframe(ng-src="/exercise/my",frameborder="0",style="width: 100%;height: 500px")
+                            iframe(ng-src="{{$sce.trustAsResourceUrl(quizURL)}}",frameborder="0",style="width: 100%;height: 500px")
                     .item.row.content(ng-show="tabularIndex===3") item3
