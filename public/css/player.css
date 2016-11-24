@@ -113,13 +113,13 @@
     width: 620px;
 }
 .tabular.content .item .vocabulary.container {
-    width: 60%;
+    width: 70%;
 }
 
 .tabular.content .item .vocabulary.container .item {
     background-color: #f5f5f5;
     min-height: 300px;
-    padding: 1em;
+    /*padding: 1em;*/
     text-align: left;
 }
 
