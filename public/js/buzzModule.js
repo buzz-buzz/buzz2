@@ -20,9 +20,9 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
         $scope.currentLevel = query.level;
     }])
     .controller('page2ParentCtrl', ['$scope', function ($scope) {
-        $scope.tabularIndex = 1;
+        $scope.$root.tabularIndex = 1;
     }])
-    .controller('quizCtrl', ['$scope', 'queryParser', '$sce',function ($scope, queryParser, $sce) {
+    .controller('quizCtrl', ['$scope', 'queryParser', '$sce', function ($scope, queryParser, $sce) {
         var query = queryParser.parse();
         $scope.$sce = $sce;
         $scope.quizURL = 'http://content.bridgeplus.cn/buzz-quiz/' + query.date + '-' + query.level + '/index.html';
