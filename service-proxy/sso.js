@@ -101,7 +101,7 @@ module.exports = function (app, router, parse) {
         }, function *validateSms(next) {
             const referer = url.parse(this.headers.referer);
 
-            if (referer.pathname === '/sign-up' && referer.query.indexOf('skipvalidation=true') >= 0) {
+            if (referer.pathname === '/sign-up' && referer.query && referer.query.indexOf('skipvalidation=true') >= 0) {
                 return yield next;
             }
 

@@ -7,7 +7,7 @@
     var moved = false;
 
     function adjustPage2Header(event) {
-        var scrollTop = event.pageY || document.body.scrollTop;
+        var scrollTop = event.pageY || document.body.scrollTop || window.pageYOffset;
 
         if (scrollTop > document.getElementById('buzz-header').offsetHeight) {
             if (!moved) {
@@ -22,7 +22,7 @@
 
     function handleClassName(event) {
         for (var i = 0; i < pages.length; i++) {
-            var scrollTop = event.pageY || document.body.scrollTop;
+            var scrollTop = event.pageY || document.body.scrollTop || window.pageYOffset;
 
             if (pages[i].offsetTop - scrollTop < document.getElementById('buzz-header').offsetHeight) {
                 if (pages[i].nextSibling.className.indexOf('with-header') < 0) {
