@@ -134,5 +134,18 @@ module.exports = function (app, router, parse) {
                 data: data
             });
         })
+        .post(serviceUrls.sso.profile.update.frontEnd, membership.ensureAuthenticated, function *(next) {
+            let data = yield parse(this.request);
+            console.log('state', this.state);
+            data.member_id = this.state.hcd_user.member_id;
+
+            this.body = yield proxy.call(this, {
+                host: config.sso.inner.host,
+                port: config.sso.inner.port,
+                path: serviceUrls.sso.profile.update.upstream,
+                method: 'POST',
+                data: data
+            });
+        })
     ;
 };
