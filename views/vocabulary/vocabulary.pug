@@ -35,6 +35,7 @@ html
                 background-color: #f7b52a;
                 border-radius: 4px;
                 color: white;
+                width: 80%;
                 text-align: center;
             }
 
@@ -206,6 +207,12 @@ html
                 text-align: center;
                 background-color: white;
             }
+            .text-with-radio {
+                cursor: pointer;
+            }
+            .text-with-radio i {
+                margin-right: 1em;
+            }
 
     body.full.screen.container(style="text-align:center;background:url('http://source.bridgeplus.cn/image/png/skin.png') repeat 0 0")
         #buzz-header.fluid.container.header.fixed(ng-controller="headerCtrl")
@@ -225,7 +232,7 @@ html
                         img.white.background.logo(src="/images/logo.png")
                     span.space
                     span.top.aligned.welcome.message Hello Shirly, today is the 100st day since you joined NEWS.
-        .body-container
+        .body-container(ng-app="vocabularyModule", ng-controller="vocabularyCtrl")
             .table-cell
                 .table-row.center.head
                     .table-column.part1 &#x7B2C;&#x4E94;&#x5468;
@@ -233,15 +240,26 @@ html
                     .table-column.part3.left
                         .button &#x91CD;&#x65B0;&#x7EC3;&#x4E60;
                     .table-column.part4
+                        .button(ng-click="vocabularyPrint()") &#x6253;&#x5370;
                     .table-column.part5
                     .table-column.part6
                     .table-column.part7
-                        div &#x7406;&#x89E3;
-                        .button.small(onClick="vocabularyPrint()") &#x6253;&#x5370;
+                        div(ng-click="checkboxClick(RADIO_TYPE.PASS)" class="text-with-radio")
+                            i.icon-checkbox-checked(ng-show="radioBoxType===RADIO_TYPE.PASS")
+                            i.icon-checkbox-unchecked(ng-show="radioBoxType!==RADIO_TYPE.PASS")
+                            span &#x7406;&#x89E3;
+                        //- .button.small(onClick="vocabularyPrint()") &#x6253;&#x5370;
                     .table-column.part8
-                        div &#x4E0D;&#x7406;&#x89E3;
-                        .button.small(onClick="vocabularyPrint()") &#x6253;&#x5370;
-                    .table-column.part9 &#x672A;&#x7EC3;&#x4E60;
+                        div(ng-click="checkboxClick(RADIO_TYPE.FAIL)" class="text-with-radio")
+                            i.icon-checkbox-checked(ng-show="radioBoxType===RADIO_TYPE.FAIL")
+                            i.icon-checkbox-unchecked(ng-show="radioBoxType!==RADIO_TYPE.FAIL")
+                            span &#x4E0D;&#x7406;&#x89E3;
+                        //- .button.small(onClick="vocabularyPrint()") &#x6253;&#x5370;
+                    .table-column.part9 
+                        div(ng-click="checkboxClick(RADIO_TYPE.NOTTEST)" class="text-with-radio")
+                            i.icon-checkbox-checked(ng-show="radioBoxType===RADIO_TYPE.NOTTEST")
+                            i.icon-checkbox-unchecked(ng-show="radioBoxType!==RADIO_TYPE.NOTTEST")
+                            span &#x672A;&#x7EC3;&#x4E60;
                 .table-row.center.body
                     .table-column.part1
                         div 2016
@@ -372,19 +390,9 @@ html
                             i.icon-question
                         .mark
                             i.icon-question
-        .popup-mask(style="display:none;position:fixed;height:100%;width:100%;background-color:rgba(0,0,0,0.4);top:0;left:0",onClick="hidePopup()")
-        .popup(style="display:none;position:fixed;top: 5em;margin:auto;left:0;right:0",onClick="hidePopup()")
-            iframe(id="printPage",width=800,height=600,frameborder="no",border="0")
+            .popup-mask(style="position:fixed;height:100%;width:100%;background-color:rgba(0,0,0,0.4);top:0;left:0",ng-show="printMode")
+            .popup(style="position:fixed;top: 5em;margin:auto;left:0;right:0",ng-show="printMode",ng-click="hidePopup()")
+                iframe(width=800,height=600,frameborder="no",border="0",ng-show="printMode",ng-src="{{$sce.trustAsResourceUrl(printURL)}}")
         include ../js
         script(src="/js/buzzHeaderModule.js")
-        script.
-            var vocabularyPrint = function() {
-                document.getElementsByClassName("popup-mask")[0].style.display="block";
-                document.getElementById("printPage").src="/vocabulary/print";
-                document.getElementsByClassName("popup")[0].style.display="block";
-            }
-            var hidePopup = function() {
-                document.getElementsByClassName("popup-mask")[0].style.display="none";
-                document.getElementById("printPage").src="";
-                document.getElementsByClassName("popup")[0].style.display="none";
-            }
+        script(src="/js/vocabularyModule.js")
