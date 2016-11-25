@@ -6,9 +6,9 @@ module.exports = {
                 upstream: '/profile/load/:member_id'
             },
 
-            peek: {
-                frontEnd: '/service-proxy/sso/profile/peek',
-                upstream: '/profile/load/:member_id'
+            update: {
+                frontEnd: '/service-proxy/sso/profile/update',
+                upstream: '/profile/update'
             }
 
         },

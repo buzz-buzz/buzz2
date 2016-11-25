@@ -200,8 +200,17 @@ angular.module('signUpModule', ['angularQueryParserModule', 'clientConfigModule'
         ];
 
         $scope.submitInfo = function () {
-            var level = $scope.infoData.grade > 6 ? 'A' : 'B';
-            location.href = '/my/play?date=2016-11-07&cat=science&level=' + level;
+            service.post(clientConfig.serviceUrls.sso.profile.update.frontEnd, {
+                real_name: $scope.infoData.name,
+                gender: $scope.infoData.gender
+            }).then(function (result) {
+                console.log(result);
+            }).catch(function (error) {
+                $scope.errorMessage = serviceErrorParser.getErrorMessage(error);
+            });
+
+            // var level = $scope.infoData.grade > 6 ? 'A' : 'B';
+            // location.href = '/my/play?date=2016-11-07&cat=science&level=' + level;
         };
     }])
 ;

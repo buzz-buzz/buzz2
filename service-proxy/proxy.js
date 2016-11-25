@@ -13,8 +13,6 @@ function *proxy(settings) {
         method: settings.method || 'POST'
     };
 
-    console.log('proxying to : ', option);
-
     if (settings.data) {
         option.json = Object.assign(settings.data, {
             application_id: config.applicationId
