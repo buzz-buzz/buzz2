@@ -52,4 +52,5 @@ ul.sub.vertical.menu li a {
 
 ul.sub.vertical.menu li:hover {
     background-color: #f2c855;
+    border-radius: 5px;
 }

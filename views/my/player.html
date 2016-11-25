@@ -8,7 +8,44 @@
     <link rel="stylesheet" href="/public/css/player-layout.css">
     <link rel="stylesheet" href="/public/css/player.css">
     <link rel="stylesheet" href="/public/css/media-query.css">
-    <style>
+    <style type="text/css">
+        @-moz-document url-prefix() {
+            .video.row.dynamic {
+                height: 50% !important;
+            }
+
+            #main-video {
+                height: 100% !important;
+            }
+        }
+
+        @media screen and (-moz-images-in-menus: 0) {
+            .video.row.dynamic {
+                height: 50% !important;
+            }
+
+            #main-video {
+                height: 100% !important;
+            }
+        }
+
+        body:not(:-moz-handler-blocked) .video.row.dynamic {
+            height: 50% !important;
+        }
+
+        body:not(:-moz-handler-blocked) #main-video {
+            height: 100% !important;
+        }
+
+        @media all and (min--moz-device-pixel-ratio: 0) and (min-resolution: 3e1dpcm) {
+            .video.row.dynamic {
+                height: 50% !important;
+            }
+
+            #main-video {
+                height: 100% !important;
+            }
+        }
     </style>
 </head>
 <body ng-app="buzzPlayerModule" ng-controller="videoCtrl" class="full screen container">
