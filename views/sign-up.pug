@@ -49,7 +49,7 @@ block js
 
 block content
     .top.aligned.grid(ng-app="signUpModule", ng-controller="signUpParentCtrl")
-        .column
+        .column(style="align-self: flex-start;")
             ul.indicator
                 li(ng-class="{'active': step == 1}") 创建账号
                 li(ng-class="{'active': step == 2}") 信息填写
@@ -79,7 +79,7 @@ block content
                     button.fluid.yellow.button(type="submit", ng-disabled="!signUpForm.$valid") 下一步
                 .field
                     .center.aglined.container
-                        input(type="checkbox", id="agree", ng-model="signUpData.agreed")
+                        input(type="checkbox", id="agree", ng-model="signUpData.agreed", ng-required="true")
                         label(for="agree") 我已阅读并同意
                             a.active(href="/agreement") 《BUZZ 用户注册协议》
 
@@ -99,7 +99,7 @@ block content
                             input(type="radio", name="gender", ng-model="infoData.gender", value="F", id="girl", ng-required="true")
                             label(for="girl") 玉女
                 .fluid.field
-                    label.padded
+                    label.padded.select
                         span 年级
                         select(ng-model="infoData.grade", placeholder="请选择你所在的年级", ng-required="true")
                             option(ng-repeat="grade in grades", value="{{grade.key}}") {{grade.name}}

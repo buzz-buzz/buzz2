@@ -310,6 +310,46 @@ form input {
     padding: 8px 15px;
 }
 
+form select {
+    padding: 8px 15px !important;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    -webkit-box-shadow: 0 1px 0 #f0f0f0, 0 -1px #fff inset;
+    -moz-box-shadow: 0 1px 0 #f0f0f0, 0 -1px #fff inset;
+    box-shadow: 0 1px 0 #f0f0f0, 0 -1px #fff inset;
+    border: none;
+    outline: none;
+    display: inline-block;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    cursor: pointer;
+
+    background: transparent;
+    border-radius: 0;
+    font-size: small !important;
+}
+
+form label.select {
+    position: relative
+}
+
+form label.select:after {
+    content: '<>';
+    font: larger "Consolas", monospace;
+    color: #aaa;
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    transform: rotate(90deg);
+    right: 8px;
+    top: 5px;
+    padding: 0 0 2px 0;
+    border-bottom: 1px solid #ddd;
+    position: absolute;
+    pointer-events: none;
+}
+
 form .field {
     margin: 1em 0;
 }
@@ -328,15 +368,6 @@ form label.padded {
 
 form label.padded * {
     padding: 5px;
-}
-
-form label select {
-    border: none;
-    height: 100%;
-    background: transparent;
-    line-height: 1;
-    border-radius: 0;
-    /*-webkit-appearance: none;*/
 }
 
 form .field label {
@@ -370,6 +401,7 @@ form .fluid.field > * > *:first-child {
 form.text-label .fluid.field > * > *:first-child {
     font-size: small;
     color: black;
+    padding: 0 1em;
 }
 
 form .fluid.field > * > *:nth-child(2) {
@@ -390,4 +422,26 @@ form .error.message {
 .ng-cloak,
 .x-ng-cloak {
     display: none !important;
+}
+
+@-moz-document url-prefix() {
+    form select {
+        height: 32px;
+    }
+}
+
+@media screen and (-moz-images-in-menus: 0) {
+    form select {
+        height: 32px;
+    }
+}
+
+body:not(:-moz-handler-blocked) form select {
+    height: 32px;
+}
+
+@media all and (min--moz-device-pixel-ratio: 0) and (min-resolution: 3e1dpcm) {
+    form select {
+        height: 32px;
+    }
 }
