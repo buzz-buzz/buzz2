@@ -12,7 +12,7 @@ html
     link(rel='stylesheet', href='/public/css/player.css')
     |     
     link(rel='stylesheet', href='/public/css/vocabulary-printable.css')
-  body.full.screen.container
+  body.full.screen.container(ng-app="vocabularyPrintableModule",ng-controller="mainCtrl")
     .vocabulary-printable-container
       .vp-header
         img(src='/images/logo.png', alt='')
@@ -41,48 +41,33 @@ html
         .vp-title-printable-after
       |         
       .vp-body
-        .vp-word-check hair
-        |             
-        .vp-word-check.last hair
-        |             
-        .vp-word-check hair
-        |             
-        .vp-word-check.last hair
-        |             
-        .vp-word-check hair
-        |             
-        .vp-word-check.last hair
-        |             
-        .vp-word-check hair
-        |             
-        .vp-word-check.last hair
-        |             
-        .vp-word-check hair
-        |             
-        .vp-word-check.last hair
-        |             
-        .vp-word-check hair
-        |             
-        .vp-word-check.last hair
-        |             
-        .vp-word-check hair
-        |             
-        .vp-word-check.last hair
-        |             
-        .vp-word-check hair
-        |             
-        .vp-word-check.last hair
-        |             
-        .vp-word-check hair
-        |             
-        .vp-word-check.last hair
-        |             
-        .vp-word-check hair
-        |             
-        .vp-word-check.last hair
-        |             
-        .vp-word-check hair
-        |             
-        .vp-word-check.last hair
+        .vp-word-check(ng-repeat="word in words track by $index",ng-class="{'last': $index % 2 !== 0}") {{word}}
+  include ../js
+  script(src="/js/vocabularyModule.js")
   script.
-    window.print();
+    angular.module('vocabularyPrintableModule', [])
+    .controller('mainCtrl', ['$scope', '$timeout', function ($scope, $timeout) {
+      var deepDecode = function(url) {
+        var originURL = "";
+        var targetURL = url
+        while(originURL !== targetURL) {
+          originURL = targetURL;
+          try {
+            targetURL = decodeURIComponent(targetURL);
+          } catch (e){
+            break;
+          }
+        }
+        return targetURL;
+      }
+      var queryArray = location.search.split("?");
+      var queryString = "";
+      if (queryArray[1]) {
+        queryString = queryArray[1];
+      }
+      queryString = deepDecode(queryString);
+      $scope.words = queryString.split(",");
+      $timeout(function() {
+        window.print();
+      })
+    }]);

@@ -123,14 +123,15 @@ html
             }
 
             .table-column.part3 .word {
-                padding: 0em 0 0.4em 0.6em;
+                padding-left: 0.4em;
             }
 
+            .word,
             .mark,
             .sound,
             .explanation,
             .ipa {
-                padding-bottom: 0.4em;
+                height: 32px;
             }
 
             .mark i,
@@ -203,6 +204,7 @@ html
             .body-container {
                 width: 900px;
                 padding-top: 60px;
+                padding-bottom: 14px;
                 display: inline-block;
                 text-align: center;
                 background-color: white;
@@ -260,136 +262,34 @@ html
                             i.icon-checkbox-checked(ng-show="radioBoxType===RADIO_TYPE.NOTTEST")
                             i.icon-checkbox-unchecked(ng-show="radioBoxType!==RADIO_TYPE.NOTTEST")
                             span &#x672A;&#x7EC3;&#x4E60;
-                .table-row.center.body
+                .table-row.center.body(ng-repeat="weeklylist in vocabularyAll")
                     .table-column.part1
-                        div 2016
-                        .monthday Oct.21th
+                        div {{weeklylist.year}}
+                        .monthday {{weeklylist.monthDay}}
                     .table-column.part2
                         .line.head
                         .line.body
                     .table-column.part3.left
-                        .word pumpkin
-                        .word hair
-                        .word pumpkin
+                        .word(ng-repeat="word in weeklylist.words track by $index",ng-show="radioBoxType===RADIO_TYPE.NONE||word.status === radioBoxType")
+                            span() {{word.name}}
                     .table-column.part4.left
-                        .ipa [&#x2C8;p&#x28C;mpk&#x26A;n]
-                        .ipa [&#x2C8;p&#x28C;mpk&#x26A;n]
-                        .ipa [&#x2C8;p&#x28C;mpk&#x26A;n]
+                        .ipa(ng-repeat="word in weeklylist.words track by $index",ng-show="radioBoxType===RADIO_TYPE.NONE||word.status === radioBoxType")
+                            span() {{word.ipc}}
                     .table-column.part5.left
-                        .sound
-                            i.icon-volume-medium
-                        .sound
-                            i.icon-volume-medium
-                        .sound
+                        .sound(ng-repeat="word in weeklylist.words track by $index",ng-show="radioBoxType===RADIO_TYPE.NONE||word.status === radioBoxType")
                             i.icon-volume-medium
                     .table-column.part6.left
-                        .explanation &#x89E3;&#x91CA;
-                        .explanation &#x89E3;&#x91CA;
-                        .explanation &#x89E3;&#x91CA;
+                        .explanation(ng-repeat="word in weeklylist.words track by $index",ng-show="radioBoxType===RADIO_TYPE.NONE||word.status === radioBoxType") 
+                            span() {{word.explaination}}
                     .table-column.part7
-                        .mark
-                            i.icon-checkmark
-                        .mark
-                            i.icon-checkmark
-                        .mark
-                            i.icon-checkmark
+                        .mark(ng-repeat="word in weeklylist.words track by $index",ng-show="radioBoxType===RADIO_TYPE.NONE||word.status === radioBoxType")
+                            i.icon-checkmark(ng-show="word.status === RADIO_TYPE.PASS")
                     .table-column.part8
-                        .mark
-                            i.icon-cancel-circle
-                        .mark
-                            i.icon-cancel-circle
-                        .mark
-                            i.icon-cancel-circle
+                        .mark(ng-repeat="word in weeklylist.words track by $index",ng-show="radioBoxType===RADIO_TYPE.NONE||word.status === radioBoxType")
+                            i.icon-cancel-circle(ng-show="word.status === RADIO_TYPE.FAIL")
                     .table-column.part9
-                        .mark
-                            i.icon-question
-                        .mark
-                            i.icon-question
-                        .mark
-                            i.icon-question
-                .table-row.center.body
-                    .table-column.part1
-                        div 2016
-                        .monthday Oct.21th
-                    .table-column.part2
-                        .line.head
-                        .line.body
-                    .table-column.part3.left
-                        .word pumpkin
-                        .word hair
-                        .word pumpkin
-                    .table-column.part4.left
-                        .ipa [&#x2C8;p&#x28C;mpk&#x26A;n]
-                        .ipa [&#x2C8;p&#x28C;mpk&#x26A;n]
-                        .ipa [&#x2C8;p&#x28C;mpk&#x26A;n]
-                    .table-column.part5.left
-                        .sound
-                            i.icon-volume-medium
-                        .sound
-                            i.icon-volume-medium
-                        .sound
-                            i.icon-volume-medium
-                    .table-column.part6.left
-                        .explanation &#x89E3;&#x91CA;
-                        .explanation &#x89E3;&#x91CA;
-                        .explanation &#x89E3;&#x91CA;
-                    .table-column.part7
-                        .mark
-                            i.icon-checkmark
-                        .mark
-                            i.icon-checkmark
-                        .mark
-                            i.icon-checkmark
-                    .table-column.part8
-                        .mark
-                            i.icon-cancel-circle
-                        .mark
-                            i.icon-cancel-circle
-                        .mark
-                            i.icon-cancel-circle
-                    .table-column.part9
-                        .mark
-                            i.icon-question
-                        .mark
-                            i.icon-question
-                        .mark
-                            i.icon-question
-                .table-row.center.body
-                    .table-column.part1.last
-                        div 2016
-                        .monthday Oct.21th
-                    .table-column.part2.last
-                        .line.head
-                        .line.body
-                    .table-column.part3.left.last
-                        .word pumpkin
-                        .word hair
-                    .table-column.part4.left.last
-                        .ipa [&#x2C8;p&#x28C;mpk&#x26A;n]
-                        .ipa [&#x2C8;p&#x28C;mpk&#x26A;n]
-                    .table-column.part5.left.last
-                        .sound
-                            i.icon-volume-medium
-                        .sound
-                            i.icon-volume-medium
-                    .table-column.part6.left.last
-                        .explanation &#x89E3;&#x91CA;
-                        .explanation &#x89E3;&#x91CA;
-                    .table-column.part7.last
-                        .mark
-                            i.icon-checkmark
-                        .mark
-                            i.icon-checkmark
-                    .table-column.part8.last
-                        .mark
-                            i.icon-cancel-circle
-                        .mark
-                            i.icon-cancel-circle
-                    .table-column.part9.last
-                        .mark
-                            i.icon-question
-                        .mark
-                            i.icon-question
+                        .mark(ng-repeat="word in weeklylist.words track by $index",ng-show="radioBoxType===RADIO_TYPE.NONE||word.status === radioBoxType")
+                            i.icon-question(ng-show="word.status === RADIO_TYPE.NOTTEST")
             .popup-mask(style="position:fixed;height:100%;width:100%;background-color:rgba(0,0,0,0.4);top:0;left:0",ng-show="printMode")
             .popup(style="position:fixed;top: 5em;margin:auto;left:0;right:0",ng-show="printMode",ng-click="hidePopup()")
                 iframe(width=800,height=600,frameborder="no",border="0",ng-show="printMode",ng-src="{{$sce.trustAsResourceUrl(printURL)}}")
