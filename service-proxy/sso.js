@@ -136,7 +136,6 @@ module.exports = function (app, router, parse) {
         })
         .post(serviceUrls.sso.profile.update.frontEnd, membership.ensureAuthenticated, function *(next) {
             let data = yield parse(this.request);
-            console.log('state', this.state);
             data.member_id = this.state.hcd_user.member_id;
 
             this.body = yield proxy.call(this, {

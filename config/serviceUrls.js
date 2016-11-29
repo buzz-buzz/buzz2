@@ -29,5 +29,13 @@ module.exports = {
         validate: {
             upstream: '/service/sms/validate'
         }
+    },
+    buzz: {
+        profile: {
+            education: {
+                frontEnd: '/service-proxy/buzz/profile/education',
+                upstream: '/users/:member_id/educations'
+            }
+        }
     }
 };

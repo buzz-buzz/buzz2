@@ -78,6 +78,7 @@ function helper(app, router) {
 function serviceProxy(app, router) {
     require('../service-proxy/sso')(app, router, require('co-body'));
     require('../service-proxy/sms')(app, router, require('co-body'));
+    require('../service-proxy/buzz')(app, router, require('co-body'));
 }
 function staticFiles(app) {
     require('./static')(app);

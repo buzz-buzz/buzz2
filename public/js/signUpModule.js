@@ -167,7 +167,7 @@ angular.module('signUpModule', ['angularQueryParserModule', 'clientConfigModule'
                 });
         };
     }])
-    .controller('infoCtrl', ['$scope', 'clientConfig', 'service', 'queryParser', 'serviceErrorParser', function ($scope, clientConfig, service, queryParser, serviceErrorParser) {
+    .controller('infoCtrl', ['$scope', 'clientConfig', 'service', 'queryParser', 'serviceErrorParser', '$q', function ($scope, clientConfig, service, queryParser, serviceErrorParser, $q) {
         $scope.infoData = {
             name: '',
             gender: null,
@@ -200,14 +200,18 @@ angular.module('signUpModule', ['angularQueryParserModule', 'clientConfigModule'
         ];
 
         $scope.submitInfo = function () {
-            service.post(clientConfig.serviceUrls.sso.profile.update.frontEnd, {
+            $q.all([service.post(clientConfig.serviceUrls.sso.profile.update.frontEnd, {
                 real_name: $scope.infoData.name,
                 gender: $scope.infoData.gender
-            }).then(function (result) {
-                console.log(result);
-            }).catch(function (error) {
-                $scope.errorMessage = serviceErrorParser.getErrorMessage(error);
-            });
+            }), service.put(clientConfig.serviceUrls.buzz.profile.education.frontEnd, {
+                grade: '' + $scope.infoData.grade
+            })])
+                .then(function (result) {
+                    console.log(result);
+                })
+                .catch(function (error) {
+                    $scope.errorMessage = serviceErrorParser.getErrorMessage(error);
+                });
 
             // var level = $scope.infoData.grade > 6 ? 'A' : 'B';
             // location.href = '/my/play?date=2016-11-07&cat=science&level=' + level;
