@@ -245,6 +245,11 @@ span.space {
     box-sizing: border-box;
 }
 
+.low-margin {
+    margin-top: 0.6em;
+    margin-bottom: 0.6em;
+}
+
 .bordered.segment {
     border: solid 1px #eee;
     border-bottom: solid 2px #ccc;
