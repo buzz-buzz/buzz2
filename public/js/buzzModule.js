@@ -54,7 +54,8 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                     newWords.push({
                         "word": key,
                         "id": thisWord.id,
-                        "url": thisWord.url
+                        "url": thisWord.url,
+                        "exercise": thisWord.exercise || "http://content.bridgeplus.cn/buzz-quiz/" + query.date + '-' + query.level + "/index.html"
                     });
                 });
                 $scope.WORD_MAX_INDEX = newWords.length - 1;
@@ -73,6 +74,15 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
             $scope.wordIndex = wordIndex;
             $scope.wordURL = newWords[wordIndex].url;
             // $scope.wordURL = $sce.trustAsResourceUrl(newWords[wordIndex].url);
+        };
+        $scope.isWordMode = true;
+        $scope.changeWordMode = function(value) {
+            $scope.isWordMode = value;
+            if (value) {
+                $scope.wordURL = newWords[wordIndex].url;
+            } else {
+                $scope.wordURL = newWords[wordIndex].exercise;
+            }
         };
     }])
 ;
