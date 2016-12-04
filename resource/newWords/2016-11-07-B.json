@@ -32,6 +32,11 @@
       "ipa": "4.mp3",
       "url": "http://content.bridgeplus.cn/dict/creative/index.html",
       "exercise": "http://content.bridgeplus.cn/dict-quiz/creative-quiz/index.html"
-    }
+    },
+    "match": {
+      "id": 5,
+      "ipa": "",
+      "exercise": "http://content.bridgeplus.cn/buzz-quiz/2016-11-07-B-dict/index.html"
+    },
   }
 }
