@@ -208,6 +208,8 @@ angular.module('signUpModule', ['angularQueryParserModule', 'clientConfigModule'
             })])
                 .then(function (result) {
                     console.log(result);
+
+                    location.href = '/';
                 })
                 .catch(function (error) {
                     $scope.errorMessage = serviceErrorParser.getErrorMessage(error);
