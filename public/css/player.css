@@ -9,6 +9,7 @@
     color: #666;
     font-family: Arial;
     line-height: 2rem;
+    font-size: 18px;
     overflow: auto;
 }
 
@@ -101,6 +102,48 @@
 }
 
 .tabular.content .item {
+}
+
+.tabular.content .statusbar {
+    margin-bottom: 3em;
+}
+.tabular.content .statusbar .status{
+    display: inline-block;
+    position: relative;
+    border-radius: 50%;
+    background-color: #c0c0c0;
+    height: 20px;
+    width: 20px;
+    line-height: 20px;
+    color: white;
+    margin-left: 20px;
+    margin-right: 20px;
+    border: 1px solid #c0c0c0;
+}
+.tabular.content .statusbar .status.pass {
+    background-color: green;
+}
+.tabular.content .statusbar .status.fail {
+    background-color: red;
+}
+.tabular.content .statusbar .status.active {
+    background-color: #f7b52a;
+}
+.tabular.content .statusbar .status:before,
+.tabular.content .statusbar .status:after{
+    content: "";
+    display: inline-block;
+    position: absolute;
+    top: 9px;
+    height: 2px;
+    width: 22px;
+    background-color: #c0c0c0;
+}
+.tabular.content .statusbar .status:before {
+    left: -22px;
+}
+.tabular.content .statusbar .status:after {
+    left: 18px;
 }
 
 .tabular.content .item .arrow {

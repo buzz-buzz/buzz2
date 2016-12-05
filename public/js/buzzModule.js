@@ -22,10 +22,61 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
     .controller('page2ParentCtrl', ['$scope', function ($scope) {
         $scope.$root.tabularIndex = 1;
     }])
-    .controller('quizCtrl', ['$scope', 'queryParser', '$sce', function ($scope, queryParser, $sce) {
+    .controller('quizCtrl', ['$scope', '$http', 'queryParser', '$sce', function ($scope, $http, queryParser, $sce) {
         var query = queryParser.parse();
         $scope.$sce = $sce;
         $scope.quizURL = 'http://content.bridgeplus.cn/buzz-quiz/' + query.date + '-' + query.level + '/index.html';
+
+        var smilJson = '/resource/smil/' + query.date + '-' + query.level + '.json';
+        $scope.quizzes = [];
+        $scope.quizIndex = 0;
+        var STATUS = $scope.STATUS = {
+            "U": "unchecked",
+            "P": "passed",
+            "F": "failed"
+        };
+        $http.get(smilJson).then(function (result) {
+            var smil = result.data;
+            return smil.quizzes;
+        }).then(function (ret) {
+            if (ret && ret !== "") {
+                return $http.get(ret);
+            } else {
+                return null;
+            }
+        }).then(function (ret) {
+            var data = ret.data;
+            var retArray = [];
+            Object.keys(data).forEach(function(key) {
+                retArray.push({
+                    "name": key,
+                    "url": data[key],
+                    "status": STATUS.U
+                });
+            });
+            $scope.quizzes = retArray;
+            $scope.quizURL = $scope.quizzes[$scope.quizIndex].url;
+            $scope.turnQuiz = function(isNext) {
+                var maxIndex = $scope.quizzes.length - 1;
+                if (isNext) {
+                    $scope.quizIndex ++;
+                } else {
+                    $scope.quizIndex --;
+                }
+                if ($scope.quizIndex > maxIndex) {
+                    $scope.quizIndex = maxIndex;
+                } else if ($scope.quizIndex < 0) {
+                    $scope.quizIndex = 0;
+                }
+                if ($scope.quizIndex===2) {
+                    $scope.quizzes[$scope.quizIndex].status=STATUS.P;
+                }
+                if ($scope.quizIndex===3) {
+                    $scope.quizzes[$scope.quizIndex].status=STATUS.F;
+                }
+                $scope.quizURL = $scope.quizzes[$scope.quizIndex].url;
+            };
+        });
     }])
     .controller('newWordCtrl', ['$scope', '$http', 'queryParser', '$timeout', '$sce', function ($scope, $http, queryParser, $timeout, $sce) {
         $scope.$sce = $sce;
