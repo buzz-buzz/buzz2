@@ -42,5 +42,5 @@ module.exports = {
 
     mock: false,
 
-    tracking: "http://localhost:14444/js/t.js?write-key=BeUYw5s9DgGdga4XX02V0DuBYsDDxNE8"
+    tracking: "http://uat.tracking.hcd.com/js/t.js?write-key=BeUYw5s9DgGdga4XX02V0DuBYsDDxNE8"
 };

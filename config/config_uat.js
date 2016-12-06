@@ -31,5 +31,7 @@ module.exports = {
 
     logger: {
         appName: 'buzz'
-    }
+    },
+
+    tracking: "http://uat.tracking.hcd.com/js/t.js?write-key=BeUYw5s9DgGdga4XX02V0DuBYsDDxNE8"
 };
