@@ -22,10 +22,13 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
     .controller('page2ParentCtrl', ['$scope', function ($scope) {
         $scope.$root.tabularIndex = 1;
     }])
-    .controller('quizCtrl', ['$scope', '$http', 'queryParser', '$sce', function ($scope, $http, queryParser, $sce) {
+    .controller('quizCtrl', ['$scope', '$http', 'queryParser', '$sce', '$window', function ($scope, $http, queryParser, $sce, $window) {
+        $window.onQuizDone = function(mark) {
+            $scope.quizzes[$scope.quizIndex].status = mark;
+        };
         var query = queryParser.parse();
         $scope.$sce = $sce;
-        $scope.quizURL = 'http://content.bridgeplus.cn/buzz-quiz/' + query.date + '-' + query.level + '/index.html';
+        $scope.quizURL = "";
 
         var smilJson = '/resource/smil/' + query.date + '-' + query.level + '.json';
         $scope.quizzes = [];
@@ -68,12 +71,12 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                 } else if ($scope.quizIndex < 0) {
                     $scope.quizIndex = 0;
                 }
-                if ($scope.quizIndex===2) {
-                    $scope.quizzes[$scope.quizIndex].status=STATUS.P;
-                }
-                if ($scope.quizIndex===3) {
-                    $scope.quizzes[$scope.quizIndex].status=STATUS.F;
-                }
+                // if ($scope.quizIndex===2) {
+                //     $scope.quizzes[$scope.quizIndex].status=STATUS.P;
+                // }
+                // if ($scope.quizIndex===3) {
+                //     $scope.quizzes[$scope.quizIndex].status=STATUS.F;
+                // }
                 $scope.quizURL = $scope.quizzes[$scope.quizIndex].url;
             };
         });
