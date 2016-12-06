@@ -1,4 +1,4 @@
-angular.module('signUpModule', ['angularQueryParserModule', 'clientConfigModule', 'servicesModule', 'errorParserModule', 'ui.select'])
+angular.module('signUpModule', ['angularQueryParserModule', 'clientConfigModule', 'servicesModule', 'errorParserModule', 'ui.select', 'trackingModule'])
     .config(['$httpProvider', function ($httpProvider) {
         $httpProvider.defaults.headers.common['X-Request-With'] = 'XMLHttpRequest';
     }])
@@ -14,7 +14,7 @@ angular.module('signUpModule', ['angularQueryParserModule', 'clientConfigModule'
         });
         $translateProvider.preferredLanguage('zh');
     }])
-    .directive('captcha', ['service', 'clientConfig', function (service, clientConfig) {
+    .directive('captcha', ['service', 'clientConfig', 'tracking', function (service, clientConfig, tracking) {
         var captchaServiceDomain = '//' + clientConfig.captcha.host + ':' + clientConfig.captcha.port;
 
         return {
@@ -24,6 +24,7 @@ angular.module('signUpModule', ['angularQueryParserModule', 'clientConfigModule'
             link: function ($scope, $element, attrs, ngModel) {
                 function errorHandler(res) {
                     console.error(res);
+                    tracking.send('sign-up.changeIdentifyCode.error')
                 }
 
                 var refreshing = false;
@@ -35,6 +36,7 @@ angular.module('signUpModule', ['angularQueryParserModule', 'clientConfigModule'
 
                     refreshing = true;
 
+                    tracking.send('sign-up.changeIdentifyCode');
                     service.jsonp(captchaServiceDomain + '/captcha/generator/p?callback=JSON_CALLBACK&appid=bplus')
                         .then(function (result) {
                             $scope.captchaImageUrl = captchaServiceDomain + result.url;
@@ -47,6 +49,7 @@ angular.module('signUpModule', ['angularQueryParserModule', 'clientConfigModule'
                         .catch(errorHandler)
                         .finally(function () {
                             refreshing = false;
+                            tracking.send('sign-up.changeIdentifyCode.done')
                         });
                 }
 
@@ -56,7 +59,7 @@ angular.module('signUpModule', ['angularQueryParserModule', 'clientConfigModule'
             }
         };
     }])
-    .directive('resendVerification', ['service', 'serviceErrorParser', '$rootScope', '$timeout', 'clientConfig', function (service, serviceErrorParser, $rootScope, $timeout, clientConfig) {
+    .directive('resendVerification', ['service', 'serviceErrorParser', '$rootScope', '$timeout', 'clientConfig', 'tracking', function (service, serviceErrorParser, $rootScope, $timeout, clientConfig, tracking) {
         return {
             template: '<button class="yellow button verification" type="button" ng-click="sendVerificationCode()" ng-class="{\'loading\': sendingVerificationCode}" ng-disabled="!allowSendingVerification()" style="font-size: small;">{{verificationCodeButtonText}}</button>',
             replace: true,
@@ -110,6 +113,7 @@ angular.module('signUpModule', ['angularQueryParserModule', 'clientConfigModule'
                 $scope.sendingVerificationCode = false;
                 $scope.verificationButtonClicked = false;
                 $scope.sendVerificationCode = function () {
+                    tracking.send('sign-up.identifyPhone');
                     service.executePromiseAvoidDuplicate($scope, 'sendingVerificationCode', function () {
                         return service.put(clientConfig.serviceUrls.sms.sendWithCaptcha.frontEnd, {
                             captchaId: $scope.signUpData.captchaId,
@@ -128,21 +132,27 @@ angular.module('signUpModule', ['angularQueryParserModule', 'clientConfigModule'
                             });
 
                             $rootScope.errorMessage = null;
+                            tracking.send('sign-up.identifyPhone.done');
                         })
                         .then(null, function (reason) {
                             $scope.refreshCaptcha();
                             $scope.signUpData.captcha = '';
                             $scope.errorMessage = serviceErrorParser.getErrorMessage(reason);
+                            tracking.send('sign-up.identifyPhone.error');
                         })
                     ;
                 };
             }
         };
     }])
-    .controller('signUpParentCtrl', ['$scope', 'queryParser', function ($scope, queryParser) {
+    .controller('signUpParentCtrl', ['$scope', 'queryParser', 'tracking', function ($scope, queryParser, tracking) {
         $scope.step = queryParser.get('step') || 1;
+
+        tracking.send('sign-up', {
+            step: $scope.step
+        });
     }])
-    .controller('signUpCtrl', ['$scope', 'clientConfig', 'service', 'queryParser', 'serviceErrorParser', function ($scope, clientConfig, service, queryParser, serviceErrorParser) {
+    .controller('signUpCtrl', ['$scope', 'clientConfig', 'service', 'queryParser', 'serviceErrorParser', 'tracking', function ($scope, clientConfig, service, queryParser, serviceErrorParser, tracking) {
         $scope.signUpData = {
             mobile: '',
             verificationCode: '',
@@ -153,21 +163,23 @@ angular.module('signUpModule', ['angularQueryParserModule', 'clientConfigModule'
         };
 
         $scope.signUp = function () {
+            tracking.send('sign-up.register', $scope.signUpData);
             service.put(clientConfig.serviceUrls.sso.signUp.frontEnd, $scope.signUpData)
                 .then(function (member_id) {
+                    tracking.send('sign-up.register.done', {member_id: member_id});
                     return service.post(clientConfig.serviceUrls.sso.signIn.frontEnd, {
                         value: $scope.signUpData.mobile,
                         password: $scope.signUpData.password,
                         return_url: encodeURIComponent(location.pathname + '?step=2')
                     });
                 })
-                .then()
                 .catch(function (reason) {
                     $scope.errorMessage = serviceErrorParser.getErrorMessage(reason);
+                    tracking.send('sign-up.register.error', reason);
                 });
         };
     }])
-    .controller('infoCtrl', ['$scope', 'clientConfig', 'service', 'queryParser', 'serviceErrorParser', '$q', function ($scope, clientConfig, service, queryParser, serviceErrorParser, $q) {
+    .controller('infoCtrl', ['$scope', 'clientConfig', 'service', 'queryParser', 'serviceErrorParser', '$q', 'tracking', function ($scope, clientConfig, service, queryParser, serviceErrorParser, $q, tracking) {
         $scope.infoData = {
             name: '',
             gender: null,
@@ -200,6 +212,7 @@ angular.module('signUpModule', ['angularQueryParserModule', 'clientConfigModule'
         ];
 
         $scope.submitInfo = function () {
+            tracking.send('sign-up.step2.saveInfo.click', $scope.infoData);
             $q.all([service.post(clientConfig.serviceUrls.sso.profile.update.frontEnd, {
                 real_name: $scope.infoData.name,
                 gender: $scope.infoData.gender
@@ -209,10 +222,12 @@ angular.module('signUpModule', ['angularQueryParserModule', 'clientConfigModule'
                 .then(function (result) {
                     console.log(result);
 
+                    tracking.send('sign-up.step2.saveInfo.done', result);
                     location.href = '/';
                 })
                 .catch(function (error) {
                     $scope.errorMessage = serviceErrorParser.getErrorMessage(error);
+                    tracking.send('sign-up.step2.saveInfo.error', error);
                 });
 
             // var level = $scope.infoData.grade > 6 ? 'A' : 'B';

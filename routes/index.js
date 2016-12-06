@@ -10,7 +10,9 @@ function simpleRender(app, router, render) {
 
     for (let i = 0; i < routes.length; i++) {
         router.get('/' + routes[i], function *(next) {
-            this.body = yield render(routes[i], {});
+            this.body = yield render(routes[i], {
+                config: config
+            });
         });
     }
 }
@@ -20,7 +22,8 @@ function renderWithServerData(app, router, render) {
             this.redirect('/sign-up?step=1');
         } else {
             this.body = yield render('sign-up', {
-                hcd_user: this.state.hcd_user
+                hcd_user: this.state.hcd_user,
+                config: config
             });
         }
     });

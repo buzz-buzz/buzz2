@@ -1,0 +1,47 @@
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Buzz English</title>
+<link rel="stylesheet" href="/public/css/flex-box.css">
+<link rel="stylesheet" href="/public/css/player-layout.css">
+<link rel="stylesheet" href="/public/css/player.css">
+<link rel="stylesheet" href="/public/css/media-query.css">
+<style type="text/css">
+    @-moz-document url-prefix() {
+        .video.row.dynamic {
+            height: 50% !important;
+        }
+
+        #main-video {
+            height: 100% !important;
+        }
+    }
+
+    @media screen and (-moz-images-in-menus: 0) {
+        .video.row.dynamic {
+            height: 50% !important;
+        }
+
+        #main-video {
+            height: 100% !important;
+        }
+    }
+
+    body:not(:-moz-handler-blocked) .video.row.dynamic {
+        height: 50% !important;
+    }
+
+    body:not(:-moz-handler-blocked) #main-video {
+        height: 100% !important;
+    }
+
+    @media all and (min--moz-device-pixel-ratio: 0) and (min-resolution: 3 e1dpcm) {
+        .video.row.dynamic {
+            height: 50% !important;
+        }
+
+        #main-video {
+            height: 100% !important;
+        }
+    }
+</style>

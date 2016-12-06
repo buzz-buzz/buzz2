@@ -4,6 +4,7 @@ const util = require('util');
 const config = require('../config');
 const request = require('co-request');
 const url = require('url');
+const cookie = require('../helpers/cookie');
 
 function * setHcdUserByToken(context) {
     let token = context.cookies.get('token');
@@ -29,11 +30,16 @@ function * setHcdUserByToken(context) {
             result = result.body;
         }
 
+        console.log(result);
+
         if (result.isSuccess) {
             context.state.hcd_user = {
                 member_id: result.result.member_id,
                 token: token
             };
+
+            cookie.deleteMID.call(context);
+            cookie.setMID.call(context, result.result.member_id);
         } else {
             delete context.state.hcd_user;
         }

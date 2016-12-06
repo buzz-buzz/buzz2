@@ -1,4 +1,13 @@
 angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'clientConfigModule', 'buzzHeaderModule'])
+    .run(['$rootScope', 'tracking', 'queryParser', function ($rootScope, tracking, queryParser) {
+        var query = queryParser.parse();
+
+        tracking.send('play', {
+            date: query.date,
+            category: query.cat,
+            level: query.level
+        });
+    }])
     .controller('VideoPlayerCtrl', ['$scope', '$sce', function ($scope, $sce) {
         $scope.queryString = location.search;
         $scope.$sce = $sce;
@@ -19,8 +28,24 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
 
         $scope.currentLevel = query.level;
     }])
-    .controller('page2ParentCtrl', ['$scope', function ($scope) {
+    .controller('page2ParentCtrl', ['$scope', 'tracking', function ($scope, tracking) {
         $scope.$root.tabularIndex = 1;
+
+        $scope.$watch('tabularIndex', function (newVal, oldVal) {
+            switch (newVal) {
+                case 1:
+                    tracking.send('play.vocabulary.Tab.click');
+                    break;
+                case 2:
+                    tracking.send('play.exerciseTab.click');
+                    break;
+                case 3:
+                    tracking.send('play.quizTab.click');
+                    break;
+                default:
+                    break;
+            }
+        });
     }])
     .controller('quizCtrl', ['$scope', '$http', 'queryParser', '$sce', '$window', function ($scope, $http, queryParser, $sce, $window) {
         $window.onQuizDone = function(mark) {
@@ -81,7 +106,7 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
             };
         });
     }])
-    .controller('newWordCtrl', ['$scope', '$http', 'queryParser', '$timeout', '$sce', function ($scope, $http, queryParser, $timeout, $sce) {
+    .controller('newWordCtrl', ['$scope', '$http', 'queryParser', '$timeout', '$sce', 'tracking', function ($scope, $http, queryParser, $timeout, $sce, tracking) {
         $scope.$sce = $sce;
         var query = queryParser.parse();
         var newWords = [];
@@ -116,7 +141,7 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                 });
                 $scope.WORD_MAX_INDEX = newWords.length - 1;
                 $scope.wordURL = newWords[wordIndex].url;
-                if (newWords[wordIndex].exercise && newWords[wordIndex].exercise !=="") {
+                if (newWords[wordIndex].exercise && newWords[wordIndex].exercise !== "") {
                     $scope.hasWordMode = true;
                     $scope.isWordMode = false;
                     $scope.wordURL = newWords[wordIndex].exercise;
@@ -126,6 +151,12 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
             }
         });
         $scope.turnWord = function (isNext) {
+            if (isNext) {
+                tracking.send('play.vocabularyTab.slideNextBtn.clicked');
+            } else {
+                tracking.send('play.vocabularyTab.slidePrevBtn.clicked');
+            }
+
             var length = newWords.length;
             wordIndex = isNext ? ++wordIndex : --wordIndex;
             if (wordIndex >= length) {
@@ -135,7 +166,7 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
             }
             $scope.wordIndex = wordIndex;
             $scope.wordURL = newWords[wordIndex].url;
-            if (newWords[wordIndex].exercise && newWords[wordIndex].exercise !=="") {
+            if (newWords[wordIndex].exercise && newWords[wordIndex].exercise !== "") {
                 $scope.hasWordMode = true;
                 $scope.isWordMode = false;
                 $scope.wordURL = newWords[wordIndex].exercise;
@@ -144,7 +175,7 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
         };
         $scope.isWordMode = true;
         $scope.hasWordMode = false;
-        $scope.changeWordMode = function(value) {
+        $scope.changeWordMode = function (value) {
             $scope.isWordMode = value;
             if (value) {
                 $scope.wordURL = newWords[wordIndex].url;

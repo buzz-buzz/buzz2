@@ -1,4 +1,4 @@
-angular.module('buzzHeaderModule', ['angularQueryParserModule', 'servicesModule', 'clientConfigModule'])
+angular.module('buzzHeaderModule', ['angularQueryParserModule', 'servicesModule', 'clientConfigModule', 'trackingModule'])
     .run(['$rootScope', 'service', 'clientConfig', function ($rootScope, service, clientConfig) {
         service.get(clientConfig.serviceUrls.sso.profile.load.frontEnd).then(function (result) {
             $rootScope.profile = result;
