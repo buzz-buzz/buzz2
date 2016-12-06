@@ -150,7 +150,8 @@ span.space {
 }
 
 .column img {
-    max-width: 100%;
+    max-width: 160%;
+    margin-left: -180px;
 }
 
 .grid .column {
