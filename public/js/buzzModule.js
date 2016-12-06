@@ -34,7 +34,7 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
         $scope.$watch('tabularIndex', function (newVal, oldVal) {
             switch (newVal) {
                 case 1:
-                    tracking.send('play.vocabulary.Tab.click');
+                    tracking.send('play.vocabularyTab.click');
                     break;
                 case 2:
                     tracking.send('play.exerciseTab.click');
@@ -48,7 +48,7 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
         });
     }])
     .controller('quizCtrl', ['$scope', '$http', 'queryParser', '$sce', '$window', function ($scope, $http, queryParser, $sce, $window) {
-        $window.onQuizDone = function(mark) {
+        $window.onQuizDone = function (mark) {
             $scope.quizzes[$scope.quizIndex].status = mark;
         };
         var query = queryParser.parse();
@@ -75,7 +75,7 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
         }).then(function (ret) {
             var data = ret.data;
             var retArray = [];
-            Object.keys(data).forEach(function(key) {
+            Object.keys(data).forEach(function (key) {
                 retArray.push({
                     "name": key,
                     "url": data[key],
@@ -84,12 +84,12 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
             });
             $scope.quizzes = retArray;
             $scope.quizURL = $scope.quizzes[$scope.quizIndex].url;
-            $scope.turnQuiz = function(isNext) {
+            $scope.turnQuiz = function (isNext) {
                 var maxIndex = $scope.quizzes.length - 1;
                 if (isNext) {
-                    $scope.quizIndex ++;
+                    $scope.quizIndex++;
                 } else {
-                    $scope.quizIndex --;
+                    $scope.quizIndex--;
                 }
                 if ($scope.quizIndex > maxIndex) {
                     $scope.quizIndex = maxIndex;
@@ -107,7 +107,7 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
         });
     }])
     .controller('newWordCtrl', ['$scope', '$http', 'queryParser', '$timeout', '$sce', '$window', 'tracking', function ($scope, $http, queryParser, $timeout, $sce, $window, tracking) {
-        $window.onWordDone = function(mark) {
+        $window.onWordDone = function (mark) {
             $scope.newWords[$scope.wordIndex].status = mark;
         };
         $scope.$sce = $sce;
