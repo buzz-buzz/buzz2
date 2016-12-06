@@ -81,7 +81,10 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
             };
         });
     }])
-    .controller('newWordCtrl', ['$scope', '$http', 'queryParser', '$timeout', '$sce', function ($scope, $http, queryParser, $timeout, $sce) {
+    .controller('newWordCtrl', ['$scope', '$http', 'queryParser', '$timeout', '$sce', '$window', function ($scope, $http, queryParser, $timeout, $sce, $window) {
+        $window.onWordDone = function(mark) {
+            $scope.newWords[$scope.wordIndex].status = mark;
+        };
         $scope.$sce = $sce;
         var query = queryParser.parse();
         var newWords = [];
@@ -89,6 +92,11 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
         $scope.word = {};
         var wordIndex = $scope.wordIndex = 0;
         var smilJson = '/resource/smil/' + query.date + '-' + query.level + '.json';
+        var STATUS = $scope.STATUS = {
+            "U": "unchecked",
+            "P": "passed",
+            "F": "failed"
+        };
         $http.get(smilJson).then(function (result) {
             var smil = result.data;
             return smil.newWords;
@@ -110,7 +118,8 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                         "word": key,
                         "id": thisWord.id,
                         "url": thisWord.url,
-                        "exercise": thisWord.exercise || ""
+                        "exercise": thisWord.exercise || "",
+                        "status": STATUS.U
                         // "exercise": thisWord.exercise || "http://content.bridgeplus.cn/buzz-quiz/" + query.date + '-' + query.level + "/index.html"
                     });
                 });

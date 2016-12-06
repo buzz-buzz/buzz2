@@ -150,6 +150,9 @@ span.space {
 }
 
 .column img {
+    max-width: 100%;
+}
+.column img.special {
     max-width: 160%;
     margin-left: -180px;
 }
