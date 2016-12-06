@@ -1,8 +1,8 @@
-angular.module('buzzPlayerModule', ['angularQueryParserModule'])
+angular.module('buzzPlayerModule', ['angularQueryParserModule', 'trackingModule'])
     .run([function () {
         jwplayer.key = 'lG24bAGJCRLF1gi4kajg4EnUKi+ujyUyKMoSNA==';
     }])
-    .controller('videoCtrl', ['$scope', '$http', 'queryParser', '$timeout', '$sce', function ($scope, $http, queryParser, $timeout, $sce) {
+    .controller('videoCtrl', ['$scope', '$rootScope', '$http', 'queryParser', '$timeout', '$sce', 'tracking', function ($scope, $rootScope, $http, queryParser, $timeout, $sce, tracking) {
         $scope.$sce = $sce;
         var query = queryParser.parse();
         var smilJson = '/resource/smil/' + query.date + '-' + query.level + '.json';
@@ -60,7 +60,58 @@ angular.module('buzzPlayerModule', ['angularQueryParserModule'])
 
                     mainVideo.onTime(function (event) {
                         $scope.currentTime = convertSecondsToHHMMSS(event.position);
+                        $scope.seconds = event.position;
                         $scope.$apply();
+                    });
+
+                    var videoInfo = {
+                        date: query.date,
+                        category: query.cat,
+                        level: query.level
+                    };
+
+                    function extra() {
+                        return {
+                            seconds: $scope.seconds,
+                            isFullScreen: $scope.fullScreen || false
+                        };
+                    }
+
+                    function getData(event) {
+                        return angular.extend({}, videoInfo, event, extra());
+                    }
+
+                    mainVideo.onPlay(function (event) {
+                        tracking.send('play.video.playBtn.click', getData(event));
+                    });
+
+                    mainVideo.onPause(function (event) {
+                        tracking.send('play.video.pauseBtn.click', getData(event))
+                    });
+
+                    mainVideo.onSeek(function (event) {
+                        tracking.send('play.video.seekBtn', getData(event));
+                    });
+
+                    mainVideo.onFullscreen(function (event) {
+                        $scope.fullScreen = event.fullscreen;
+                        $scope.$apply();
+
+                        tracking.send('play.video.fullScreenBtn.clicked', getData(event));
+                    });
+
+                    mainVideo.onQualityChange(function (event) {
+                        tracking.send('play.video.definitionBtn', angular.extend({}, getData(event), {
+                            toDefinition: event.levels[event.currentQuality].label
+                        }));
+                    });
+
+                    mainVideo.onMute(function (event) {
+                        tracking.send('play.video.muteBtn.click', getData(event));
+                    });
+
+                    mainVideo.onVolume(function (event) {
+                        tracking.send('play.video.volumnBtn', getData(event));
                     });
 
                     function convertHHMMSSToSeconds(time) {
@@ -95,8 +146,15 @@ angular.module('buzzPlayerModule', ['angularQueryParserModule'])
 
                     $scope.playTo = function (subtitle) {
                         var startSeconds = convertHHMMSSToSeconds(subtitle.startTime);
-                        mainVideo.seek(startSeconds);
-                        mainVideo.play(true);
+
+                        function seekAndPlay() {
+                            console.log(mainVideo);
+                            mainVideo.seek(startSeconds);
+                            mainVideo.play(true);
+                            tracking.send('play.speakerBtn.click', angular.extend({}, getData(), subtitle));
+                        }
+
+                        seekAndPlay();
                     };
                 }).then(function () {
                     if (smil.newWords) {

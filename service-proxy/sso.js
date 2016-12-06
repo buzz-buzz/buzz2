@@ -13,16 +13,12 @@ function setHcdUser(result) {
         token: result.result.token
     };
 }
-function setTokenCookie(result) {
-    let cookieOption = {
-        expires: 0,
-        path: '/',
-        httpOnly: true
-    };
-
+function resetCookies(result) {
     cookie.deleteToken.call(this);
+    cookie.deleteMID.call(this);
 
-    this.cookies.set('token', result.result.token, cookieOption);
+    cookie.setToken.call(this, result.token);
+    cookie.setMID.call(this, result.member_id);
 }
 function redirectToReturnUrl(result, returnUrl) {
     if (this.request.get('X-Request-With') === 'XMLHttpRequest') {
@@ -61,7 +57,7 @@ module.exports = function (app, router, parse) {
 
             if (result.isSuccess) {
                 setHcdUser.call(this, result);
-                setTokenCookie.call(this, result);
+                resetCookies.call(this, result.result);
                 redirectToReturnUrl.call(this, result, decodeURIComponent(data.return_url));
             }
 
