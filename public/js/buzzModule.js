@@ -85,6 +85,7 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
         $scope.$sce = $sce;
         var query = queryParser.parse();
         var newWords = [];
+        $scope.newWords = [];
         $scope.word = {};
         var wordIndex = $scope.wordIndex = 0;
         var smilJson = '/resource/smil/' + query.date + '-' + query.level + '.json';
@@ -120,6 +121,7 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                     $scope.isWordMode = false;
                     $scope.wordURL = newWords[wordIndex].exercise;
                 }
+                $scope.newWords = newWords;
                 // $scope.wordURL = $sce.trustAsResourceUrl(newWords[wordIndex].url);
             }
         });

@@ -79,6 +79,9 @@ block content
             .center.aligned.container.column.white.background.row.content
                 .tabular.content
                     .item(ng-show="$root.tabularIndex===1",ng-controller="newWordCtrl")
+                        .statusbar
+                            .status(ng-repeat="word in newWords track by $index" ng-class="{'active': $index<=wordIndex}") 
+                                span {{$index+1}}
                         .left.arrow(ng-click="turnWord(false)",ng-class="{'hidden':wordIndex===0}")
                             span.icon-circle-left
                         .vocabulary.container

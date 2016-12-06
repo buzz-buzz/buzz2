@@ -17,8 +17,8 @@ html
             .center.aligned.container.column.borderless
                 ul.large.right.floated.white.horizontal.menu
                     block extraMenus
-                    li
-                        a.icon-history(title="历史课程")
+                    li(ng-class="{'active': isActive('/my/history')}")
+                        a.icon-history(title="历史课程", href="/my/history")
                     li(ng-class="{'active': isActive('/my/progress')}")
                         a.icon-stats-bars(title="学习进度", href="/my/progress")
                     li(ng-class="{'active': isActive('/vocabulary/my')}")

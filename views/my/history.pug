@@ -1,0 +1,58 @@
+extends layout
+
+block js
+    //- script(src="/js/buzzProgressModule.js")
+
+block head
+    style.
+        body {
+            background: url('http://source.bridgeplus.cn/image/png/skin.png') repeat-x 0 0;
+            background-size: contain;
+        }
+
+        .separate.title {
+            color: #666;
+        }
+
+        .separate.title:before {
+            content: ' ';
+            display: inline-block;
+            border-bottom: solid 1px black;
+            width: 20%;
+            margin-right: 3em;
+            vertical-align: middle;
+        }
+
+        .separate.title:after {
+            content: ' ';
+            width: 20%;
+            margin-left: 3em;
+            display: inline-block;
+            border-bottom: solid 1px black;
+            vertical-align: middle;
+        }
+
+        #history-chart {
+        }
+
+block content
+    #full-page.full.height.container
+        a.page-pos
+        .page.with-header.section.transparent
+            .center.aligned.container.column.flex-box.white.background(style="padding-left: 50px; padding-right: 50px;flex-direction:row")
+                .container(style="height:200px;margin-top:2em;margin-bottom:2em;border:1px solid grey")
+                    .left(style="display:inline-block;vertical-align:top;height:200px;")
+                        img(style="width:280px;height:200px",src="http://source.bridgeplus.cn/image/png/buzz-poster.png")
+                    .right(style="display:inline-block;vertical-align:top;height:100%;text-align:left;height:200px;padding:1.4em;position:relative;")
+                        .content
+                            .title(style="color:#f7b52a;margin-bottom:0.4em;font-weight:bold;") NASA Achieves New Breakthroughs in SpaceLaunch System
+                            .time(style="font-size:12px;line-height:1.6em;margin-bottom:0.4em;") Oct. 21st, 2016
+                            .summery hello world, hello world,hello world, hello world, hello world, 
+                        .tail(style="position:absolute;bottom:4px;width:435px;border-top: 1px dashed #bcbcbc;padding-top:1em;padding-bottom:1em;font-size:14px;")
+                            .likeit(style="display:inline-block;")
+                                i.icon-heart(style="color:red;margin-right:0.4em;")
+                                span(style="color:red;margin-right:0.4em;") 330
+                                span 人参加了本节课程
+                            .reviewbtn(style="display:inline-block;position:absolute;right:0px;padding-top:0.4em;padding-bottom:0.4em;padding-left:0.8em;padding-right:0.8em;background-color:#f7b52a;color:white;font-size:14px;")
+                                | 课程回顾
+                
