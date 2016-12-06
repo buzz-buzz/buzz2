@@ -10,6 +10,7 @@ html
         link(rel="stylesheet", href="/public/css/my/layout.css")
         link(rel='stylesheet', href='/public/css/player.css')
         link(rel='stylesheet', href='/public/css/vocabulary.css')
+        link(rel="stylesheet", href="/public/css/my/layout.css")
         style.
             .table-cell {
                 display: flex;
@@ -216,22 +217,22 @@ html
                 margin-right: 1em;
             }
 
-    body.full.screen.container(style="text-align:center;background:url('http://source.bridgeplus.cn/image/png/skin.png') repeat 0 0")
+    body.full.screen.container(style="text-align:center;background:url('http://source.bridgeplus.cn/buzz/skin2.png') repeat 0 0")
         #buzz-header.fluid.container.header.fixed(ng-controller="headerCtrl")
             .center.aligned.container.column.borderless
                 ul.large.right.floated.white.horizontal.menu
                     li
-                        a.icon-history(title="历史课程")
+                        a.icon-history(title="历史课程", href="/my/history")
                     li
                         a.icon-stats-bars(title="学习进度", href="/my/progress")
-                    li
+                    li.active
                         a.icon-file-text(title="生词本")
                     li
                         img.avatar(ng-src="{{profile.avatar}}", ng-if="profile.avatar")
                         a(ng-if="!profile.avatar") 欢迎你
                 .white.title
                     a(href="/")
-                        img.white.background.logo(src="/images/logo.png")
+                        img.white.background.logo(src="/images/logo1.png")
                     span.space
                     span.top.aligned.welcome.message Hello Shirly, today is the 100st day since you joined NEWS.
         .body-container(ng-app="vocabularyModule", ng-controller="vocabularyCtrl")
