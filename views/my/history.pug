@@ -1,13 +1,14 @@
 extends layout
 
 block js
-    //- script(src="/js/buzzProgressModule.js")
+    script(src="/js/buzzHistoryModule.js")
 
 block head
     style.
         body {
             background: url('http://source.bridgeplus.cn/image/png/skin.png') repeat-x 0 0;
             background-size: contain;
+            background-attachment: fixed;
         }
 
         .separate.title {
@@ -36,14 +37,14 @@ block head
         }
 
 block content
-    #full-page.full.height.container
+    #full-page.full.height.container(ng-app="buzzHistoryModule")
         a.page-pos
-        .page.with-header.section.transparent
-            .center.aligned.container.column.flex-box.white.background(style="padding-left: 50px; padding-right: 50px;flex-direction:row")
-                .container(style="height:200px;margin-top:2em;margin-bottom:2em;border:1px solid grey")
+        .page.with-header.section.transparent(style="overflow:visible;height:auto;min-height:100%;")
+            .center.aligned.container.column.flex-box.white.background(style="padding-left: 50px; padding-right: 50px;",ng-controller="historyCtrl")
+                .container(style="height:200px;margin-top:2em;margin-bottom:2em;",ng-repeat="lesson in historyLessions track by $index")
                     .left(style="display:inline-block;vertical-align:top;height:200px;")
                         img(style="width:280px;height:200px",src="http://source.bridgeplus.cn/image/png/buzz-poster.png")
-                    .right(style="display:inline-block;vertical-align:top;height:100%;text-align:left;height:200px;padding:1.4em;position:relative;")
+                    .right(style="display:inline-block;vertical-align:top;height:100%;text-align:left;height:200px;padding:1.4em;position:relative;border:1px solid grey")
                         .content
                             .title(style="color:#f7b52a;margin-bottom:0.4em;font-weight:bold;") NASA Achieves New Breakthroughs in SpaceLaunch System
                             .time(style="font-size:12px;line-height:1.6em;margin-bottom:0.4em;") Oct. 21st, 2016
