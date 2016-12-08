@@ -11,10 +11,12 @@ angular.module('buzzPlayerModule', ['angularQueryParserModule', 'trackingModule'
 
             var mainVideo = jwplayer('main-video').setup({
                 height: document.querySelector('.video-wrapper').offsetHeight,
+                width: '100%',
                 playlist: [{
                     title: smil.title,
                     description: smil.description,
                     image: smil.image,
+                    stretching: "none",
                     sources: smil.switch.map(function (s) {
                         return {
                             file: s.src,

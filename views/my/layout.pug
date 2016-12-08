@@ -18,14 +18,14 @@ html
                 ul.large.right.floated.white.horizontal.menu
                     block extraMenus
                     li(ng-class="{'active': isActive('/my/history')}")
-                        a.icon-history(title="历史课程", href="/my/history")
+                        a.middle.aligned.icon-history(title="历史课程", href="/my/history")
                     li(ng-class="{'active': isActive('/my/progress')}")
-                        a.icon-stats-bars(title="学习进度", href="/my/progress")
+                        a.middle.aligned.icon-stats-bars(title="学习进度", href="/my/progress")
                     li(ng-class="{'active': isActive('/vocabulary/my')}")
-                        a.icon-file-text(title="生词本",href="/vocabulary/my")
+                        a.middle.aligned.icon-file-text(title="生词本",href="/vocabulary/my")
                     li
-                        img.avatar(ng-src="{{profile.avatar}}", ng-if="profile.avatar")
-                        a(ng-if="!profile.avatar") 欢迎你
+                        img.middle.aligned.avatar(ng-src="{{profile.avatar}}", ng-if="profile.avatar")
+                        a.middle.aligned(ng-if="!profile.avatar") 欢迎你
                         ul.sub.vertical.menu
                             li
                                 a(href="/sign-out") 退出
