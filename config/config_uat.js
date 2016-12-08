@@ -33,5 +33,5 @@ module.exports = {
         appName: 'buzz'
     },
 
-    tracking: "http://uat.tracking.hcd.com/js/t.js?write-key=BeUYw5s9DgGdga4XX02V0DuBYsDDxNE8"
+    tracking: "http://10.20.32.51:14444/js/t.min.js?write-key=HjYKeEnEV7QiyFXCKxZXrPmqgsjkaQpb"
 };
