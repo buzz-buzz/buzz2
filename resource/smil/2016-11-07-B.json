@@ -8,6 +8,11 @@
   "switch": [
     {
       "src": "http://buzz-course-video.b0.upaiyun.com/news/science/2016-11-07-B-360w.mp4",
+      "title": "手机",
+      "image": ""
+    },
+    {
+      "src": "http://buzz-course-video.b0.upaiyun.com/news/science/2016-11-07-B-720w.mp4",
       "title": "普清",
       "default": true,
       "image": ""
