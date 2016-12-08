@@ -1,15 +1,3 @@
-@media screen and (max-height: 750px) {
-    #main-video {
-        width: 80% !important;
-    }
-}
-
-@media screen and (max-height: 550px) {
-    #main-video {
-        width: 50% !important;
-    }
-}
-
 @media screen  and (max-width: 900px) {
     .center.column {
         width: 100%;
