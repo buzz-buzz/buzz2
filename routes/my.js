@@ -17,6 +17,8 @@ module.exports = function (app, router, render) {
             let byLevel = courseList.byLevel[level];
             console.log('=========== level ========');
             console.log(byLevel);
+            console.log('level = ', level);
+            console.log('courseList = ', courseList);
             byLevel = byLevel.sort(function (x, y) {
                 if (x < y) {
                     return 1;
