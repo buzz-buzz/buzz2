@@ -4,4 +4,20 @@ script(src="/node_modules/angular-query-parser-module/dist/scripts/all.min.js")
 script(src="/node_modules/angular-service/dist/scripts/all.min.js")
 script(src="/node_modules/angular-service-error-parser/dist/all.min.js")
 script(src="/clientConfig.js")
-script(src=config.tracking)
+if !config.mock
+    script(src=config.tracking)
+else
+    script.
+        angular.module('trackingModule', [])
+            .factory('tracking', [function () {
+                var tracking = {
+                    send: function () {
+                    }
+                };
+                window.tracking = {
+                    send: function () {
+                    }
+                };
+                return tracking;
+            }])
+        ;

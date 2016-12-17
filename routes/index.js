@@ -54,6 +54,10 @@ function auth(app, router, render) {
     require('./exercise')(app, router, render);
 }
 
+function api(app, router, render) {
+    require('../api/history')(app, router, render);
+}
+
 function virtualFile(app, router) {
     router.get('/clientConfig.js', function *(next) {
         function filterConfig(config) {
@@ -79,9 +83,11 @@ function helper(app, router) {
     });
 }
 function serviceProxy(app, router) {
-    require('../service-proxy/sso')(app, router, require('co-body'));
-    require('../service-proxy/sms')(app, router, require('co-body'));
-    require('../service-proxy/buzz')(app, router, require('co-body'));
+    let coBody = require('co-body');
+
+    require('../service-proxy/sso')(app, router, coBody);
+    require('../service-proxy/sms')(app, router, coBody);
+    require('../service-proxy/buzz')(app, router, coBody);
 }
 function staticFiles(app) {
     require('./static')(app);
@@ -95,6 +101,7 @@ module.exports = function (app, router, render) {
     simpleRender(app, router, render);
     renderWithServerData(app, router, render);
     auth(app, router, render);
+    api(app, router, render);
 
     app
         .use(router.routes())

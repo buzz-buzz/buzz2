@@ -41,7 +41,7 @@ module.exports = {
         appName: 'buzz'
     },
 
-    mock: false,
+    mock: true,
 
     tracking: "http://10.20.32.51:14444/js/t.min.js?write-key=HjYKeEnEV7QiyFXCKxZXrPmqgsjkaQpb"
 };

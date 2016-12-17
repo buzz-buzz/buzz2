@@ -16,6 +16,7 @@ function * setHcdUserByToken(context) {
 
         if (config.mock) {
             result = {
+                isSuccess: true,
                 result: {
                     member_id: 'fake member'
                 }
