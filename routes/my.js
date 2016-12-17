@@ -8,7 +8,7 @@ module.exports = function (app, router, render) {
     router
         .get('/my/today', function *(next) {
             let level = config.mock ? 'A' : yield buzz.getMemberCurrentLevel(this.state.hcd_user.member_id);
-            if (level === 'U') {
+            if (!level || level === 'U') {
                 level = 'B';
             }
 
