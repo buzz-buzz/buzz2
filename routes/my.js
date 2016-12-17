@@ -12,15 +12,9 @@ module.exports = function (app, router, render) {
                 level = 'B';
             }
 
-            console.log("====== level = ", level);
-
             let courseList = course.list();
-            console.log('==========');
-            console.log(courseList);
-            console.log('-----------');
 
             let byLevel = courseList.byLevel[level];
-            console.log('byLevel = ', byLevel);
             byLevel = byLevel.sort(function (x, y) {
                 if (x < y) {
                     return 1;
@@ -30,7 +24,6 @@ module.exports = function (app, router, render) {
                 }
                 return 0;
             });
-            console.log('after sort = ', byLevel);
             let latest = byLevel[0];
 
             this.redirect('/my/play?date=' + latest + '&cat=science&level=' + level, {

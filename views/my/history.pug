@@ -41,12 +41,12 @@ block content
         a.page-pos
         .page.with-header.section.transparent(style="overflow:visible;height:auto;min-height:100%;")
             .center.aligned.container.column.flex-box.white.background(style="padding-left: 50px; padding-right: 50px;",ng-controller="historyCtrl")
-                .container(style="height:200px;margin-top:2em;margin-bottom:2em;",ng-repeat="lesson in historyLessions track by $index")
+                .container(style="height:200px;margin-top:2em;margin-bottom:2em;",ng-repeat="lesson in courseList track by $index")
                     .left(style="display:inline-block;vertical-align:top;height:200px;")
                         img(style="width:280px;height:200px",src="http://source.bridgeplus.cn/image/png/buzz-poster.png")
                     .right(style="display:inline-block;vertical-align:top;height:100%;text-align:left;height:200px;padding:1.4em;position:relative;border:1px solid grey")
                         .content
-                            .title(style="color:#f7b52a;margin-bottom:0.4em;font-weight:bold;") NASA Achieves New Breakthroughs in SpaceLaunch System
+                            a.title(style="color:#f7b52a;margin-bottom:0.4em;font-weight:bold;")(ng-href="/my/play?date={{lesson}}&cat=science&level=B") {{courseInfo[lesson].title}}
                             .time(style="font-size:12px;line-height:1.6em;margin-bottom:0.4em;") Oct. 21st, 2016
                             .summery hello world, hello world,hello world, hello world, hello world, 
                         .tail(style="position:absolute;bottom:4px;width:435px;border-top: 1px dashed #bcbcbc;padding-top:1em;padding-bottom:1em;font-size:14px;")
