@@ -297,3 +297,7 @@ html
         include ../js
         script(src="/js/buzzHeaderModule.js")
         script(src="/js/vocabularyModule.js")
+        script.
+            angular.element(document).ready(function () {
+                angular.bootstrap(document.getElementById('buzz-header'), ['buzzHeaderModule']);
+            });
