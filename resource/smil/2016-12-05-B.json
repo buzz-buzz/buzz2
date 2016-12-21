@@ -5,6 +5,7 @@
   "newWords": "/resource/newWords/2016-12-05-B.json",
   "quizzes": "/resource/quizzes/2016-12-05-B.json",
   "image": "http://source.bridgeplus.cn/image/png/buzz-poster.png",
+  "baseNumber": 100,
   "switch": [
     {
       "src": "http://buzz-course-video.b0.upaiyun.com/news/animal/2016-12-05-B-480w.mp4",

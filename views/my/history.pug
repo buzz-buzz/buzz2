@@ -52,11 +52,11 @@ block content
                         .content
                             a.title.clickable(style="color:#f7b52a;margin-bottom:0.4em;font-weight:bold;")(ng-click='aLikeClick("/my/play?date="+lesson+"&cat=science&level=B")') {{courseInfo[lesson].title}}
                             .time(style="font-size:12px;line-height:1.6em;margin-bottom:0.4em;") {{courseInfo[lesson].date}}
-                            .summery hello world, hello world,hello world, hello world, hello world, 
+                            .summery(style="min-width:418px;") {{courseInfo[lesson].description}}
                         .tail(style="position:absolute;bottom:4px;width:435px;border-top: 1px dashed #bcbcbc;padding-top:1em;padding-bottom:1em;font-size:14px;")
                             .likeit(style="display:inline-block;")
                                 i.icon-heart(style="color:red;margin-right:0.4em;")
-                                span(style="color:red;margin-right:0.4em;") 330
+                                span(style="color:red;margin-right:0.4em;") {{courseInfo[lesson].numberliked}}
                                 span 人参加了本节课程
                             .reviewbtn.clickable(style="display:inline-block;position:absolute;right:0px;padding-top:0.4em;padding-bottom:0.4em;padding-left:0.8em;padding-right:0.8em;background-color:#f7b52a;color:white;font-size:14px;",ng-click='aLikeClick("/my/play?date="+lesson+"&cat=science&level=B")')
                                 | 课程回顾

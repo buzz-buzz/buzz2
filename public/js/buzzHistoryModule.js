@@ -17,7 +17,9 @@ angular.module('buzzHistoryModule', ['angularQueryParserModule'])
                         var date = $scope.courseList[i];
                         $scope.courseInfo[date] = {
                             title: smil.title,
-                            date: date
+                            date: date,
+                            description: smil.description,
+                            numberliked: smil.baseNumber
                         };
                     });
                 })(i);
