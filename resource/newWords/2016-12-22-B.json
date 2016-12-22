@@ -1,0 +1,54 @@
+{
+  "caseSensitive": false,
+  "array": [
+    "shoes",
+    "chocolate",
+    "Japanese",
+    "pairs",
+    "colors",
+    "cheap"
+  ],
+  "dictionary": {
+    "chocolate": {
+      "id": 1,
+      "ipa": "1.mp3",
+      "url": "http://content.bridgeplus.cn/dict/chocolate/index.html",
+      "exercise": "http://content.bridgeplus.cn/dict-quiz/chocolate-quiz/index.html"
+    },
+    "pair": {
+      "id": 2,
+      "ipa": "3.mp3",
+      "url": "http://content.bridgeplus.cn/dict/pair/index.html",
+      "exercise": "http://content.bridgeplus.cn/dict-quiz/pair-quiz/index.html"
+    },
+    "shoe": {
+      "id": 3,
+      "ipa": "3.mp3",
+      "url": "http://content.bridgeplus.cn/dict/shoe/index.html",
+      "exercise": "http://content.bridgeplus.cn/dict-quiz/shoe-quiz/index.html"
+    },
+    "Japanese": {
+      "id": 4,
+      "ipa": "4.mp3",
+      "url": "http://content.bridgeplus.cn/dict/Japanese/index.html",
+      "exercise": "http://content.bridgeplus.cn/dict-quiz/Japanese-quiz/index.html"
+    },
+    "color": {
+      "id": 5,
+      "ipa": "4.mp3",
+      "url": "http://content.bridgeplus.cn/dict/color/index.html",
+      "exercise": "http://content.bridgeplus.cn/dict-quiz/color-quiz/index.html"
+    },
+    "cheap": {
+      "id": 6,
+      "ipa": "4.mp3",
+      "url": "http://content.bridgeplus.cn/dict/cheap/index.html",
+      "exercise": "http://content.bridgeplus.cn/dict-quiz/cheap-quiz/index.html"
+    },
+    "match": {
+      "id": 6,
+      "ipa": "",
+      "exercise": "http://content.bridgeplus.cn/buzz-quiz/20161221-B-match/index.html"
+    }
+  }
+}
