@@ -1,8 +1,23 @@
-angular.module('buzzHistoryModule', ['angularQueryParserModule'])
-    .controller('historyCtrl', ['$scope', '$http', 'queryParser', function ($scope, $http, queryParser) {
+angular.module('buzzHistoryModule', ['angularQueryParserModule', 'servicesModule', 'clientConfigModule'])
+    .controller('historyCtrl', ['$scope', '$http', 'queryParser', 'service', 'clientConfig', function ($scope, $http, queryParser, service, clientConfig) {
+        var level = queryParser.get('level') || 'B';
+
+        $scope.level = level;
+
+        console.log(clientConfig);
+        service.get(clientConfig.serviceUrls.buzz.courses.frontEnd, {
+            params: {
+                category: 'SCIENCE',
+                level: level,
+                enabled: true
+            }
+        })
+            .then(function (result) {
+                console.log(result);
+            });
+
         $http.get('/api/history-courses').then(function (result) {
-            var level = queryParser.get('level') || 'B';
-            $scope.courseList = result.data.byLevel[level].sort(function(a, b) {
+            $scope.courseList = result.data.byLevel[level].sort(function (a, b) {
                 return (new Date(b)).valueOf() >= (new Date(a)).valueOf();
             });
             console.log($scope.courseList);
@@ -24,7 +39,7 @@ angular.module('buzzHistoryModule', ['angularQueryParserModule'])
                     });
                 })(i);
             }
-            $scope.aLikeClick = function(href) {
+            $scope.aLikeClick = function (href) {
                 window.location.href = href;
             };
         });

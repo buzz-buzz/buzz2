@@ -40,5 +40,7 @@ module.exports = {
         appName: 'buzz'
     },
 
-    tracking: "http://tracking.bridgeplus.cn/js/t.js?write-key=BeUYw5s9DgGdga4XX02V0DuBYsDDxNE8"
+    tracking: "http://tracking.bridgeplus.cn/js/t.js?write-key=BeUYw5s9DgGdga4XX02V0DuBYsDDxNE8",
+
+    admins: ['484f357e-a6ff-4651-bfc0-8dbe610496d7']
 };

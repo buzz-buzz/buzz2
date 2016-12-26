@@ -41,6 +41,11 @@ module.exports = {
             }
         },
 
+        courses: {
+            frontEnd: '/service-proxy/buzz/courses/:category/:level/:enabled',
+            upstream: '/courses/:category/:level/:enabled'
+        },
+
         admin: {
             course: {
                 frontEnd: '/admin/service-proxy/buzz/courses',

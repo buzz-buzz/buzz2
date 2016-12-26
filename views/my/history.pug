@@ -41,10 +41,15 @@ block head
         }
 
 block content
-    #full-page.full.height.container(ng-app="buzzHistoryModule")
-        a.page-pos
+    full.height.container(ng-app="buzzHistoryModule")
         .page.with-header.section.transparent(style="overflow:visible;height:auto;min-height:100%;")
             .center.aligned.container.column.flex-box.white.background(style="padding-left: 50px; padding-right: 50px;",ng-controller="historyCtrl")
+                p
+                    span Level:
+                    a &nbsp;&nbsp;
+                    a(href="?level=B", ng-style="level === 'B' && {'font-weight': 'bold'}") Basic
+                    a &nbsp;&nbsp;
+                    a(href="?level=A", ng-style="level === 'A' && {'font-weight': 'bold'}") Advanced
                 .container(style="height:200px;margin-top:2em;margin-bottom:2em;",ng-repeat="lesson in courseList track by $index")
                     .left.clickable(style="display:inline-block;vertical-align:top;height:200px;",ng-click='aLikeClick("/my/play?date="+lesson+"&cat=science&level=B")')
                         img(style="width:280px;height:200px",src="http://source.bridgeplus.cn/image/png/buzz-poster.png")

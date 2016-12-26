@@ -18,5 +18,17 @@ module.exports = function (app, router, parse) {
                 data: data
             });
         })
+        .get(serviceUrls.buzz.courses.frontEnd, membership.ensureAuthenticated, function*(next) {
+            let category = this.params.category;
+            let level = this.params.level;
+            let enabled = this.params.enabled;
+
+            this.body = yield proxy.call(this, {
+                host: config.buzz.inner.host,
+                port: config.buzz.inner.port,
+                path: serviceUrls.buzz.courses.upstream.replace(':category', category).replace(':level', level).replace(':enabled', enabled),
+                method: 'GET'
+            });
+        })
     ;
 };

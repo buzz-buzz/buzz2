@@ -29,8 +29,8 @@ module.exports = {
 
     buzz: {
         inner: {
-            host: 'uat.service.hcd.com',
-            // host: 'localhost',
+            // host: 'uat.service.hcd.com',
+            host: 'localhost',
             port: 16160
         }
     },
