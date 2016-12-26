@@ -6,6 +6,15 @@ const request = require('co-request');
 const url = require('url');
 const cookie = require('../helpers/cookie');
 
+function setHcdUser(context, data) {
+    context.state.hcd_user = {
+        member_id: data.member_id,
+        token: data.token,
+
+        isAdmin: config.admins.indexOf(data.member_id) >= 0
+    };
+}
+
 function * setHcdUserByToken(context) {
     let token = context.cookies.get('token');
 
@@ -31,13 +40,11 @@ function * setHcdUserByToken(context) {
             result = result.body;
         }
 
-        console.log(result);
-
         if (result.isSuccess) {
-            context.state.hcd_user = {
+            setHcdUser(context, {
                 member_id: result.result.member_id,
                 token: token
-            };
+            });
 
             cookie.deleteMID.call(context);
             cookie.setMID.call(context, result.result.member_id);
@@ -49,12 +56,14 @@ function * setHcdUserByToken(context) {
     }
 }
 let membership = {
-    setHcdUser: function *(next) {
+    setHcdUserByToken: function *(next) {
         let context = this;
         yield setHcdUserByToken(context);
 
         yield next;
-    }
+    },
+
+    setHcdUser: setHcdUser
 };
 
 membership.ensureAuthenticated = function *(next) {
@@ -74,6 +83,17 @@ membership.ensureAuthenticated = function *(next) {
         } else {
             return context.redirect('/sign-in?return_url=' + encodeURIComponent(context.request.originalUrl));
         }
+    }
+
+    yield next;
+};
+
+membership.ensureAdmin = function *(next) {
+    yield setHcdUserByToken(this);
+
+    if (!this.state.hcd_user || !this.state.hcd_user.isAdmin) {
+        require('../helpers/cookie').deleteToken.apply(this);
+        return this.redirect('/sign-in?return_url=' + encodeURIComponent(this.request.originalUrl));
     }
 
     yield next;

@@ -7,12 +7,6 @@ const proxy = require('./proxy');
 const cookie = require('../helpers/cookie');
 const url = require('url');
 
-function setHcdUser(result) {
-    this.state.hcd_user = {
-        member_id: result.result.member_id,
-        token: result.result.token
-    };
-}
 function resetCookies(result) {
     cookie.deleteToken.call(this);
     cookie.deleteMID.call(this);
@@ -56,7 +50,7 @@ module.exports = function (app, router, parse) {
             }
 
             if (result.isSuccess) {
-                setHcdUser.call(this, result);
+                membership.setHcdUser(this, result.result);
                 resetCookies.call(this, result.result);
                 redirectToReturnUrl.call(this, result, decodeURIComponent(data.return_url));
             }

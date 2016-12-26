@@ -1,5 +1,5 @@
 angular.module('buzzHistoryModule', ['angularQueryParserModule'])
-    .controller('historyCtrl', ['$scope', '$http', 'queryParser', '$timeout', function ($scope, $http, queryParser, $timeout) {
+    .controller('historyCtrl', ['$scope', '$http', 'queryParser', function ($scope, $http, queryParser) {
         $http.get('/api/history-courses').then(function (result) {
             var level = queryParser.get('level') || 'B';
             $scope.courseList = result.data.byLevel[level].sort(function(a, b) {

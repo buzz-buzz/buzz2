@@ -2,7 +2,7 @@
 
 const config = require('../config');
 const buzz = require('../service-proxy-for-server/buzz');
-const course = require('../bll/course')
+const course = require('../bll/course');
 
 module.exports = function (app, router, render) {
     router
@@ -15,10 +15,7 @@ module.exports = function (app, router, render) {
             let courseList = course.list();
 
             let byLevel = courseList.byLevel[level];
-            console.log('=========== level ========');
-            console.log(byLevel);
-            console.log('level = ', level);
-            console.log('courseList = ', courseList);
+
             byLevel = byLevel.sort(function (x, y) {
                 if (x < y) {
                     return 1;

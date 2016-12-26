@@ -1,0 +1,56 @@
+extends ../../my/layout
+
+block js
+    script(src="/js/admin/courseModule.js")
+block head
+block content
+    .container(ng-app="courseModule")
+        .page.with-header.section.transparent
+            .center.aligned.container.column.flex-box.transparent
+                form.basic(name="courseForm", ng-controller="courseAddCtrl", ng-submit="saveCourse()")
+                    p
+                        span 当前视图：{{view}}
+                        span &nbsp;
+                        button(type="button", ng-click="switchView()") 切换
+                    .form-view(ng-show="view==='form'")
+                        .field
+                            input(type="text", placeholder="category", ng-model="courseData.category")
+                        .field
+                            select(ng-model="courseData.level")
+                                option(value="B") Basic
+                                option(value="A") Advanced
+                        .field
+                            input(type="checkbox", id="enabled", ng-model="courseData.enabled")
+                            label(for="enabled") 启用
+                        .field
+                            input(type="text", placeholder="title", ng-model="courseData.title")
+                        .field
+                            input(type="text", placeholder="description", ng-model="courseData.description")
+                        .field
+                            input(type="url", placeholder="subtitle", ng-model="courseData.subtitle")
+                        .field
+                            input(type="text", placeholder="newWords", ng-model="courseData.newWords")
+                        .field
+                            input(type="text", placeholder="quizzes", ng-model="courseData.quizzes")
+                        .field
+                            input(type="url", placeholder="image", ng-model="courseData.image")
+                        .field
+                            input(type="number", placeholder="baseNumber", ng-model="courseData.baseNumber")
+                        .field(ng-repeat="item in courseData.switch", style="padding: 5px; border: solid 1px blue;")
+                            .field
+                                input(type="url", placeholder="src", ng-model="item.src")
+                            .field
+                                input(type="text", placeholder="title", ng-model="item.title")
+                            .field
+                                input(type="url", placeholder="image", ng-model="item.image")
+                            .field
+                                input(type="checkbox", id="{{default-$index}}", ng-model="item.default")
+                                label(for="{{default-$index}}") 默认
+                            .field
+                                button(type="button", ng-click="removeSwitchItem(item)", ng-disabled="courseData.switch.length <= 1") 删除
+                                button(type="button", ng-click="addSwitchItem()", ng-show="$index === courseData.switch.length-1") 添加
+
+                    .json-view(ng-show="view==='json'")
+                        textarea(ng-model="courseJson", style="width: 100%; min-height: 500px; border: solid 1px black;")
+                    .field
+                        button(type="submit") 保存

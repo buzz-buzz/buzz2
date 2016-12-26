@@ -4,6 +4,7 @@ const config = require('../config');
 const membership = require('../membership');
 const mount = require('koa-mount');
 const cookie = require('../helpers/cookie');
+const coBody = require('co-body');
 
 function simpleRender(app, router, render) {
     let routes = ['sign-in', 'agreement', 'reset-password'];
@@ -17,7 +18,7 @@ function simpleRender(app, router, render) {
     }
 }
 function renderWithServerData(app, router, render) {
-    router.get('/sign-up', membership.setHcdUser, function *(next) {
+    router.get('/sign-up', membership.setHcdUserByToken, function *(next) {
         if (this.query.step && this.query.step == 2 && !this.state.hcd_user) {
             this.redirect('/sign-up?step=1');
         } else {
@@ -54,6 +55,12 @@ function auth(app, router, render) {
     require('./exercise')(app, router, render);
 }
 
+function admin(app, router, render) {
+    app.use(mount('/admin', membership.ensureAdmin));
+    require('./admin')(app, router, render);
+    require('../service-proxy/admin/buzz')(app, router, coBody);
+}
+
 function api(app, router, render) {
     require('../api/history')(app, router, render);
 }
@@ -78,13 +85,11 @@ function helper(app, router) {
         this.body = {every: 'is ok', time: new Date()};
     });
 
-    router.get('/whoami', membership.setHcdUser, function *(next) {
+    router.get('/whoami', membership.setHcdUserByToken, function *(next) {
         this.body = this.state.hcd_user;
     });
 }
 function serviceProxy(app, router) {
-    let coBody = require('co-body');
-
     require('../service-proxy/sso')(app, router, coBody);
     require('../service-proxy/sms')(app, router, coBody);
     require('../service-proxy/buzz')(app, router, coBody);
@@ -102,6 +107,7 @@ module.exports = function (app, router, render) {
     renderWithServerData(app, router, render);
     auth(app, router, render);
     api(app, router, render);
+    admin(app, router, render);
 
     app
         .use(router.routes())

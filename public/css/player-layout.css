@@ -152,6 +152,7 @@ span.space {
 .column img {
     max-width: 100%;
 }
+
 .column img.special {
     max-width: 160%;
     margin-left: -180px;
@@ -424,6 +425,33 @@ form .error.message {
     padding: 8px 15px;
 }
 
+form.basic input {
+    border: solid 1px black;
+    width: 100%;
+}
+
+form.basic label {
+    color: black;
+}
+
+form.basic input[type="checkbox"] {
+
+}
+
+form.basic select {
+    border: solid 1px black;
+    width: 100%;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    -webkit-box-shadow: 0 1px 0 #f0f0f0, 0 -1px #fff inset;
+    -moz-box-shadow: 0 1px 0 #f0f0f0, 0 -1px #fff inset;
+    box-shadow: 0 1px 0 #f0f0f0, 0 -1px #fff inset;
+    -webkit-appearance: initial !important;
+    -moz-appearance: initial !important;
+    appearance: initial !important;
+    cursor: pointer;
+}
+
 [ng\:cloak],
 [ng-cloak],
 [data-ng-cloak],
@@ -449,7 +477,7 @@ body:not(:-moz-handler-blocked) form select {
     height: 32px;
 }
 
-@media all and (min--moz-device-pixel-ratio: 0) and (min-resolution: 3e1dpcm) {
+@media all and (min--moz-device-pixel-ratio: 0) and (min-resolution: 3 e1dpcm) {
     form select {
         height: 32px;
     }
