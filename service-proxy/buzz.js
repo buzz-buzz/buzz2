@@ -23,6 +23,10 @@ module.exports = function (app, router, parse) {
             let level = this.params.level;
             let enabled = this.params.enabled;
 
+            console.log('cate =========', category);
+            console.log('level =========', level);
+            console.log('enabled =========', enabled);
+
             this.body = yield proxy.call(this, {
                 host: config.buzz.inner.host,
                 port: config.buzz.inner.port,

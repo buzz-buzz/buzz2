@@ -1,6 +1,7 @@
 angular.module('courseModule', ['servicesModule', 'clientConfigModule'])
     .controller('courseAddCtrl', ['$scope', 'service', 'clientConfig', function ($scope, service, clientConfig) {
         $scope.courseData = {
+            date: '',
             category: 'SCIENCE',
             level: null,
             enabled: true,

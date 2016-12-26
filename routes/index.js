@@ -82,7 +82,7 @@ function virtualFile(app, router) {
 
 function helper(app, router) {
     router.get('/healthcheck', function*(next) {
-        this.body = {every: 'is ok', time: new Date()};
+        this.body = {every: 'is ok', time: new Date(), env: process.env.NODE_ENV};
     });
 
     router.get('/whoami', membership.setHcdUserByToken, function *(next) {

@@ -13,6 +13,8 @@ block content
                         span &nbsp;
                         button(type="button", ng-click="switchView()") 切换
                     .form-view(ng-show="view==='form'")
+                        .filed
+                            input(type="text", placeholder="date", ng-model="courseData.date")
                         .field
                             input(type="text", placeholder="category", ng-model="courseData.category")
                         .field
