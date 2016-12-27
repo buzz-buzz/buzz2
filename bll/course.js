@@ -13,27 +13,27 @@ module.exports = {
         };
 
         files.map(function (file) {
-            fs.stat(file, function(err, stats) {
-                if (!err){
-                    if(!stats.isDirectory()){
-                        let parts = file.split('-');
-                        let date = parts.slice(0, 3).join('-');
-                        let level = parts[3].split('.')[0];
+            var stats = fs.statSync(smilPath + '/' + file);
 
-                        if (!history.byDate[date]) {
-                            history.byDate[date] = [];
-                        }
+            if(stats.isFile()) {
+                let parts = file.split('-');
+                let date = parts.slice(0, 3).join('-');
+                if (parts.length == 4) {
+                    let level = parts[3].split('.')[0];
 
-                        history.byDate[date].push(level);
-
-                        if (!history.byLevel[level]) {
-                            history.byLevel[level] = [];
-                        }
-
-                        history.byLevel[level].push(date);
+                    if (!history.byDate[date]) {
+                        history.byDate[date] = [];
                     }
+
+                    history.byDate[date].push(level);
+
+                    if (!history.byLevel[level]) {
+                        history.byLevel[level] = [];
+                    }
+
+                    history.byLevel[level].push(date);
                 }
-            });
+            }
         });
 
         return history;
