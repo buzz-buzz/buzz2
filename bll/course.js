@@ -13,21 +13,27 @@ module.exports = {
         };
 
         files.map(function (file) {
-            let parts = file.split('-');
-            let date = parts.slice(0, 3).join('-');
-            let level = parts[3].split('.')[0];
+            fs.stat(file, function(err, stats) {
+                if (!err){
+                    if(!stats.isDirectory()){
+                        let parts = file.split('-');
+                        let date = parts.slice(0, 3).join('-');
+                        let level = parts[3].split('.')[0];
 
-            if (!history.byDate[date]) {
-                history.byDate[date] = [];
-            }
+                        if (!history.byDate[date]) {
+                            history.byDate[date] = [];
+                        }
 
-            history.byDate[date].push(level);
+                        history.byDate[date].push(level);
 
-            if (!history.byLevel[level]) {
-                history.byLevel[level] = [];
-            }
+                        if (!history.byLevel[level]) {
+                            history.byLevel[level] = [];
+                        }
 
-            history.byLevel[level].push(date);
+                        history.byLevel[level].push(date);
+                    }
+                }
+            });
         });
 
         return history;
