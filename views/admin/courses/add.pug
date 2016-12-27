@@ -2,9 +2,25 @@ extends ../../my/layout
 
 block js
     script(src="/js/admin/courseModule.js")
+    script(src="/node_modules/codemirror/lib/codemirror.js")
+    script(src="/node_modules/codemirror/mode/javascript/javascript.js")
 block head
+    link(rel="stylesheet", href="/node_modules/codemirror/lib/codemirror.css")
+    style.
+        .CodeMirror {
+            border: 1px solid #eee;
+            height: auto;
+        }
+
+        .info {
+            border: solid 1px green;
+        }
+
+        .error {
+            border: solid 1px red;
+        }
 block content
-    .container(ng-app="courseModule")
+    .container(ng-app="courseModule", ng-cloak)
         .page.with-header.section.transparent
             .center.aligned.container.column.flex-box.transparent
                 form.basic(name="courseForm", ng-controller="courseAddCtrl", ng-submit="saveCourse()")
@@ -12,6 +28,9 @@ block content
                         span 当前视图：{{view}}
                         span &nbsp;
                         button(type="button", ng-click="switchView()") 切换
+
+                    p.info(ng-show="info") {{info}}
+                    p.error(ng-show="errorMessage") {{errorMessage}}
                     .form-view(ng-show="view==='form'")
                         .filed
                             input(type="text", placeholder="date", ng-model="courseData.date")
@@ -52,7 +71,7 @@ block content
                                 button(type="button", ng-click="removeSwitchItem(item)", ng-disabled="courseData.switch.length <= 1") 删除
                                 button(type="button", ng-click="addSwitchItem()", ng-show="$index === courseData.switch.length-1") 添加
 
-                    .json-view(ng-show="view==='json'")
-                        textarea(ng-model="courseJson", style="width: 100%; min-height: 500px; border: solid 1px black;")
+                    .json-view(ng-show="view==='json'", style="text-align: left; border: solid 1px #ddd; margin: 5px;")
+                        textarea#json(ng-model="courseJson", style="width: 100%; min-height: 500px; height: auto; border: solid 1px black;")
                     .field
                         button(type="submit") 保存

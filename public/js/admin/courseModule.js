@@ -42,9 +42,9 @@ angular.module('courseModule', ['servicesModule', 'clientConfigModule'])
 
             service.put(clientConfig.serviceUrls.buzz.admin.course.frontEnd, $scope.courseData)
                 .then(function (result) {
-                    alert(result);
+                    $scope.info = '保存成功';
                 }, function (reason) {
-                    alert(reason);
+                    $scope.errorMessage = reason;
                 })
             ;
         };
@@ -79,9 +79,24 @@ angular.module('courseModule', ['servicesModule', 'clientConfigModule'])
         }
 
         function syncFormToJson() {
-            $scope.courseJson = JSON.stringify($scope.courseData);
+            $scope.courseJson = JSON.stringify($scope.courseData, null, 4);
         }
 
-        $scope.courseJson = JSON.stringify($scope.courseData);
+        syncFormToJson();
+
+        var myTextArea = document.getElementById('json');
+
+        angular.element(document).ready(function () {
+            var myCodeMirror = CodeMirror(function (element) {
+                myTextArea.parentNode.replaceChild(element, myTextArea);
+            }, {
+                value: myTextArea.value,
+                mode: 'javascript',
+                lineWrapping: true,
+                autofocus: true,
+                lineNumbers: true,
+                viewportMargin: Infinity
+            });
+        });
     }])
 ;
