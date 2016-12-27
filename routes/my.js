@@ -32,8 +32,11 @@ module.exports = function (app, router, render) {
             });
         })
         .get('/my/history', function *(next) {
+            let hcd_user = this.state.hcd_user;
+
             this.body = yield render('my/history', {
-                config: config
+                config: config,
+                hcd_user: hcd_user
             });
         })
         .get('/my/play', function *(next) {

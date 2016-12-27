@@ -23,7 +23,7 @@ block content
     .container(ng-app="courseModule", ng-cloak)
         .page.with-header.section.transparent
             .center.aligned.container.column.flex-box.transparent
-                form.basic(name="courseForm", ng-controller="courseAddCtrl", ng-submit="saveCourse()")
+                form.basic(name="courseForm", ng-controller="courseAddCtrl", ng-submit="saveCourse()", ng-init=`smil_id = '${smil_id}'`)
                     p
                         span 当前视图：{{view}}
                         span &nbsp;
@@ -32,6 +32,8 @@ block content
                     p.info(ng-show="info") {{info}}
                     p.error(ng-show="errorMessage") {{errorMessage}}
                     .form-view(ng-show="view==='form'")
+                        .field
+                            input(type="text", placeholder="smil_id", ng-model="courseData.smil_id", readonly="readonly")
                         .filed
                             input(type="text", placeholder="date", ng-model="courseData.date")
                         .field
@@ -74,4 +76,4 @@ block content
                     .json-view(ng-show="view==='json'", style="text-align: left; border: solid 1px #ddd; margin: 5px;")
                         textarea#json(ng-model="courseJson", style="width: 100%; min-height: 500px; height: auto; border: solid 1px black;")
                     .field
-                        button(type="submit") 保存
+                        button.yellow.button(type="submit") 保存
