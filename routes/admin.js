@@ -8,13 +8,17 @@ module.exports = function (app, router, render) {
         .get('/admin/courses/add', function *(next) {
             this.body = yield render('admin/courses/add', {
                 config: config,
-                lesson_id: ''
+                lesson: {}
             })
         })
-        .get('/admin/courses/edit/:lesson_id', function*(next) {
+        .get('/admin/courses/edit/:category/:level/:lesson_id', function*(next) {
             this.body = yield render('admin/courses/add', {
                 config: config,
-                lesson_id: this.params.lesson_id
+                lesson: {
+                    lesson_id: this.params.lesson_id,
+                    category: this.params.category,
+                    level: this.params.level
+                }
             })
         })
     ;

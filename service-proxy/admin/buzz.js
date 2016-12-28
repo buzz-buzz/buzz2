@@ -28,13 +28,15 @@ module.exports = function (app, router, parse) {
                 data: data
             });
         })
-        .get(serviceUrls.buzz.admin.course.frontEnd + '/:lesson_id', function *(next) {
+        .get(serviceUrls.buzz.admin.course.frontEnd + '/:category/:level/:lesson_id', function *(next) {
             let lesson_id = this.params.lesson_id;
+            let category = this.params.category;
+            let level = this.params.level;
 
             this.body = yield proxy.call(this, {
                 host: config.buzz.inner.host,
                 port: config.buzz.inner.port,
-                path: serviceUrls.buzz.admin.course.upstream + '/' + lesson_id,
+                path: serviceUrls.buzz.admin.course.upstream + '/' + category + '/' + level + '/' + lesson_id,
                 method: 'GET'
             });
         })

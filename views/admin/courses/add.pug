@@ -23,7 +23,7 @@ block content
     .container(ng-app="courseModule", ng-cloak)
         .page.with-header.section.transparent
             .center.aligned.container.column.flex-box.transparent
-                form.basic(name="courseForm", ng-controller="courseAddCtrl", ng-submit="saveCourse()", ng-init=`lesson_id = '${lesson_id}'`)
+                form.basic(name="courseForm", ng-controller="courseAddCtrl", ng-submit="saveCourse()", ng-init!=`lesson = ${JSON.stringify(lesson).replace(/"/g, '\'')}`)
                     p
                         span 当前视图：{{view}}
                         span &nbsp;

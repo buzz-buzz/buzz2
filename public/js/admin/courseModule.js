@@ -37,7 +37,13 @@ angular.module('courseModule', ['servicesModule', 'clientConfigModule', 'angular
 
         $scope.saveCourse = function () {
             if ($scope.view === 'json') {
-                switchToFormView();
+                try {
+                    switchToFormView();
+                } catch (ex) {
+                    $scope.errorMessage = ex.message;
+
+                    return false;
+                }
             }
 
             var method = 'put';
@@ -48,8 +54,14 @@ angular.module('courseModule', ['servicesModule', 'clientConfigModule', 'angular
 
             service[method](clientConfig.serviceUrls.buzz.admin.course.frontEnd, $scope.courseData)
                 .then(function (result) {
+                    if (result.id) {
+                        $scope.courseData.lesson_id = result.id;
+                    }
+
+                    $scope.errorMessage = null;
                     $scope.info = '保存成功';
                 }, function (reason) {
+                    $scope.info = null;
                     $scope.errorMessage = reason;
                 })
             ;
@@ -58,13 +70,8 @@ angular.module('courseModule', ['servicesModule', 'clientConfigModule', 'angular
         $scope.view = 'json';
 
         function switchToFormView() {
-            try {
-                syncJsonToForm();
-
-                $scope.view = 'form';
-            } catch (ex) {
-                alert(ex);
-            }
+            syncJsonToForm();
+            $scope.view = 'form';
         }
 
         function switchToJsonView() {
@@ -74,7 +81,11 @@ angular.module('courseModule', ['servicesModule', 'clientConfigModule', 'angular
 
         $scope.switchView = function () {
             if ($scope.view === 'json') {
-                switchToFormView();
+                try {
+                    switchToFormView();
+                } catch (ex) {
+                    $scope.errorMessage = ex.message;
+                }
             } else {
                 switchToJsonView();
             }
@@ -113,10 +124,10 @@ angular.module('courseModule', ['servicesModule', 'clientConfigModule', 'angular
         }
 
         function checkSmil() {
-            if (!$scope.lesson_id) {
+            if (!$scope.lesson) {
                 return $q.resolve();
             } else {
-                return service.get(clientConfig.serviceUrls.buzz.admin.course.frontEnd + '/' + $scope.lesson_id).then(function (result) {
+                return service.get(clientConfig.serviceUrls.buzz.admin.course.frontEnd + '/' + $scope.lesson.category + '/' + $scope.lesson.level + '/' + $scope.lesson.lesson_id).then(function (result) {
                     $scope.courseData = {
                         lesson_id: result.lesson_id,
                         date: result.date,

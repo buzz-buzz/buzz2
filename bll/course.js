@@ -3,6 +3,9 @@
 const fs = require('fs');
 
 module.exports = {
+    latestCourse: function () {
+
+    },
     list: function () {
         let smilPath = __dirname + '/../resource/smil';
         let files = fs.readdirSync(smilPath);
@@ -15,7 +18,7 @@ module.exports = {
         files.map(function (file) {
             var stats = fs.statSync(smilPath + '/' + file);
 
-            if(stats.isFile()) {
+            if (stats.isFile()) {
                 let parts = file.split('-');
                 let date = parts.slice(0, 3).join('-');
                 if (parts.length == 4) {
