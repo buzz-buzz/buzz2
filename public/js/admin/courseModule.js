@@ -40,7 +40,13 @@ angular.module('courseModule', ['servicesModule', 'clientConfigModule', 'angular
                 switchToFormView();
             }
 
-            service.put(clientConfig.serviceUrls.buzz.admin.course.frontEnd, $scope.courseData)
+            var method = 'put';
+
+            if ($scope.courseData.lesson_id) {
+                method = 'post';
+            }
+
+            service[method](clientConfig.serviceUrls.buzz.admin.course.frontEnd, $scope.courseData)
                 .then(function (result) {
                     $scope.info = '保存成功';
                 }, function (reason) {
@@ -74,7 +80,13 @@ angular.module('courseModule', ['servicesModule', 'clientConfigModule', 'angular
             }
         };
 
+        var myCodeMirror = null;
+
         function syncJsonToForm() {
+            if (myCodeMirror) {
+                $scope.courseJson = myCodeMirror.getValue();
+            }
+
             $scope.courseData = JSON.parse($scope.courseJson);
         }
 
@@ -85,7 +97,7 @@ angular.module('courseModule', ['servicesModule', 'clientConfigModule', 'angular
         var myTextArea = document.getElementById('json');
 
         function initCodeMirror() {
-            var myCodeMirror = CodeMirror(function (element) {
+            myCodeMirror = CodeMirror(function (element) {
                 myTextArea.parentNode.replaceChild(element, myTextArea);
             }, {
                 value: $scope.courseJson,
@@ -93,19 +105,20 @@ angular.module('courseModule', ['servicesModule', 'clientConfigModule', 'angular
                 lineWrapping: true,
                 autofocus: true,
                 lineNumbers: true,
-                viewportMargin: Infinity
+                viewportMargin: Infinity,
+                change: function (instance, changeObj) {
+                    console.log(arguments);
+                }
             });
         }
 
         function checkSmil() {
-            console.log('got smil = ', $scope.smil_id);
-            if (!$scope.smil_id) {
-                console.log('no smil');
+            if (!$scope.lesson_id) {
                 return $q.resolve();
             } else {
-                return service.get(clientConfig.serviceUrls.buzz.admin.course.frontEnd + '/' + $scope.smil_id).then(function (result) {
+                return service.get(clientConfig.serviceUrls.buzz.admin.course.frontEnd + '/' + $scope.lesson_id).then(function (result) {
                     $scope.courseData = {
-                        smil_id: result.smil_id,
+                        lesson_id: result.lesson_id,
                         date: result.date,
                         category: result.category,
                         level: result.level,

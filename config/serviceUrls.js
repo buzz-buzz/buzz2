@@ -47,8 +47,8 @@ module.exports = {
                 upstream: '/courses/:category/:level/:enabled'
             },
             get: {
-                frontEnd: '/service-proxy/buzz/courses/:smil_id',
-                upstream: '/courses/:smil_id'
+                frontEnd: '/service-proxy/buzz/courses/:lesson_id',
+                upstream: '/courses/:lesson_id'
             }
         },
 
