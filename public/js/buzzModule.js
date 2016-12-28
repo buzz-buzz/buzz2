@@ -8,8 +8,8 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
             level: query.level
         });
     }])
-    .controller('VideoPlayerCtrl', ['$scope', '$sce', function ($scope, $sce) {
-        $scope.queryString = location.search;
+    .controller('VideoPlayerCtrl', ['$scope', '$sce', 'clientConfig', function ($scope, $sce, clientConfig) {
+        $scope.queryString = location.search + '&lessonInfoUrl=' + clientConfig.serviceUrls.buzz.courses.findByDate.frontEnd;
         $scope.$sce = $sce;
     }])
     .controller('LevelCtrl', ['$scope', 'queryParser', '$httpParamSerializer', function ($scope, queryParser, $httpParamSerializer) {

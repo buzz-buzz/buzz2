@@ -12,22 +12,9 @@ module.exports = function (app, router, render) {
                 level = 'B';
             }
 
-            let courseList = course.list();
+            let latestCourse = yield buzz.getLatestCourse('SCIENCE', level);
 
-            let byLevel = courseList.byLevel[level];
-
-            byLevel = byLevel.sort(function (x, y) {
-                if (x < y) {
-                    return 1;
-                }
-                if (x > y) {
-                    return -1;
-                }
-                return 0;
-            });
-            let latest = byLevel[0];
-
-            this.redirect('/my/play?date=' + latest + '&cat=science&level=' + level, {
+            this.redirect('/my/play?date=' + latestCourse.date + '&cat=science&level=' + level, {
                 config: config
             });
         })
