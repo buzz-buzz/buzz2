@@ -62,7 +62,6 @@ function admin(app, router, render) {
 }
 
 function api(app, router, render) {
-    require('../api/history')(app, router, render);
 }
 
 function virtualFile(app, router) {
