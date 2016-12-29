@@ -14,5 +14,18 @@ module.exports = {
             method: 'GET',
             data: {}
         })).result;
+    },
+
+    getLatestCourse: function *(category, level) {
+        return (yield proxy({
+            host: config.buzz.inner.host,
+            port: config.buzz.inner.port,
+            path: require('koa-router').url(serviceUrls.buzz.courses.latest.upstream, {
+                category: category,
+                level: level
+            }),
+            method: 'GET',
+            data: {}
+        })).result;
     }
 };

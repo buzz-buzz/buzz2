@@ -17,13 +17,26 @@ module.exports = function (app, router, parse) {
                 data: data
             });
         })
-        .get(serviceUrls.buzz.admin.course.frontEnd + '/:smil_id', function *(next) {
-            let smil_id = this.params.smil_id;
+        .post(serviceUrls.buzz.admin.course.frontEnd, function *(next) {
+            let data = yield parse(this.request);
 
             this.body = yield proxy.call(this, {
                 host: config.buzz.inner.host,
                 port: config.buzz.inner.port,
-                path: serviceUrls.buzz.admin.course.upstream + '/' + smil_id,
+                path: serviceUrls.buzz.admin.course.upstream,
+                method: 'POST',
+                data: data
+            });
+        })
+        .get(serviceUrls.buzz.admin.course.frontEnd + '/:category/:level/:lesson_id', function *(next) {
+            let lesson_id = this.params.lesson_id;
+            let category = this.params.category;
+            let level = this.params.level;
+
+            this.body = yield proxy.call(this, {
+                host: config.buzz.inner.host,
+                port: config.buzz.inner.port,
+                path: serviceUrls.buzz.admin.course.upstream + '/' + category + '/' + level + '/' + lesson_id,
                 method: 'GET'
             });
         })

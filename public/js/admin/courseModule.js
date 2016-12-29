@@ -37,13 +37,31 @@ angular.module('courseModule', ['servicesModule', 'clientConfigModule', 'angular
 
         $scope.saveCourse = function () {
             if ($scope.view === 'json') {
-                switchToFormView();
+                try {
+                    switchToFormView();
+                } catch (ex) {
+                    $scope.errorMessage = ex.message;
+
+                    return false;
+                }
             }
 
-            service.put(clientConfig.serviceUrls.buzz.admin.course.frontEnd, $scope.courseData)
+            var method = 'put';
+
+            if ($scope.courseData.lesson_id) {
+                method = 'post';
+            }
+
+            service[method](clientConfig.serviceUrls.buzz.admin.course.frontEnd, $scope.courseData)
                 .then(function (result) {
+                    if (result.id) {
+                        $scope.courseData.lesson_id = result.id;
+                    }
+
+                    $scope.errorMessage = null;
                     $scope.info = '保存成功';
                 }, function (reason) {
+                    $scope.info = null;
                     $scope.errorMessage = reason;
                 })
             ;
@@ -52,13 +70,8 @@ angular.module('courseModule', ['servicesModule', 'clientConfigModule', 'angular
         $scope.view = 'json';
 
         function switchToFormView() {
-            try {
-                syncJsonToForm();
-
-                $scope.view = 'form';
-            } catch (ex) {
-                alert(ex);
-            }
+            syncJsonToForm();
+            $scope.view = 'form';
         }
 
         function switchToJsonView() {
@@ -68,13 +81,23 @@ angular.module('courseModule', ['servicesModule', 'clientConfigModule', 'angular
 
         $scope.switchView = function () {
             if ($scope.view === 'json') {
-                switchToFormView();
+                try {
+                    switchToFormView();
+                } catch (ex) {
+                    $scope.errorMessage = ex.message;
+                }
             } else {
                 switchToJsonView();
             }
         };
 
+        var myCodeMirror = null;
+
         function syncJsonToForm() {
+            if (myCodeMirror) {
+                $scope.courseJson = myCodeMirror.getValue();
+            }
+
             $scope.courseData = JSON.parse($scope.courseJson);
         }
 
@@ -85,7 +108,7 @@ angular.module('courseModule', ['servicesModule', 'clientConfigModule', 'angular
         var myTextArea = document.getElementById('json');
 
         function initCodeMirror() {
-            var myCodeMirror = CodeMirror(function (element) {
+            myCodeMirror = CodeMirror(function (element) {
                 myTextArea.parentNode.replaceChild(element, myTextArea);
             }, {
                 value: $scope.courseJson,
@@ -93,19 +116,20 @@ angular.module('courseModule', ['servicesModule', 'clientConfigModule', 'angular
                 lineWrapping: true,
                 autofocus: true,
                 lineNumbers: true,
-                viewportMargin: Infinity
+                viewportMargin: Infinity,
+                change: function (instance, changeObj) {
+                    console.log(arguments);
+                }
             });
         }
 
         function checkSmil() {
-            console.log('got smil = ', $scope.smil_id);
-            if (!$scope.smil_id) {
-                console.log('no smil');
+            if (!$scope.lesson) {
                 return $q.resolve();
             } else {
-                return service.get(clientConfig.serviceUrls.buzz.admin.course.frontEnd + '/' + $scope.smil_id).then(function (result) {
+                return service.get(clientConfig.serviceUrls.buzz.admin.course.frontEnd + '/' + $scope.lesson.category + '/' + $scope.lesson.level + '/' + $scope.lesson.lesson_id).then(function (result) {
                     $scope.courseData = {
-                        smil_id: result.smil_id,
+                        lesson_id: result.lesson_id,
                         date: result.date,
                         category: result.category,
                         level: result.level,

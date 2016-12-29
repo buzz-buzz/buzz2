@@ -4,6 +4,7 @@ const serviceUrls = require('../config/serviceUrls');
 const config = require('../config');
 const membership = require('../membership');
 const proxy = require('./proxy');
+const Router = require('koa-router');
 
 module.exports = function (app, router, parse) {
     router
@@ -27,6 +28,18 @@ module.exports = function (app, router, parse) {
                 host: config.buzz.inner.host,
                 port: config.buzz.inner.port,
                 path: serviceUrls.buzz.courses.find.upstream.replace(':category', category).replace(':level', level).replace(':enabled', enabled),
+                method: 'GET'
+            });
+        })
+        .get(serviceUrls.buzz.courses.findByDate.frontEnd, membership.ensureAuthenticated, function*(next) {
+            this.body = yield proxy.call(this, {
+                host: config.buzz.inner.host,
+                port: config.buzz.inner.port,
+                path: Router.url(serviceUrls.buzz.courses.findByDate.upstream, {
+                    category: this.params.category.toUpperCase(),
+                    level: this.params.level,
+                    date: this.params.date
+                }),
                 method: 'GET'
             });
         })

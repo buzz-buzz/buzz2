@@ -23,7 +23,7 @@ block content
     .container(ng-app="courseModule", ng-cloak)
         .page.with-header.section.transparent
             .center.aligned.container.column.flex-box.transparent
-                form.basic(name="courseForm", ng-controller="courseAddCtrl", ng-submit="saveCourse()", ng-init=`smil_id = '${smil_id}'`)
+                form.basic(name="courseForm", ng-controller="courseAddCtrl", ng-submit="saveCourse()", ng-init!=`lesson = ${JSON.stringify(lesson).replace(/"/g, '\'')}`)
                     p
                         span 当前视图：{{view}}
                         span &nbsp;
@@ -33,7 +33,7 @@ block content
                     p.error(ng-show="errorMessage") {{errorMessage}}
                     .form-view(ng-show="view==='form'")
                         .field
-                            input(type="text", placeholder="smil_id", ng-model="courseData.smil_id", readonly="readonly")
+                            input(type="text", placeholder="lesson_id", ng-model="courseData.lesson_id", readonly="readonly")
                         .filed
                             input(type="text", placeholder="date", ng-model="courseData.date")
                         .field

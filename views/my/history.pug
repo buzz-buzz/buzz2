@@ -65,7 +65,7 @@ block content
                                 span 人参加了本节课程
                             if hcd_user && hcd_user.isAdmin
                                 span &nbsp;&nbsp;&nbsp;&nbsp;
-                                a(ng-href="/admin/courses/edit/{{lesson.smil_id}}") 编辑课程
+                                a(ng-href="/admin/courses/edit/{{lesson.category}}/{{lesson.level}}/{{lesson.lesson_id}}") 编辑课程
                             .reviewbtn.clickable(style="display:inline-block;position:absolute;right:0px;padding-top:0.4em;padding-bottom:0.4em;padding-left:0.8em;padding-right:0.8em;background-color:#f7b52a;color:white;font-size:14px;",ng-click='aLikeClick("/my/play?date="+lesson.date+"&cat="+ lesson.category.toLowerCase()+"&level="+lesson.level)')
                                 | 课程回顾
                 

@@ -5,7 +5,10 @@ angular.module('buzzPlayerModule', ['angularQueryParserModule', 'trackingModule'
     .controller('videoCtrl', ['$scope', '$rootScope', '$http', 'queryParser', '$timeout', '$sce', 'tracking', function ($scope, $rootScope, $http, queryParser, $timeout, $sce, tracking) {
         $scope.$sce = $sce;
         var query = queryParser.parse();
-        var smilJson = '/resource/smil/' + query.date + '-' + query.level + '.json';
+        console.log(query);
+        // var smilJson = '/resource/smil/' + query.date + '-' + query.level + '.json';
+        var smilJson = query.lessonInfoUrl.replace(':category', query.cat).replace(':level', query.level).replace(':date', query.date);
+        console.log(smilJson);
         $http.get(smilJson).then(function (result) {
             var smil = result.data;
 
