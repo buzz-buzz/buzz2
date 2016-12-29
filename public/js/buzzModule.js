@@ -83,7 +83,12 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                 });
             });
             $scope.quizzes = retArray;
-            $scope.quizURL = $scope.quizzes[$scope.quizIndex].url;
+            // $scope.quizURL = $scope.quizzes[$scope.quizIndex].url;
+            if ($window.quizAdapter) {
+                $window.quizAdapter.getResult("quiz", $scope.quizzes[$scope.quizIndex].url).then(function(ret) {
+                    $window.onQuizDone($scope.STATUS.P);
+                });
+            }
             $scope.turnQuiz = function (isNext) {
                 var maxIndex = $scope.quizzes.length - 1;
                 if (isNext) {
@@ -102,7 +107,11 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                 // if ($scope.quizIndex===3) {
                 //     $scope.quizzes[$scope.quizIndex].status=STATUS.F;
                 // }
-                $scope.quizURL = $scope.quizzes[$scope.quizIndex].url;
+                if ($window.quizAdapter) {
+                    $window.quizAdapter.getResult("quiz", $scope.quizzes[$scope.quizIndex].url).then(function(ret) {
+                        $window.onQuizDone($scope.STATUS.P);
+                    });
+                }
             };
         });
     }])
