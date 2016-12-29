@@ -47,7 +47,7 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
             }
         });
     }])
-    .controller('quizCtrl', ['$scope', '$http', 'queryParser', '$sce', '$window', function ($scope, $http, queryParser, $sce, $window) {
+    .controller('quizCtrl', ['$scope', '$http', 'queryParser', '$sce', '$window', 'clientConfig', function ($scope, $http, queryParser, $sce, $window, clientConfig) {
         $window.onQuizDone = function (mark) {
             $scope.quizzes[$scope.quizIndex].status = mark;
         };
@@ -55,7 +55,7 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
         $scope.$sce = $sce;
         $scope.quizURL = "";
 
-        var smilJson = '/resource/smil/' + query.date + '-' + query.level + '.json';
+        var smilJson = clientConfig.serviceUrls.buzz.courses.findByDate.frontEnd.replace(':category', query.cat).replace(':level', query.level).replace(':date', query.date);
         $scope.quizzes = [];
         $scope.quizIndex = 0;
         var STATUS = $scope.STATUS = {
@@ -106,7 +106,7 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
             };
         });
     }])
-    .controller('newWordCtrl', ['$scope', '$http', 'queryParser', '$timeout', '$sce', '$window', 'tracking', function ($scope, $http, queryParser, $timeout, $sce, $window, tracking) {
+    .controller('newWordCtrl', ['$scope', '$http', 'queryParser', '$timeout', '$sce', '$window', 'tracking', 'clientConfig', function ($scope, $http, queryParser, $timeout, $sce, $window, tracking, clientConfig) {
         $window.onWordDone = function (mark) {
             $scope.newWords[$scope.wordIndex].status = mark;
         };
@@ -116,7 +116,7 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
         $scope.newWords = [];
         $scope.word = {};
         var wordIndex = $scope.wordIndex = 0;
-        var smilJson = '/resource/smil/' + query.date + '-' + query.level + '.json';
+        var smilJson = clientConfig.serviceUrls.buzz.courses.findByDate.frontEnd.replace(':category', query.cat).replace(':level', query.level).replace(':date', query.date);
         var STATUS = $scope.STATUS = {
             "U": "unchecked",
             "P": "passed",
