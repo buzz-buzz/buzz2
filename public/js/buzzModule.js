@@ -47,10 +47,25 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
             }
         });
     }])
-    .controller('quizCtrl', ['$scope', '$http', 'queryParser', '$sce', '$window', 'clientConfig', function ($scope, $http, queryParser, $sce, $window, clientConfig) {
-        $window.onQuizDone = function (mark) {
-            $scope.quizzes[$scope.quizIndex].status = mark;
-        };
+    .controller('quizCtrl', ['$scope', '$http', 'queryParser', '$sce', '$window', 'clientConfig', 'tracking', function ($scope, $http, queryParser, $sce, $window, clientConfig, tracking) {
+        var setUrl = function() {
+            if ($window.quizAdapter) {
+                tracking.send('today-quiz', {
+                    index: $scope.quizIndex
+                });
+                $window.quizAdapter.getResult("quiz", $scope.quizzes[$scope.quizIndex].url).then(function(ret) {
+                    var status = ret.status;
+                    $scope.quizzes[$scope.quizIndex].status = ret.mark;
+                    tracking.send('today-quiz.submit', {
+                        index: $scope.quizIndex,
+                        ispassed: ret.status === STATUS.P,
+                        score: ret.mark
+                    });
+                }, function() {
+                    //Do nothing
+                });
+            }
+        }
         var query = queryParser.parse();
         $scope.$sce = $sce;
         $scope.quizURL = "";
@@ -84,11 +99,15 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
             });
             $scope.quizzes = retArray;
             // $scope.quizURL = $scope.quizzes[$scope.quizIndex].url;
-            if ($window.quizAdapter) {
-                $window.quizAdapter.getResult("quiz", $scope.quizzes[$scope.quizIndex].url).then(function(ret) {
-                    $window.onQuizDone($scope.STATUS.P);
-                });
-            }
+            setUrl();
+            // if ($window.quizAdapter) {
+            //     tracking.send('today-quiz', {
+            //         index: $scope.quizIndex
+            //     });
+            //     $window.quizAdapter.getResult("quiz", $scope.quizzes[$scope.quizIndex].url).then(function(ret) {
+            //         $window.onQuizDone($scope.STATUS.P);
+            //     });
+            // }
             $scope.turnQuiz = function (isNext) {
                 var maxIndex = $scope.quizzes.length - 1;
                 if (isNext) {
@@ -107,18 +126,44 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                 // if ($scope.quizIndex===3) {
                 //     $scope.quizzes[$scope.quizIndex].status=STATUS.F;
                 // }
-                if ($window.quizAdapter) {
-                    $window.quizAdapter.getResult("quiz", $scope.quizzes[$scope.quizIndex].url).then(function(ret) {
-                        $window.onQuizDone($scope.STATUS.P);
-                    });
-                }
+                setUrl();
+                // if ($window.quizAdapter) {
+                //     tracking.send('today-quiz', {
+                //         index: $scope.quizIndex
+                //     });
+                //     $window.quizAdapter.getResult("quiz", $scope.quizzes[$scope.quizIndex].url).then(function(ret) {
+                //         onQuizDone($scope.STATUS.P);
+                //     });
+                // }
             };
         });
     }])
     .controller('newWordCtrl', ['$scope', '$http', 'queryParser', '$timeout', '$sce', '$window', 'tracking', 'clientConfig', function ($scope, $http, queryParser, $timeout, $sce, $window, tracking, clientConfig) {
-        $window.onWordDone = function (mark) {
-            $scope.newWords[$scope.wordIndex].status = mark;
-        };
+        var seturl = function (url, isQuiz) {
+            if ($window.quizAdapter) {
+                var word = $scope.newWords[$scope.wordIndex].word;
+                if (isQuiz) {
+                    tracking.send('today-vocabulary-quiz', {
+                        word: word
+                    });
+                } else {
+                    tracking.send('today-vocabulary-word', {
+                        word: word
+                    });
+                }
+                $window.quizAdapter.getResult('word', url).then(function(ret) {
+                    var status = ret.status;
+                    $scope.newWords[$scope.wordIndex].status = ret.mark;
+                    tracking.send('today-vocabulary-quiz.submit', {
+                        word: word,
+                        ispassed: ret.status === STATUS.P,
+                        score: ret.mark
+                    });
+                }, function() {
+                    //Do nothing
+                });
+            }
+        }
         $scope.$sce = $sce;
         var query = queryParser.parse();
         var newWords = [];
@@ -158,11 +203,12 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                     });
                 });
                 $scope.WORD_MAX_INDEX = newWords.length - 1;
-                $scope.wordURL = newWords[wordIndex].url;
                 if (newWords[wordIndex].exercise && newWords[wordIndex].exercise !== "") {
                     $scope.hasWordMode = true;
                     $scope.isWordMode = false;
-                    $scope.wordURL = newWords[wordIndex].exercise;
+                    seturl(newWords[wordIndex].exercise, true);
+                } else {
+                    seturl(newWords[wordIndex].url, false);
                 }
                 $scope.newWords = newWords;
                 // $scope.wordURL = $sce.trustAsResourceUrl(newWords[wordIndex].url);
@@ -183,11 +229,12 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                 wordIndex = 0;
             }
             $scope.wordIndex = wordIndex;
-            $scope.wordURL = newWords[wordIndex].url;
             if (newWords[wordIndex].exercise && newWords[wordIndex].exercise !== "") {
                 $scope.hasWordMode = true;
                 $scope.isWordMode = false;
-                $scope.wordURL = newWords[wordIndex].exercise;
+                seturl(newWords[wordIndex].exercise, true);
+            } else {
+                seturl(newWords[wordIndex].url, false);
             }
             // $scope.wordURL = $sce.trustAsResourceUrl(newWords[wordIndex].url);
         };
@@ -196,9 +243,9 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
         $scope.changeWordMode = function (value) {
             $scope.isWordMode = value;
             if (value) {
-                $scope.wordURL = newWords[wordIndex].url;
+                seturl(newWords[wordIndex].url, false);
             } else {
-                $scope.wordURL = newWords[wordIndex].exercise;
+                seturl(newWords[wordIndex].exercise, true);
             }
         };
     }])
