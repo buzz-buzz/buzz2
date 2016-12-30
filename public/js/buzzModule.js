@@ -58,7 +58,7 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                     $scope.quizzes[$scope.quizIndex].status = ret.mark;
                     tracking.send('today-quiz.submit', {
                         index: $scope.quizIndex,
-                        ispassed: ret.status === STATUS.P,
+                        ispassed: ret.status.toLowerCase() === STATUS.P,
                         score: ret.mark
                     });
                 }, function() {
@@ -156,7 +156,7 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                     $scope.newWords[$scope.wordIndex].status = ret.mark;
                     tracking.send('today-vocabulary-quiz.submit', {
                         word: word,
-                        ispassed: ret.status === STATUS.P,
+                        ispassed: ret.status.toLowerCase() === STATUS.P,
                         score: ret.mark
                     });
                 }, function() {
