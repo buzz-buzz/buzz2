@@ -154,7 +154,6 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                         });
                     }
                     $window.quizAdapter.getResult('word', url).then(function (ret) {
-                        debugger;
                         var status = ret.status;
                         $scope.newWords[$scope.wordIndex].status = ret.mark;
                         tracking.send('today-vocabulary-quiz.submit', {
@@ -196,10 +195,8 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                 if ($scope.newWords[wordIndex].exercise && $scope.newWords[wordIndex].exercise !== "") {
                     $scope.hasWordMode = true;
                     $scope.isWordMode = false;
-                    debugger;
                     seturl($scope.newWords[wordIndex].exercise, true);
                 } else {
-                    debugger;
                     seturl($scope.newWords[wordIndex].url, false);
 
                 }
