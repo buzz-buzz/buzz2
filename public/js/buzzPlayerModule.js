@@ -7,7 +7,8 @@ angular.module('buzzPlayerModule', ['angularQueryParserModule', 'trackingModule'
         var query = queryParser.parse();
         console.log(query);
         // var smilJson = '/resource/smil/' + query.date + '-' + query.level + '.json';
-        var smilJson = query.lessonInfoUrl.replace(':category', query.cat).replace(':level', query.level).replace(':date', query.date);
+        // var smilJson = query.lessonInfoUrl.replace(':category', query.cat).replace(':level', query.level).replace(':date', query.date);
+        var smilJson = query.video_path;
         console.log(smilJson);
         $http.get(smilJson).then(function (result) {
             var smil = result.data;

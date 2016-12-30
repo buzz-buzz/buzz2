@@ -8,8 +8,16 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
             level: query.level
         });
     }])
-    .controller('VideoPlayerCtrl', ['$scope', '$sce', 'clientConfig', function ($scope, $sce, clientConfig) {
-        $scope.queryString = location.search + '&lessonInfoUrl=' + clientConfig.serviceUrls.buzz.courses.findByDate.frontEnd;
+    .controller('VideoPlayerCtrl', ['$scope', '$sce', 'clientConfig', '$http', 'queryParser', '$rootScope', '$timeout', function ($scope, $sce, clientConfig, $http, queryParser, $rootScope, $timeout) {
+        var query = queryParser.parse();
+        $http.get(clientConfig.serviceUrls.buzz.courses.findByDate.frontEnd.replace(':category', query.cat).replace(':level', query.level).replace(':date', query.date))
+            .then(function (result) {
+                $scope.queryString = location.search + '&lessonInfoUrl=' + clientConfig.serviceUrls.buzz.courses.findByDate.frontEnd + '&video_path=' + result.data.video_path;
+
+                $rootScope.lessonInfo = result.data;
+                $scope.$emit('lessonInfo:got', result.data);
+            })
+        ;
         $scope.$sce = $sce;
     }])
     .controller('LevelCtrl', ['$scope', 'queryParser', '$httpParamSerializer', function ($scope, queryParser, $httpParamSerializer) {
@@ -47,30 +55,10 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
             }
         });
     }])
-    .controller('quizCtrl', ['$scope', '$http', 'queryParser', '$sce', '$window', 'clientConfig', 'tracking', function ($scope, $http, queryParser, $sce, $window, clientConfig, tracking) {
-        var setUrl = function() {
-            if ($window.quizAdapter) {
-                tracking.send('today-quiz', {
-                    index: $scope.quizIndex
-                });
-                $window.quizAdapter.getResult("quiz", $scope.quizzes[$scope.quizIndex].url).then(function(ret) {
-                    var status = ret.status;
-                    $scope.quizzes[$scope.quizIndex].status = ret.mark;
-                    tracking.send('today-quiz.submit', {
-                        index: $scope.quizIndex,
-                        ispassed: ret.status.toLowerCase() === STATUS.P,
-                        score: ret.mark
-                    });
-                }, function() {
-                    //Do nothing
-                });
-            }
-        }
-        var query = queryParser.parse();
+    .controller('quizCtrl', ['$scope', '$http', 'queryParser', '$sce', '$window', 'clientConfig', '$rootScope', 'tracking', function ($scope, $http, queryParser, $sce, $window, clientConfig, $rootScope, tracking) {
         $scope.$sce = $sce;
         $scope.quizURL = "";
 
-        var smilJson = clientConfig.serviceUrls.buzz.courses.findByDate.frontEnd.replace(':category', query.cat).replace(':level', query.level).replace(':date', query.date);
         $scope.quizzes = [];
         $scope.quizIndex = 0;
         var STATUS = $scope.STATUS = {
@@ -78,175 +66,187 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
             "P": "passed",
             "F": "failed"
         };
-        $http.get(smilJson).then(function (result) {
-            var smil = result.data;
-            return smil.quizzes;
-        }).then(function (ret) {
-            if (ret && ret !== "") {
-                return $http.get(ret);
-            } else {
-                return null;
-            }
-        }).then(function (ret) {
-            var data = ret.data;
-            var retArray = [];
-            Object.keys(data).forEach(function (key) {
-                retArray.push({
-                    "name": key,
-                    "url": data[key],
-                    "status": STATUS.U
-                });
-            });
-            $scope.quizzes = retArray;
-            // $scope.quizURL = $scope.quizzes[$scope.quizIndex].url;
-            setUrl();
-            // if ($window.quizAdapter) {
-            //     tracking.send('today-quiz', {
-            //         index: $scope.quizIndex
-            //     });
-            //     $window.quizAdapter.getResult("quiz", $scope.quizzes[$scope.quizIndex].url).then(function(ret) {
-            //         $window.onQuizDone($scope.STATUS.P);
-            //     });
-            // }
-            $scope.turnQuiz = function (isNext) {
-                var maxIndex = $scope.quizzes.length - 1;
-                if (isNext) {
-                    $scope.quizIndex++;
-                } else {
-                    $scope.quizIndex--;
+
+        function lessonDataGot(event, data) {
+            var setUrl = function () {
+                if ($window.quizAdapter) {
+                    tracking.send('today-quiz', {
+                        index: $scope.quizIndex
+                    });
+                    $window.quizAdapter.getResult("quiz", $scope.quizzes[$scope.quizIndex].url).then(function (ret) {
+                        var status = ret.status;
+                        $scope.quizzes[$scope.quizIndex].status = ret.mark;
+                        tracking.send('today-quiz.submit', {
+                            index: $scope.quizIndex,
+                            ispassed: ret.status.toLowerCase() === STATUS.P,
+                            score: ret.mark
+                        });
+                    }, function () {
+                        //Do nothing
+                    });
                 }
-                if ($scope.quizIndex > maxIndex) {
-                    $scope.quizIndex = maxIndex;
-                } else if ($scope.quizIndex < 0) {
-                    $scope.quizIndex = 0;
-                }
-                // if ($scope.quizIndex===2) {
-                //     $scope.quizzes[$scope.quizIndex].status=STATUS.P;
-                // }
-                // if ($scope.quizIndex===3) {
-                //     $scope.quizzes[$scope.quizIndex].status=STATUS.F;
-                // }
-                setUrl();
-                // if ($window.quizAdapter) {
-                //     tracking.send('today-quiz', {
-                //         index: $scope.quizIndex
-                //     });
-                //     $window.quizAdapter.getResult("quiz", $scope.quizzes[$scope.quizIndex].url).then(function(ret) {
-                //         onQuizDone($scope.STATUS.P);
-                //     });
-                // }
             };
-        });
-    }])
-    .controller('newWordCtrl', ['$scope', '$http', 'queryParser', '$timeout', '$sce', '$window', 'tracking', 'clientConfig', function ($scope, $http, queryParser, $timeout, $sce, $window, tracking, clientConfig) {
-        var seturl = function (url, isQuiz) {
-            if ($window.quizAdapter) {
-                var word = $scope.newWords[$scope.wordIndex].word;
-                if (isQuiz) {
-                    tracking.send('today-vocabulary-quiz', {
-                        word: word
+
+            var smilJson = data.quiz_path;
+
+            $http.get(smilJson).then(function (ret) {
+                var data = ret.data;
+                var retArray = [];
+                Object.keys(data).forEach(function (key) {
+                    retArray.push({
+                        "name": key,
+                        "url": data[key],
+                        "status": STATUS.U
                     });
-                } else {
-                    tracking.send('today-vocabulary-word', {
-                        word: word
-                    });
-                }
-                $window.quizAdapter.getResult('word', url).then(function(ret) {
-                    var status = ret.status;
-                    $scope.newWords[$scope.wordIndex].status = ret.mark;
-                    tracking.send('today-vocabulary-quiz.submit', {
-                        word: word,
-                        ispassed: ret.status.toLowerCase() === STATUS.P,
-                        score: ret.mark
-                    });
-                }, function() {
-                    //Do nothing
                 });
-            }
+                $scope.quizzes = retArray;
+
+                setUrl();
+
+                $scope.turnQuiz = function (isNext) {
+                    var maxIndex = $scope.quizzes.length - 1;
+                    if (isNext) {
+                        $scope.quizIndex++;
+                    } else {
+                        $scope.quizIndex--;
+                    }
+                    if ($scope.quizIndex > maxIndex) {
+                        $scope.quizIndex = maxIndex;
+                    } else if ($scope.quizIndex < 0) {
+                        $scope.quizIndex = 0;
+                    }
+                    // if ($scope.quizIndex===2) {
+                    //     $scope.quizzes[$scope.quizIndex].status=STATUS.P;
+                    // }
+                    // if ($scope.quizIndex===3) {
+                    //     $scope.quizzes[$scope.quizIndex].status=STATUS.F;
+                    // }
+                    setUrl();
+                };
+            });
         }
+
+        if ($rootScope.lessonData) {
+            lessonDataGot(null, $rootScope.lessonData);
+        } else {
+            var unbind = $rootScope.$on('lessonInfo:got', lessonDataGot);
+            $scope.$on('$destroy', unbind);
+        }
+    }])
+    .controller('newWordCtrl', ['$scope', '$http', 'queryParser', '$timeout', '$sce', '$window', 'tracking', 'clientConfig', '$rootScope', '$timeout', function ($scope, $http, queryParser, $timeout, $sce, $window, tracking, clientConfig, $rootScope, $timeout) {
+
         $scope.$sce = $sce;
-        var query = queryParser.parse();
-        var newWords = [];
         $scope.newWords = [];
         $scope.word = {};
         var wordIndex = $scope.wordIndex = 0;
-        var smilJson = clientConfig.serviceUrls.buzz.courses.findByDate.frontEnd.replace(':category', query.cat).replace(':level', query.level).replace(':date', query.date);
-        var STATUS = $scope.STATUS = {
-            "U": "unchecked",
-            "P": "passed",
-            "F": "failed"
-        };
-        $http.get(smilJson).then(function (result) {
-            var smil = result.data;
-            return smil.newWords;
-        }).then(function (ret) {
-            if (ret && ret !== "") {
-                return $http.get(ret);
-            } else {
-                return null;
-            }
-        }).then(function (ret) {
-            if (!ret || !ret.data) {
-                return null;
-            }
-            var wordsData = ret.data;
-            if (wordsData.dictionary) {
-                Object.keys(wordsData.dictionary).forEach(function (key) {
-                    var thisWord = wordsData.dictionary[key];
-                    newWords.push({
-                        "word": key,
-                        "id": thisWord.id,
-                        "url": thisWord.url,
-                        "exercise": thisWord.exercise || "",
-                        "status": STATUS.U
-                        // "exercise": thisWord.exercise || "http://content.bridgeplus.cn/buzz-quiz/" + query.date + '-' + query.level + "/index.html"
+
+        function lessonDataGot(event, lessonData) {
+            var seturl = function (url, isQuiz) {
+                if ($window.quizAdapter) {
+                    var word = $scope.newWords[$scope.wordIndex].word;
+                    if (isQuiz) {
+                        tracking.send('today-vocabulary-quiz', {
+                            word: word
+                        });
+                    } else {
+                        tracking.send('today-vocabulary-word', {
+                            word: word
+                        });
+                    }
+                    $window.quizAdapter.getResult('word', url).then(function (ret) {
+                        debugger;
+                        var status = ret.status;
+                        $scope.newWords[$scope.wordIndex].status = ret.mark;
+                        tracking.send('today-vocabulary-quiz.submit', {
+                            word: word,
+                            ispassed: ret.status.toLowerCase() === STATUS.P,
+                            score: ret.mark
+                        });
+                    }, function () {
+                        //Do nothing
                     });
-                });
-                $scope.WORD_MAX_INDEX = newWords.length - 1;
-                if (newWords[wordIndex].exercise && newWords[wordIndex].exercise !== "") {
+                }
+            };
+
+            var smilJson = lessonData.new_words_path;
+            var STATUS = $scope.STATUS = {
+                "U": "unchecked",
+                "P": "passed",
+                "F": "failed"
+            };
+            $http.get(smilJson).then(function (ret) {
+                if (!ret || !ret.data) {
+                    return null;
+                }
+                var wordsData = ret.data;
+                if (wordsData.dictionary) {
+                    Object.keys(wordsData.dictionary).forEach(function (key) {
+                        var thisWord = wordsData.dictionary[key];
+                        $scope.newWords.push({
+                            "word": key,
+                            "id": thisWord.id,
+                            "url": thisWord.url,
+                            "exercise": thisWord.exercise || "",
+                            "status": STATUS.U
+                            // "exercise": thisWord.exercise || "http://content.bridgeplus.cn/buzz-quiz/" + query.date + '-' + query.level + "/index.html"
+                        });
+                    });
+                }
+                $scope.WORD_MAX_INDEX = $scope.newWords.length - 1;
+                if ($scope.newWords[wordIndex].exercise && $scope.newWords[wordIndex].exercise !== "") {
                     $scope.hasWordMode = true;
                     $scope.isWordMode = false;
-                    seturl(newWords[wordIndex].exercise, true);
+                    debugger;
+                    seturl($scope.newWords[wordIndex].exercise, true);
                 } else {
-                    seturl(newWords[wordIndex].url, false);
-                }
-                $scope.newWords = newWords;
-                // $scope.wordURL = $sce.trustAsResourceUrl(newWords[wordIndex].url);
-            }
-        });
-        $scope.turnWord = function (isNext) {
-            if (isNext) {
-                tracking.send('play.vocabularyTab.slideNextBtn.clicked');
-            } else {
-                tracking.send('play.vocabularyTab.slidePrevBtn.clicked');
-            }
+                    debugger;
+                    seturl($scope.newWords[wordIndex].url, false);
 
-            var length = newWords.length;
-            wordIndex = isNext ? ++wordIndex : --wordIndex;
-            if (wordIndex >= length) {
-                wordIndex = length - 1;
-            } else if (wordIndex < 0) {
-                wordIndex = 0;
-            }
-            $scope.wordIndex = wordIndex;
-            if (newWords[wordIndex].exercise && newWords[wordIndex].exercise !== "") {
-                $scope.hasWordMode = true;
-                $scope.isWordMode = false;
-                seturl(newWords[wordIndex].exercise, true);
-            } else {
-                seturl(newWords[wordIndex].url, false);
-            }
-            // $scope.wordURL = $sce.trustAsResourceUrl(newWords[wordIndex].url);
-        };
-        $scope.isWordMode = true;
-        $scope.hasWordMode = false;
-        $scope.changeWordMode = function (value) {
-            $scope.isWordMode = value;
-            if (value) {
-                seturl(newWords[wordIndex].url, false);
-            } else {
-                seturl(newWords[wordIndex].exercise, true);
-            }
-        };
+                }
+            });
+
+            $scope.turnWord = function (isNext) {
+                if (isNext) {
+                    tracking.send('play.vocabularyTab.slideNextBtn.clicked');
+                } else {
+                    tracking.send('play.vocabularyTab.slidePrevBtn.clicked');
+                }
+
+                var length = $scope.newWords.length;
+                wordIndex = isNext ? ++wordIndex : --wordIndex;
+                if (wordIndex >= length) {
+                    wordIndex = length - 1;
+                } else if (wordIndex < 0) {
+                    wordIndex = 0;
+                }
+                $scope.wordIndex = wordIndex;
+                if ($scope.newWords[wordIndex].exercise && $scope.newWords[wordIndex].exercise !== "") {
+                    $scope.hasWordMode = true;
+                    $scope.isWordMode = false;
+                    seturl($scope.newWords[wordIndex].exercise, true);
+                } else {
+                    seturl($scope.newWords[wordIndex].url, false);
+                }
+                // $scope.wordURL = $sce.trustAsResourceUrl(newWords[wordIndex].url);
+            };
+            $scope.isWordMode = true;
+            $scope.hasWordMode = false;
+            $scope.changeWordMode = function (value) {
+                $scope.isWordMode = value;
+                if (value) {
+                    seturl($scope.newWords[wordIndex].url, false);
+                } else {
+                    seturl($scope.newWords[wordIndex].exercise, true);
+                }
+            };
+        }
+
+        if ($rootScope.lessonData) {
+            lessonDataGot(null, $rootScope.lessonData);
+        } else {
+            var unbind = $rootScope.$on('lessonInfo:got', lessonDataGot);
+            $scope.$on('$destroy', unbind);
+        }
+
     }])
 ;

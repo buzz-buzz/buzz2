@@ -13,9 +13,6 @@ function *proxy(settings) {
         method: settings.method || 'POST'
     };
 
-    console.log('proxying...');
-    console.log(option);
-
     if (settings.data) {
         option.json = Object.assign(settings.data, {
             application_id: config.applicationId
@@ -25,9 +22,6 @@ function *proxy(settings) {
     let result = yield request(option);
 
     result = result.body;
-
-    console.log('proxy result:');
-    console.log(result);
 
     return result;
 }

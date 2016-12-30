@@ -1,7 +1,7 @@
 'use strict';
 
-const serviceUrls = require('../config/serviceUrls');
 const config = require('../config');
+const serviceUrls = config.serviceUrls;
 const membership = require('../membership');
 const proxy = require('./proxy');
 const Router = require('koa-router');

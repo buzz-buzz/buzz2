@@ -4,8 +4,10 @@ angular.module('buzzHistoryModule', ['angularQueryParserModule', 'servicesModule
 
         $scope.level = level;
 
-        service.get(clientConfig.serviceUrls.buzz.courses.find.frontEnd.replace(':category', 'SCIENCE').replace(':level', level).replace(':enabled', 'true'))
+        $http.get(clientConfig.serviceUrls.buzz.courses.find.frontEnd.replace(':category', 'SCIENCE').replace(':level', level).replace(':enabled', 'true'))
             .then(function (result) {
+                result = result.data;
+
                 $scope.courseList = result.sort(function (a, b) {
                     if (a.date > b.date) {
                         return -1;
