@@ -19,6 +19,12 @@ angular.module('buzzHistoryModule', ['angularQueryParserModule', 'servicesModule
 
                     return 0;
                 });
+
+                $scope.courseList.map(function (c) {
+                    $http.get(c.video_path).then(function (result) {
+                        c.title = result.data.title;
+                    });
+                });
             });
 
         $scope.aLikeClick = function (href) {
