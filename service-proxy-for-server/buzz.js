@@ -13,7 +13,7 @@ module.exports = {
             path: serviceUrls.buzz.profile.currentLevel.upstream.replace(':member_id', member_id),
             method: 'GET',
             data: {}
-        })).result;
+        }));
     },
 
     getLatestCourse: function *(category, level) {
@@ -26,6 +26,6 @@ module.exports = {
             }),
             method: 'GET',
             data: {}
-        })).result;
+        }));
     }
 };
