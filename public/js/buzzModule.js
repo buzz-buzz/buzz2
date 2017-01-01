@@ -193,8 +193,10 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                 }
                 $scope.WORD_MAX_INDEX = $scope.newWords.length - 1;
                 if ($scope.newWords[wordIndex].exercise && $scope.newWords[wordIndex].exercise !== "") {
-                    $scope.hasWordMode = true;
                     $scope.isWordMode = false;
+                    if ($scope.newWords[wordIndex].url && $scope.newWords[wordIndex].url !== "") {
+                        $scope.hasWordMode = false;
+                    }
                     seturl($scope.newWords[wordIndex].exercise, true);
                 } else {
                     $scope.isWordMode = true;
@@ -220,8 +222,10 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                 }
                 $scope.wordIndex = wordIndex;
                 if ($scope.newWords[wordIndex].exercise && $scope.newWords[wordIndex].exercise !== "") {
-                    $scope.hasWordMode = true;
                     $scope.isWordMode = false;
+                    if ($scope.newWords[wordIndex].url && $scope.newWords[wordIndex].url !== "") {
+                        $scope.hasWordMode = false;
+                    }
                     seturl($scope.newWords[wordIndex].exercise, true);
                 } else {
                     $scope.hasWordMode = false;
