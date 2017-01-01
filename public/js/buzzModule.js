@@ -197,6 +197,8 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                     $scope.isWordMode = false;
                     seturl($scope.newWords[wordIndex].exercise, true);
                 } else {
+                    $scope.isWordMode = true;
+                    $scope.hasWordMode = false;
                     seturl($scope.newWords[wordIndex].url, false);
 
                 }
@@ -222,12 +224,12 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                     $scope.isWordMode = false;
                     seturl($scope.newWords[wordIndex].exercise, true);
                 } else {
+                    $scope.hasWordMode = false;
+                    $scope.isWordMode = true;
                     seturl($scope.newWords[wordIndex].url, false);
                 }
                 // $scope.wordURL = $sce.trustAsResourceUrl(newWords[wordIndex].url);
             };
-            $scope.isWordMode = true;
-            $scope.hasWordMode = false;
             $scope.changeWordMode = function (value) {
                 $scope.isWordMode = value;
                 if (value) {
