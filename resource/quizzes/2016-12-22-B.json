@@ -1,7 +1,7 @@
 {
-    "quiz1": "http://content.bridgeplus.cn/buzz-quiz/20161221-B-1/index.html",
-    "quiz2": "http://content.bridgeplus.cn/buzz-quiz/20161221-B-2/index.html",
-    "quiz3": "http://content.bridgeplus.cn/buzz-quiz/20161221-B-3/index.html",
-    "quiz4": "http://content.bridgeplus.cn/buzz-quiz/20161221-B-4/index.html",
-    "quiz5": "http://content.bridgeplus.cn/buzz-quiz/20161221-B-5/index.html"
+    "quiz1": "/buzz-quiz/20161221-B-1/index.html",
+    "quiz2": "/buzz-quiz/20161221-B-2/index.html",
+    "quiz3": "/buzz-quiz/20161221-B-3/index.html",
+    "quiz4": "/buzz-quiz/20161221-B-4/index.html",
+    "quiz5": "/buzz-quiz/20161221-B-5/index.html"
 }
