@@ -103,6 +103,10 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
 
                 setUrl();
 
+                $scope.itemClick = function(index) {
+                    $scope.quizIndex = index;
+                    setUrl();
+                };
                 $scope.turnQuiz = function (isNext) {
                     var maxIndex = $scope.quizzes.length - 1;
                     if (isNext) {
@@ -208,6 +212,22 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                 }
             });
 
+            $scope.itemClick = function(wordIndex) {
+                $scope.wordIndex = wordIndex;
+                if ($scope.newWords[wordIndex].exercise && $scope.newWords[wordIndex].exercise !== "") {
+                    $scope.isWordMode = false;
+                    if ($scope.newWords[wordIndex].url && $scope.newWords[wordIndex].url !== "") {
+                        $scope.hasWordMode = true;
+                    } else {
+                        $scope.hasWordMode = false;
+                    }
+                    seturl($scope.newWords[wordIndex].exercise, true);
+                } else {
+                    $scope.hasWordMode = false;
+                    $scope.isWordMode = true;
+                    seturl($scope.newWords[wordIndex].url, false);
+                }
+            };
             $scope.turnWord = function (isNext) {
                 if (isNext) {
                     tracking.send('play.vocabularyTab.slideNextBtn.clicked');

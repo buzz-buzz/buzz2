@@ -120,6 +120,7 @@
     margin-right: 20px;
     border: 1px solid #c0c0c0;
     vertical-align: top;
+    cursor: pointer;
 }
 .tabular.content .statusbar .status.pass {
     background-color: green;
