@@ -85,7 +85,7 @@ block content
                             .status(ng-repeat="word in newWords track by $index" ng-class="{'active': $index<=wordIndex, 'pass': quiz.status===STATUS.P,'fail': quiz.status===STATUS.F}")
                                 i.icon-checkmark(ng-show="$index!==wordIndex&&word.status===STATUS.P")
                                 i.icon-cross(ng-show="$index!==wordIndex&&word.status===STATUS.F")
-                                span(ng-show="$index===wordIndex&&word.status===STATUS.U") {{$index+1}}
+                                span(ng-show="$index===wordIndex||word.status===STATUS.U") {{$index+1}}
                         .left.arrow(ng-click="turnWord(false)",ng-class="{'hidden':wordIndex===0}")
                             span.icon-circle-left
                         .vocabulary.container
@@ -99,7 +99,7 @@ block content
                             .status(ng-repeat="quiz in quizzes track by $index" ng-class="{'active': $index<=quizIndex, 'pass': quiz.status===STATUS.P,'fail': quiz.status===STATUS.F}") 
                                 i.icon-checkmark(ng-show="$index!==quizIndex&&quiz.status===STATUS.P")
                                 i.icon-cross(ng-show="$index!==quizIndex&&quiz.status===STATUS.F")
-                                span(ng-show="$index===quizIndex&&quiz.status===STATUS.U") {{$index+1}}
+                                span(ng-show="$index===quizIndex||quiz.status===STATUS.U") {{$index+1}}
                         .left.arrow(ng-click="turnQuiz(false)",ng-class="{'hidden':quizIndex===0}")
                             span.icon-circle-left
                         .exercise.container
