@@ -75,7 +75,7 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                     });
                     $window.quizAdapter.getResult("quiz", $scope.quizzes[$scope.quizIndex].url).then(function (ret) {
                         var status = ret.status;
-                        $scope.quizzes[$scope.quizIndex].status = ret.mark;
+                        $scope.quizzes[$scope.quizIndex].status = status.toLowerCase();
                         tracking.send('today-quiz.submit', {
                             index: $scope.quizIndex,
                             ispassed: ret.status.toLowerCase() === STATUS.P,
@@ -155,7 +155,7 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                     }
                     $window.quizAdapter.getResult('word', url).then(function (ret) {
                         var status = ret.status;
-                        $scope.newWords[$scope.wordIndex].status = ret.mark;
+                        $scope.newWords[$scope.wordIndex].status = status.toLowerCase();
                         tracking.send('today-vocabulary-quiz.submit', {
                             word: word,
                             ispassed: ret.status.toLowerCase() === STATUS.P,
