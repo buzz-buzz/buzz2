@@ -38,10 +38,13 @@ block head
 
         .clickable {
             cursor: pointer;
+            max-width: 420px;
+            display: inline-block;
+            white-space: normal;
         }
 
 block content
-    full.height.container(ng-app="buzzHistoryModule")
+    full.height.container(ng-app="buzzHistoryModule", style="white-space: nowrap;")
         .page.with-header.section.transparent(style="overflow:visible;height:auto;min-height:100%;")
             .center.aligned.container.column.flex-box.white.background(style="padding-left: 50px; padding-right: 50px;",ng-controller="historyCtrl")
                 p
@@ -61,11 +64,8 @@ block content
                         .tail(style="position:absolute;bottom:4px;width:435px;border-top: 1px dashed #bcbcbc;padding-top:1em;padding-bottom:1em;font-size:14px;")
                             .likeit(style="display:inline-block;")
                                 i.icon-heart(style="color:red;margin-right:0.4em;")
-                                span(style="color:red;margin-right:0.4em;") {{lesson.basenumber}}
+                                span(style="color:red;margin-right:0.4em;") {{lesson.baseNumber}}
                                 span 人参加了本节课程
-                            if hcd_user && hcd_user.isAdmin
-                                span &nbsp;&nbsp;&nbsp;&nbsp;
-                                a(ng-href="/admin/courses/edit/{{lesson.category}}/{{lesson.level}}/{{lesson.lesson_id}}") 编辑课程
                             .reviewbtn.clickable(style="display:inline-block;position:absolute;right:0px;padding-top:0.4em;padding-bottom:0.4em;padding-left:0.8em;padding-right:0.8em;background-color:#f7b52a;color:white;font-size:14px;",ng-click='aLikeClick("/my/play?date="+lesson.date+"&cat="+ lesson.category.toLowerCase()+"&level="+lesson.level)')
                                 | 课程回顾
                 
