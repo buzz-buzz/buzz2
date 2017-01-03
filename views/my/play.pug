@@ -82,10 +82,10 @@ block content
                 .tabular.content
                     .item(ng-show="$root.tabularIndex===1",ng-controller="newWordCtrl")
                         .statusbar
-                            .status(ng-repeat="word in newWords track by $index",ng-class="{'active': $index<=wordIndex, 'pass': quiz.status===STATUS.P,'fail': quiz.status===STATUS.F}",ng-click="itemClick($index)")
-                                i.icon-checkmark(ng-show="$index!==wordIndex&&word.status===STATUS.P")
-                                i.icon-cross(ng-show="$index!==wordIndex&&word.status===STATUS.F")
-                                span(ng-show="$index===wordIndex||word.status===STATUS.U") {{$index+1}}
+                            .status(ng-repeat="word in newWords track by $index",ng-class="{'active': $index<=wordIndex, 'pass': $index<=wordIndex&&word.status===STATUS.P,'fail': $index<=wordIndex&&word.status===STATUS.F}",ng-click="itemClick($index)")
+                                i.icon-checkmark(ng-show="$index<=wordIndex&&word.status===STATUS.P")
+                                i.icon-cross(ng-show="$index<=wordIndex&&word.status===STATUS.F")
+                                span(ng-show="$index>wordIndex||word.status===STATUS.U") {{$index+1}}
                         .left.arrow(ng-click="turnWord(false)",ng-class="{'hidden':wordIndex===0}")
                             span.icon-circle-left
                         .vocabulary.container
@@ -96,10 +96,10 @@ block content
                         .button(ng-show="!isWordMode&&hasWordMode",ng-click="changeWordMode(true)") 显示词汇
                     .item(ng-show="$root.tabularIndex===2",ng-controller="quizCtrl")
                         .statusbar
-                            .status(ng-repeat="quiz in quizzes track by $index",ng-class="{'active': $index<=quizIndex, 'pass': quiz.status===STATUS.P,'fail': quiz.status===STATUS.F}",ng-click="itemClick($index)") 
-                                i.icon-checkmark(ng-show="$index!==quizIndex&&quiz.status===STATUS.P")
-                                i.icon-cross(ng-show="$index!==quizIndex&&quiz.status===STATUS.F")
-                                span(ng-show="$index===quizIndex||quiz.status===STATUS.U") {{$index+1}}
+                            .status(ng-repeat="quiz in quizzes track by $index",ng-class="{'active': $index<=quizIndex, 'pass': $index<=quizIndex&&quiz.status===STATUS.P,'fail': $index<=quizIndex&&quiz.status===STATUS.F}",ng-click="itemClick($index)") 
+                                i.icon-checkmark(ng-show="$index<=quizIndex&&quiz.status===STATUS.P")
+                                i.icon-cross(ng-show="$index<=quizIndex&&quiz.status===STATUS.F")
+                                span(ng-show="$index>quizIndex||quiz.status===STATUS.U") {{$index+1}}
                         .left.arrow(ng-click="turnQuiz(false)",ng-class="{'hidden':quizIndex===0}")
                             span.icon-circle-left
                         .exercise.container

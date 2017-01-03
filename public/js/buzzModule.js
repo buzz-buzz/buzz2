@@ -212,8 +212,8 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                 }
             });
 
-            $scope.itemClick = function(wordIndex) {
-                $scope.wordIndex = wordIndex;
+            $scope.itemClick = function(index) {
+                $scope.wordIndex = wordIndex = index;
                 if ($scope.newWords[wordIndex].exercise && $scope.newWords[wordIndex].exercise !== "") {
                     $scope.isWordMode = false;
                     if ($scope.newWords[wordIndex].url && $scope.newWords[wordIndex].url !== "") {

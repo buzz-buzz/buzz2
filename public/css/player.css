@@ -122,9 +122,11 @@
     vertical-align: top;
     cursor: pointer;
 }
+.tabular.content .statusbar .status.active.pass,
 .tabular.content .statusbar .status.pass {
     background-color: green;
 }
+.tabular.content .statusbar .status.active.fail,
 .tabular.content .statusbar .status.fail {
     background-color: red;
 }
