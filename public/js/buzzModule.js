@@ -12,12 +12,16 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
         var query = queryParser.parse();
         $http.get(clientConfig.serviceUrls.buzz.courses.findByDate.frontEnd.replace(':category', query.cat).replace(':level', query.level).replace(':date', query.date))
             .then(function (result) {
-                $scope.queryString = location.search + '&video_path=' + (result.data.video_path);
+                $scope.queryString = location.search + '&video_path=' + (result.data.video_path) + '&new_words_path=' + result.data.new_words_path;
                 $scope.src = 'player' + $scope.queryString;
 
-                $rootScope.lessonInfo = result.data;
+                $rootScope.lessonInfo = {
+                    video_path: result.data.video_path,
+                    quiz_path: result.data.quiz_path,
+                    new_words_path: result.data.new_words_path
+                };
 
-                $scope.$emit('lessonInfo:got', result.data);
+                $scope.$emit('lessonInfo:got', $rootScope.lessonInfo);
 
                 console.log($rootScope.lessonInfo);
             })

@@ -159,8 +159,8 @@ angular.module('buzzPlayerModule', ['angularQueryParserModule', 'trackingModule'
                         seekAndPlay();
                     };
                 }).then(function () {
-                    if (smil.newWords) {
-                        $http.get(smil.newWords).then(function (result) {
+                    if (query.new_words_path) {
+                        $http.get(query.new_words_path).then(function (result) {
                             var newWords = result.data;
                             if (newWords.array) {
                                 var rules = new RegExp("(" + newWords.array.join("|") + ")", "g");
