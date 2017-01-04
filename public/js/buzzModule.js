@@ -12,11 +12,14 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
         var query = queryParser.parse();
         $http.get(clientConfig.serviceUrls.buzz.courses.findByDate.frontEnd.replace(':category', query.cat).replace(':level', query.level).replace(':date', query.date))
             .then(function (result) {
-                $scope.queryString = location.search + '&video_path=' + result.data.video_path;
+                $scope.queryString = location.search + '&video_path=' + (result.data.video_path);
                 $scope.src = 'player' + $scope.queryString;
 
                 $rootScope.lessonInfo = result.data;
+
                 $scope.$emit('lessonInfo:got', result.data);
+
+                console.log($rootScope.lessonInfo);
             })
         ;
         $scope.$sce = $sce;
@@ -104,7 +107,7 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
 
                 setUrl();
 
-                $scope.itemClick = function(index) {
+                $scope.itemClick = function (index) {
                     $scope.quizIndex = index;
                     setUrl();
                 };
@@ -213,7 +216,7 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                 }
             });
 
-            $scope.itemClick = function(index) {
+            $scope.itemClick = function (index) {
                 $scope.wordIndex = wordIndex = index;
                 if ($scope.newWords[wordIndex].exercise && $scope.newWords[wordIndex].exercise !== "") {
                     $scope.isWordMode = false;
