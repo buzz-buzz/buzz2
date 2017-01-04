@@ -1,0 +1,31 @@
+{
+  "date": "2016-11-07",
+  "category": "SCIENCE",
+  "level": "A",
+  "enabled": true,
+  "title": "NASA Scientists celebrate Halloween",
+  "description": "",
+  "subtitle": "http://buzz-course-video.b0.upaiyun.com/news/science/2016-11-07-A.ass",
+  "newWords": "/resource/newWords/2016-11-07-A.json",
+  "quizzes": "/resource/quizzes/2016-11-07-A.json",
+  "image": "http://source.bridgeplus.cn/image/png/buzz-poster.png",
+  "baseNumber": 100,
+  "switch": [
+    {
+      "src": "http://buzz-course-video.b0.upaiyun.com/news/science/2016-11-07-A-480w.mp4",
+      "title": "手机",
+      "image": ""
+    },
+    {
+      "src": "http://buzz-course-video.b0.upaiyun.com/news/science/2016-11-07-A-720w.mp4",
+      "title": "标清",
+      "default": true,
+      "image": ""
+    },
+    {
+      "src": "http://buzz-course-video.b0.upaiyun.com/news/science/2016-11-07-A-1080w.mp4",
+      "title": "高清",
+      "image": ""
+    }
+  ]
+}

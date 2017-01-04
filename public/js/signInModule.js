@@ -7,7 +7,8 @@ angular.module('signInModule', ['angularQueryParserModule', 'clientConfigModule'
         $translateProvider.translations('en', {}).translations('zh', {
             'Invalid user name or password': '错误的用户名或者密码',
             'Invalid identity or password': '错误的用户名或者密码',
-            '/': '登录成功, 正在跳转中……'
+            '/': '登录成功, 正在跳转中……',
+            '/my/today': '登录成功, 正在跳转至今日课程页面……',
         });
         $translateProvider.preferredLanguage('zh');
     }])

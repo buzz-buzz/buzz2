@@ -7,4 +7,5 @@ module.exports = function (app) {
     app.use(koaMount('/mock/', serveStatic('mock')));
     app.use(koaMount('/node_modules', serveStatic('node_modules')));
     app.use(koaMount('/resource', serveStatic('resource')));
+    app.use(koaMount('/resources', serveStatic('resources')));
 };

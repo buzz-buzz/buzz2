@@ -1,0 +1,31 @@
+{
+  "date": "2016-12-05",
+  "category": "SCIENCE",
+  "level": "B",
+  "enabled": true,
+  "title": "American-born pandas in China",
+  "description": "",
+  "subtitle": "http://buzz-course-video.b0.upaiyun.com/news/animal/2016-12-05-B.ass",
+  "newWords": "/resource/newWords/2016-12-05-B.json",
+  "quizzes": "/resource/quizzes/2016-12-05-B.json",
+  "image": "http://source.bridgeplus.cn/image/png/buzz-poster.png",
+  "baseNumber": 100,
+  "switch": [
+    {
+      "src": "http://buzz-course-video.b0.upaiyun.com/news/animal/2016-12-05-B-480w.mp4",
+      "title": "手机",
+      "image": ""
+    },
+    {
+      "src": "http://buzz-course-video.b0.upaiyun.com/news/animal/2016-12-05-B-720w.mp4",
+      "title": "标清",
+      "default": true,
+      "image": ""
+    },
+    {
+      "src": "http://buzz-course-video.b0.upaiyun.com/news/animal/2016-12-05-B-1080w.mp4",
+      "title": "高清",
+      "image": ""
+    }
+  ]
+}
