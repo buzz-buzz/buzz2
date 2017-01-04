@@ -17,7 +17,7 @@ angular.module('buzzPlayerModule', ['angularQueryParserModule', 'trackingModule'
                 height: document.querySelector('.video-wrapper').offsetHeight,
                 width: '100%',
                 playlist: [{
-                    title: smil.title,
+                    // title: smil.title,
                     description: smil.description,
                     image: smil.image,
                     stretching: "none",

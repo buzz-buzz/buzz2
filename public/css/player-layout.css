@@ -255,6 +255,12 @@ span.space {
     margin-bottom: 0.6em;
 }
 
+.zero-margin {
+    margin-top: 0;
+    margin-bottom: 0;
+    line-height: 1.8rem;
+}
+
 .bordered.segment {
     border: solid 1px #eee;
     border-bottom: solid 2px #ccc;
