@@ -43,5 +43,17 @@ module.exports = function (app, router, parse) {
                 method: 'GET'
             });
         })
+
+        .post(serviceUrls.buzz.courseViews.frontEnd, function *(next){
+            this.body = yield proxy({
+                host: config.buzz.inner.host,
+                port: config.buzz.inner.port,
+                path: Router.url(serviceUrls.buzz.courseViews.upstream, {
+                    category: this.params.category.toUpperCase(),
+                    level: this.params.level,
+                    lesson_id: this.params.lesson_id
+                })
+            });
+        })
     ;
 };

@@ -12,13 +12,14 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
         var query = queryParser.parse();
         $http.get(clientConfig.serviceUrls.buzz.courses.findByDate.frontEnd.replace(':category', query.cat).replace(':level', query.level).replace(':date', query.date))
             .then(function (result) {
-                $scope.queryString = location.search + '&video_path=' + (result.data.video_path) + '&new_words_path=' + result.data.new_words_path;
+                $scope.queryString = location.search + '&video_path=' + (result.data.video_path) + '&new_words_path=' + result.data.new_words_path + '&lesson_id=' + result.data.lesson_id;
                 $scope.src = 'player' + $scope.queryString;
 
                 $rootScope.lessonInfo = {
                     video_path: result.data.video_path,
                     quiz_path: result.data.quiz_path,
-                    new_words_path: result.data.new_words_path
+                    new_words_path: result.data.new_words_path,
+                    lesson_id: result.data.lesson_id
                 };
 
                 $scope.$emit('lessonInfo:got', $rootScope.lessonInfo);
@@ -27,6 +28,24 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
             })
         ;
         $scope.$sce = $sce;
+    }])
+    .controller('UpdateHitsCtrl', ['$scope', 'clientConfig', '$http', function ($scope, clientConfig, $http) {
+        window.addEventListener('message', function (event) {
+            if (event.origin === location.origin && event.data.indexOf('video:played//') === 0) {
+                try {
+                    var data = JSON.parse(event.data.substr(14));
+                    console.log(data);
+
+                    $http
+                        .post(clientConfig.serviceUrls.buzz.courseViews.frontEnd.replace(':category', data.category).replace(':level', data.level).replace(':lesson_id', data.lesson_id), {})
+                        .then(function (result) {
+                            console.log(result);
+                        });
+                } catch (ex) {
+                    console.error(ex);
+                }
+            }
+        }, false)
     }])
     .controller('LevelCtrl', ['$scope', 'queryParser', '$httpParamSerializer', function ($scope, queryParser, $httpParamSerializer) {
         var query = queryParser.parse();

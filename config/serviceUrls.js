@@ -50,14 +50,15 @@ module.exports = {
                 frontEnd: '/service-proxy/buzz/courses/:category/:level/dates/:date',
                 upstream: '/courses/:category/:level/dates/:date'
             },
-            get: {
-                frontEnd: '/service-proxy/buzz/courses/:lesson_id',
-                upstream: '/courses/:lesson_id'
-            },
             latest: {
                 frontEnd: '/service-proxy/buzz/courses/:category/:level/latest',
                 upstream: '/courses/:category/:level/latest'
             }
+        },
+
+        courseViews: {
+            frontEnd: '/service-proxy/buzz/course-views/:category/:level/:lesson_id',
+            upstream: '/course-views/:category/:level/:lesson_id'
         },
 
         admin: {

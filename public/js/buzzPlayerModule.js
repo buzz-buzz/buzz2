@@ -69,7 +69,8 @@ angular.module('buzzPlayerModule', ['angularQueryParserModule', 'trackingModule'
                     var videoInfo = {
                         date: query.date,
                         category: query.cat,
-                        level: query.level
+                        level: query.level,
+                        lesson_id: query.lesson_id
                     };
 
                     function extra() {
@@ -158,6 +159,15 @@ angular.module('buzzPlayerModule', ['angularQueryParserModule', 'trackingModule'
 
                         seekAndPlay();
                     };
+
+                    var played = false;
+                    mainVideo.onPlay(function (event) {
+                        if (!played) {
+                            window.parent.postMessage('video:played//' + JSON.stringify(getData(event)), window.parent.location.href);
+
+                            played = true;
+                        }
+                    });
                 }).then(function () {
                     if (query.new_words_path) {
                         $http.get(query.new_words_path).then(function (result) {

@@ -60,7 +60,7 @@ block extraMenus
             span.icon-menu.circle(ng-if="currentLevel === 'A'", style="margin-right: -8px;")
 
 block content
-    #full-page.full.height.container(ng-app="buzzModule")
+    #full-page.full.height.container(ng-app="buzzModule", ng-controller="UpdateHitsCtrl")
         a.page-pos(name="page-1")
         .page.with-header.section.transparent
             .center.aligned.container.column.flex-box.transparent
