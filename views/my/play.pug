@@ -6,19 +6,7 @@ block js
     script(src="/lib/jwplayer/jwplayer.js")
     script.
         jwplayer.key = 'lG24bAGJCRLF1gi4kajg4EnUKi+ujyUyKMoSNA==';
-    script.
-        angular.module('buzzHeaderModule')
-            .controller('LevelCtrl', ['$scope', 'queryParser', '$httpParamSerializer', function ($scope, queryParser, $httpParamSerializer) {
-                var query = queryParser.parse();
-
-                $scope.switchToLevelFrom = function (currentLevel) {
-                    var to = currentLevel === 'A' ? 'B' : 'A';
-                    query.level = to;
-                    location.href = '/my/play?' + $httpParamSerializer(query);
-                };
-
-                $scope.currentLevel = query.level;
-            }])
+    script(src="/js/level-ctrl.js")
     script(src="/js/full-page.js")
 
 block head
@@ -29,35 +17,8 @@ block head
             background-attachment: fixed;
         }
 
-        a.toggle {
-            background-color: white;
-            padding: 5px 15px;
-            border-radius: 30px;
-            color: black !important;
-        }
-
-        a.toggle:hover, a.toggle:active {
-            color: black !important;
-        }
-
-        .circle {
-            background-color: #f6b52a;
-            color: white;
-            border-radius: 50%;
-            padding: 5px;
-            font-size: smaller;
-        }
-
 block extraMenus
-    li#level-switcher(ng-controller="LevelCtrl", ng-cloak)
-        a(href="javascript: void(0);", ng-click="switchToLevelFrom(currentLevel)", class="toggle")
-            span.icon-menu.circle(ng-if="currentLevel === 'B'", style="margin-left: -8px;")
-            span &nbsp;
-            span Level
-            span &nbsp;
-            strong {{currentLevel}}
-            span &nbsp;
-            span.icon-menu.circle(ng-if="currentLevel === 'A'", style="margin-right: -8px;")
+    include partials/level-switcher
 
 block content
     #full-page.full.height.container(ng-app="buzzModule", ng-controller="UpdateHitsCtrl")
@@ -96,7 +57,7 @@ block content
                         .button(ng-show="!isWordMode&&hasWordMode",ng-click="changeWordMode(true)") 显示词汇
                     .item(ng-show="$root.tabularIndex===2",ng-controller="quizCtrl")
                         .statusbar
-                            .status(ng-repeat="quiz in quizzes track by $index",ng-class="{'active': $index==quizIndex, 'pass': $index<quizIndex&&quiz.status===STATUS.P,'fail': $index<quizIndex&&quiz.status===STATUS.F}",ng-click="itemClick($index)") 
+                            .status(ng-repeat="quiz in quizzes track by $index",ng-class="{'active': $index==quizIndex, 'pass': $index<quizIndex&&quiz.status===STATUS.P,'fail': $index<quizIndex&&quiz.status===STATUS.F}",ng-click="itemClick($index)")
                                 i.icon-checkmark(ng-show="$index<quizIndex&&quiz.status===STATUS.P")
                                 i.icon-cross(ng-show="$index<quizIndex&&quiz.status===STATUS.F")
                                 span(ng-show="$index>=quizIndex||quiz.status===STATUS.U") {{$index+1}}

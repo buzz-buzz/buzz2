@@ -47,22 +47,6 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
             }
         }, false)
     }])
-    .controller('LevelCtrl', ['$scope', 'queryParser', '$httpParamSerializer', function ($scope, queryParser, $httpParamSerializer) {
-        var query = queryParser.parse();
-
-        $scope.switchToLevel = function (level) {
-            query.level = level;
-            location.href = '/my/play?' + $httpParamSerializer(query);
-        };
-
-        $scope.switchToLevelFrom = function (currentLevel) {
-            var to = currentLevel === 'A' ? 'B' : 'A';
-            query.level = to;
-            location.href = '/my/play?' + $httpParamSerializer(query);
-        };
-
-        $scope.currentLevel = query.level;
-    }])
     .controller('page2ParentCtrl', ['$scope', 'tracking', function ($scope, tracking) {
         $scope.$root.tabularIndex = 1;
 
