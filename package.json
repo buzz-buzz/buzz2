@@ -5,7 +5,7 @@
     "test": "mocha --harmony"
   },
   "dependencies": {
-    "quiz-adapter": "git+ssh://git@bitbucket.org:hcdlearning/quiz-adapter.git#v1.0.2",
+    "quiz-adapter": "git+ssh://git@bitbucket.org:hcdlearning/quiz-adapter.git#v1.0.5",
     "angular": "^1.5.8",
     "angular-chart.js": "^1.0.3",
     "angular-query-parser-module": "^1.0.1",

@@ -99,6 +99,10 @@
     background-color: #f7b52a;
     color: white;
     display: inline-block;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
 }
 
 .tabular.content .item {
@@ -106,6 +110,10 @@
 
 .tabular.content .statusbar {
     margin-bottom: 3em;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
 }
 .tabular.content .statusbar .status{
     display: inline-block;
@@ -166,9 +174,11 @@
 }
 .tabular.content .item .exercise.container {
     width: 620px;
+    height: 520px;
 }
 .tabular.content .item .vocabulary.container {
-    width: 70%;
+    width: 620px;
+    height: 520px;
 }
 
 .tabular.content .item .vocabulary.container .item {

@@ -1,0 +1,123 @@
+@keyframes rtom
+{
+    from {transform: rotateY(90deg)}
+    to {transform: rotateY(0deg)}
+}
+@keyframes ltom
+{
+    from {transform: rotateY(-90deg)}
+    to {transform: rotateY(0deg)}
+}
+@keyframes btom
+{
+    from {transform: rotateX(-90deg)}
+    to {transform: rotateX(0deg)}
+}
+@keyframes ttom
+{
+    from {transform: rotateX(90deg)}
+    to {transform: rotateX(0deg)}
+}
+/*Reverse ease
+cubic-bezier(0.75, 0.0, 0.75, 0.9)*/
+.cube {
+    transform-style: preserve-3d; 
+    perspective: 1000px;
+    width: 620px;
+    height: 464px;
+}
+.cube.lock.side-b .side-b,
+.cube.lock.side-a .side-a{
+    display: block;
+    transform: rotateX(0deg) rotateY(0deg);
+}
+.cube.lock.side-b .side-a,
+.cube.lock.side-a .side-b{
+    display: none;
+}
+.cube.init .side-b {
+    display: none;
+}
+.cube .cube-side{
+    display: block;
+    position: absolute;
+    transform-style: preserve-3d; 
+    width: 620px;
+    height: 464px;
+}
+
+.cube.ttom.side-a .side-a,
+.cube.ttom.side-b .side-b,
+.cube.mtob.side-a .side-b,
+.cube.mtob.side-b .side-a,
+.cube .ttom {
+    display: block;
+    transform-origin: 50% 50% -232px;
+    -webkit-animation: ttom 1s 1 forwards;
+}
+.cube.ttom.side-a .side-b,
+.cube.ttom.side-b .side-a,
+.cube.mtob.side-a .side-a,
+.cube.mtob.side-b .side-b,
+.cube .mtob {
+    display: block;
+    transform-origin: 50% 50% -232px;
+    -webkit-animation: btom 1s 1 forwards reverse cubic-bezier(0.75, 0.0, 0.75, 0.9);
+}
+
+.cube.btom.side-a .side-a,
+.cube.btom.side-b .side-b,
+.cube.mtot.side-a .side-b,
+.cube.mtot.side-b .side-a,
+.cube .btom {
+    display: block;
+    transform-origin: 50% 50% -232px;
+    -webkit-animation: btom 1s 1 forwards;
+}
+.cube.btom.side-a .side-b,
+.cube.btom.side-b .side-a,
+.cube.mtot.side-a .side-a,
+.cube.mtot.side-b .side-b,
+.cube .mtot {
+    display: block;
+    transform-origin: 50% 50% -232px;
+    -webkit-animation: ttom 1s 1 forwards reverse cubic-bezier(0.75, 0.0, 0.75, 0.9);
+}
+
+.cube.ltom.side-a .side-a,
+.cube.ltom.side-b .side-b,
+.cube.mtor.side-a .side-b,
+.cube.mtor.side-b .side-a,
+.cube .ltom {
+    display: block;
+    transform-origin: 50% 50% -310px;
+    -webkit-animation: ltom 1s 1 forwards;
+}
+.cube.ltom.side-a .side-b,
+.cube.ltom.side-b .side-a,
+.cube.mtor.side-a .side-a,
+.cube.mtor.side-b .side-b,
+.cube .mtor {
+    display: block;
+    transform-origin: 50% 50% -310px;
+    -webkit-animation: rtom 1s 1 forwards reverse cubic-bezier(0.75, 0.0, 0.75, 0.9);
+}
+
+.cube.mtol.side-a .side-a,
+.cube.mtol.side-b .side-b,
+.cube.rtom.side-a .side-b,
+.cube.rtom.side-b .side-a,
+.cube .mtol {
+    display: block;
+    transform-origin: 50% 50% -310px;
+    -webkit-animation: ltom 1s 1 forwards reverse cubic-bezier(0.75, 0.0, 0.75, 0.9);
+}
+.cube.mtol.side-a .side-b,
+.cube.mtol.side-b .side-a,
+.cube.rtom.side-a .side-a,
+.cube.rtom.side-b .side-b,
+.cube .rtom {
+    display: block;
+    transform-origin: 50% 50% -310px;
+    -webkit-animation: rtom 1s 1 forwards;
+}
