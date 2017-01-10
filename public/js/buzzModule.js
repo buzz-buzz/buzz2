@@ -63,7 +63,7 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
             }
         });
     }])
-    .controller('quizCtrl', ['$scope', '$http', 'queryParser', '$sce', '$window', 'clientConfig', '$rootScope', 'tracking', function ($scope, $http, queryParser, $sce, $window, clientConfig, $rootScope, tracking) {
+    .controller('quizCtrl', ['$scope', '$http', 'queryParser', '$sce', '$window', 'clientConfig', '$rootScope', 'tracking', '$timeout', function ($scope, $http, queryParser, $sce, $window, clientConfig, $rootScope, tracking, $timeout) {
         $scope.$sce = $sce;
         $scope.quizURL = "";
 
@@ -76,12 +76,28 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
         };
 
         function lessonDataGot(event, data) {
+            $scope.currentID = "";
+            $scope.initStatus = "";
+            $scope.animateDirection = "";
+            var getNextId = function() {
+                if ($scope.currentID != "quiz-1") {
+                    $scope.currentID = "quiz-1";
+                } else {
+                    $scope.currentID = "quiz-2";
+                }
+                return $scope.currentID;
+            };
             var setUrl = function (forcerefresh) {
+                if ($scope.initStatus === "") {
+                    $scope.initStatus = "true";
+                } else {
+                    $scope.initStatus = "false";
+                }
                 if ($window.quizAdapter) {
                     tracking.send('today-quiz', {
                         index: $scope.quizIndex
                     });
-                    $window.quizAdapter.getResult("quiz", $scope.quizzes[$scope.quizIndex].url, forcerefresh).then(function (ret) {
+                    $window.quizAdapter.getResult(getNextId(), $scope.quizzes[$scope.quizIndex].url, forcerefresh).then(function (ret) {
                         var status = ret.status;
                         $scope.quizzes[$scope.quizIndex].status = status.toLowerCase();
                         tracking.send('today-quiz.submit', {
@@ -93,6 +109,20 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                         //Do nothing
                     });
                 }
+            };
+            $scope.actionLock = false;
+            var doAction = function() {
+                var ret = true;
+                if ($scope.actionLock) {
+                    ret = false;
+                } else {
+                    $scope.actionLock = true;
+                    $timeout(function() {
+                        $scope.actionLock = false;
+                        $scope.animateDirection = "";
+                    }, 1100);
+                }
+                return ret;
             };
 
             var smilJson = data.quiz_path;
@@ -112,15 +142,30 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                 setUrl(true);
 
                 $scope.itemClick = function (index) {
-                    $scope.quizIndex = index;
-                    setUrl(true);
+                    if (!doAction()){
+                        return;
+                    }
+                    if ($scope.quizIndex !== index) {
+                        if ($scope.quizIndex > index) {
+                            $scope.animateDirection = "ltom";
+                        } else {
+                            $scope.animateDirection = "rtom";
+                        }
+                        $scope.quizIndex = index;
+                        setUrl(true);
+                    }
                 };
                 $scope.turnQuiz = function (isNext) {
+                    if (!doAction()){
+                        return;
+                    }
                     var maxIndex = $scope.quizzes.length - 1;
                     if (isNext) {
                         $scope.quizIndex++;
+                        $scope.animateDirection = "rtom";
                     } else {
                         $scope.quizIndex--;
+                        $scope.animateDirection = "ltom";
                     }
                     if ($scope.quizIndex > maxIndex) {
                         $scope.quizIndex = maxIndex;

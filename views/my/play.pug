@@ -105,8 +105,11 @@ block content
                                 span(ng-show="$index>=quizIndex||quiz.status===STATUS.U") {{$index+1}}
                         .left.arrow(ng-click="turnQuiz(false)",ng-class="{'hidden':quizIndex===0}")
                             span.icon-circle-left
-                        .exercise.container
-                            iframe(id="quiz",frameborder="0",style="width: 100%;height: 100%")
+                        .exercise.container.cube(ng-class="{'init': initStatus==='true', 'rtom':animateDirection==='rtom','ltom':animateDirection==='ltom','side-a':currentID==='quiz-1', 'side-b':currentID==='quiz-2', 'lock':!actionLock}")
+                            .cube-side.side-a
+                                iframe(id="quiz-1",frameborder="0",style="width: 100%;height: 100%")
+                            .cube-side.side-b
+                                iframe(id="quiz-2",frameborder="0",style="width: 100%;height: 100%")
                         .right.arrow(ng-click="turnQuiz(true)",ng-class="{'hidden':quizIndex===quizzes.length-1}")
                             span.icon-circle-right
                     .item(ng-show="$root.tabularIndex===3") item3
