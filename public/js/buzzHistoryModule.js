@@ -24,12 +24,11 @@ angular.module('buzzHistoryModule', ['angularQueryParserModule', 'servicesModule
                 $scope.courseList.map(function (c) {
                     $http.get(c.video_path).then(function (result) {
                         c.title = result.data.title;
-                        c.baseNumber = result.data.baseNumber;
+                        c.baseNumber = result.data.baseNumber || 0;
 
                         return $http.get(clientConfig.serviceUrls.buzz.courseViews.frontEnd.replace(':category', $scope.category).replace(':level', $scope.level).replace(':lesson_id', c.lesson_id));
                     }).then(function (result) {
-                        c.baseNumber = parseInt(c.baseNumber || '0') + parseInt(result.data.hits);
-                        console.log(c.baseNumber);
+                        c.baseNumber = parseInt(c.baseNumber) + (parseInt(result.data.hits) || 0);
                     });
                 });
             });
