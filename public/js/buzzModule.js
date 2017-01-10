@@ -66,7 +66,7 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
             }
         });
     }])
-    .controller('quizCtrl', ['$scope', '$http', 'queryParser', '$sce', '$window', 'clientConfig', '$rootScope', 'tracking', function ($scope, $http, queryParser, $sce, $window, clientConfig, $rootScope, tracking) {
+    .controller('quizCtrl', ['$scope', '$http', 'queryParser', '$sce', '$window', 'clientConfig', '$rootScope', 'tracking', '$timeout', function ($scope, $http, queryParser, $sce, $window, clientConfig, $rootScope, tracking, $timeout) {
         $scope.$sce = $sce;
         $scope.quizURL = "";
 
@@ -79,12 +79,28 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
         };
 
         function lessonDataGot(event, data) {
-            var setUrl = function () {
+            $scope.currentID = "";
+            $scope.initStatus = "";
+            $scope.animateDirection = "";
+            var getNextId = function() {
+                if ($scope.currentID != "quiz-1") {
+                    $scope.currentID = "quiz-1";
+                } else {
+                    $scope.currentID = "quiz-2";
+                }
+                return $scope.currentID;
+            };
+            var setUrl = function (forcerefresh) {
+                if ($scope.initStatus === "") {
+                    $scope.initStatus = "true";
+                } else {
+                    $scope.initStatus = "false";
+                }
                 if ($window.quizAdapter) {
                     tracking.send('today-quiz', {
                         index: $scope.quizIndex
                     });
-                    $window.quizAdapter.getResult("quiz", $scope.quizzes[$scope.quizIndex].url).then(function (ret) {
+                    $window.quizAdapter.getResult(getNextId(), $scope.quizzes[$scope.quizIndex].url, forcerefresh).then(function (ret) {
                         var status = ret.status;
                         $scope.quizzes[$scope.quizIndex].status = status.toLowerCase();
                         tracking.send('today-quiz.submit', {
@@ -96,6 +112,20 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                         //Do nothing
                     });
                 }
+            };
+            $scope.actionLock = false;
+            var doAction = function() {
+                var ret = true;
+                if ($scope.actionLock) {
+                    ret = false;
+                } else {
+                    $scope.actionLock = true;
+                    $timeout(function() {
+                        $scope.actionLock = false;
+                        $scope.animateDirection = "";
+                    }, 1100);
+                }
+                return ret;
             };
 
             var smilJson = data.quiz_path;
@@ -112,18 +142,33 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                 });
                 $scope.quizzes = retArray;
 
-                setUrl();
+                setUrl(true);
 
                 $scope.itemClick = function (index) {
-                    $scope.quizIndex = index;
-                    setUrl();
+                    if (!doAction()){
+                        return;
+                    }
+                    if ($scope.quizIndex !== index) {
+                        if ($scope.quizIndex > index) {
+                            $scope.animateDirection = "ltom";
+                        } else {
+                            $scope.animateDirection = "rtom";
+                        }
+                        $scope.quizIndex = index;
+                        setUrl(true);
+                    }
                 };
                 $scope.turnQuiz = function (isNext) {
+                    if (!doAction()){
+                        return;
+                    }
                     var maxIndex = $scope.quizzes.length - 1;
                     if (isNext) {
                         $scope.quizIndex++;
+                        $scope.animateDirection = "rtom";
                     } else {
                         $scope.quizIndex--;
+                        $scope.animateDirection = "ltom";
                     }
                     if ($scope.quizIndex > maxIndex) {
                         $scope.quizIndex = maxIndex;
@@ -136,7 +181,7 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                     // if ($scope.quizIndex===3) {
                     //     $scope.quizzes[$scope.quizIndex].status=STATUS.F;
                     // }
-                    setUrl();
+                    setUrl(true);
                 };
             });
         }
@@ -156,7 +201,23 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
         var wordIndex = $scope.wordIndex = 0;
 
         function lessonDataGot(event, lessonData) {
-            var seturl = function (url, isQuiz) {
+            $scope.currentID = "";
+            $scope.initStatus = "";
+            $scope.animateDirection = "";
+            var getNextId = function() {
+                if ($scope.currentID != "word-1") {
+                    $scope.currentID = "word-1";
+                } else {
+                    $scope.currentID = "word-2";
+                }
+                return $scope.currentID;
+            };
+            var seturl = function (url, isQuiz, forcerefresh) {
+                if ($scope.initStatus === "") {
+                    $scope.initStatus = "true";
+                } else {
+                    $scope.initStatus = "false";
+                }
                 if ($window.quizAdapter) {
                     var word = $scope.newWords[$scope.wordIndex].word;
                     if (isQuiz) {
@@ -168,7 +229,7 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                             word: word
                         });
                     }
-                    $window.quizAdapter.getResult('word', url).then(function (ret) {
+                    $window.quizAdapter.getResult(getNextId(), url, forcerefresh).then(function (ret) {
                         var status = ret.status;
                         $scope.newWords[$scope.wordIndex].status = status.toLowerCase();
                         tracking.send('today-vocabulary-quiz.submit', {
@@ -180,6 +241,20 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                         //Do nothing
                     });
                 }
+            };
+            $scope.actionLock = false;
+            var doAction = function() {
+                var ret = true;
+                if ($scope.actionLock) {
+                    ret = false;
+                } else {
+                    $scope.actionLock = true;
+                    $timeout(function() {
+                        $scope.actionLock = false;
+                        $scope.animateDirection = "";
+                    }, 1100);
+                }
+                return ret;
             };
 
             var smilJson = lessonData.new_words_path;
@@ -214,16 +289,26 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                     } else {
                         $scope.hasWordMode = false;
                     }
-                    seturl($scope.newWords[wordIndex].exercise, true);
+                    seturl($scope.newWords[wordIndex].exercise, true, true);
                 } else {
                     $scope.isWordMode = true;
                     $scope.hasWordMode = false;
-                    seturl($scope.newWords[wordIndex].url, false);
+                    seturl($scope.newWords[wordIndex].url, false, true);
 
                 }
             });
 
             $scope.itemClick = function (index) {
+                if (!doAction()){
+                    return;
+                }
+                if ($scope.wordIndex < index) {
+                    $scope.animateDirection = "rtom";
+                } else if ($scope.wordIndex > index) {
+                    $scope.animateDirection = "ltom";
+                } else {
+                    return;
+                }
                 $scope.wordIndex = wordIndex = index;
                 if ($scope.newWords[wordIndex].exercise && $scope.newWords[wordIndex].exercise !== "") {
                     $scope.isWordMode = false;
@@ -232,14 +317,17 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                     } else {
                         $scope.hasWordMode = false;
                     }
-                    seturl($scope.newWords[wordIndex].exercise, true);
+                    seturl($scope.newWords[wordIndex].exercise, true, true);
                 } else {
                     $scope.hasWordMode = false;
                     $scope.isWordMode = true;
-                    seturl($scope.newWords[wordIndex].url, false);
+                    seturl($scope.newWords[wordIndex].url, false, true);
                 }
             };
             $scope.turnWord = function (isNext) {
+                if (!doAction()){
+                    return;
+                }
                 if (isNext) {
                     tracking.send('play.vocabularyTab.slideNextBtn.clicked');
                 } else {
@@ -247,7 +335,13 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                 }
 
                 var length = $scope.newWords.length;
-                wordIndex = isNext ? ++wordIndex : --wordIndex;
+                if (isNext) {
+                    ++wordIndex;
+                    $scope.animateDirection = "rtom";
+                } else {
+                    --wordIndex;
+                    $scope.animateDirection = "ltom";
+                }
                 if (wordIndex >= length) {
                     wordIndex = length - 1;
                 } else if (wordIndex < 0) {
@@ -261,20 +355,25 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                     } else {
                         $scope.hasWordMode = false;
                     }
-                    seturl($scope.newWords[wordIndex].exercise, true);
+                    seturl($scope.newWords[wordIndex].exercise, true, true);
                 } else {
                     $scope.hasWordMode = false;
                     $scope.isWordMode = true;
-                    seturl($scope.newWords[wordIndex].url, false);
+                    seturl($scope.newWords[wordIndex].url, false, true);
                 }
                 // $scope.wordURL = $sce.trustAsResourceUrl(newWords[wordIndex].url);
             };
             $scope.changeWordMode = function (value) {
+                if (!doAction()){
+                    return;
+                }
                 $scope.isWordMode = value;
                 if (value) {
-                    seturl($scope.newWords[wordIndex].url, false);
+                    seturl($scope.newWords[wordIndex].url, false, false);
+                    $scope.animateDirection = "btom";
                 } else {
-                    seturl($scope.newWords[wordIndex].exercise, true);
+                    seturl($scope.newWords[wordIndex].exercise, true, false);
+                    $scope.animateDirection = "ttom";
                 }
             };
         }
