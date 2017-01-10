@@ -3,8 +3,9 @@ angular.module('buzzHistoryModule', ['angularQueryParserModule', 'servicesModule
         var level = queryParser.get('level') || 'B';
 
         $scope.level = level;
+        $scope.category = 'SCIENCE';
 
-        $http.get(clientConfig.serviceUrls.buzz.courses.find.frontEnd.replace(':category', 'SCIENCE').replace(':level', level).replace(':enabled', 'true'))
+        $http.get(clientConfig.serviceUrls.buzz.courses.find.frontEnd.replace(':category', $scope.category).replace(':level', level).replace(':enabled', 'true'))
             .then(function (result) {
                 result = result.data;
 
@@ -24,6 +25,11 @@ angular.module('buzzHistoryModule', ['angularQueryParserModule', 'servicesModule
                     $http.get(c.video_path).then(function (result) {
                         c.title = result.data.title;
                         c.baseNumber = result.data.baseNumber;
+
+                        return $http.get(clientConfig.serviceUrls.buzz.courseViews.frontEnd.replace(':category', $scope.category).replace(':level', $scope.level).replace(':lesson_id', c.lesson_id));
+                    }).then(function (result) {
+                        c.baseNumber = parseInt(c.baseNumber || '0') + parseInt(result.data.hits);
+                        console.log(c.baseNumber);
                     });
                 });
             });

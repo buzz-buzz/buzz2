@@ -6,6 +6,11 @@ const membership = require('../membership');
 const proxy = require('./proxy');
 const Router = require('koa-router');
 
+const proxyOption = {
+    host: config.buzz.inner.host,
+    port: config.buzz.inner.port,
+};
+
 module.exports = function (app, router, parse) {
     router
         .put(serviceUrls.buzz.profile.education.frontEnd, membership.ensureAuthenticated, function *(next) {
@@ -44,7 +49,7 @@ module.exports = function (app, router, parse) {
             });
         })
 
-        .post(serviceUrls.buzz.courseViews.frontEnd, function *(next){
+        .post(serviceUrls.buzz.courseViews.frontEnd, function *(next) {
             this.body = yield proxy({
                 host: config.buzz.inner.host,
                 port: config.buzz.inner.port,
@@ -52,8 +57,19 @@ module.exports = function (app, router, parse) {
                     category: this.params.category.toUpperCase(),
                     level: this.params.level,
                     lesson_id: this.params.lesson_id
-                })
+                }),
+                method: 'POST'
             });
+        })
+        .get(serviceUrls.buzz.courseViews.frontEnd, function *(next) {
+            this.body = yield proxy(Object.assign({
+                path: Router.url(serviceUrls.buzz.courseViews.upstream, {
+                    category: this.params.category.toUpperCase(),
+                    level: this.params.level,
+                    lesson_id: this.params.lesson_id
+                }),
+                method: 'GET'
+            }, proxyOption));
         })
     ;
 };
