@@ -5,12 +5,12 @@ html
         meta(http-equiv='X-UA-Compatible', content='IE=edge, chrome=1')
         meta(name='viewport', content='width=device-width, initial-scale=1.0, maximum-scale=1.0')
         title Buzz English
-        link(rel="stylesheet", href="/public/css/horizontal-menu.css")
-        link(rel="stylesheet", href="/public/css/player-layout.css")
-        link(rel="stylesheet", href="/public/css/my/layout.css")
-        link(rel='stylesheet', href='/public/css/player.css')
-        link(rel='stylesheet', href='/public/css/vocabulary.css')
-        link(rel="stylesheet", href="/public/css/my/layout.css")
+        link(rel="stylesheet", href="/public/css/horizontal-menu.min.css")
+        link(rel="stylesheet", href="/public/css/player-layout.min.css")
+        link(rel="stylesheet", href="/public/css/my/layout.min.css")
+        link(rel='stylesheet', href='/public/css/player.min.css')
+        link(rel='stylesheet', href='/public/css/vocabulary.min.css')
+        link(rel="stylesheet", href="/public/css/my/layout.min.css")
         style.
             .table-cell {
                 display: flex;
@@ -295,8 +295,8 @@ html
             .popup(style="position:fixed;top: 5em;margin:auto;left:0;right:0",ng-show="printMode",ng-click="hidePopup()")
                 iframe(width=800,height=600,frameborder="no",border="0",ng-show="printMode",ng-src="{{$sce.trustAsResourceUrl(printURL)}}")
         include ../js
-        script(src="/js/buzzHeaderModule.js")
-        script(src="/js/vocabularyModule.js")
+        script(src="/js/buzzHeaderModule.min.js")
+        script(src="/js/vocabularyModule.min.js")
         script.
             angular.element(document).ready(function () {
                 angular.bootstrap(document.getElementById('buzz-header'), ['buzzHeaderModule']);

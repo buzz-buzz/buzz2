@@ -4,13 +4,13 @@ html
         meta(charset="utf-8")
         meta(http-equiv="X-UA-Compatible", content="IE=edge, chrome=1")
         meta(name="viewport", content="width=device-width, initial-scale=1.0, maximum-scale=1.0")
-        link(rel="stylesheet", href="/public/css/player.css")
-        link(rel="stylesheet", href="/public/css/player-layout.css")
-        link(rel="stylesheet", href="/public/css/horizontal-menu.css")
-        link(rel="stylesheet", href="/public/css/flex-box.css")
-        link(rel="stylesheet", href="/public/css/media-query.css")
-        link(rel="stylesheet", href="/public/css/my/layout.css")
-        link(rel="stylesheet", href="/public/css/lib/cube.css")
+        link(rel="stylesheet", href="/public/css/player.min.css")
+        link(rel="stylesheet", href="/public/css/player-layout.min.css")
+        link(rel="stylesheet", href="/public/css/horizontal-menu.min.css")
+        link(rel="stylesheet", href="/public/css/flex-box.min.css")
+        link(rel="stylesheet", href="/public/css/media-query.min.css")
+        link(rel="stylesheet", href="/public/css/my/layout.min.css")
+        link(rel="stylesheet", href="/public/css/lib/cube.min.css")
         title=title || 'Buzz English'
         block head
     body.full.screen.container
@@ -37,7 +37,7 @@ html
                     span.top.aligned.welcome.message(style="position: absolute;") Hello {{profile.display_name}}, welcome to Buzzbuzz English.
         block content
         include ../js
-        script(src="/js/buzzHeaderModule.js")
+        script(src="/js/buzzHeaderModule.min.js")
         script.
             angular.element(document).ready(function () {
                 angular.bootstrap(document.getElementById('buzz-header'), ['buzzHeaderModule']);

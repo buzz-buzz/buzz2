@@ -1,8 +1,6 @@
 extends layout
 
 block head
-    //link(rel="stylesheet", href="/node_modules/bootstrap/dist/css/bootstrap.min.css")
-    //link(rel="stylesheet", href="/node_modules/ui-select/dist/select.min.css")
     style.
         form {
             font-size: small;
@@ -45,7 +43,7 @@ block head
         }
 block js
     script(src="/node_modules/ui-select/dist/select.min.js")
-    script(src="/js/signUpModule.js")
+    script(src="/js/signUpModule.min.js")
 
 block content
     .top.aligned.grid(ng-app="signUpModule", ng-controller="signUpParentCtrl")
