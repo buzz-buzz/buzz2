@@ -38,16 +38,16 @@ block content
                             span.icon.icon-list2
                             span Weekly Quiz
         a.page-pos(name="page-2")
-        .page.section.flex-box(ng-controller="page2ParentCtrl")
+        .page.section.flex-box.scrolly(ng-controller="page2ParentCtrl")
             .center.aligned.container.column.white.background.row.content
                 .tabular.content
-                    .item(ng-show="$root.tabularIndex===1",ng-controller="newWordCtrl")
+                    .item(ng-show="$root.tabularIndex===1",ng-controller="newWordCtrl",style="position:relative;")
                         .statusbar
                             .status(ng-repeat="word in newWords track by $index",ng-class="{'active': $index==wordIndex, 'pass': $index<wordIndex&&word.status===STATUS.P,'fail': $index<wordIndex&&word.status===STATUS.F}",ng-click="itemClick($index)")
                                 i.icon-checkmark(ng-show="$index<wordIndex&&word.status===STATUS.P")
                                 i.icon-cross(ng-show="$index<wordIndex&&word.status===STATUS.F")
                                 span(ng-show="$index>=wordIndex||word.status===STATUS.U") {{$index+1}}
-                        div(style="margin-bottom:20px;text-align:center;")
+                        div(style="position:absolute;top:0px;left:20px;")
                             div(style="width:620px;display:inline-block;height:40px;text-align:left;")
                                 .button(ng-show="isWordMode&&hasWordMode",ng-click="changeWordMode(false)",style="background-color:white;padding: 5px 10px 5px 40px;border:2px solid #f7b52a;position:relative;box-shadow:2px 2px 2px #f7b52a;")
                                     img(src="/images/bee.png",style="position:absolute;left:-15px;top:-25px;")

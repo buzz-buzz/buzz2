@@ -244,6 +244,10 @@ span.space {
     padding-top: 40px;
 }
 
+.page.scrolly {
+    overflow-y: auto;
+}
+
 .page {
     height: 100%;
     overflow: hidden;

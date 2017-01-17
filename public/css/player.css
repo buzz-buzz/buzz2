@@ -90,7 +90,7 @@
 }
 
 .tabular.content {
-    padding-top: 4em;
+    padding-top: 1em;
 }
 
 .tabular.content .button{
@@ -109,7 +109,7 @@
 }
 
 .tabular.content .statusbar {
-    margin-bottom: 3em;
+    margin-bottom: 1em;
     user-select: none;
     -moz-user-select: none;
     -webkit-user-select: none;
