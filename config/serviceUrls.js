@@ -51,8 +51,8 @@ module.exports = {
                 upstream: '/courses/:category/:level/dates/:date'
             },
             latest: {
-                frontEnd: '/service-proxy/buzz/courses/:category/:level/latest',
-                upstream: '/courses/:category/:level/latest'
+                frontEnd: '/service-proxy/buzz/courses/:level/latest',
+                upstream: '/courses/:level/latest'
             }
         },
 

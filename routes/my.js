@@ -12,7 +12,7 @@ module.exports = function (app, router, render) {
                 level = 'B';
             }
 
-            let latestCourse = yield buzz.getLatestCourse('SCIENCE', level);
+            let latestCourse = yield buzz.getLatestCourse(level);
 
             this.redirect('/my/play?date=' + latestCourse.date + '&cat=' + latestCourse.category.toLowerCase() + '&level=' + level, {
                 config: config
