@@ -32,12 +32,4 @@ function It(method, path, data, expectedStatusCode, expectedPattern) {
 
 describe('buzz api', function () {
     It.get('/healthcheck', {}, 200, /is ok/);
-
-    It.get('/api/history-courses', {}, 200, {
-        byDate: {'2016-11-07': ['A', 'B'], '2016-12-05': ['A', 'B']},
-        byLevel: {
-            A: ['2016-11-07', '2016-12-05'],
-            B: ['2016-11-07', '2016-12-05']
-        }
-    });
 });

@@ -57,8 +57,6 @@ function auth(app, router, render) {
 
 function admin(app, router, render) {
     app.use(mount('/admin', membership.ensureAdmin));
-    require('./admin')(app, router, render);
-    require('../service-proxy/admin/buzz')(app, router, coBody);
 }
 
 function api(app, router, render) {

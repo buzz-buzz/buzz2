@@ -71,5 +71,12 @@ module.exports = function (app, router, parse) {
                 method: 'GET'
             }, proxyOption));
         })
+
+        .get(serviceUrls.buzz.categories.list.frontEnd, function *(next) {
+            this.body = yield proxy(Object.assign({
+                path: serviceUrls.buzz.categories.list.upstream,
+                method: 'GET'
+            }, proxyOption));
+        })
     ;
 };

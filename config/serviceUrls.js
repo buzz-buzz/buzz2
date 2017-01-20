@@ -56,16 +56,16 @@ module.exports = {
             }
         },
 
+        categories: {
+            list: {
+                frontEnd: '/service-proxy/buzz/categories',
+                upstream: '/courses/categories'
+            }
+        },
+
         courseViews: {
             frontEnd: '/service-proxy/buzz/course-views/:category/:level/:lesson_id',
             upstream: '/course-views/:category/:level/:lesson_id'
-        },
-
-        admin: {
-            course: {
-                frontEnd: '/admin/service-proxy/buzz/courses',
-                upstream: '/courses'
-            }
         }
     }
 };

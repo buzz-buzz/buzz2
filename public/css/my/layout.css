@@ -32,3 +32,7 @@
     color: white !important;
     text-decoration: none !important;
 }
+
+a {
+    cursor: pointer;
+}
