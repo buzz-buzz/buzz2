@@ -13,9 +13,8 @@ module.exports = function (app, router, render) {
             }
 
             let latestCourse = yield buzz.getLatestCourse('SCIENCE', level);
-            console.log(latestCourse);
 
-            this.redirect('/my/play?date=' + latestCourse.date + '&cat=science&level=' + level, {
+            this.redirect('/my/play?date=' + latestCourse.date + '&cat=' + latestCourse.category.toLowerCase() + '&level=' + level, {
                 config: config
             });
         })

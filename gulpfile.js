@@ -7,7 +7,7 @@ let uglifyCss = require('gulp-minify-css');
 let rename = require('gulp-rename');
 
 gulp.task('uglify-js', function (done) {
-    return gulp.src('public/js/**/*.js')
+    return gulp.src(['public/js/**/*.js', '!public/js/**/*.min.js'])
         .pipe(uglify())
         .pipe(rename(function (path) {
             path.basename += '.min';
@@ -17,7 +17,7 @@ gulp.task('uglify-js', function (done) {
 });
 
 gulp.task('uglify-css', function (done) {
-    return gulp.src('public/css/**/*.css')
+    return gulp.src(['public/css/**/*.css', '!public/css/**/*.min.css'])
         .pipe(uglifyCss())
         .pipe(rename(function (path) {
             path.basename += '.min';

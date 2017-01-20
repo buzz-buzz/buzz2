@@ -229,9 +229,6 @@ angular.module('signUpModule', ['angularQueryParserModule', 'clientConfigModule'
                     $scope.errorMessage = serviceErrorParser.getErrorMessage(error);
                     tracking.send('sign-up.step2.saveInfo.error', error);
                 });
-
-            // var level = $scope.infoData.grade > 6 ? 'A' : 'B';
-            // location.href = '/my/play?date=2016-11-07&cat=science&level=' + level;
         };
     }])
 ;

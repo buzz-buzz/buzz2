@@ -1,9 +1,10 @@
 angular.module('buzzHistoryModule', ['angularQueryParserModule', 'servicesModule', 'clientConfigModule'])
     .controller('historyCtrl', ['$scope', '$http', 'queryParser', 'service', 'clientConfig', function ($scope, $http, queryParser, service, clientConfig) {
-        var level = queryParser.get('level') || 'B';
+        var query = queryParser.parse();
+        var level = query.level || 'B';
 
         $scope.level = level;
-        $scope.category = 'SCIENCE';
+        $scope.category = query.category || 'SCIENCE';
 
         $http.get(clientConfig.serviceUrls.buzz.courses.find.frontEnd.replace(':category', $scope.category).replace(':level', level).replace(':enabled', 'true'))
             .then(function (result) {
