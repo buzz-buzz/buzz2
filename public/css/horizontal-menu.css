@@ -30,6 +30,10 @@ ul.menu li {
     background-color: #f2c855;
 }
 
+ul.menu.non-interactive li:active {
+    background-color: inherit;
+}
+
 ul.menu li:hover .sub.menu {
     display: block;
     top: 100%;

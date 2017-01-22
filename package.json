@@ -1,8 +1,8 @@
 {
   "scripts": {
-    "start": "node --harmony app.js",
-    "local": "node --harmony app.js",
-    "test": "mocha --harmony"
+    "start": "gulp && node --harmony app.js",
+    "local": "gulp && node --harmony app.js",
+    "test": "gulp && mocha --harmony"
   },
   "dependencies": {
     "quiz-adapter": "git+ssh://git@bitbucket.org:hcdlearning/quiz-adapter.git#v1.0.5",
