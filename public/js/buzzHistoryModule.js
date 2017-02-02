@@ -31,7 +31,7 @@ angular.module('buzzHistoryModule', ['angularQueryParserModule', 'servicesModule
                         c.title = result.data.title;
                         c.baseNumber = result.data.baseNumber || 0;
 
-                        return $http.get(clientConfig.serviceUrls.buzz.courseViews.frontEnd.replace(':category', $scope.category).replace(':level', $scope.level).replace(':lesson_id', c.lesson_id));
+                        return $http.get(clientConfig.serviceUrls.buzz.courseViews.frontEnd.replace(':category', c.category).replace(':level', c.level).replace(':lesson_id', c.lesson_id));
                     }).then(function (result) {
                         c.baseNumber = parseInt(c.baseNumber) + (parseInt(result.data.hits) || 0);
                     });
