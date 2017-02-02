@@ -29,7 +29,7 @@ angular.module('buzzHistoryModule', ['angularQueryParserModule', 'servicesModule
                 $scope.courseList.map(function (c) {
                     $http.get(c.video_path).then(function (result) {
                         c.title = result.data.title;
-                        c.baseNumber = result.data.baseNumber || 0;
+                        c.baseNumber = result.data.baseNumber || 100;
 
                         return $http.get(clientConfig.serviceUrls.buzz.courseViews.frontEnd.replace(':category', c.category).replace(':level', c.level).replace(':lesson_id', c.lesson_id));
                     }).then(function (result) {
