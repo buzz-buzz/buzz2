@@ -43,8 +43,12 @@ module.exports = {
 
         courses: {
             find: {
-                frontEnd: '/service-proxy/buzz/courses/:category/:level/:enabled',
-                upstream: '/courses/:category/:level/:enabled'
+                frontEnd: '/service-proxy/buzz/courses/:category/:level',
+                upstream: '/courses/:category/:level/true'
+            },
+            findByLevel: {
+                frontEnd: '/service-proxy/buzz/courses/:level',
+                upstream: '/courses/:level/true'
             },
             findByDate: {
                 frontEnd: '/service-proxy/buzz/courses/:category/:level/dates/:date',
