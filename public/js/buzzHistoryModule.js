@@ -4,7 +4,11 @@ angular.module('buzzHistoryModule', ['angularQueryParserModule', 'servicesModule
         var level = query.level || 'B';
 
         $scope.level = level;
-        $scope.category = query.category;
+        if (query.category) {
+            $scope.category = query.category;
+        } else {
+            $scope.category = '';
+        }
 
         $http.get(clientConfig.serviceUrls.buzz.courses.find.frontEnd.replace(':category', $scope.category).replace(':level', level).replace(':enabled', 'true'))
             .then(function (result) {
