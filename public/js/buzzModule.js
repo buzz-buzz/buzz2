@@ -23,8 +23,6 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                 };
 
                 $scope.$emit('lessonInfo:got', $rootScope.lessonInfo);
-
-                console.log($rootScope.lessonInfo);
             })
         ;
         $scope.$sce = $sce;

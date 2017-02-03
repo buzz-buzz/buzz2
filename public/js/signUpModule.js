@@ -179,7 +179,7 @@ angular.module('signUpModule', ['angularQueryParserModule', 'clientConfigModule'
                 });
         };
     }])
-    .controller('infoCtrl', ['$scope', 'clientConfig', 'service', 'queryParser', 'serviceErrorParser', '$q', 'tracking', function ($scope, clientConfig, service, queryParser, serviceErrorParser, $q, tracking) {
+    .controller('infoCtrl', ['$scope', 'clientConfig', 'service', 'queryParser', 'serviceErrorParser', '$q', 'tracking', '$http', function ($scope, clientConfig, service, queryParser, serviceErrorParser, $q, tracking, $http) {
         $scope.infoData = {
             name: '',
             gender: null,
@@ -216,7 +216,7 @@ angular.module('signUpModule', ['angularQueryParserModule', 'clientConfigModule'
             $q.all([service.post(clientConfig.serviceUrls.sso.profile.update.frontEnd, {
                 real_name: $scope.infoData.name,
                 gender: $scope.infoData.gender
-            }), service.put(clientConfig.serviceUrls.buzz.profile.education.frontEnd, {
+            }), $http.put(clientConfig.serviceUrls.buzz.profile.education.frontEnd, {
                 grade: '' + $scope.infoData.grade
             })])
                 .then(function (result) {
