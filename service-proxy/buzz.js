@@ -36,6 +36,16 @@ module.exports = function (app, router, parse) {
                 method: 'GET'
             });
         })
+        .get(serviceUrls.buzz.courses.findByLevel.frontEnd, membership.ensureAuthenticated, function*(next) {
+            this.body = yield proxy.call(this, {
+                host: config.buzz.inner.host,
+                port: config.buzz.inner.port,
+                path: Router.url(serviceUrls.buzz.courses.findByLevel.upstream, {
+                    level: this.params.level
+                }),
+                method: 'GET'
+            });
+        })
         .get(serviceUrls.buzz.courses.findByDate.frontEnd, membership.ensureAuthenticated, function*(next) {
             this.body = yield proxy.call(this, {
                 host: config.buzz.inner.host,
