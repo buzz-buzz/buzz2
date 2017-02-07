@@ -8,6 +8,7 @@ const fs = require('fs');
 const router = require('koa-router')();
 const logger = require('koa-logger');
 const views = require('co-views');
+const userAgent = require('koa-useragent');
 
 const render = views(path.join(__dirname, 'views'), {
     default: "pug",
@@ -17,6 +18,7 @@ const render = views(path.join(__dirname, 'views'), {
     }
 });
 
+app.use(userAgent());
 app.use(logger());
 
 require('./routes')(app, router, render);

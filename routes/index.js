@@ -6,8 +6,32 @@ const mount = require('koa-mount');
 const cookie = require('../helpers/cookie');
 const coBody = require('co-body');
 
+function mobileDetectRender(app, router, render) {
+    let routes = ['sign-in'];
+    routes.forEach(function(route) {
+        let routename = '/' + route;
+        router.get(routename, function *(next) {
+            if (this.state.userAgent.isMobile) {
+                this.redirect('/m/' + route);
+            } else {
+                next(); 
+            }
+        });
+    });
+}
+function mobileRender(app, router, render) {
+    let routes = ['sign-in'];
+    routes.forEach(function(route) {
+        let routename = '/m/' + route;
+        router.get(routename, function *(next) {
+            this.body = yield render(routename, {
+                config: config
+            });
+        });
+    });
+}
 function simpleRender(app, router, render) {
-    let routes = ['sign-in', 'agreement', 'reset-password'];
+    let routes = ['sign-in', 'loading', 'agreement', 'reset-password'];
 
     for (let i = 0; i < routes.length; i++) {
         router.get('/' + routes[i], function *(next) {
@@ -98,8 +122,10 @@ module.exports = function (app, router, render) {
     helper(app, router);
     staticFiles(app);
     virtualFile(app, router);
+    mobileDetectRender(app, router);
     redirect(app, router);
     serviceProxy(app, router);
+    mobileRender(app, router, render);
     simpleRender(app, router, render);
     renderWithServerData(app, router, render);
     auth(app, router, render);
