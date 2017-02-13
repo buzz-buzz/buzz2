@@ -46,9 +46,11 @@ angular.module('buzzHistoryModule', ['angularQueryParserModule', 'servicesModule
             window.location.href = href;
         };
     }])
-    .controller('courseCategoryCtrl', ['$scope', '$http', 'clientConfig', function ($scope, $http, clientConfig) {
+    .controller('courseCategoryCtrl', ['$scope', '$http', 'clientConfig', 'queryParser', function ($scope, $http, clientConfig, queryParser) {
         $http.get(clientConfig.serviceUrls.buzz.categories.list.frontEnd).then(function (result) {
             $scope.categories = result.data;
         });
+
+        $scope.currentCategory = queryParser.get('category');
     }])
 ;
