@@ -51,12 +51,14 @@ block content
     full.height.container(ng-app="buzzHistoryModule", style="white-space: nowrap;")
         .page.with-header.section.transparent(style="overflow:visible;height:auto;min-height:100%;")
             .center.aligned.container.column.flex-box.white.background(style="padding-left: 50px; padding-right: 50px;",ng-controller="historyCtrl")
-                .container.left.aligned(ng-controller="courseCategoryCtrl")
+                .container.left.aligned(ng-controller="courseCategoryCtrl", style="white-space: normal; word-break: break-word;")
                     br
-                    span 类别：
+                    span
+                        a(ng-href="?") [All]
+                        span &nbsp;&nbsp;
                     span(ng-repeat="c in categories")
                         a(ng-href="?category={{c.category}}") {{c.category}}
-                        | &nbsp;&nbsp;
+                        span &nbsp;&nbsp;
                 .container(style="height:200px;margin-top:2em;margin-bottom:2em;",ng-repeat="lesson in courseList track by $index")
                     .left.clickable(style="display:inline-block;vertical-align:top;height:200px;",ng-click='aLikeClick("/my/play?date="+lesson.date+"&cat="+ lesson.category.toLowerCase()+"&level="+lesson.level)')
                         img(style="width:280px;height:200px",src="http://source.bridgeplus.cn/image/png/buzz-poster.png")
