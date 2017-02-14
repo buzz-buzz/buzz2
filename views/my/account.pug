@@ -1,0 +1,55 @@
+extends layout
+
+mixin pair(key, value)
+    div(style="margin: 2em 0;")
+        div.pair
+            span.key #{key}
+            span.value #{value}
+
+block head
+    link(rel="stylesheet", href="/public/css/button.min.css")
+    style.
+        .pair {
+            display: flex;
+            flex-flow: row;
+            color: #333;
+            width: 100%;
+        }
+
+        .pair .key {
+            background-color: #f5f5f5;
+            display: block;
+            padding: 0.5em 1.5em;
+            flex-grow: 0.5;
+            width: 6em;
+            text-align: center;
+        }
+
+        .pair .value {
+            border-bottom: solid 1px #eee;
+            display: block;
+            padding: 0.5em 1.5em 0.5em 3em;
+            margin-left: 0.5em;
+            flex-grow: 10;
+        }
+
+block content
+    #full-page.full.height.container(ng-app="accountModule")
+        a.page-pos(name="page-1")
+        .page.with-header.section.transparent
+            .center.aligned.container.column.flex-box.white.background(style="padding-left: 50px; padding-right: 50px;")
+                .row.dynamic
+                    .account(ng-controller="viewAccountCtrl")
+                        h2.center.aligned
+                            span(style="padding-left: 4em; padding-right: 4em; background-color: white; display: inline-block;") 我的信息
+                            hr(style="margin-top: -0.7em; height: 1px; border: none; border-top: solid 1px #f7b52a; display: block;")
+                        div.clear
+                            button.linear.button.right.floated 编辑
+                        br
+                        .left.aligned.container
+                            + pair('姓名', '吴亦凡')
+                            + pair('性别', '金童')
+                            + pair('年级', '一年级')
+                            + pair('绑定手机', '17717373367')
+                            + pair('喜欢主题', '运动')
+                            + pair('难度版本', '基础')

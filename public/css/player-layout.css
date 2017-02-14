@@ -235,6 +235,13 @@ span.space {
     clear: both;
 }
 
+.clear:after {
+    display: block;
+    content: '';
+    clear: both;
+    float: none;
+}
+
 .avatar {
     border-radius: 50%;
     max-height: 30px;
