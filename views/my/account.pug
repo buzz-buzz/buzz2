@@ -6,6 +6,10 @@ mixin pair(key, value)
             span.key #{key}
             span.value #{value}
 
+block js
+    script(src="/js/accountModule.min.js")
+    script(src="/js/educationModule.min.js")
+
 block head
     link(rel="stylesheet", href="/public/css/button.min.css")
     style.
@@ -47,9 +51,9 @@ block content
                             button.linear.button.right.floated 编辑
                         br
                         .left.aligned.container
-                            + pair('姓名', '吴亦凡')
-                            + pair('性别', '金童')
-                            + pair('年级', '一年级')
-                            + pair('绑定手机', '17717373367')
+                            + pair('姓名', '{{$root.profile.real_name}}')
+                            + pair('性别', '{{displayGender}}')
+                            + pair('年级', '{{info.displayGrade}}')
+                            + pair('绑定手机', '{{$root.profile.mobile}}')
                             + pair('喜欢主题', '运动')
                             + pair('难度版本', '基础')
