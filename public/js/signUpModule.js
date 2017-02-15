@@ -1,4 +1,4 @@
-angular.module('signUpModule', ['angularQueryParserModule', 'clientConfigModule', 'servicesModule', 'errorParserModule', 'ui.select', 'trackingModule'])
+angular.module('signUpModule', ['angularQueryParserModule', 'clientConfigModule', 'servicesModule', 'errorParserModule', 'ui.select', 'trackingModule', 'educationModule'])
     .config(['$httpProvider', function ($httpProvider) {
         $httpProvider.defaults.headers.common['X-Request-With'] = 'XMLHttpRequest';
     }])
@@ -179,37 +179,14 @@ angular.module('signUpModule', ['angularQueryParserModule', 'clientConfigModule'
                 });
         };
     }])
-    .controller('infoCtrl', ['$scope', 'clientConfig', 'service', 'queryParser', 'serviceErrorParser', '$q', 'tracking', '$http', function ($scope, clientConfig, service, queryParser, serviceErrorParser, $q, tracking, $http) {
+    .controller('infoCtrl', ['$scope', 'clientConfig', 'service', 'queryParser', 'serviceErrorParser', '$q', 'tracking', '$http', 'Grades', function ($scope, clientConfig, service, queryParser, serviceErrorParser, $q, tracking, $http, Grades) {
         $scope.infoData = {
             name: '',
             gender: null,
             grade: null
         };
 
-        $scope.grades = [
-            {
-                key: '3',
-                name: '三年级'
-            }, {
-                key: '4',
-                name: '四年级'
-            }, {
-                key: '5',
-                name: '五年级'
-            }, {
-                key: '6',
-                name: '六年级'
-            }, {
-                key: '7',
-                name: '七年级'
-            }, {
-                key: '8',
-                name: '八年级'
-            }, {
-                key: '9',
-                name: '九年级'
-            }
-        ];
+        $scope.grades = Grades;
 
         $scope.submitInfo = function () {
             tracking.send('sign-up.step2.saveInfo.click', $scope.infoData);

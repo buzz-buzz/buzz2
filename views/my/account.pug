@@ -12,6 +12,7 @@ block js
 
 block head
     link(rel="stylesheet", href="/public/css/button.min.css")
+    link(rel="stylesheet", href="/public/css/modal.min.css")
     style.
         .pair {
             display: flex;
@@ -38,12 +39,12 @@ block head
         }
 
 block content
-    #full-page.full.height.container(ng-app="accountModule")
+    #full-page.full.height.container(ng-app="accountModule")(ng-controller="viewAccountCtrl")
         a.page-pos(name="page-1")
         .page.with-header.section.transparent
             .center.aligned.container.column.flex-box.white.background(style="padding-left: 50px; padding-right: 50px;")
                 .row.dynamic
-                    .account(ng-controller="viewAccountCtrl")
+                    .account
                         h2.center.aligned
                             span(style="padding-left: 4em; padding-right: 4em; background-color: white; display: inline-block;") 我的信息
                             hr(style="margin-top: -0.7em; height: 1px; border: none; border-top: solid 1px #f7b52a; display: block;")
@@ -57,3 +58,13 @@ block content
                             + pair('绑定手机', '{{$root.profile.mobile}}')
                             + pair('喜欢主题', '运动')
                             + pair('难度版本', '基础')
+        .mask
+            .popup
+                .title
+                    h3 我的信息
+                .body
+                    .center.aligned.container(style="padding-left: 150px; padding-right: 150px;", ng-controller="infoFormParentCtrl")
+                        include ../partial/info
+                        + infoForm
+                            .field
+                                button.fluid.yellow.button(type="submit", ng-disabled="!infoForm.$valid") 保存我的信息
