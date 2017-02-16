@@ -30,6 +30,12 @@ module.exports = function (app, router, parse) {
                 method: 'GET'
             }, proxyOption));
         })
+        .get(serviceUrls.buzz.profile.latestAllEducation.frontEnd, membership.ensureAuthenticated, function*() {
+            this.body = yield proxy(Object.assign({
+                path: serviceUrls.buzz.profile.latestAllEducation.upstream.replace(':member_id', this.state.hcd_user.member_id),
+                method: 'GET'
+            }, proxyOption));
+        })
         .get(serviceUrls.buzz.courses.find.frontEnd, membership.ensureAuthenticated, function*(next) {
             let category = this.params.category;
             let level = this.params.level;

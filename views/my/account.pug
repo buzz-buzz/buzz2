@@ -67,7 +67,7 @@ block content
                 .title
                     h3 我的信息
                 .body
-                    .center.aligned.container(style="padding-left: 150px; padding-right: 150px;", ng-controller="infoFormParentCtrl")
+                    .center.aligned.container(style="padding-left: 150px; padding-right: 150px;", ng-controller="infoFormParentCtrl", ng-cloak)
                         include ../partial/info
                         + infoForm
                             .fluid.field
@@ -89,7 +89,6 @@ block content
                                         input(type="radio", name="level", ng-model="infoData.level", value="A", id="advanced", ng-required="true")
                                         label(for="advanced") 进阶（推荐5~9年级）
                             .field
-                                br
                                 br
                             .field
                                 button.fluid.yellow.button(type="submit", ng-disabled="!infoForm.$valid") 保存我的信息

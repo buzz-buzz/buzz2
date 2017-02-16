@@ -35,6 +35,14 @@ angular.module('accountModule', ['clientConfigModule', 'buzzHeaderModule', 'educ
             $scope.infoData.level = result.data;
         });
 
+        $http.get(clientConfig.serviceUrls.buzz.profile.latestAllEducation.frontEnd).then(function (result) {
+            if (result.data.fav_topics && result.data.fav_topics.length) {
+                $scope.infoData.topics = result.data.fav_topics[0];
+            }
+
+            $scope.infoData.level = result.data.fav_level;
+        });
+
         $rootScope.$watch('profile', function (newValue, oldValue) {
             if (newValue) {
                 $scope.infoData.name = newValue.real_name;
@@ -53,11 +61,12 @@ angular.module('accountModule', ['clientConfigModule', 'buzzHeaderModule', 'educ
                 real_name: $scope.infoData.name,
                 gender: $scope.infoData.gender
             }), $http.put(clientConfig.serviceUrls.buzz.profile.education.frontEnd, {
-                grade: '' + $scope.infoData.grade
+                grade: '' + $scope.infoData.grade,
+                fav_topics: [$scope.infoData.topics],
+                fav_level: $scope.infoData.level
             })])
                 .then(function (result) {
-                    console.log(result);
-                    $scope.errorMessage = '保存成功！';
+                    $scope.successMessage = '保存成功！';
                 })
                 .catch(function (error) {
                     $scope.errorMessage = serviceErrorParser.getErrorMessage(error);

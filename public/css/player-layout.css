@@ -442,6 +442,15 @@ form .error.message {
     padding: 8px 15px;
 }
 
+form .success.message {
+    word-wrap: break-word;
+    background-color: #fcfff5;
+    color: #1a531b;
+    border: solid 1px #1a531b;
+    padding: 8px 15px;
+    border-radius: 2px;
+}
+
 form.basic input {
     border: solid 1px black;
     width: 100%;

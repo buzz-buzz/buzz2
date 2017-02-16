@@ -1,6 +1,7 @@
 mixin infoForm
     form.info-form.text-label.loose(name="infoForm", ng-if="step == 2", ng-controller="infoCtrl", ng-submit="submitInfo()", style="min-width: 250px;")
         .error.message(ng-if="errorMessage") {{errorMessage}}
+        .success.message(ng-if="successMessage") {{successMessage}}
         .fluid.field
             label
                 span 姓名
