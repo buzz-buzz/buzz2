@@ -54,7 +54,7 @@
 }
 
 .mask.hide {
-    animation: magic 0.5s;
+    animation: magic-hide 0.5s;
     animation-fill-mode: forwards;
 }
 
@@ -75,7 +75,7 @@
     }
 }
 
-@keyframes magic {
+@keyframes magic-hide {
     0% {
         transform: scale(1);
         height: 100%;

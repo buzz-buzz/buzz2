@@ -40,5 +40,8 @@ module.exports = function (app, router, render) {
         .get('/my/account', function *() {
             this.body = yield render('my/account', {config: config});
         })
+        .get('/my/password', function *() {
+            this.body = yield render('my/password', {config: config});
+        })
     ;
 };

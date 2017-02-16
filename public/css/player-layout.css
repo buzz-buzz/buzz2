@@ -137,7 +137,11 @@ span.space {
     text-align: center;
 }
 
-.right.aligned.container, .right.aligned.grid {
+.right.aligned.container, .right.aligned.grid, span.right.aligned, .right.aligned {
+    text-align: right;
+}
+
+.right.aligned {
     text-align: right;
 }
 
@@ -423,6 +427,10 @@ form .fluid.field > * > *:first-child {
     text-align: center;
     color: #d2d2d2;
     font-size: larger;
+}
+
+form .fluid.field > * > *:first-child.right.aligned {
+    text-align: right;
 }
 
 form.text-label .fluid.field > * > *:first-child {
