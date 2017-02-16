@@ -94,5 +94,13 @@ module.exports = function (app, router, parse) {
                 method: 'GET'
             }, proxyOption));
         })
+        .get(serviceUrls.buzz.profile.currentLevel.frontEnd, membership.ensureAuthenticated, function *(next) {
+            let memberId = this.state.hcd_user.member_id;
+
+            this.body = yield proxy(Object.assign({
+                path: serviceUrls.buzz.profile.currentLevel.upstream.replace(':member_id', memberId),
+                method: 'GET'
+            }, proxyOption));
+        })
     ;
 };

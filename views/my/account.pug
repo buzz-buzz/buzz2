@@ -38,6 +38,10 @@ block head
             flex-grow: 10;
         }
 
+        .info-form .fluid.field > :first-child {
+            background-color: transparent;
+        }
+
 block content
     #full-page.full.height.container(ng-app="accountModule")(ng-controller="viewAccountCtrl")
         a.page-pos(name="page-1")
@@ -66,5 +70,26 @@ block content
                     .center.aligned.container(style="padding-left: 150px; padding-right: 150px;", ng-controller="infoFormParentCtrl")
                         include ../partial/info
                         + infoForm
+                            .fluid.field
+                                label.padded.select
+                                    span 喜欢的主题
+                                    select(ng-model="infoData.topics", placeholder="请选择你喜欢的主题", ng-required="false")
+                                        option(ng-repeat="topic in topics", value="{{topic.key}}") {{topic.name}}
+                            //.fluid.field
+                                label
+                                    span 绑定手机号
+                                    input(type="text", placeholder="请输入手机号", ng-model="infoData.name", ng-required="true")
+                            .fluid.field
+                                label(style="border: none;")
+                                    span 选择难度版本
+                                    div(style="border-left: none;")
+                                        input(type="radio", name="level", ng-model="infoData.level", value="B", id="basic", ng-required="true")
+                                        label(for="basic") 基础（推荐3~4年级）
+                                        br
+                                        input(type="radio", name="level", ng-model="infoData.level", value="A", id="advanced", ng-required="true")
+                                        label(for="advanced") 进阶（推荐5~9年级）
+                            .field
+                                br
+                                br
                             .field
                                 button.fluid.yellow.button(type="submit", ng-disabled="!infoForm.$valid") 保存我的信息

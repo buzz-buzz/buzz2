@@ -41,6 +41,7 @@ module.exports = {
                 upstream: '/users/:member_id/educations/latest'
             },
             currentLevel: {
+                frontEnd: '/service-proxy/buzz/profile/current-level',
                 upstream: '/users/:member_id/educations/current-level'
             }
         },

@@ -23,8 +23,4 @@ mixin infoForm
                     ui-select-match(placeholder="请选择你所在的年级") {{$select.selected.name}}
                     ui-select-choices(repeat="grade in grades | filter: $select.search")
                         span(ng-bind="grade.name | highlight: $select.search")
-
-        .field
-            br
-            br
         block

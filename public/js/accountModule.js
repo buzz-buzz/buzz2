@@ -22,6 +22,19 @@ angular.module('accountModule', ['clientConfigModule', 'buzzHeaderModule', 'educ
 
         $scope.grades = Grades;
 
+        $http.get(clientConfig.serviceUrls.buzz.categories.list.frontEnd).then(function (result) {
+            $scope.topics = result.data.map(function (c) {
+                return {
+                    key: c.category,
+                    name: c.category
+                };
+            });
+        });
+
+        $http.get(clientConfig.serviceUrls.buzz.profile.currentLevel.frontEnd).then(function (result) {
+            $scope.infoData.level = result.data;
+        });
+
         $rootScope.$watch('profile', function (newValue, oldValue) {
             if (newValue) {
                 $scope.infoData.name = newValue.real_name;
