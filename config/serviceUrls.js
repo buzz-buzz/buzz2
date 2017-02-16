@@ -9,8 +9,12 @@ module.exports = {
             update: {
                 frontEnd: '/service-proxy/sso/profile/update',
                 upstream: '/profile/update'
-            }
+            },
 
+            changePassword: {
+                frontEnd: '/service-proxy/sso/password/change',
+                upstream: '/profile/changepassword'
+            }
         },
         signIn: {
             frontEnd: '/service-proxy/sso/sign-in',

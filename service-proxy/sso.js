@@ -25,6 +25,12 @@ function redirectToReturnUrl(result, returnUrl) {
         this.redirect(returnUrl || '/');
     }
 }
+
+let proxyOption = {
+    host: config.sso.inner.host,
+    port: config.sso.inner.port
+};
+
 module.exports = function (app, router, parse) {
     router
         .post(serviceUrls.sso.signIn.frontEnd, function *(next) {
@@ -135,6 +141,16 @@ module.exports = function (app, router, parse) {
                 method: 'POST',
                 data: data
             });
+        })
+        .post(serviceUrls.sso.profile.changePassword.frontEnd, membership.ensureAuthenticated, function *() {
+            let data = yield parse(this.request);
+            data.member_id = this.state.hcd_user.member_id;
+
+            this.body = yield proxy(Object.assign({
+                path: serviceUrls.sso.profile.changePassword.upstream,
+                method: 'POST',
+                data: data
+            }, proxyOption));
         })
     ;
 };
