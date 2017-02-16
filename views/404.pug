@@ -1,0 +1,63 @@
+doctype html
+html
+    head
+        meta(charset="utf-8")
+        meta(http-equiv="X-UA-Compatible", content="IE=edge, chrome=1")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0, maximum-scale=1.0")
+        title='Page not found!'
+    style.
+        body {
+            background-color: white;
+            margin: 0px;
+            text-align: center;
+        }
+        .container {
+            display: inline-block;
+            margin-top: -4px;
+            width: 100%;
+            position: relative;
+            height: 100vh;
+            max-width: 414px;
+            max-height: 736px;
+        }
+        .container img {
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            width: 100vw;
+            max-width: 414px;
+            max-height: 736px;
+        }
+        .container .content {
+            position: absolute;
+            top: 55vh;
+            color: #333333;
+            font-size: 16px;
+            width: 100vw;
+            max-width: 414px;
+            text-align: center;
+        }
+        .container .btn {
+            position: absolute;
+            top: 65vh;
+            width: 100vw;
+            max-width: 414px;
+            text-align: center;
+        }
+        .container .btn .button {
+            display: inline-block;
+            font-size: 18px;
+            line-height: 40px;
+            color: #333333;
+            text-decoration: none;
+            width: 160px;
+            height: 40px;
+            border-radius: 4px;
+            background-color: #f9b600;
+        }
+body
+    div.container
+        img(src="/images/404bg.jpg")
+        div.content 你已飞入不明星球，无法找回你……
+        div.btn
+            a.button(href="/") 返回

@@ -7,20 +7,20 @@ const cookie = require('../helpers/cookie');
 const coBody = require('co-body');
 
 function mobileDetectRender(app, router, render) {
-    let routes = ['sign-in'];
+    let routes = ['sign-in', 'sign-up'];
     routes.forEach(function(route) {
         let routename = '/' + route;
         router.get(routename, function *(next) {
             if (this.state.userAgent.isMobile) {
-                this.redirect('/m/' + route);
+                this.redirect('/m/' + route + this.request.search);
             } else {
-                next(); 
+                yield next;
             }
         });
     });
 }
 function mobileRender(app, router, render) {
-    let routes = ['sign-in'];
+    let routes = ['sign-in', 'loading', 'sign-up'];
     routes.forEach(function(route) {
         let routename = '/m/' + route;
         router.get(routename, function *(next) {
@@ -55,7 +55,11 @@ function renderWithServerData(app, router, render) {
 }
 function redirect(app, router) {
     router.get('/', function *home(next) {
-        this.redirect('/my/today');
+        if (this.state.userAgent.isMobile) {
+            this.redirect('/m/loading?url=/my/today');
+        } else {
+            this.redirect('/my/today');
+        }
     });
 
     router.get('/sign-out', function *deleteCookie(next) {
