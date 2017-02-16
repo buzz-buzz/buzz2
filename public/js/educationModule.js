@@ -8,6 +8,10 @@ angular.module('educationModule', [])
         8: '八年级',
         9: '九年级'
     })
+    .value('LevelDisplay', {
+        A: '进阶',
+        B: '基础'
+    })
     .value('Grades', [
         {
             key: '3',

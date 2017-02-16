@@ -53,21 +53,21 @@ block content
                             span(style="padding-left: 4em; padding-right: 4em; background-color: white; display: inline-block;") 我的信息
                             hr(style="margin-top: -0.7em; height: 1px; border: none; border-top: solid 1px #f7b52a; display: block;")
                         div.clear
-                            button.linear.button.right.floated 编辑
+                            button.linear.button.right.floated(ng-click="showModal()") 编辑
                         br
                         .left.aligned.container
                             + pair('姓名', '{{$root.profile.real_name}}')
                             + pair('性别', '{{displayGender}}')
                             + pair('年级', '{{info.displayGrade}}')
                             + pair('绑定手机', '{{$root.profile.mobile}}')
-                            + pair('喜欢主题', '运动')
-                            + pair('难度版本', '基础')
-        .mask
-            .popup
+                            + pair('喜欢主题', '{{info.topics[0]}}')
+                            + pair('难度版本', '{{info.level}}')
+        #my-info.mask(ng-controller="infoFormParentCtrl", ng-class="{'hide': hideModal, 'show': showModal}", ng-click="hideTheModal()")
+            .popup(ng-click="keepModal($event)")
                 .title
                     h3 我的信息
                 .body
-                    .center.aligned.container(style="padding-left: 150px; padding-right: 150px;", ng-controller="infoFormParentCtrl", ng-cloak)
+                    .center.aligned.container(style="padding-left: 150px; padding-right: 150px;",  ng-cloak)
                         include ../partial/info
                         + infoForm
                             .fluid.field

@@ -1,23 +1,61 @@
 angular.module('accountModule', ['clientConfigModule', 'buzzHeaderModule', 'educationModule', 'servicesModule', 'errorParserModule'])
-    .controller('viewAccountCtrl', ['$http', 'clientConfig', '$rootScope', '$scope', 'GenderDisplay', 'GradeDisplay', function ($http, clientConfig, $rootScope, $scope, GenderDisplay, GradeDisplay) {
+    .controller('viewAccountCtrl', ['$http', 'clientConfig', '$rootScope', '$scope', 'GenderDisplay', 'GradeDisplay', 'LevelDisplay', function ($http, clientConfig, $rootScope, $scope, GenderDisplay, GradeDisplay, LevelDisplay) {
         $rootScope.$watch('profile', function (newValue, oldValue) {
             if (newValue) {
                 $scope.displayGender = GenderDisplay[newValue.gender];
             }
         });
 
-        $http.get(clientConfig.serviceUrls.buzz.profile.latestEducation.frontEnd)
+        $http.get(clientConfig.serviceUrls.buzz.profile.latestAllEducation.frontEnd)
             .then(function (result) {
                 $scope.info = {
-                    grade: result.data,
-                    displayGrade: GradeDisplay[result.data]
+                    grade: result.data.grade,
+                    displayGrade: GradeDisplay[result.data.grade],
+                    topics: result.data.fav_topics,
+                    level: LevelDisplay[result.data.fav_level]
                 };
             });
+
+        $scope.showModal = function () {
+            $rootScope.$emit('modal:show');
+        };
+
+        $rootScope.$on('info:updated', function (event, data) {
+            $scope.info.grade = data.grade;
+            $scope.info.displayGrade = GradeDisplay[data.grade];
+            $scope.displayGender = GenderDisplay[data.gender];
+            $rootScope.profile.real_name = data.name;
+            $scope.info.topics = [data.topics];
+            $scope.info.level = LevelDisplay[data.level];
+        });
     }])
-    .controller('infoFormParentCtrl', ['$scope', function ($scope) {
+    .controller('infoFormParentCtrl', ['$scope', '$rootScope', function ($scope, $rootScope) {
         $scope.step = 2;
+        $scope.showModal = false;
+        $scope.hideModal = false;
+
+        $scope.hideTheModal = function () {
+            $scope.hideModal = true;
+            $scope.showModal = false;
+        };
+
+        $scope.keepModal = function ($event) {
+            $event.stopPropagation();
+        };
+
+        var destroy = $rootScope.$on('modal:show', function () {
+            $scope.hideModal = false;
+            $scope.showModal = true;
+        });
+
+        var destroy2 = $rootScope.$on('modal:hide', $scope.hideTheModal);
+
+        $scope.$on('$destroy', function () {
+            destroy();
+            destroy2();
+        });
     }])
-    .controller('infoCtrl', ['$http', 'clientConfig', '$scope', '$rootScope', 'Grades', '$q', 'service', 'serviceErrorParser', function ($http, clientConfig, $scope, $rootScope, Grades, $q, service, serviceErrorParser) {
+    .controller('infoCtrl', ['$http', 'clientConfig', '$scope', '$rootScope', 'Grades', '$q', 'service', 'serviceErrorParser', '$timeout', function ($http, clientConfig, $scope, $rootScope, Grades, $q, service, serviceErrorParser, $timeout) {
         $scope.infoData = {};
 
         $scope.grades = Grades;
@@ -67,6 +105,11 @@ angular.module('accountModule', ['clientConfigModule', 'buzzHeaderModule', 'educ
             })])
                 .then(function (result) {
                     $scope.successMessage = '保存成功！';
+                    $scope.$emit('info:updated', $scope.infoData);
+                    $timeout(function () {
+                        $scope.$emit('modal:hide');
+                        $scope.successMessage = '';
+                    }, 1000);
                 })
                 .catch(function (error) {
                     $scope.errorMessage = serviceErrorParser.getErrorMessage(error);
