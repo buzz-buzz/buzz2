@@ -13,7 +13,8 @@ module.exports = {
             path: '/wechat/oauth/logon',
             method: 'POST',
             data: {
-                app_id: config.wechat.inner.app_id
+                app_id: config.wechat.inner.app_id,
+                returnUrl: '/wechat/oauth/callback'
             }
         });
     }
