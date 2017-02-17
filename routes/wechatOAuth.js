@@ -3,6 +3,8 @@
 const wechat = require('../service-proxy-for-server/wechat');
 
 module.exports = function * wechatOAuth(next) {
+    return yield next;
+
     if (!/MicroMessenger/i.test(this.state.userAgent.source)) {
         return yield next;
     }
