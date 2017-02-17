@@ -14,7 +14,7 @@ angular.module('resetPasswordModule', ['angularQueryParserModule', 'clientConfig
         });
         $translateProvider.preferredLanguage('zh');
     }])
-    .controller('resetPasswordCtrl', ['$scope', 'clientConfig', 'service', 'queryParser', 'serviceErrorParser', function ($scope, clientConfig, service, queryParser, serviceErrorParser) {
+    .controller('resetPasswordCtrl', ['$scope', 'clientConfig', 'service', 'queryParser', 'serviceErrorParser', '$interval', function ($scope, clientConfig, service, queryParser, serviceErrorParser, $interval) {
         $scope.signUpData = {
             mobile: '',
             verificationCode: '',
@@ -29,6 +29,18 @@ angular.module('resetPasswordModule', ['angularQueryParserModule', 'clientConfig
                 .then(function () {
                     $scope.errorMessage = '';
                     $scope.successMessage = '密码重置成功！';
+                    var counter = 6;
+                    var countDownAndJump = function () {
+                        if (counter <= 0) {
+                            $interval.cancel(stop);
+
+                            location.href = '/';
+                        }
+
+                        $scope.successMessage = '密码重置成功！' + (counter--) + '秒后跳转到首页。';
+                    };
+                    countDownAndJump();
+                    var stop = $interval(countDownAndJump, 1000);
                 })
                 .catch(function (reason) {
                     $scope.successMessage = '';
