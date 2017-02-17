@@ -23,7 +23,7 @@ angular.module('passwordModule', ['clientConfigModule', 'buzzHeaderModule', 'ser
             service.post(clientConfig.serviceUrls.sso.profile.changePassword.frontEnd, {
                 password: $scope.data.currentPassword,
                 newPassword: $scope.data.password
-            }).then(function (result) {
+            }).then(function () {
                 $scope.successMessage = '密码修改成功！';
             }).catch(function (reason) {
                 console.error(reason);

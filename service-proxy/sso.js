@@ -31,7 +31,41 @@ let proxyOption = {
     port: config.sso.inner.port
 };
 
+function *validateSms(next) {
+    const referer = url.parse(this.headers.referer);
+
+    if ((referer.pathname === '/sign-up' || referer.pathname === '/reset-password' ) && referer.query && referer.query.indexOf('skipvalidation=true') >= 0) {
+        return yield next;
+    }
+
+    let data = this.upstreamData;
+
+    let result = yield proxy.call(this, {
+        host: config.sms.inner.host,
+        port: config.sms.inner.port,
+        path: serviceUrls.sms.validate.upstream,
+        data: {
+            phone: data.mobile,
+            value: data.verificationCode
+        },
+        method: 'POST'
+    });
+
+    if (!result.isSuccess || !result.result) {
+        return this.body = result;
+    }
+
+    yield next;
+}
+
 module.exports = function (app, router, parse) {
+    function *parseData(next) {
+        let data = yield parse(this.request);
+        this.upstreamData = data;
+
+        yield next;
+    }
+
     router
         .post(serviceUrls.sso.signIn.frontEnd, function *(next) {
             let data = yield parse(this.request);
@@ -78,12 +112,7 @@ module.exports = function (app, router, parse) {
                 method: 'GET'
             });
         })
-        .put(serviceUrls.sso.signUp.frontEnd, function *parseData(next) {
-            let data = yield parse(this.request);
-            this.upstreamData = data;
-
-            yield next;
-        }, function *validateForm(next) {
+        .put(serviceUrls.sso.signUp.frontEnd, parseData, function *validateForm(next) {
             let data = this.upstreamData;
 
             if (!data.agreed) {
@@ -94,32 +123,7 @@ module.exports = function (app, router, parse) {
             }
 
             yield next;
-        }, function *validateSms(next) {
-            const referer = url.parse(this.headers.referer);
-
-            if (referer.pathname === '/sign-up' && referer.query && referer.query.indexOf('skipvalidation=true') >= 0) {
-                return yield next;
-            }
-
-            let data = this.upstreamData;
-
-            let result = yield proxy.call(this, {
-                host: config.sms.inner.host,
-                port: config.sms.inner.port,
-                path: serviceUrls.sms.validate.upstream,
-                data: {
-                    phone: data.mobile,
-                    value: data.verificationCode
-                },
-                method: 'POST'
-            });
-
-            if (!result.isSuccess || !result.result) {
-                return this.body = result;
-            }
-
-            yield next;
-        }, function *(next) {
+        }, validateSms, function *(next) {
             let data = this.upstreamData;
 
             this.body = yield proxy.call(this, {
@@ -148,6 +152,15 @@ module.exports = function (app, router, parse) {
 
             this.body = yield proxy(Object.assign({
                 path: serviceUrls.sso.profile.changePassword.upstream,
+                method: 'POST',
+                data: data
+            }, proxyOption));
+        })
+        .post(serviceUrls.sso.resetPassword.frontEnd, parseData, validateSms, function *() {
+            let data = this.upstreamData;
+
+            this.body = yield proxy(Object.assign({
+                path: serviceUrls.sso.resetPassword.upstream,
                 method: 'POST',
                 data: data
             }, proxyOption));

@@ -23,6 +23,10 @@ module.exports = {
         signUp: {
             frontEnd: '/service-proxy/sso/sign-up',
             upstream: '/member/register'
+        },
+        resetPassword: {
+            frontEnd: '/service-proxy/sso/password/reset',
+            upstream: '/member/resetPassword'
         }
     },
     sms: {
