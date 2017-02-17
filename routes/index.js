@@ -8,7 +8,7 @@ const coBody = require('co-body');
 
 function mobileDetectRender(app, router, render) {
     let routes = ['sign-in', 'sign-up', 'reset-password'];
-    routes.forEach(function(route) {
+    routes.forEach(function (route) {
         let routename = '/' + route;
         router.get(routename, function *(next) {
             if (this.state.userAgent.isMobile) {
@@ -19,11 +19,12 @@ function mobileDetectRender(app, router, render) {
         });
     });
 }
+
 function mobileRender(app, router, render) {
     let routes = ['sign-in', 'loading', 'sign-up', 'reset-password'];
-    routes.forEach(function(route) {
+    routes.forEach(function (route) {
         let routename = '/m/' + route;
-        router.get(routename, function *(next) {
+        router.get(routename, require('./wechatOAuth'), function *(next) {
             this.body = yield render(routename, {
                 config: config
             });
