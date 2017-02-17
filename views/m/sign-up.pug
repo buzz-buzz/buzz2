@@ -196,7 +196,7 @@ body
             form(name="infoForm", ng-controller="infoCtrl", ng-submit="submitInfo()")
                 .left-row.name.input-container
                     .label 姓名
-                    input(type="text",placeholder="请输入您的姓名", ng-required="true", ng-model="signUpData.mobile")
+                    input(type="text",placeholder="请输入您的姓名", ng-required="true", ng-model="infoData.name")
                 .left-row.gender.input-container.without-border
                     .label 性别
                     input(type="radio", name="gender", ng-model="infoData.gender", value="M", id="boy", ng-required="true")
