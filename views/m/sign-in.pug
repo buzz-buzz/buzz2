@@ -1,0 +1,95 @@
+doctype html
+html
+    meta(charset="utf-8")
+    meta(http-equiv="X-UA-Compatible", content="IE=edge, chrome=1")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0, maximum-scale=1.0")
+    title='Buzz English'
+body
+    style.
+        .center-row {
+            display: inline-block;
+            text-align: center;
+        }
+        body {
+            margin: 0px;
+        }
+        .containter {
+            position: relative;
+            height: 100vh;
+            width: 100vw;
+            background: url(/images/bg_login.png) center 100% no-repeat;
+        }
+        .input-container {
+            position: absolute;
+            left: 10vw;
+            width: 80vw;
+            padding-bottom: 1vh;
+            border-bottom: 1px solid #aaaaaa;
+        }
+        .username {
+            top: 30vh;
+        }
+        .password {
+            top: 40vh;
+        }
+        input {
+            vertical-align: top;
+            font-size: 18px;
+            margin-left: 6vw;
+            width: 60vw;
+            border: none;
+            background-color: transparent;
+        }
+        input:focus {
+            outline: none;
+            background-color: transparent;
+        }
+        .login {
+            position: absolute;
+            top: 50vh;
+            width: 80vw;
+            left: 10vw;
+        }
+        button {
+            font-size: 20px;
+            color: #333333;
+            border-radius: 4px;
+            background-color: #f9b600;
+            height: 8vh;
+            line-height: 8vh;
+            border: none;
+        }
+        .link {
+            position: absolute;
+            top: 64vh;
+            width: 80vw;
+            left: 10vw;
+        }
+        .forget{
+            position: absolute;
+            left: 0px;
+        }
+        .signup {
+            position: absolute;
+            right: 0px;
+        }
+        a {
+            font-size: 16px;
+            color: #f9b600;
+            text-decoration: none;
+        }
+    div.containter(ng-controller="signInCtrl", ng-app="signInModule", ng-submit="signIn()")
+        form(name="signInForm", ng-controller="signInCtrl", ng-app="signInModule", ng-submit="signIn()")
+            .center-row.username.input-container
+                img(src="/images/i_account.png")
+                input(type="text",placeholder="请输入网站登陆账号/手机号", ng-model="signInData.account")
+            .center-row.password.input-container
+                img(src="/images/i_password.png")
+                input(type="password",placeholder="请输入登陆密码", ng-model="signInData.password")
+            button.login(type="submit") 登录
+        .center-row.link
+            a.forget(href="/reset-password") 忘记密码？
+            a.signup(href="/sign-up") 新用户注册
+    include ../js
+    script(src="/public/js/signInModule.min.js")
+    
