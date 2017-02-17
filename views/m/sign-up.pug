@@ -6,6 +6,9 @@ html
     title='Buzz English'
 body
     style.
+        .valign-middle {
+            vertical-align: middle;
+        }
         .left-row {
             display: inline-block;
         }
@@ -49,14 +52,19 @@ body
             padding-bottom: 1vh;
             border-bottom: 1px solid #aaaaaa;
         }
-        input {
+        .without-border {
+            border: none;
+        }
+        input[type=password],
+        input[type=text] {
             vertical-align: top;
             font-size: 15px;
             width: 50vw;
             border: none;
             background-color: transparent;
         }
-        input:focus {
+        input[type=password]:focus,
+        input[type=text]:focus {
             outline: none;
             background-color: transparent;
         }
@@ -137,6 +145,38 @@ body
         .hidden {
             display: none;
         }
+        .name {
+            top: 25vh;
+        }
+        .gender {
+            top: 35vh;
+        }
+        .grade {
+            top: 45vh;
+        }
+        .grade select {
+            width: 50vw;
+        }
+        .space {
+            display: inline-block;
+            width: 14vw;
+        }
+        select:invalid { 
+            color: gray; 
+        }
+        select:focus,
+        select {
+            outline: none;
+            border: none;
+            color: black;
+            background-color: white;
+        }
+        .finish {
+            position: absolute;
+            top: 55vh;
+            left: 10vw;
+            width: 80vw;
+        }
     .body(ng-app="signUpModule", ng-controller="signUpParentCtrl")
         .head(ng-if="step == 2")
             .title 信息填写
@@ -163,7 +203,23 @@ body
                 input(type="checkbox", id="agree", ng-model="signUpData.agreed", ng-required="true")
                 label(for="agree") 您已阅读并同意
                     a.active(href="/agreement") 《BUZZBUZZ 用户注册协议》
-        .info(name="infoForm", ng-if="step == 2", ng-controller="infoCtrl", ng-submit="submitInfo()")
+        form(name="infoForm", ng-if="step == 2", ng-controller="infoCtrl", ng-submit="submitInfo()")
+            .left-row.name.input-container
+                .label 姓名
+                input(type="text",placeholder="请输入您的姓名", ng-required="true", ng-model="signUpData.mobile")
+            .left-row.gender.input-container.without-border
+                .label 性别
+                input(type="radio", name="gender", ng-model="infoData.gender", value="M", id="boy", ng-required="true")
+                img.valign-middle(src="/images/boy.png")
+                .space
+                input(type="radio", name="gender", ng-model="infoData.gender", value="F", id="girl", ng-required="true")
+                img.valign-middle(src="/images/girl.png")
+            .left-row.grade.input-container
+                .label 年级
+                select(ng-model="infoData.grade", ng-required="true")
+                    option(value="",disabled,selected, hidden) 请选择你所在的年级
+                    option(ng-repeat="grade in grades", value="{{grade.key}}") {{grade.name}}
+            button.finish(type="submit", ng-disabled="!infoForm.$valid") 完成
     include ../js
     script(src="/node_modules/ui-select/dist/select.min.js")
     script(src="/js/signUpModule.min.js")
