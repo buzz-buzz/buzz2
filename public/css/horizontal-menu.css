@@ -40,25 +40,31 @@ ul.menu li:hover .sub.menu {
 }
 
 ul.sub.vertical.menu {
-    background-color: #f7b52a;
-    color: white;
-    border-radius: 5px;
+    background-color: white;
+    color: #333;
+    border-radius: 1px;
     list-style-type: none;
     position: absolute;
     z-index: auto;
     padding-left: 0;
     right: 0;
     display: none;
+    box-shadow: 1px 1px 4px 1px #c2c2c2;
 }
 
 ul.sub.vertical.menu li a {
     display: inline-block;
     white-space: nowrap;
-    padding-left: 1em;
-    padding-right: 1em;
+    padding-left: 2em;
+    padding-right: 2em;
+    color: #333;
+}
+
+ul.sub.vertical.menu li a:hover {
+    color: #f9b600 !important;
 }
 
 ul.sub.vertical.menu li:hover {
-    background-color: #f2c855;
-    border-radius: 5px;
+    background-color: #f5f5f5 !important;
+    border-radius: 1px;
 }

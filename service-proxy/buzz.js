@@ -24,6 +24,18 @@ module.exports = function (app, router, parse) {
                 data: data
             });
         })
+        .get(serviceUrls.buzz.profile.latestEducation.frontEnd, membership.ensureAuthenticated, function*() {
+            this.body = yield proxy(Object.assign({
+                path: serviceUrls.buzz.profile.latestEducation.upstream.replace(':member_id', this.state.hcd_user.member_id),
+                method: 'GET'
+            }, proxyOption));
+        })
+        .get(serviceUrls.buzz.profile.latestAllEducation.frontEnd, membership.ensureAuthenticated, function*() {
+            this.body = yield proxy(Object.assign({
+                path: serviceUrls.buzz.profile.latestAllEducation.upstream.replace(':member_id', this.state.hcd_user.member_id),
+                method: 'GET'
+            }, proxyOption));
+        })
         .get(serviceUrls.buzz.courses.find.frontEnd, membership.ensureAuthenticated, function*(next) {
             let category = this.params.category;
             let level = this.params.level;
@@ -85,6 +97,14 @@ module.exports = function (app, router, parse) {
         .get(serviceUrls.buzz.categories.list.frontEnd, function *(next) {
             this.body = yield proxy(Object.assign({
                 path: serviceUrls.buzz.categories.list.upstream,
+                method: 'GET'
+            }, proxyOption));
+        })
+        .get(serviceUrls.buzz.profile.currentLevel.frontEnd, membership.ensureAuthenticated, function *(next) {
+            let memberId = this.state.hcd_user.member_id;
+
+            this.body = yield proxy(Object.assign({
+                path: serviceUrls.buzz.profile.currentLevel.upstream.replace(':member_id', memberId),
                 method: 'GET'
             }, proxyOption));
         })

@@ -1,0 +1,26 @@
+mixin infoForm
+    form.info-form.text-label.loose(name="infoForm", ng-if="step == 2", ng-controller="infoCtrl", ng-submit="submitInfo()", style="min-width: 250px;")
+        include ./formMessage
+        .fluid.field
+            label
+                span 姓名
+                input(type="text", placeholder="请输入您的姓名", ng-model="infoData.name", ng-required="true")
+        .fluid.field
+            label.borderless
+                span 性别
+                div(style="border-left: none; text-align: right;")
+                    input(type="radio", name="gender", ng-model="infoData.gender", value="M", id="boy", ng-required="true")
+                    label(for="boy") 金童
+                    span.space
+                    input(type="radio", name="gender", ng-model="infoData.gender", value="F", id="girl", ng-required="true")
+                    label(for="girl") 玉女
+        .fluid.field
+            label.padded.select
+                span 年级
+                select(ng-model="infoData.grade", placeholder="请选择你所在的年级", ng-required="true")
+                    option(ng-repeat="grade in grades", value="{{grade.key}}") {{grade.name}}
+                //ui-select(ng-model="infoData.grade", title="请选择你所在的年级", ng-required="true", theme="bootstrap")
+                    ui-select-match(placeholder="请选择你所在的年级") {{$select.selected.name}}
+                    ui-select-choices(repeat="grade in grades | filter: $select.search")
+                        span(ng-bind="grade.name | highlight: $select.search")
+        block

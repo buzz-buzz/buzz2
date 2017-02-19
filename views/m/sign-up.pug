@@ -1,0 +1,238 @@
+doctype html
+html
+    meta(charset="utf-8")
+    meta(http-equiv="X-UA-Compatible", content="IE=edge, chrome=1")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0, maximum-scale=1.0")
+    title='Buzz English'
+body
+    style.
+        .valign-middle {
+            vertical-align: middle;
+        }
+        .left-row {
+            display: inline-block;
+        }
+        .center-row {
+            display: inline-block;
+            text-align: center;
+        }
+        body {
+            margin: 0px;
+        }
+        .head {
+            width: 100vw;
+            height: 10vh;
+            background-color: #f9b600;
+            position: absolute;
+        }
+        .title {
+            width: 100vw;
+            height: 10vh;
+            line-height: 10vh;
+            text-align: center;
+            font-size: 18px;
+            color: #333333;
+        }
+        .back {
+            height: 10vh;
+            line-height: 10vh;
+            font-size: 30px;
+            color: #333333;
+            position: absolute;
+            top: 0px;
+            left: 8vw;
+        }
+        a {
+            text-decoration: none;
+        }
+        .input-container {
+            position: absolute;
+            left: 10vw;
+            width: 80vw;
+            padding-bottom: 1vh;
+            border-bottom: 1px solid #aaaaaa;
+        }
+        .without-border {
+            border: none;
+        }
+        input[type=phone],
+        input[type=password],
+        input[type=text] {
+            vertical-align: top;
+            font-size: 15px;
+            width: 50vw;
+            border: none;
+            background-color: transparent;
+        }
+        input[type=phone]:focus,
+        input[type=password]:focus,
+        input[type=text]:focus {
+            outline: none;
+            background-color: transparent;
+        }
+        .phone {
+            top: 15vh;
+        }
+        .captchabox {
+            top: 25vh;
+        }
+        .verification-box {
+            top: 35vh;
+        }
+        .verification-box button {
+            width: 19vw;
+            position: absolute;
+            right: 0px;
+            bottom: 1vh;
+            height: 5vh;
+            line-height: 2.5vh;
+            font-size: 12px!important;
+            color: white;
+        }
+        button {
+            font-size: 20px;
+            color: #333333;
+            border-radius: 4px;
+            background-color: #f9b600;
+            height: 8vh;
+            line-height: 8vh;
+            border: none;
+        }
+        .password {
+            top: 45vh;
+        }
+        .label {
+            font-size: 15px;
+            width: 18vw;
+            display: inline-block;
+            text-align: left;
+        }
+        .captcha {
+            position: absolute;
+            right: 0px;
+            bottom: 0px;
+        }
+        .captcha img {
+            width: 19vw;
+        }
+        .next {
+            position: absolute;
+            top: 55vh;
+            left: 10vw;
+            width: 80vw;
+        }
+        button:disabled,
+        .button:disabled {
+            opacity: 0.5;
+        }
+        .agreement {
+            position: absolute;
+            top: 66vh;
+            width: 80vw;
+            left: 10vw;
+        }
+        .agreement a,
+        .agreement label {
+            font-size: 12px;
+        }
+        a {
+            font-size: 16px;
+            color: #f9b600;
+            text-decoration: none;
+        }
+        #agree {
+            vertical-align: bottom;
+            width: 4vw;
+        }
+        .hidden {
+            display: none;
+        }
+        .name {
+            top: 15vh;
+        }
+        .gender {
+            top: 25vh;
+        }
+        .grade {
+            top: 35vh;
+        }
+        .grade select {
+            width: 50vw;
+        }
+        .space {
+            display: inline-block;
+            width: 14vw;
+        }
+        select:invalid { 
+            color: gray; 
+        }
+        select:focus,
+        select {
+            outline: none;
+            border: none;
+            color: black;
+            background-color: white;
+        }
+        .finish {
+            position: absolute;
+            top: 45vh;
+            left: 10vw;
+            width: 80vw;
+        }
+        .form-container {
+            width: 100vw;
+            height: 90vh;
+            background-color: white;
+            position: absolute;
+            top: 10vh;
+        }
+    .body(ng-app="signUpModule", ng-controller="signUpParentCtrl")
+        .head(ng-if="step == 2")
+            .title 信息填写
+        .head(ng-if="step == 1")
+            .title 注册
+            a.back(onClick="history && history.back()") <
+        .form-container(ng-if="step == 2")
+            form(name="infoForm", ng-controller="infoCtrl", ng-submit="submitInfo()")
+                .left-row.name.input-container
+                    .label 姓名
+                    input(type="text",placeholder="请输入您的姓名", ng-required="true", ng-model="infoData.name")
+                .left-row.gender.input-container.without-border
+                    .label 性别
+                    input(type="radio", name="gender", ng-model="infoData.gender", value="M", id="boy", ng-required="true")
+                    img.valign-middle(src="/images/boy.png")
+                    .space
+                    input(type="radio", name="gender", ng-model="infoData.gender", value="F", id="girl", ng-required="true")
+                    img.valign-middle(src="/images/girl.png")
+                .left-row.grade.input-container
+                    .label 年级
+                    select(ng-model="infoData.grade", ng-required="true")
+                        option(value="",disabled,selected, hidden) 请选择你所在的年级
+                        option(ng-repeat="grade in grades", value="{{grade.key}}") {{grade.name}}
+                button.finish(type="submit", ng-disabled="!infoForm.$valid") 完成
+        .form-container(ng-if="step == 1")
+            form(name="signUpForm", ng-submit="signUp()", ng-controller="signUpCtrl")
+                .left-row.phone.input-container
+                    .label 手机号
+                    input(type="phone",placeholder="请输入手机号", ng-required="true", ng-model="signUpData.mobile")
+                .left-row.captchabox.input-container
+                    .label 图形码
+                    input(type="text",placeholder="请输入图形验证码", ng-required="true", ng-model="signUpData.captcha")
+                    .captcha(ng-model="signUpData.captchaId", captcha)
+                .left-row.verification-box.input-container
+                    .label 验证码
+                    input(type="text",placeholder="请输入手机验证码", ng-model="signUpData.verificationCode", ng-required="true", maxlength="6", minlength="6")
+                    resend-verification
+                .left-row.password.input-container
+                    .label 密码
+                    input(type="password", placeholder="请输入6-20位密码", ng-model="signUpData.password", ng-required="true", minlength="6", maxlength="20")
+                button.next(type="submit", ng-disabled="!signUpForm.$valid") 下一步
+                .center-row.agreement
+                    input(type="checkbox", id="agree", ng-model="signUpData.agreed", ng-required="true")
+                    label(for="agree") 您已阅读并同意
+                        a.active(href="/agreement") 《BUZZBUZZ 用户注册协议》
+    include ../js
+    script(src="/node_modules/ui-select/dist/select.min.js")
+    script(src="/js/educationModule.min.js")
+    script(src="/js/formModule.min.js")
+    script(src="/js/signUpModule.min.js")

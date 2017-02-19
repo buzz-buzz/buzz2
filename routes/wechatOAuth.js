@@ -1,0 +1,23 @@
+'use strict';
+
+const wechat = require('../service-proxy-for-server/wechat');
+
+module.exports = function * wechatOAuth(next) {
+    return yield next;
+
+    if (!/MicroMessenger/i.test(this.state.userAgent.source)) {
+        return yield next;
+    }
+
+    if (this.path !== '/m/sign-in') {
+        return yield next;
+    }
+
+    let res = yield wechat.getOAuthLink();
+
+    if (!res.isSuccess) {
+        return yield next;
+    }
+
+    this.redirect(res.result);
+};

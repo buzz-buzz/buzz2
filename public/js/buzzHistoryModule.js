@@ -4,13 +4,17 @@ angular.module('buzzHistoryModule', ['angularQueryParserModule', 'servicesModule
         var level = query.level || 'B';
 
         $scope.level = level;
+        var url = clientConfig.serviceUrls.buzz.courses.find.frontEnd;
+
         if (query.category) {
             $scope.category = query.category;
         } else {
             $scope.category = '';
+            url = clientConfig.serviceUrls.buzz.courses.findByLevel.frontEnd;
         }
 
-        $http.get(clientConfig.serviceUrls.buzz.courses.find.frontEnd.replace(':category', $scope.category).replace(':level', level).replace(':enabled', 'true'))
+
+        $http.get(url.replace(':category', $scope.category).replace(':level', level).replace(':enabled', 'true'))
             .then(function (result) {
                 result = result.data;
 
@@ -42,9 +46,11 @@ angular.module('buzzHistoryModule', ['angularQueryParserModule', 'servicesModule
             window.location.href = href;
         };
     }])
-    .controller('courseCategoryCtrl', ['$scope', '$http', 'clientConfig', function ($scope, $http, clientConfig) {
+    .controller('courseCategoryCtrl', ['$scope', '$http', 'clientConfig', 'queryParser', function ($scope, $http, clientConfig, queryParser) {
         $http.get(clientConfig.serviceUrls.buzz.categories.list.frontEnd).then(function (result) {
             $scope.categories = result.data;
         });
+
+        $scope.currentCategory = queryParser.get('category');
     }])
 ;

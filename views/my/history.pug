@@ -44,6 +44,25 @@ block head
             white-space: normal;
         }
 
+        .categories .active {
+            font-weight: bold;
+        }
+
+        .categories .active [class^="icon-"],
+        .categories .active [class*=" icon-"] {
+            color: #999 !important;
+            font-weight: bold;
+        }
+
+        .tag {
+            text-transform: lowercase;
+            display: inline-block;
+        }
+
+        .tag:first-letter {
+            text-transform: uppercase !important;
+        }
+
 block extraMenus
     include partials/level-switcher
 
@@ -51,12 +70,16 @@ block content
     full.height.container(ng-app="buzzHistoryModule", style="white-space: nowrap;")
         .page.with-header.section.transparent(style="overflow:visible;height:auto;min-height:100%;")
             .center.aligned.container.column.flex-box.white.background(style="padding-left: 50px; padding-right: 50px;",ng-controller="historyCtrl")
-                .container.left.aligned(ng-controller="courseCategoryCtrl")
-                    br
-                    span 类别：
-                    span(ng-repeat="c in categories")
-                        a(ng-href="?category={{c.category}}") {{c.category}}
-                        | &nbsp;&nbsp;
+                br
+                .container.left.aligned.categories(ng-controller="courseCategoryCtrl")
+                    span(style="float: left; margin-right: 15px; margin-bottom: 10px;", ng-class="{'active': !currentCategory}")
+                        span.icon-price-tags(style="color: #ccc;")
+                        | &nbsp;
+                        a(ng-href="?") [All]
+                    span(ng-repeat="c in categories", style="float: left; margin-right: 15px; margin-bottom: 10px;", ng-class="{'active': currentCategory === c.category}")
+                        span.icon-price-tag(style="color: #ccc;")
+                        | &nbsp;
+                        a.tag(ng-href="?category={{c.category}}") {{c.category}}
                 .container(style="height:200px;margin-top:2em;margin-bottom:2em;",ng-repeat="lesson in courseList track by $index")
                     .left.clickable(style="display:inline-block;vertical-align:top;height:200px;",ng-click='aLikeClick("/my/play?date="+lesson.date+"&cat="+ lesson.category.toLowerCase()+"&level="+lesson.level)')
                         img(style="width:280px;height:200px",src="http://source.bridgeplus.cn/image/png/buzz-poster.png")

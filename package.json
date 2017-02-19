@@ -5,7 +5,6 @@
     "test": "gulp && mocha --harmony"
   },
   "dependencies": {
-    "quiz-adapter": "git+ssh://git@bitbucket.org:hcdlearning/quiz-adapter.git#v1.0.5",
     "angular": "1.5.8",
     "angular-chart.js": "^1.0.3",
     "angular-query-parser-module": "^1.0.1",
@@ -23,9 +22,11 @@
     "koa-mount": "^1.3.0",
     "koa-router": "^5.4.0",
     "koa-static": "^2.0.0",
+    "koa-useragent": "^0.1.5",
     "monk": "^3.1.3",
     "node-service-proxy": "^1.0.4",
     "pug": "^2.0.0-beta6",
+    "quiz-adapter": "git+ssh://git@bitbucket.org:hcdlearning/quiz-adapter.git#v1.0.5",
     "request": "^2.78.0",
     "select2": "^4.0.3",
     "selectize": "^0.12.4",

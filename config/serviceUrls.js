@@ -9,8 +9,12 @@ module.exports = {
             update: {
                 frontEnd: '/service-proxy/sso/profile/update',
                 upstream: '/profile/update'
-            }
+            },
 
+            changePassword: {
+                frontEnd: '/service-proxy/sso/password/change',
+                upstream: '/profile/changepassword'
+            }
         },
         signIn: {
             frontEnd: '/service-proxy/sso/sign-in',
@@ -19,6 +23,10 @@ module.exports = {
         signUp: {
             frontEnd: '/service-proxy/sso/sign-up',
             upstream: '/member/register'
+        },
+        resetPassword: {
+            frontEnd: '/service-proxy/sso/password/reset',
+            upstream: '/member/resetPassword'
         }
     },
     sms: {
@@ -36,7 +44,16 @@ module.exports = {
                 frontEnd: '/service-proxy/buzz/profile/education',
                 upstream: '/users/:member_id/educations'
             },
+            latestEducation: {
+                frontEnd: '/service-proxy/buzz/profile/education',
+                upstream: '/users/:member_id/educations/latest'
+            },
+            latestAllEducation: {
+                frontEnd: '/service-proxy/buzz/profile/education-all',
+                upstream: '/users/:member_id/educations/latest-all'
+            },
             currentLevel: {
+                frontEnd: '/service-proxy/buzz/profile/current-level',
                 upstream: '/users/:member_id/educations/current-level'
             }
         },

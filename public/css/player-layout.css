@@ -137,7 +137,11 @@ span.space {
     text-align: center;
 }
 
-.right.aligned.container, .right.aligned.grid {
+.right.aligned.container, .right.aligned.grid, span.right.aligned, .right.aligned {
+    text-align: right;
+}
+
+.right.aligned {
     text-align: right;
 }
 
@@ -233,6 +237,13 @@ span.space {
 .clear.float {
     float: none;
     clear: both;
+}
+
+.clear:after {
+    display: block;
+    content: '';
+    clear: both;
+    float: none;
 }
 
 .avatar {
@@ -418,6 +429,10 @@ form .fluid.field > * > *:first-child {
     font-size: larger;
 }
 
+form .fluid.field > * > *:first-child.right.aligned {
+    text-align: right;
+}
+
 form.text-label .fluid.field > * > *:first-child {
     font-size: small;
     color: black;
@@ -433,6 +448,15 @@ form .error.message {
     background-color: red;
     color: white;
     padding: 8px 15px;
+}
+
+form .success.message {
+    word-wrap: break-word;
+    background-color: #fcfff5;
+    color: #1a531b;
+    border: solid 1px #1a531b;
+    padding: 8px 15px;
+    border-radius: 2px;
 }
 
 form.basic input {

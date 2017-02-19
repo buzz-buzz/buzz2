@@ -13,4 +13,9 @@ angular.module('buzzHeaderModule', ['angularQueryParserModule', 'servicesModule'
             return location.pathname === link;
         };
     }])
+    .value('GenderDisplay', {
+        U: '未知',
+        M: '金童',
+        F: '玉女'
+    })
 ;
