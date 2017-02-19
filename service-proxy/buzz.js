@@ -108,5 +108,28 @@ module.exports = function (app, router, parse) {
                 method: 'GET'
             }, proxyOption));
         })
+        // quiz
+        .post(serviceUrls.buzz.quiz.getResult.frontEnd, function *(next) {
+            var data = yield parse(this.request);
+
+            this.body = yield proxy({
+                host: config.buzz.inner.host,
+                port: config.buzz.inner.port,
+                path: serviceUrls.buzz.quiz.getResult.upstream,
+                data: data,
+                method: 'POST'
+            });
+        })
+        .post(serviceUrls.buzz.quiz.saveResult.frontEnd, function *(next) {
+            var data = yield parse(this.request);
+
+            this.body = yield proxy({
+                host: config.buzz.inner.host,
+                port: config.buzz.inner.port,
+                path: serviceUrls.buzz.quiz.saveResult.upstream,
+                data: data,
+                method: 'POST'
+            });
+        })
     ;
 };
