@@ -42,5 +42,7 @@ module.exports = {
 
     tracking: "http://tracking.buzzbuzzenglish.com/js/t.js?write-key=BeUYw5s9DgGdga4XX02V0DuBYsDDxNE8",
 
-    admins: ['484f357e-a6ff-4651-bfc0-8dbe610496d7']
+    admins: ['484f357e-a6ff-4651-bfc0-8dbe610496d7'],
+
+    rootDomain: ".buzzbuzzenglish.com"
 };
