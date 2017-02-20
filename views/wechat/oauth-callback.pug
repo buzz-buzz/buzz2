@@ -1,0 +1,12 @@
+extends ../layout
+
+block content
+    div(ng-app="wechatOAuthCallbackModule")
+
+block js
+    script.
+        angular.module('wechatOAuthCallbackModule', [])
+            .run(['$rootScope', function ($rootScope) {
+                location.href = '#{fromUrl}';
+            }])
+        ;

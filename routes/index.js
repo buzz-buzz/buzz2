@@ -114,9 +114,6 @@ function helper(app, router) {
         .get('/whoami', membership.setHcdUserByToken, function *(next) {
             this.body = this.state.hcd_user;
         })
-        .get('/test', function *(){
-            this.body = this.url;
-        })
     ;
 }
 function serviceProxy(app, router) {
