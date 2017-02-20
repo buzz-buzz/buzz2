@@ -123,6 +123,9 @@ function serviceProxy(app, router) {
 function staticFiles(app) {
     require('./static')(app);
 }
+function oauth(app, router, render) {
+    require('./wechat')(app, router, render);
+}
 module.exports = function (app, router, render) {
     helper(app, router);
     staticFiles(app);
@@ -136,6 +139,7 @@ module.exports = function (app, router, render) {
     auth(app, router, render);
     api(app, router, render);
     admin(app, router, render);
+    oauth(app, router, render);
 
     app
         .use(router.routes())

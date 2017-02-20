@@ -40,7 +40,8 @@ module.exports = {
             host: 'uat.service.hcd.com',
             port: 10101,
             app_id: 'bridgeplus_corp'
-        }
+        },
+        returnHost: 'http://127.0.0.1:16000'
     },
 
     applicationId: "4f6b3929-38c3-4828-88a7-11da836cae34",
