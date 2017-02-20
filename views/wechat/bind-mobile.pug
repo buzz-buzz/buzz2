@@ -1,11 +1,17 @@
-extends layout
+extends ../m/layout
+
+block js
+    script(src="/node_modules/ui-select/dist/select.min.js")
+    script(src="/js/educationModule.min.js")
+    script(src="/js/formModule.min.js")
+    script(src="/js/signUpModule.min.js")
 
 block content
     .body(ng-app="signUpModule", ng-controller="signUpParentCtrl")
         .head(ng-if="step == 2")
             .title 信息填写
         .head(ng-if="step == 1")
-            .title 注册
+            .title 绑定手机号
             a.back(onClick="history && history.back()") <
         .form-container(ng-if="step == 2")
             form(name="infoForm", ng-controller="infoCtrl", ng-submit="submitInfo()")
@@ -36,7 +42,7 @@ block content
                     .captcha(ng-model="signUpData.captchaId", captcha)
                 .left-row.verification-box.input-container
                     .label 验证码
-                    input(type="text",placeholder="请输入短信验证码", ng-model="signUpData.verificationCode", ng-required="true", maxlength="6", minlength="6")
+                    input(type="text",placeholder="请输入手机验证码", ng-model="signUpData.verificationCode", ng-required="true", maxlength="6", minlength="6")
                     resend-verification
                 .left-row.password.input-container
                     .label 密码
@@ -46,8 +52,3 @@ block content
                     input(type="checkbox", id="agree", ng-model="signUpData.agreed", ng-required="true")
                     label(for="agree") 您已阅读并同意
                         a.active(href="/agreement") 《BUZZBUZZ 用户注册协议》
-block js
-    script(src="/node_modules/ui-select/dist/select.min.js")
-    script(src="/js/educationModule.min.js")
-    script(src="/js/formModule.min.js")
-    script(src="/js/signUpModule.min.js")
