@@ -6,7 +6,7 @@ const membership = require('../membership');
 const proxy = require('../service-proxy/proxy');
 
 module.exports = {
-    getOAuthLink: function *() {
+    getOAuthLink: function *(fromUrl) {
         return yield proxy({
             host: config.wechat.inner.host,
             port: config.wechat.inner.port,
@@ -14,7 +14,7 @@ module.exports = {
             method: 'POST',
             data: {
                 app_id: config.wechat.inner.app_id,
-                returnUrl: config.wechat.returnHost + '/wechat/oauth/callback'
+                returnUrl: config.wechat.returnHost + '/wechat/oauth/callback?from=' + fromUrl
             }
         });
     }

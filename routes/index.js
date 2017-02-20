@@ -107,13 +107,17 @@ function virtualFile(app, router) {
 }
 
 function helper(app, router) {
-    router.get('/healthcheck', function*(next) {
-        this.body = {every: 'is ok', time: new Date(), env: process.env.NODE_ENV};
-    });
-
-    router.get('/whoami', membership.setHcdUserByToken, function *(next) {
-        this.body = this.state.hcd_user;
-    });
+    router
+        .get('/healthcheck', function*(next) {
+            this.body = {every: 'is ok', time: new Date(), env: process.env.NODE_ENV};
+        })
+        .get('/whoami', membership.setHcdUserByToken, function *(next) {
+            this.body = this.state.hcd_user;
+        })
+        .get('/test', function *(){
+            this.body = this.url;
+        })
+    ;
 }
 function serviceProxy(app, router) {
     require('../service-proxy/sso')(app, router, coBody);
