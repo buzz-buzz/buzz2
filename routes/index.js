@@ -54,7 +54,7 @@ function renderWithServerData(app, router, render) {
         }
     });
 }
-function redirect(app, router) {
+function redirectRequest(app, router) {
     router.get('/', function *home(next) {
         if (this.state.userAgent.isMobile) {
             this.redirect('/m/loading?url=/my/today');
@@ -132,7 +132,7 @@ module.exports = function (app, router, render) {
     staticFiles(app);
     virtualFile(app, router);
     mobileDetectRender(app, router);
-    redirect(app, router);
+    redirectRequest(app, router);
     serviceProxy(app, router);
     mobileRender(app, router, render);
     simpleRender(app, router, render);
