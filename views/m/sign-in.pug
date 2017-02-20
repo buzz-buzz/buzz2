@@ -10,9 +10,11 @@ body
             display: inline-block;
             text-align: center;
         }
+
         body {
             margin: 0px;
         }
+
         .containter {
             position: relative;
             height: 100vh;
@@ -22,6 +24,7 @@ body
             background-size: 100% 100%;
             background-repeat: no-repeat;
         }
+
         .input-container {
             position: absolute;
             left: 10vw;
@@ -29,12 +32,15 @@ body
             padding-bottom: 1.7vw;
             border-bottom: 1px solid #aaaaaa;
         }
+
         .username {
             top: 41vw;
         }
+
         .password {
             top: 58vw;
         }
+
         input {
             vertical-align: top;
             font-size: 4.5vw;
@@ -43,16 +49,19 @@ body
             border: none;
             background-color: transparent;
         }
+
         input:focus {
             outline: none;
             background-color: transparent;
         }
+
         .login {
             position: absolute;
             top: 75vw;
             width: 80vw;
             left: 10vw;
         }
+
         button {
             font-size: 5.6vw;
             color: #333333;
@@ -62,37 +71,43 @@ body
             line-height: 13.6vw;
             border: none;
         }
+
         .link {
             position: absolute;
             top: 98.8vw;
             width: 80vw;
             left: 10vw;
         }
-        .forget{
+
+        .forget {
             position: absolute;
             left: 0px;
         }
+
         .signup {
             position: absolute;
             right: 0px;
         }
+
         a {
             font-size: 4.5vw;
             color: #f9b600;
             text-decoration: none;
         }
-    div.containter(ng-controller="signInCtrl", ng-app="signInModule", ng-submit="signIn()")
-        form(name="signInForm", ng-controller="signInCtrl", ng-app="signInModule", ng-submit="signIn()")
+
+    div.containter(ng-app="signInModule", ng-controller="signInParentCtrl")
+        form(name="signInForm", ng-controller="signInCtrl", ng-submit="signIn()")
             .center-row.username.input-container
                 img(src="/images/i_account.png")
                 input(type="text",placeholder="请输入网站登陆账号/手机号", ng-model="signInData.account")
             .center-row.password.input-container
                 img(src="/images/i_password.png")
                 input(type="password",placeholder="请输入登陆密码", ng-model="signInData.password")
-            button.login(type="submit") 登录
+            button.login(type="submit", ng-if="!bindMobileMode") 登录
+            button.login(type="submit", ng-if="bindMobileMode") 登录并绑定
         .center-row.link
             a.forget(href="/reset-password") 忘记密码？
-            a.signup(href="/sign-up") 新用户注册
+            a.signup(ng-href="/sign-up{{queryString}}") 新用户注册
     include ../js
     script(src="/public/js/signInModule.min.js")
     

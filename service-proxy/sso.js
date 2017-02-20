@@ -58,10 +58,25 @@ function *validateSms(next) {
     yield next;
 }
 
+function * bindWechatAccount(token, member_id) {
+    if (token) {
+        let bindResult = yield proxy({
+            host: config.sso.inner.host,
+            port: config.sso.inner.port,
+            path: serviceUrls.sso.profile.update.upstream,
+            data: {
+                member_id: member_id,
+                token: token
+            }
+        });
+
+        console.log('>>> bind wechat account result <<<<');
+        console.log(bindResult);
+    }
+}
 module.exports = function (app, router, parse) {
     function *parseData(next) {
-        let data = yield parse(this.request);
-        this.upstreamData = data;
+        this.upstreamData = yield parse(this.request);
 
         yield next;
     }
@@ -91,6 +106,7 @@ module.exports = function (app, router, parse) {
 
             if (result.isSuccess) {
                 membership.setHcdUser(this, result.result);
+                yield bindWechatAccount(data.token, result.result.member_id);
                 resetCookies.call(this, result.result);
                 redirectToReturnUrl.call(this, result, decodeURIComponent(data.return_url));
             }
@@ -136,7 +152,9 @@ module.exports = function (app, router, parse) {
         })
         .post(serviceUrls.sso.profile.update.frontEnd, membership.ensureAuthenticated, function *(next) {
             let data = yield parse(this.request);
-            data.member_id = this.state.hcd_user.member_id;
+            if (!data.member_id) {
+                data.member_id = this.state.hcd_user.member_id;
+            }
 
             this.body = yield proxy.call(this, {
                 host: config.sso.inner.host,

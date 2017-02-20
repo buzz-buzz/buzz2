@@ -5,7 +5,8 @@ block content
         .head(ng-if="step == 2")
             .title 信息填写
         .head(ng-if="step == 1")
-            .title 注册
+            .title(ng-if="!bindMobileMode") 注册
+            .title(ng-if="bindMobileMode") 绑定新手机号
             a.back(onClick="history && history.back()") <
         .form-container(ng-if="step == 2")
             form(name="infoForm", ng-controller="infoCtrl", ng-submit="submitInfo()")
@@ -46,6 +47,11 @@ block content
                     input(type="checkbox", id="agree", ng-model="signUpData.agreed", ng-required="true")
                     label(for="agree") 您已阅读并同意
                         a.active(href="/agreement") 《BUZZBUZZ 用户注册协议》
+                    div(ng-if="bindMobileMode")
+                        br
+                        br
+                        a.yellow.button(ng-href="/m/sign-in{{queryString}}", style="font-size: larger;") 绑定已注册手机号
+
 block js
     script(src="/node_modules/ui-select/dist/select.min.js")
     script(src="/js/educationModule.min.js")

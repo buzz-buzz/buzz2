@@ -13,7 +13,7 @@ angular.module('signInModule', ['angularQueryParserModule', 'clientConfigModule'
         });
         $translateProvider.preferredLanguage('zh');
     }])
-    .controller('signInCtrl', ['$scope', 'clientConfig', 'service', 'queryParser', 'serviceErrorParser', 'tracking', function ($scope, clientConfig, service, queryParser, serviceErrorParser) {
+    .controller('signInCtrl', ['$scope', 'clientConfig', 'service', 'queryParser', 'serviceErrorParser', 'tracking', '$q', function ($scope, clientConfig, service, queryParser, serviceErrorParser, $q) {
         $scope.signInData = {
             account: '',
             password: ''
@@ -24,15 +24,26 @@ angular.module('signInModule', ['angularQueryParserModule', 'clientConfigModule'
             service.post(clientConfig.serviceUrls.sso.signIn.frontEnd, {
                 value: $scope.signInData.account,
                 password: $scope.signInData.password,
-                return_url: queryParser.get('return_url')
-            }).then(function (result) {
-                tracking.send('log-in.login.afterClick');
-            }).catch(function (reason) {
-                $scope.errorMessage = serviceErrorParser.getErrorMessage(reason);
-                tracking.send('log-in.login.afterClick.error', reason);
-            });
+                return_url: queryParser.get('return_url'),
+                token: queryParser.get('token')
+            })
+                .then(function (result) {
+                    tracking.send('log-in.login.afterClick');
+                    return result;
+                })
+                .catch(function (reason) {
+                    $scope.errorMessage = serviceErrorParser.getErrorMessage(reason);
+                    tracking.send('log-in.login.afterClick.error', reason);
+                });
         };
 
         tracking.send('log-in');
+
+        var query = queryParser.parse();
+        $scope.bindMobileMode = !!query.token;
+
+    }])
+    .controller('signInParentCtrl', ['$scope', function ($scope) {
+        $scope.queryString = location.search;
     }])
 ;
