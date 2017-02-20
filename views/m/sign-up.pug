@@ -21,22 +21,22 @@ body
         }
         .head {
             width: 100vw;
-            height: 10vh;
+            height: 17vw;
             background-color: #f9b600;
             position: absolute;
         }
         .title {
             width: 100vw;
-            height: 10vh;
-            line-height: 10vh;
+            height: 17vw;
+            line-height: 17vw;
             text-align: center;
-            font-size: 18px;
+            font-size: 6vw;
             color: #333333;
         }
         .back {
-            height: 10vh;
-            line-height: 10vh;
-            font-size: 30px;
+            height: 17vw;
+            line-height: 17vw;
+            font-size: 8vw;
             color: #333333;
             position: absolute;
             top: 0px;
@@ -49,7 +49,7 @@ body
             position: absolute;
             left: 10vw;
             width: 80vw;
-            padding-bottom: 1vh;
+            padding-bottom: 1.7vw;
             border-bottom: 1px solid #aaaaaa;
         }
         .without-border {
@@ -59,7 +59,7 @@ body
         input[type=password],
         input[type=text] {
             vertical-align: top;
-            font-size: 15px;
+            font-size: 4.5vw;
             width: 50vw;
             border: none;
             background-color: transparent;
@@ -71,38 +71,38 @@ body
             background-color: transparent;
         }
         .phone {
-            top: 15vh;
+            top: 25.5vw;
         }
         .captchabox {
-            top: 25vh;
+            top: 42.5vw;
         }
         .verification-box {
-            top: 35vh;
+            top: 59.5vw;
         }
         .verification-box button {
             width: 19vw;
             position: absolute;
             right: 0px;
-            bottom: 1vh;
-            height: 5vh;
-            line-height: 2.5vh;
-            font-size: 12px!important;
+            bottom: 1.7vw;
+            height: 8.5vw;
+            line-height: 4.2vw;
+            font-size: 3.5vw!important;
             color: white;
         }
         button {
-            font-size: 20px;
+            font-size: 6vw;
             color: #333333;
             border-radius: 4px;
             background-color: #f9b600;
-            height: 8vh;
-            line-height: 8vh;
+            height: 13.6vw;
+            line-height: 13.6vw;
             border: none;
         }
         .password {
-            top: 45vh;
+            top: 76.5vw;
         }
         .label {
-            font-size: 15px;
+            font-size: 4vw;
             width: 18vw;
             display: inline-block;
             text-align: left;
@@ -117,7 +117,7 @@ body
         }
         .next {
             position: absolute;
-            top: 55vh;
+            top: 93.5vw;
             left: 10vw;
             width: 80vw;
         }
@@ -127,16 +127,16 @@ body
         }
         .agreement {
             position: absolute;
-            top: 66vh;
+            top: 112.2vw;
             width: 80vw;
             left: 10vw;
         }
         .agreement a,
         .agreement label {
-            font-size: 12px;
+            font-size: 3.5vw;
         }
         a {
-            font-size: 16px;
+            font-size: 4.5vw;
             color: #f9b600;
             text-decoration: none;
         }
@@ -148,13 +148,13 @@ body
             display: none;
         }
         .name {
-            top: 15vh;
+            top: 25.5vw;
         }
         .gender {
-            top: 25vh;
+            top: 42.5vw;
         }
         .grade {
-            top: 35vh;
+            top: 59.5vw;
         }
         .grade select {
             width: 50vw;
@@ -172,19 +172,20 @@ body
             border: none;
             color: black;
             background-color: white;
+            font-size: 4.5vw;
         }
         .finish {
             position: absolute;
-            top: 45vh;
+            top: 76.5vw;
             left: 10vw;
             width: 80vw;
         }
         .form-container {
             width: 100vw;
-            height: 90vh;
+            height: 153vw;
             background-color: white;
             position: absolute;
-            top: 10vh;
+            top: 17vw;
         }
     .body(ng-app="signUpModule", ng-controller="signUpParentCtrl")
         .head(ng-if="step == 2")
@@ -221,7 +222,7 @@ body
                     .captcha(ng-model="signUpData.captchaId", captcha)
                 .left-row.verification-box.input-container
                     .label 验证码
-                    input(type="text",placeholder="请输入手机验证码", ng-model="signUpData.verificationCode", ng-required="true", maxlength="6", minlength="6")
+                    input(type="text",placeholder="请输入短信验证码", ng-model="signUpData.verificationCode", ng-required="true", maxlength="6", minlength="6")
                     resend-verification
                 .left-row.password.input-container
                     .label 密码
