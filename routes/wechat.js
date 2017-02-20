@@ -16,7 +16,7 @@ module.exports = function (app, router, render) {
             cookie.deleteToken.call(this);
             cookie.setToken.call(this, token);
 
-            if (registered) {
+            if (/^true$/.test(registered)) {
                 this.body = yield render('wechat/oauth-callback', {
                     registered: registered,
                     token: token,
