@@ -15,42 +15,47 @@ function setHcdUser(context, data) {
     };
 }
 
+function *parseToken(context, token) {
+    let result = {
+        result: {}
+    };
+
+    if (config.mock) {
+        result = {
+            isSuccess: true,
+            result: {
+                member_id: 'fake member'
+            }
+        };
+    } else {
+        result = yield request({
+            uri: 'http://' + config.sso.inner.host + ':' + config.sso.inner.port + '/token/parse',
+            json: {token: token},
+            method: 'POST'
+        });
+
+        result = result.body;
+        console.log('parse token result: ');
+        console.log(result);
+    }
+
+    if (result.isSuccess) {
+        setHcdUser(context, {
+            member_id: result.result.member_id,
+            token: token
+        });
+
+        cookie.deleteMID.call(context);
+        cookie.setMID.call(context, result.result.member_id);
+    } else {
+        delete context.state.hcd_user;
+    }
+}
 function * setHcdUserByToken(context) {
     let token = context.cookies.get('token');
 
     if (token) {
-        let result = {
-            result: {}
-        };
-
-        if (config.mock) {
-            result = {
-                isSuccess: true,
-                result: {
-                    member_id: 'fake member'
-                }
-            };
-        } else {
-            result = yield request({
-                uri: 'http://' + config.sso.inner.host + ':' + config.sso.inner.port + '/token/parse',
-                json: {token: token},
-                method: 'POST'
-            });
-
-            result = result.body;
-        }
-
-        if (result.isSuccess) {
-            setHcdUser(context, {
-                member_id: result.result.member_id,
-                token: token
-            });
-
-            cookie.deleteMID.call(context);
-            cookie.setMID.call(context, result.result.member_id);
-        } else {
-            delete context.state.hcd_user;
-        }
+        yield parseToken(context, token);
     } else {
         delete context.state.hcd_user;
     }
@@ -63,7 +68,9 @@ let membership = {
         yield next;
     },
 
-    setHcdUser: setHcdUser
+    setHcdUser: setHcdUser,
+
+    parseToken: parseToken
 };
 
 membership.ensureAuthenticated = function *(next) {

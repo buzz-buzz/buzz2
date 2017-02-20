@@ -87,6 +87,17 @@ module.exports = {
         courseViews: {
             frontEnd: '/service-proxy/buzz/course-views/:category/:level/:lesson_id',
             upstream: '/course-views/:category/:level/:lesson_id'
+        },
+
+        quiz: {
+            getResult: {
+                frontEnd: '/service-proxy/buzz/quiz/result/get',
+                upstream: '/quiz/get_result'
+            },
+            saveResult: {
+                frontEnd: '/service-proxy/buzz/quiz/result/save',
+                upstream: '/quiz/save_result'
+            }
         }
     }
 };

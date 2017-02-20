@@ -8,7 +8,7 @@ const coBody = require('co-body');
 
 function mobileDetectRender(app, router, render) {
     let routes = ['sign-in', 'sign-up', 'reset-password'];
-    routes.forEach(function(route) {
+    routes.forEach(function (route) {
         let routename = '/' + route;
         router.get(routename, function *(next) {
             if (this.state.userAgent.isMobile) {
@@ -19,11 +19,12 @@ function mobileDetectRender(app, router, render) {
         });
     });
 }
+
 function mobileRender(app, router, render) {
     let routes = ['sign-in', 'loading', 'sign-up', 'reset-password'];
-    routes.forEach(function(route) {
+    routes.forEach(function (route) {
         let routename = '/m/' + route;
-        router.get(routename, function *(next) {
+        router.get(routename, require('./wechatOAuth'), function *(next) {
             this.body = yield render(routename, {
                 config: config
             });
@@ -106,13 +107,14 @@ function virtualFile(app, router) {
 }
 
 function helper(app, router) {
-    router.get('/healthcheck', function*(next) {
-        this.body = {every: 'is ok', time: new Date(), env: process.env.NODE_ENV};
-    });
-
-    router.get('/whoami', membership.setHcdUserByToken, function *(next) {
-        this.body = this.state.hcd_user;
-    });
+    router
+        .get('/healthcheck', function*(next) {
+            this.body = {every: 'is ok', time: new Date(), env: process.env.NODE_ENV};
+        })
+        .get('/whoami', membership.setHcdUserByToken, function *(next) {
+            this.body = this.state.hcd_user;
+        })
+    ;
 }
 function serviceProxy(app, router) {
     require('../service-proxy/sso')(app, router, coBody);
@@ -121,6 +123,9 @@ function serviceProxy(app, router) {
 }
 function staticFiles(app) {
     require('./static')(app);
+}
+function oauth(app, router, render) {
+    require('./wechat')(app, router, render);
 }
 module.exports = function (app, router, render) {
     helper(app, router);
@@ -135,6 +140,7 @@ module.exports = function (app, router, render) {
     auth(app, router, render);
     api(app, router, render);
     admin(app, router, render);
+    oauth(app, router, render);
 
     app
         .use(router.routes())

@@ -34,6 +34,15 @@ module.exports = {
         }
     },
 
+    wechat: {
+        inner: {
+            host: 'service.bridgeplus.cn',
+            port: 10101,
+            app_id: 'bridgeplus_corp'
+        },
+        returnHost: 'http://buzzbuzzenglish.com'
+    },
+
     applicationId: "4f6b3929-38c3-4828-88a7-11da836cae34",
 
     logger: {
@@ -42,5 +51,7 @@ module.exports = {
 
     tracking: "http://tracking.buzzbuzzenglish.com/js/t.js?write-key=BeUYw5s9DgGdga4XX02V0DuBYsDDxNE8",
 
-    admins: ['484f357e-a6ff-4651-bfc0-8dbe610496d7']
+    admins: ['484f357e-a6ff-4651-bfc0-8dbe610496d7'],
+
+    rootDomain: ".buzzbuzzenglish.com"
 };

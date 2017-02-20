@@ -26,7 +26,6 @@ angular.module('signInModule', ['angularQueryParserModule', 'clientConfigModule'
                 password: $scope.signInData.password,
                 return_url: queryParser.get('return_url')
             }).then(function (result) {
-                console.log(result);
                 tracking.send('log-in.login.afterClick');
             }).catch(function (reason) {
                 $scope.errorMessage = serviceErrorParser.getErrorMessage(reason);
