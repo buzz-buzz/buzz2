@@ -25,7 +25,7 @@ angular.module('signUpModule', ['angularQueryParserModule', 'clientConfigModule'
 
         $scope.bindMobileMode = !!query.token;
     }])
-    .controller('signUpCtrl', ['$scope', 'clientConfig', 'service', 'queryParser', 'serviceErrorParser', 'tracking', '$q', function ($scope, clientConfig, service, queryParser, serviceErrorParser, tracking, $q) {
+    .controller('signUpCtrl', ['$scope', 'clientConfig', 'service', 'queryParser', 'serviceErrorParser', 'tracking', function ($scope, clientConfig, service, queryParser, serviceErrorParser, tracking) {
         $scope.signUpData = {
             mobile: '',
             verificationCode: '',
@@ -37,29 +37,16 @@ angular.module('signUpModule', ['angularQueryParserModule', 'clientConfigModule'
 
         $scope.queryString = location.search;
 
-        function bindWechatAccount(member_id) {
-            var query = queryParser.parse();
-
-            if (query.token) {
-                return service.post(clientConfig.serviceUrls.sso.profile.update.frontEnd, {
-                    token: query.token,
-                    member_id: member_id
-                });
-            } else {
-                return $q.resolve(member_id);
-            }
-        }
-
         $scope.signUp = function () {
             tracking.send('sign-up.register', $scope.signUpData);
             service.put(clientConfig.serviceUrls.sso.signUp.frontEnd, $scope.signUpData)
-                .then(bindWechatAccount)
                 .then(function (member_id) {
                     tracking.send('sign-up.register.done', {member_id: member_id});
 
                     return service.post(clientConfig.serviceUrls.sso.signIn.frontEnd, {
                         value: $scope.signUpData.mobile,
                         password: $scope.signUpData.password,
+                        token: queryParser.get('token'),
                         return_url: encodeURIComponent(location.pathname + '?step=2')
                     });
                 })
