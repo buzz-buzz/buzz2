@@ -11,7 +11,7 @@ module.exports = function * wechatOAuth(next) {
         return yield next;
     }
 
-    let res = yield wechat.getOAuthLink(this.query.return_url || this.url);
+    let res = yield wechat.getOAuthLink(this.query.return_url || '/');
 
     if (!res.isSuccess) {
         return yield next;

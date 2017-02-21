@@ -5,6 +5,7 @@ const membership = require('../membership');
 const mount = require('koa-mount');
 const cookie = require('../helpers/cookie');
 const coBody = require('co-body');
+const fs = require('fs');
 
 function mobileDetectRender(app, router, render) {
     let routes = ['sign-in', 'sign-up', 'reset-password'];
@@ -31,6 +32,7 @@ function mobileRender(app, router, render) {
         });
     });
 }
+
 function simpleRender(app, router, render) {
     let routes = ['sign-in', 'loading', 'agreement', 'reset-password'];
 
@@ -127,6 +129,18 @@ function staticFiles(app) {
 function oauth(app, router, render) {
     require('./wechat')(app, router, render);
 }
+function more(app, router, render) {
+    fs.readdir(__dirname + '/more', function (err, results) {
+        if (err) {
+            throw err;
+        }
+
+        results.forEach(fileName => {
+            require('./more/' + fileName)(app, router, render);
+        });
+    });
+}
+
 module.exports = function (app, router, render) {
     helper(app, router);
     staticFiles(app);
@@ -141,6 +155,7 @@ module.exports = function (app, router, render) {
     api(app, router, render);
     admin(app, router, render);
     oauth(app, router, render);
+    // more(app, router, render);
 
     app
         .use(router.routes())
