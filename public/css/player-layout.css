@@ -302,6 +302,7 @@ span.top.aligned {
     font-size: medium;
     padding-top: 5px;
     padding-bottom: 5px;
+    display: block;
 }
 
 .fluid.button {

@@ -11,7 +11,11 @@ module.exports = function * wechatOAuth(next) {
         return yield next;
     }
 
-    let res = yield wechat.getOAuthLink(this.query.return_url || this.url);
+    if (this.query.token && this.query.is_registed) {
+        return yield next;
+    }
+
+    let res = yield wechat.getOAuthLink(this.query.return_url || '/');
 
     if (!res.isSuccess) {
         return yield next;

@@ -24,7 +24,7 @@ module.exports = function (app, router, render) {
                     config: config
                 });
             } else {
-                this.redirect('/m/sign-up?from=' + fromUrl + '&token=' + token + '&extra=' + qs.stringify(this.query));
+                this.redirect('/m/sign-up?' + qs.stringify(this.query));
             }
         })
     ;

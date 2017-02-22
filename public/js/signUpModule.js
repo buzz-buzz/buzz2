@@ -20,6 +20,10 @@ angular.module('signUpModule', ['angularQueryParserModule', 'clientConfigModule'
         tracking.send('sign-up', {
             step: $scope.step
         });
+
+        var query = queryParser.parse();
+
+        $scope.bindMobileMode = !!query.token;
     }])
     .controller('signUpCtrl', ['$scope', 'clientConfig', 'service', 'queryParser', 'serviceErrorParser', 'tracking', function ($scope, clientConfig, service, queryParser, serviceErrorParser, tracking) {
         $scope.signUpData = {
@@ -31,14 +35,18 @@ angular.module('signUpModule', ['angularQueryParserModule', 'clientConfigModule'
             agreed: false
         };
 
+        $scope.queryString = location.search;
+
         $scope.signUp = function () {
             tracking.send('sign-up.register', $scope.signUpData);
             service.put(clientConfig.serviceUrls.sso.signUp.frontEnd, $scope.signUpData)
                 .then(function (member_id) {
                     tracking.send('sign-up.register.done', {member_id: member_id});
+
                     return service.post(clientConfig.serviceUrls.sso.signIn.frontEnd, {
                         value: $scope.signUpData.mobile,
                         password: $scope.signUpData.password,
+                        token: queryParser.get('token'),
                         return_url: encodeURIComponent(location.pathname + '?step=2')
                     });
                 })
