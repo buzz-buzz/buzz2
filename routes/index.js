@@ -57,7 +57,7 @@ function renderWithServerData(app, router, render) {
 function redirectRequest(app, router) {
     router.get('/', function *home(next) {
         if (this.state.userAgent.isMobile) {
-            this.redirect('/m/loading?url=/m/progress');
+            this.redirect('/m/loading?url=/m/my/progress');
         } else {
             this.redirect('/my/today');
         }
