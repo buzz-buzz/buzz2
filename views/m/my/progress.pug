@@ -58,7 +58,7 @@ body(ng-app="buzzHeaderModule")
         div(id="profile", ng-controller="headerCtrl")
             .imgtext(ng-if="!profile.avatar")
                 i.icon-user
-            img(ng-src="{{profile.avatar}}",ng-class="{'hidden':profile.avatar}",onerror="this.src")
+            img(ng-src="{{profile.avatar}}",ng-class="{'hidden':profile.avatar===''}")
             .text(ng-bind="profile.real_name")
     include ../tail.pug
     include ../../js
