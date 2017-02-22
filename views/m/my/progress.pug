@@ -1,0 +1,72 @@
+doctype html
+html
+    meta(charset="utf-8")
+    meta(http-equiv="X-UA-Compatible", content="IE=edge, chrome=1")
+    meta(name="viewport", content="width=375, user-scalable=no")
+    title='Buzz English'
+    link(href="/public/css/style.min.css", rel="stylesheet")
+body(ng-app="buzzHeaderModule")
+    style.
+        body {
+            margin: 0px;
+        }
+        .body {
+            width: 375px;
+            height: 667px;
+            background-image: url("/public/images/bg_m_progress.jpg");
+            background-size: 100% 100%;
+            position: relative;
+        }
+        #profile {
+            position: absolute;
+            display: inline-block;
+            width: 10rem;
+            left: 6.7rem;
+            top: 2em;
+            text-align: center;
+        }
+        #profile .imgtext,
+        #profile img {
+            display: inline-block;
+            width: 5rem;
+            height: 5rem;
+            margin-bottom: 1rem;
+            border-radius: 50%;
+            border: 2px solid black;
+        }
+        #profile .text {
+            display: inline-block;
+            width: 6rem;
+        }
+        #profile .imgtext {
+            display: inline-block;
+            position: absolute;
+            width: 6rem;
+            left: 2rem;
+            top: -0.5rem;
+            height: 6rem;
+            line-height: 6rem;
+            font-size: 5rem;
+            background-color: white;
+            border-radius: 50%;
+            border: 2px solid black;
+        }
+        .hidden {
+            visibility: hidden;
+        }
+    .body
+        div(id="profile", ng-controller="headerCtrl")
+            .imgtext(ng-if="!profile.avatar")
+                i.icon-user
+            img(ng-src="{{profile.avatar}}",ng-class="{'hidden':profile.avatar}",onerror="this.src")
+            .text(ng-bind="profile.real_name")
+    include ../tail.pug
+    include ../../js
+    script(src="/node_modules/chart.js/dist/Chart.js")
+    script(src="/node_modules/angular-chart.js/dist/angular-chart.min.js")
+    script(src="/js/buzzProgressModule.min.js")
+    script(src="/js/buzzHeaderModule.min.js")
+    script.
+            angular.element(document).ready(function () {
+                angular.bootstrap(document.getElementById('profiler'), ['buzzHeaderModule']);
+            });
