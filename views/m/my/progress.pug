@@ -13,68 +13,232 @@ body(ng-app="buzzHeaderModule")
         .body {
             width: 375px;
             height: 667px;
-            background-image: url("/public/images/bg_m_progress.jpg");
-            background-size: 100% 100%;
             position: relative;
-        }
-        #profile {
-            position: absolute;
-            display: inline-block;
-            width: 375px;
-            left: 0px;
-            top: 2em;
-            text-align: center;
-        }
-        #profile .imgtext,
-        #profile img {
-            display: inline-block;
-            width: 5rem;
-            height: 5rem;
-            margin-bottom: 1rem;
-            border-radius: 50%;
-            border: 2px solid black;
-        }
-        #profile .text {
-            display: inline-block;
-            width: 6rem;
-        }
-        #profile .imgtext-container {
-            display: block;
-            position: absolute;
-            width: 375px;
-            top: -0.5rem;
-            height: 6rem;
-            text-align: center;
-        }
-        #profile .imgtext {
-            display: inline-block;
-            width: 6rem;
-            height: 6rem;
-            line-height: 6rem;
-            font-size: 5rem;
-            background-color: white;
-            border-radius: 50%;
-            border: 2px solid black;
+            margin: 0 auto;
         }
         .hidden {
             visibility: hidden;
         }
+        .row.special {
+            height: 12rem;
+        }
+        .row {
+            display: block;
+            position: relative;
+            width: 375px;
+        }
+        .row .box {
+            width: 21.5rem;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
+        }
+        .row.blank {
+            width: 21.5rem;
+            height: 1rem;
+        }
+        .process-head {
+            text-align: left;
+            border-left: 4px solid #f9b600;
+            font-size: 0.9rem;
+            height: 1rem;
+            line-height: 1rem;
+        }
+        .process-content {
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+            border-top: 2px solid #f9b600;
+            border-bottom: 1px solid #cccccc;
+            border-left: 1px solid #cccccc;
+            border-right: 1px solid #cccccc;
+        }
+        .chart,
+        .learn,
+        .calander {
+            display: inline-block;
+            text-align: center;
+        }
+        .calander {
+            height: 3rem;
+            line-height: 3rem;
+        }
+        .learn {
+            height: 5rem;
+            font-size: 0.85rem;
+            vertical-align: top;
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
+        }
+        .chart {
+            height: 3rem;
+            line-height: 3rem;
+        }
+         .chart.left {
+            width: 15rem;
+            font-size: 0.85rem;
+            border-right: 1px solid #cccccc;
+        }
+        .chart.right {
+            width: 6.4rem;
+        }
+        .chart img {
+            width: 1.56rem;
+        }
+        .learn .content {
+            text-align: left;
+        }
+        .learn .text-content {
+            height: 5rem;
+            line-height: 2rem;
+        }
+        .learn img {
+            width: 1.2rem;
+            margin-left: 0.1rem;
+            margin-right: 0.1rem;
+        }
+        .learn.left {
+            width: 6rem;
+            border-right: 1px solid #cccccc;
+        }
+        .learn.middle {
+            width: 6rem;
+            border-right: 1px solid #cccccc;
+        }
+        .learn.right {
+            width: 6rem;
+        }
+        .calander.left {
+            width: 16rem;
+            font-size: 0.85rem;
+            border-right: 1px solid #cccccc;
+        }
+        .calander.right {
+            width: 5.4rem;
+        }
+        .calander img {
+            width: 1.56rem;
+        }
+        .valign-middle {
+            vertical-align: middle;
+        }
+        .font.grey {
+            color: #cccccc;
+        }
+        .font.black {
+            color: #333333;
+        }
+        .font.orange {
+            color: #f9b600;
+        }
+        .account.column {
+            width: 16%;
+            display: inline-block;
+            vertical-align: top;
+        }
+        .account.column .head{
+            margin-top: 3rem;
+            height: 2rem;
+            line-height: 2rem;
+        }
+        .pic.column {
+            width: 36%;
+            display: inline-block;
+        }
+        .pic.column .img{
+            height: 8rem;
+            line-height: 8rem;
+            text-align: center;
+        }
+        .pic.column .img img{
+            width: 80%;
+            border-radius: 50%;
+            vertical-align: middle;
+        }
+        .pic.column .text{
+            text-align: center;
+        }
+        .account {
+            height: 9rem;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+        .bold {
+            font-weight: bold;
+        }
     .body
-        div(id="profile", ng-controller="headerCtrl")
-            div.imgtext-container(ng-if="!profile.avatar")
-                .imgtext
-                    i.icon-user
-            div
-                img(ng-src="{{profile.avatar}}",ng-class="{'hidden':profile.avatar===''}")
-            div
-                .text(ng-bind="profile.real_name")
+        .row.special(id="profile", ng-controller="headerCtrl")
+            .box
+                .account.column
+                    .text.head.font.black Level
+                    .text.content.font.black.bold A
+                .account.column
+                    .text.head.font.black Lesson
+                    .text.content.font.black.bold 20
+                .pic.column 
+                    .img
+                        img(ng-src="{{profile.avatar || 'http://upload.bridgeplus.cn/FkWPK0z3J-SPuRSCoYmxBIBkzPDb-small'}}")
+                    .text(ng-bind="profile.real_name")
+                .account.column
+                    .text.head.font.black
+                        img(ng-src="/public/images/points.png")
+                    .text.content.font.black.bold 200
+                .account.column
+                    .text.head.font.black
+                        img(ng-src="/public/images/medal.png")
+                    .text.content.font.black.bold 5
+        .row
+            .box.process-head 练习打卡日历
+        .row.blank
+        .row
+            .box.process-content
+                .calander.left
+                    span.font.grey 你来到BUZZ BUZZ已有：
+                    span.font.black 20 Days
+                .calander.right
+                    img.valign-middle(src="/public/images/calander.png")
+        .row.blank
+        .row.blank
+        .row
+            .box.process-head 学习进度
+        .row.blank
+        .row
+            .box.process-content
+                .learn.left
+                    .title 练习全对
+                    .content
+                        img(src="/public/images/correct.png")
+                        img(src="/public/images/correct.png")
+                        img(src="/public/images/correct.png")
+                        img(src="/public/images/correct.png")
+                        img(src="/public/images/correct.png")
+                        img(src="/public/images/correct.png")
+                        img(src="/public/images/correct.png")
+                        img(src="/public/images/correct.png")
+                .learn.middle
+                    .title 练习有错
+                    .content
+                        img(src="/public/images/wrong_1.png")
+                        img(src="/public/images/wrong_2.png")
+                .learn.right
+                    .title 打败多少对手
+                    .text-content 2028
+        .row.blank
+        .row.blank
+        .row
+            .box.process-head 历史曲线
+        .row.blank
+        .row
+            .box.process-content
+                .chart.left
+                    span.font.grey 你已累计学习了
+                    span.font.black 1200个
+                    span.font.grey 单词
+                .chart.right
+                    img.valign-middle(src="/public/images/chart.png")
     include ../tail.pug
     include ../../js
     script(src="/node_modules/chart.js/dist/Chart.js")
     script(src="/node_modules/angular-chart.js/dist/angular-chart.min.js")
     script(src="/js/buzzProgressModule.min.js")
     script(src="/js/buzzHeaderModule.min.js")
-    script.
-            angular.element(document).ready(function () {
-                angular.bootstrap(document.getElementById('profiler'), ['buzzHeaderModule']);
-            });
