@@ -64,7 +64,7 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
             }
         });
     }])
-    .controller('quizCtrl', ['$scope', '$http', 'queryParser', '$sce', '$window', 'clientConfig', '$rootScope', 'tracking', '$timeout', function ($scope, $http, queryParser, $sce, $window, clientConfig, $rootScope, tracking, $timeout) {
+    .controller('quizCtrl', ['$scope', '$http', 'queryParser', '$sce', '$window', 'clientConfig', '$rootScope', 'tracking', '$timeout', 'quizFactory', function ($scope, $http, queryParser, $sce, $window, clientConfig, $rootScope, tracking, $timeout, quizFactory) {
         $scope.$sce = $sce;
         $scope.quizURL = "";
 
@@ -76,7 +76,7 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
             "F": "failed"
         };
 
-        function lessonDataGot(event, data) {
+        function lessonDataGot(event, lessonData) {
             $scope.currentID = "";
             $scope.initStatus = "";
             $scope.animateDirection = "";
@@ -126,9 +126,7 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                 return ret;
             };
 
-            var smilJson = data.quiz_path;
-
-            $http.get(smilJson).then(function (ret) {
+            $http.get(lessonData.quiz_path).then(function (ret) {
                 var data = ret.data;
                 var retArray = [];
                 Object.keys(data).forEach(function (key) {
@@ -139,6 +137,13 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                     });
                 });
                 $scope.quizzes = retArray;
+                quizFactory.saveResultGroup({
+                    lesson_id: lessonData.lesson_id,
+                    type: 'daily-exercise',
+                    correct: 0,
+                    total: $scope.quizzes.length,
+                    wrong: 0
+                });
 
                 setUrl(true);
 
@@ -293,7 +298,7 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
 
                     quizFactory.saveResultGroup({
                         lesson_id: lessonData.lesson_id,
-                        type: 'test',
+                        type: 'vocabulary',
                         correct: 0,
                         total: $scope.newWords.length,
                         wrong: 0
