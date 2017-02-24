@@ -158,7 +158,7 @@ module.exports = function (app, router, render) {
     api(app, router, render);
     admin(app, router, render);
     oauth(app, router, render);
-    // more(app, router, render);
+    more(app, router, render);
 
     app
         .use(router.routes())
