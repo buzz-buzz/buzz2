@@ -176,7 +176,7 @@ body(ng-app="buzzHeaderModule")
                     .text.content.font.black.bold 20
                 .pic.column 
                     .img
-                        img(ng-src="{{profile.avatar || 'http://upload.bridgeplus.cn/FkWPK0z3J-SPuRSCoYmxBIBkzPDb-small'}}")
+                        img(ng-src="{{profile.avatar || '/public/images/default_avatar.png'}}")
                     .text(ng-bind="profile.real_name")
                 .account.column
                     .text.head.font.black
