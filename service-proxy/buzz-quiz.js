@@ -24,12 +24,14 @@ module.exports = function (app, router, parse) {
                 method: 'POST'
             });
         })
-        .put(serviceUrls.buzz.quiz.result.frontEnd, function *(next) {
-            var data = yield parse(this.request);
+        .put(serviceUrls.buzz.quiz.result.frontEnd, membership.ensureAuthenticated, function *(next) {
+            let data = {
+                member_id: this.state.hcd_user.member_id
+            };
 
             this.body = yield proxy(Object.assign({
                 path: serviceUrls.buzz.quiz.result.upstream.save,
-                data: data,
+                data: Object.assign(data, yield parse(this.request)),
                 method: 'POST'
             }, proxyOption));
         })

@@ -99,6 +99,20 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                         index: $scope.quizIndex
                     });
                     $window.quizAdapter.getResult(getNextId(), $scope.quizzes[$scope.quizIndex].url, forcerefresh).then(function (ret) {
+                        quizFactory.saveResult({
+                            lesson_id: lessonData.lesson_id,
+                            type: 'daily-exercise',
+                            result_id: $scope.quizIndex.toString(),
+                            total: $scope.quizzes.length,
+                            wrong: ret.status === 'Failed' ? 1 : 0,
+                            correct: ret.status === 'Passed' ? 1 : 0,
+                            detail: {
+                                title: String(ret.title),
+                                score: String(ret.mark),
+                                status: String(ret.status)
+                            }
+                        });
+
                         var status = ret.status;
                         $scope.quizzes[$scope.quizIndex].status = status.toLowerCase();
                         tracking.send('today-quiz.submit', {
@@ -137,13 +151,6 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                     });
                 });
                 $scope.quizzes = retArray;
-                quizFactory.saveResultGroup({
-                    lesson_id: lessonData.lesson_id,
-                    type: 'daily-exercise',
-                    correct: 0,
-                    total: $scope.quizzes.length,
-                    wrong: 0
-                });
 
                 setUrl(true);
 
@@ -233,7 +240,6 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
         }
 
         function lessonDataGot(event, lessonData) {
-            console.log('lesson data:', lessonData);
             $scope.currentID = "";
             $scope.initStatus = "";
             $scope.animateDirection = "";
@@ -249,8 +255,20 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                     $window.quizAdapter
                         .getResult($scope.currentID, options.url, options.forceRefresh)
                         .then(function resultGot(ret) {
-                            console.log('result got:');
-                            console.log(ret);
+                            quizFactory.saveResult({
+                                lesson_id: lessonData.lesson_id,
+                                type: 'vocabulary',
+                                result_id: $scope.wordIndex.toString(),
+                                total: $scope.newWords.length,
+                                wrong: ret.status === 'Failed' ? 1 : 0,
+                                correct: ret.status === 'Passed' ? 1 : 0,
+                                detail: {
+                                    title: String(ret.title),
+                                    score: String(ret.mark),
+                                    status: String(ret.status)
+                                }
+                            });
+
                             var status = ret.status;
                             $scope.newWords[$scope.wordIndex].status = status.toLowerCase();
                             tracking.send('today-vocabulary-quiz.submit', {
@@ -272,13 +290,12 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                 return true;
             };
 
-            var smilJson = lessonData.new_words_path;
             var STATUS = $scope.STATUS = {
                 "U": "unchecked",
                 "P": "passed",
                 "F": "failed"
             };
-            $http.get(smilJson).then(function (ret) {
+            $http.get(lessonData.new_words_path).then(function (ret) {
                 if (!ret || !ret.data) {
                     return null;
                 }
@@ -294,14 +311,6 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                             "status": STATUS.U
                             // "exercise": thisWord.exercise || "http://content.bridgeplus.cn/buzz-quiz/" + query.date + '-' + query.level + "/index.html"
                         });
-                    });
-
-                    quizFactory.saveResultGroup({
-                        lesson_id: lessonData.lesson_id,
-                        type: 'vocabulary',
-                        correct: 0,
-                        total: $scope.newWords.length,
-                        wrong: 0
                     });
                 }
                 $scope.WORD_MAX_INDEX = $scope.newWords.length - 1;

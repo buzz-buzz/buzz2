@@ -3,6 +3,10 @@ angular.module('quizModule', ['clientConfigModule'])
         return {
             saveResultGroup: function (data) {
                 return $http.put(clientConfig.serviceUrls.buzz.quiz.resultGroup.frontEnd, data);
+            },
+
+            saveResult: function(data){
+                return $http.put(clientConfig.serviceUrls.buzz.quiz.result.frontEnd, data);
             }
         };
     }])
