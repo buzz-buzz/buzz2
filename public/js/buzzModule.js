@@ -1,4 +1,4 @@
-angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'clientConfigModule', 'buzzHeaderModule'])
+angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'clientConfigModule', 'buzzHeaderModule', 'quizModule'])
     .run(['$rootScope', 'tracking', 'queryParser', function ($rootScope, tracking, queryParser) {
         var query = queryParser.parse();
 
@@ -191,7 +191,7 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
             $scope.$on('$destroy', unbind);
         }
     }])
-    .controller('newWordCtrl', ['$scope', '$http', 'queryParser', '$timeout', '$sce', '$window', 'tracking', 'clientConfig', '$rootScope', '$timeout', function ($scope, $http, queryParser, $timeout, $sce, $window, tracking, clientConfig, $rootScope, $timeout) {
+    .controller('newWordCtrl', ['$scope', '$http', 'queryParser', '$timeout', '$sce', '$window', 'tracking', 'clientConfig', '$rootScope', 'quizFactory', function ($scope, $http, queryParser, $timeout, $sce, $window, tracking, clientConfig, $rootScope, quizFactory) {
 
         $scope.$sce = $sce;
         $scope.newWords = [];
@@ -228,6 +228,7 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
         }
 
         function lessonDataGot(event, lessonData) {
+            console.log('lesson data:', lessonData);
             $scope.currentID = "";
             $scope.initStatus = "";
             $scope.animateDirection = "";
@@ -288,6 +289,14 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                             "status": STATUS.U
                             // "exercise": thisWord.exercise || "http://content.bridgeplus.cn/buzz-quiz/" + query.date + '-' + query.level + "/index.html"
                         });
+                    });
+
+                    quizFactory.saveResultGroup({
+                        lesson_id: lessonData.lesson_id,
+                        type: 'test',
+                        correct: 0,
+                        total: $scope.newWords.length,
+                        wrong: 0
                     });
                 }
                 $scope.WORD_MAX_INDEX = $scope.newWords.length - 1;

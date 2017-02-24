@@ -97,6 +97,19 @@ module.exports = {
             saveResult: {
                 frontEnd: '/service-proxy/buzz/quiz/result/save',
                 upstream: '/quiz/save_result'
+            },
+            result: {
+                frontEnd: '/service-proxy/buzz/quiz/result',
+                upstream: {
+                    save: '/quiz/save_result',
+                    get: '/quiz/get_result'
+                }
+            },
+            resultGroup: {
+                frontEnd: '/service-proxy/buzz/quiz/result-group',
+                upstream: {
+                    save: '/quiz/save_result_group'
+                }
             }
         }
     }
