@@ -29,7 +29,7 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
     }])
     .controller('UpdateHitsCtrl', ['$scope', 'clientConfig', '$http', function ($scope, clientConfig, $http) {
         window.addEventListener('message', function (event) {
-            if (event.origin === location.origin && event.data.indexOf('video:played//') === 0) {
+            if (event.origin === location.origin && (typeof event.data === 'string') && event.data.indexOf('video:played//') === 0) {
                 try {
                     var data = JSON.parse(event.data.substr(14));
                     console.log(data);
@@ -243,6 +243,8 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                     $window.quizAdapter
                         .getResult($scope.currentID, options.url, options.forceRefresh)
                         .then(function resultGot(ret) {
+                            console.log('result got:');
+                            console.log(ret);
                             var status = ret.status;
                             $scope.newWords[$scope.wordIndex].status = status.toLowerCase();
                             tracking.send('today-vocabulary-quiz.submit', {
