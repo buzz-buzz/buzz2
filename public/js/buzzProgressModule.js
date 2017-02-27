@@ -12,6 +12,12 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
                 } catch (ex) {
                     return new Date();
                 }
+            },
+            getFirstDayOfMonth: function (date) {
+                return new Date(date.getFullYear(), date.getMonth(), 1);
+            },
+            getFirstDayOfNextMonth: function (date) {
+                return new Date(date.getFullYear(), date.getMonth() + 1, 1);
             }
         };
     }])
@@ -60,37 +66,65 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
             getPerformances();
         }
 
-        function getPerformance(date, p, i, j) {
+        function getPerformance(date, week, day) {
             if (!date || date >= $scope.today) {
                 return '';
             }
 
-            var a = ['good', 'bad', 'none'];
+            var yyyyMMdd = $filter('date')(date, 'yyyy-MM-dd');
 
-            $http.get(clientConfig.serviceUrls.buzz.courses.search.frontEnd, {
-                params: {
-                    date: $filter('date')(date, 'yyyy-MM-dd')
-                }
-            }).then(function (result) {
-                console.log(result.data);
-                var courses = result.data;
-                if (!courses || courses.length <= 0) {
-                    // p[i][j] = 'noCourse';
-                    p[i][j] = '';
-                }
-            });
+            if (!$scope.perf[yyyyMMdd]) {
+                $scope.perf[yyyyMMdd] = {};
+                $scope.perf[yyyyMMdd].week = week;
+                $scope.perf[yyyyMMdd].day = day;
+                $scope.perf[yyyyMMdd].goodness = 'none';
+            }
 
-            return a[Math.round(Math.random() * 2)];
+            return $scope.perf[yyyyMMdd].goodness;
+        }
+
+        function getGoodness(detail) {
+            if (detail.correct + detail.wrong < detail.total) {
+                return 'none';
+            }
+
+            if (detail.correct >= detail.total) {
+                return 'good';
+            }
+
+            if (detail.wrong >= 0) {
+                return 'bad';
+            }
         }
 
 
         function getPerformances() {
+            $scope.perf = {};
             for (var i = 0; i < $scope.weekDays.length; i++) {
                 for (var j = 0; j < $scope.weekDays[i].length; j++) {
-                    $scope.performances[i][j] = getPerformance($scope.weekDays[i][j], $scope.performances, i, j);
+                    $scope.performances[i][j] = getPerformance($scope.weekDays[i][j], i, j);
                 }
             }
+
+            quizFactory.getResult({
+                type: 'vocabulary',
+                start_date: DateFactory.getFirstDayOfMonth($scope.current),
+                end_date: DateFactory.getFirstDayOfNextMonth($scope.current)
+            }).then(function (result) {
+                result.data.map(function (p) {
+                    var exerciseDate = new Date(p.start_date);
+                    var d = $filter('date')(exerciseDate, 'yyyy-MM-dd');
+                    $scope.perf[d].detail = p;
+                    $scope.perf[d].goodness = getGoodness(p);
+                    $scope.performances[$scope.perf[d].week][$scope.perf[d].day] = $scope.perf[d].goodness;
+                });
+            });
         }
+
+        $scope.getYYYYMMDDByWeekDay = function (week, day) {
+            var date = $filter('date')($scope.weekDays[week][day], 'yyyy-MM-dd');
+            return date;
+        };
     }])
     .controller('chartCtrl', ['$scope', function ($scope) {
         $scope.labels = ['第一周', '第二周', '第三周', '第四周', '第五周'];
