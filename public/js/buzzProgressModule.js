@@ -18,6 +18,9 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
             },
             getFirstDayOfNextMonth: function (date) {
                 return new Date(date.getFullYear(), date.getMonth() + 1, 1);
+            },
+            toDateISOString: function (date) {
+                return date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
             }
         };
     }])
@@ -108,8 +111,8 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
 
             quizFactory.getResult({
                 type: 'vocabulary',
-                start_date: DateFactory.getFirstDayOfMonth($scope.current),
-                end_date: DateFactory.getFirstDayOfNextMonth($scope.current)
+                start_date: DateFactory.toDateISOString(DateFactory.getFirstDayOfMonth($scope.current)),
+                end_date: DateFactory.toDateISOString(DateFactory.getFirstDayOfNextMonth($scope.current))
             }).then(function (result) {
                 result.data.map(function (p) {
                     var exerciseDate = new Date(p.start_date);
