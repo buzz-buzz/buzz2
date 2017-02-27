@@ -5,8 +5,14 @@ angular.module('quizModule', ['clientConfigModule'])
                 return $http.put(clientConfig.serviceUrls.buzz.quiz.resultGroup.frontEnd, data);
             },
 
-            saveResult: function(data){
+            saveResult: function (data) {
                 return $http.put(clientConfig.serviceUrls.buzz.quiz.result.frontEnd, data);
+            },
+
+            getResult: function (data) {
+                return $http.get(clientConfig.serviceUrls.buzz.quiz.result.frontEnd, {
+                    params: data
+                });
             }
         };
     }])

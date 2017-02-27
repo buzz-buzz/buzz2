@@ -8,7 +8,7 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
             level: query.level
         });
     }])
-    .controller('VideoPlayerCtrl', ['$scope', '$sce', 'clientConfig', '$http', 'queryParser', '$rootScope', '$timeout', function ($scope, $sce, clientConfig, $http, queryParser, $rootScope, $timeout) {
+    .controller('VideoPlayerCtrl', ['$scope', '$sce', 'clientConfig', '$http', 'queryParser', '$rootScope', function ($scope, $sce, clientConfig, $http, queryParser, $rootScope) {
         var query = queryParser.parse();
         $http.get(clientConfig.serviceUrls.buzz.courses.findByDate.frontEnd.replace(':category', query.cat).replace(':level', query.level).replace(':date', query.date))
             .then(function (result) {

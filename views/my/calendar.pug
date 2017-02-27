@@ -84,6 +84,9 @@ mixin badPerformance()
 mixin noPerformance()
     img(ng-src="http://source.bridgeplus.cn/image/png/%E5%AD%A6%E4%B9%A0%E8%BF%9B%E5%BA%A6_13.png")&attributes(attributes)
 
+mixin noCourse()
+    div
+
 mixin weeks()
     - var week = 0;
     while week < 5
@@ -98,15 +101,11 @@ mixin weeks()
                             - var good = 'performances[' + week + '][' + day + '] === "good"'
                             - var bad = 'performances[' + week + '][' + day + '] === "bad"'
                             - var none = 'performances[' + week + '][' + day + '] === "none"'
-                            - var isTodayWeekDay = day > 0 && day < 6
-                            if isTodayWeekDay
-                                + goodPerformance(ng-if=good)
-                                + badPerformance(ng-if=bad)
-                                + noPerformance(ng-if=none)
-                            else
-                                img(ng-src="http://source.bridgeplus.cn/image/png/%E5%AD%A6%E4%B9%A0%E8%BF%9B%E5%BA%A6_08.png", ng-if=good)
-                                img(ng-src="http://source.bridgeplus.cn/image/png/%E5%AD%A6%E4%B9%A0%E8%BF%9B%E5%BA%A6_03.png", ng-if=bad)
-                                img(ng-src="http://source.bridgeplus.cn/image/png/%E5%AD%A6%E4%B9%A0%E8%BF%9B%E5%BA%A6_13.png", ng-if=none)
+                            - var noCourse = 'performances[' + week + '][' + day + '] === "noCourse"'
+                            + goodPerformance(ng-if=good)
+                            + badPerformance(ng-if=bad)
+                            + noPerformance(ng-if=none)
+                            + noCourse(ng-if=noCourse)
                     - day++;
         - week++;
 

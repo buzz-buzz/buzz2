@@ -13,16 +13,16 @@ const proxyOption = {
 
 module.exports = function (app, router, parse) {
     router
-        .get(serviceUrls.buzz.quiz.getResult.frontEnd, function *(next) {
-            var data = yield parse(this.request);
+        .get(serviceUrls.buzz.quiz.result.frontEnd, membership.ensureAuthenticated, function *(next) {
+            let data = this.query;
+            data.member_id = this.state.hcd_user.member_id;
+            console.log('data = ', data);
 
-            this.body = yield proxy({
-                host: config.buzz.inner.host,
-                port: config.buzz.inner.port,
-                path: serviceUrls.buzz.quiz.getResult.upstream,
+            this.body = yield proxy(Object.assign({
+                path: serviceUrls.buzz.quiz.result.upstream.get,
                 data: data,
                 method: 'POST'
-            });
+            }, proxyOption));
         })
         .put(serviceUrls.buzz.quiz.result.frontEnd, membership.ensureAuthenticated, function *(next) {
             let data = {

@@ -5,6 +5,7 @@ const serviceUrls = config.serviceUrls;
 const membership = require('../membership');
 const proxy = require('./proxy');
 const Router = require('koa-router');
+const qs = require('querystring');
 
 const proxyOption = {
     host: config.buzz.inner.host,
@@ -107,6 +108,13 @@ module.exports = function (app, router, parse) {
                 path: serviceUrls.buzz.profile.currentLevel.upstream.replace(':member_id', memberId),
                 method: 'GET'
             }, proxyOption));
+        })
+        .get(serviceUrls.buzz.courses.search.frontEnd, function *() {
+            this.body = yield proxy(Object.assign({
+                path: serviceUrls.buzz.courses.search.upstream + '?' + qs.stringify(this.query),
+                data: this.query,
+                method: 'GET'
+            }, proxyOption))
         })
     ;
 

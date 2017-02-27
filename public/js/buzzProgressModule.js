@@ -1,7 +1,23 @@
-angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModule', 'clientConfigModule', 'buzzHeaderModule', 'chart.js'])
-    .controller('calendarCtrl', ['$scope', function ($scope) {
+angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModule', 'clientConfigModule', 'buzzHeaderModule', 'chart.js', 'quizModule'])
+    .factory('DateFactory', ['queryParser', function (queryParser) {
+        return {
+            getCurrent: function () {
+                var query = queryParser.parse();
+                if (!query || !query.current) {
+                    return new Date();
+                }
+
+                try {
+                    return new Date(query.current);
+                } catch (ex) {
+                    return new Date();
+                }
+            }
+        };
+    }])
+    .controller('calendarCtrl', ['$scope', '$http', 'clientConfig', 'quizFactory', '$filter', 'DateFactory', function ($scope, $http, clientConfig, quizFactory, $filter, DateFactory) {
         $scope.today = new Date();
-        $scope.current = new Date();
+        $scope.current = DateFactory.getCurrent();
         $scope.performances = [
             [null, null, null, null, null, null, null],
             [null, null, null, null, null, null, null],
@@ -44,12 +60,25 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
             getPerformances();
         }
 
-        function getPerformance(date) {
+        function getPerformance(date, p, i, j) {
             if (!date || date >= $scope.today) {
                 return '';
             }
 
             var a = ['good', 'bad', 'none'];
+
+            $http.get(clientConfig.serviceUrls.buzz.courses.search.frontEnd, {
+                params: {
+                    date: $filter('date')(date, 'yyyy-MM-dd')
+                }
+            }).then(function (result) {
+                console.log(result.data);
+                var courses = result.data;
+                if (!courses || courses.length <= 0) {
+                    // p[i][j] = 'noCourse';
+                    p[i][j] = '';
+                }
+            });
 
             return a[Math.round(Math.random() * 2)];
         }
@@ -58,7 +87,7 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
         function getPerformances() {
             for (var i = 0; i < $scope.weekDays.length; i++) {
                 for (var j = 0; j < $scope.weekDays[i].length; j++) {
-                    $scope.performances[i][j] = getPerformance($scope.weekDays[i][j]);
+                    $scope.performances[i][j] = getPerformance($scope.weekDays[i][j], $scope.performances, i, j);
                 }
             }
         }

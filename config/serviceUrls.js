@@ -74,6 +74,10 @@ module.exports = {
             latest: {
                 frontEnd: '/service-proxy/buzz/courses/:level/latest',
                 upstream: '/courses/:level/latest'
+            },
+            search: {
+                frontEnd: '/service-proxy/buzz/search-courses',
+                upstream: '/courses'
             }
         },
 
@@ -90,14 +94,6 @@ module.exports = {
         },
 
         quiz: {
-            getResult: {
-                frontEnd: '/service-proxy/buzz/quiz/result/get',
-                upstream: '/quiz/get_result'
-            },
-            saveResult: {
-                frontEnd: '/service-proxy/buzz/quiz/result/save',
-                upstream: '/quiz/save_result'
-            },
             result: {
                 frontEnd: '/service-proxy/buzz/quiz/result',
                 upstream: {
