@@ -5,7 +5,7 @@ html
     meta(name="viewport", content="width=375, user-scalable=no")
     title='Buzz English'
     link(href="/public/css/style.min.css", rel="stylesheet")
-body(ng-app="buzzHeaderModule")
+body
     style.
         body {
             margin: 0px;
@@ -198,7 +198,7 @@ body(ng-app="buzzHeaderModule")
         .bold {
             font-weight: bold;
         }
-    .body(ng-app="buzzProgressModule")
+    .body()
         .row.special(id="profile", ng-controller="headerCtrl")
             .box
                 .account.column
@@ -222,7 +222,7 @@ body(ng-app="buzzHeaderModule")
         .row
             .box.process-head 练习打卡日历
         .row.blank
-        .row(ng-controller="calendarCtrl")
+        .row(ng-app="buzzProgressModule", ng-controller="calendarCtrl")
             .box.process-content(ng-if="!expandcontent")
                 .calander.left
                     span.font.grey 你来到BUZZ BUZZ已有：
@@ -351,3 +351,5 @@ body(ng-app="buzzHeaderModule")
     script(src="/js/DateModule.min.js")
     script(src="/js/buzzProgressModule.min.js")
     script(src="/js/buzzHeaderModule.min.js")
+    script.
+        angular.bootstrap(document.getElementById("profile"), ['buzzHeaderModule']);
