@@ -38,7 +38,7 @@ module.exports = {
         inner: {
             host: 'service.bridgeplus.cn',
             port: 10101,
-            app_id: 'buzz'
+            app_id: 'bridgeplus_corp'
         },
         returnHost: 'http://buzzbuzzenglish.com'
     },
