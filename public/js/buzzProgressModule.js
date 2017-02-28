@@ -125,8 +125,7 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
         }
 
         $scope.getYYYYMMDDByWeekDay = function (week, day) {
-            var date = $filter('date')($scope.weekDays[week][day], 'yyyy-MM-dd');
-            return date;
+            return $filter('date')($scope.weekDays[week][day], 'yyyy-MM-dd');
         };
     }])
     .controller('chartCtrl', ['$scope', function ($scope) {

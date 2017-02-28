@@ -38,7 +38,7 @@ module.exports = {
         inner: {
             host: 'uat.service.hcd.com',
             port: 10101,
-            app_id: 'bridgeplus_corp'
+            app_id: 'buzz'
         },
         returnHost: 'http://10.20.32.51:16000'
     },
