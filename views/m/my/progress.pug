@@ -223,16 +223,16 @@ body
             .box.process-head 练习打卡日历
         .row.blank
         .row(ng-app="buzzProgressModule", ng-controller="calendarCtrl")
-            .box.process-content(ng-if="!expandcontent")
+            .box.process-content(ng-if="!expanded")
                 .calander.left
                     span.font.grey 你来到BUZZ BUZZ已有：
                     span.font.black 20 Days
-                .calander.right(ng-click="expandcontent=true")
+                .calander.right(ng-click="expandContent(true)")
                     img.valign-middle(src="/public/images/calander.png")
-            .box.process-content(ng-if="expandcontent")
+            .box.process-content(ng-if="expanded")
                 .expend-calander.row
                     .expend-calander.left.font.orange(style="font-size: 1.5rem;line-height: 2.5rem;height: 2.5rem;width: 85%;display:inline-block;vertical-align:top;") 2016年2月
-                    .expend-calander.right(ng-click="expandcontent=false",style="height: 2.5rem;width: 15%;display:inline-block;vertical-align:top")
+                    .expend-calander.right(ng-click="expandContent(false)",style="height: 2.5rem;width: 15%;display:inline-block;vertical-align:top")
                         img.valign-middle(style="width:1.86em",src="/public/images/calander_off.png")
                 .expend-calander.row.blank
                 .expend-calander.row.blank
