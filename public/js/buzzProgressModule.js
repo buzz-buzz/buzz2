@@ -87,7 +87,7 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
         }
 
         function getGoodness(detail) {
-            if (detail.correct + detail.wrong < detail.total) {
+            if (detail.correct + detail.wrong <= 0) {
                 return 'none';
             }
 
@@ -95,7 +95,7 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
                 return 'good';
             }
 
-            if (detail.wrong >= 0) {
+            if (detail.wrong >= 0 || detail.correct < detail.total) {
                 return 'bad';
             }
         }
@@ -110,7 +110,7 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
             }
 
             quizFactory.getResult({
-                type: 'vocabulary',
+                type: 'daily-exercise',
                 start_date: DateFactory.toDateISOString(DateFactory.getFirstDayOfMonth($scope.current)),
                 end_date: DateFactory.toDateISOString(DateFactory.getFirstDayOfNextMonth($scope.current))
             }).then(function (result) {
