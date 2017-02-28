@@ -1,5 +1,5 @@
-angular.module('vocabularyModule', ['trackingModule'])
-    .controller('vocabularyCtrl', ['$scope', '$sce', 'tracking', function ($scope, $sce, tracking) {
+angular.module('vocabularyModule', ['trackingModule', 'clientConfigModule', 'DateModule'])
+    .controller('vocabularyCtrl', ['$scope', '$sce', 'tracking', 'clientConfig', '$http', 'Month', 'DateOfMonth', function ($scope, $sce, tracking, clientConfig, $http, Month, DateOfMonth) {
         tracking.send('myVocabulary');
 
         $scope.printMode = false;
@@ -58,61 +58,52 @@ angular.module('vocabularyModule', ['trackingModule'])
                 });
             }
         };
-        //Mock data
-        var a0 = function (a) {
-            if (a > 0.6) {
-                return RADIO_TYPE.PASS;
-            } else if (a > 0.3) {
-                return RADIO_TYPE.FAIL;
-            } else {
-                return RADIO_TYPE.NOTTEST;
-            }
-        };
-        var a1 = function () {
-            return {
-                name: "pumpkin",
-                ipc: "[ˈpʌmpkɪn]",
-                explaination: "解释",
-                soundURL: "",
-            };
-        };
-        var a2 = function () {
-            return {
-                name: "hair",
-                ipc: "[ˈpʌmpkɪn]",
-                explaination: "解释",
-                soundURL: "",
-            };
-        };
-        $scope.vocabularyAll = [
-            {
-                year: 2016,
-                monthDay: "Oct.21th",
-                words: []
-            },
-            {
-                year: 2016,
-                monthDay: "Oct.20th",
-                words: []
-            },
-            {
-                year: 2015,
-                monthDay: "Oct.21th",
-                words: []
-            }
-        ];
-        for (var i = 0; i < 3; i++) {
-            var b = Math.ceil(Math.random() * 10);
-            for (var j = 0; j < b; j++) {
-                var c = Math.random();
-                $scope.vocabularyAll[i].words.push(Math.random() > 0.5 ? a1() : a2());
-                $scope.vocabularyAll[i].words[j].status = a0(c);
-            }
-        }
-        $scope.vocabularyAll.forEach(function (value) {
-            value.words.forEach(function (word) {
-                wordsToPrint[RADIO_TYPE.NONE].push(word.name);
-                wordsToPrint[word.status].push(word.name);
-            });
-        });
+        $scope.vocabularyAll = [];
+
+        //
+        // $scope.vocabularyAll.forEach(function (value) {
+        //     value.words.forEach(function (word) {
+        //         wordsToPrint[RADIO_TYPE.NONE].push(word.name);
+        //         wordsToPrint[word.status].push(word.name);
+        //     });
+        // });
+
+        $http.get(clientConfig.serviceUrls.buzz.courses.findByLevel.frontEnd.replace(':level', 'A'))
+            .then(function (result) {
+                $scope.vocabularyAll = [];
+                result.data.map(function (course) {
+                    var date = new Date(course.date);
+
+                    $scope.vocabularyAll.push({
+                        year: date.getFullYear(),
+                        monthDay: Month[date.getMonth()] + '.' + DateOfMonth.getShortString(date.getDate()),
+                        words: []
+                    });
+
+                    (function (v) {
+                        $http.get(course.new_words_path).then(function (result) {
+                            for (var word in result.data.dictionary) {
+                                v.words.push({
+                                    name: word,
+                                    index: result.data.dictionary[word].id,
+                                    ipc: result.data.dictionary[word].ipc,
+                                    explaination: result.data.dictionary[word].explanation,
+                                    soundURL: result.data.dictionary[word].ipa,
+                                    url: result.data.dictionary[word].url,
+                                    exercise: result.data.dictionary[word].exercise
+                                });
+                            }
+
+                            v.words.sort(function (x, y) {
+                                var diff = x.index - y.index;
+
+                                if (diff > 0) return 1;
+                                if (diff < 0) return -1;
+                                return 0;
+                            });
+                        });
+                    })($scope.vocabularyAll[$scope.vocabularyAll.length - 1]);
+                });
+            })
+        ;
     }]);

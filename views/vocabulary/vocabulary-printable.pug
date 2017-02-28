@@ -29,6 +29,7 @@ html
             .vp-body
                 .vp-word-check(ng-repeat="word in words track by $index",ng-class="{'last': $index % 2 !== 0}") {{word}}
     include ../js
+    script(src="/js/DateModule.min.js")
     script(src="/js/vocabularyModule.min.js")
     script.
         angular.module('vocabularyPrintableModule', [])

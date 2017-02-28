@@ -210,9 +210,11 @@ html
                 text-align: center;
                 background-color: white;
             }
+
             .text-with-radio {
                 cursor: pointer;
             }
+
             .text-with-radio i {
                 margin-right: 1em;
             }
@@ -258,7 +260,7 @@ html
                             i.icon-checkbox-unchecked(ng-show="radioBoxType!==RADIO_TYPE.FAIL")
                             span &#x4E0D;&#x7406;&#x89E3;
                         //- .button.small(onClick="vocabularyPrint()") &#x6253;&#x5370;
-                    .table-column.part9 
+                    .table-column.part9
                         div(ng-click="checkboxClick(RADIO_TYPE.NOTTEST)" class="text-with-radio")
                             i.icon-checkbox-checked(ng-show="radioBoxType===RADIO_TYPE.NOTTEST")
                             i.icon-checkbox-unchecked(ng-show="radioBoxType!==RADIO_TYPE.NOTTEST")
@@ -280,7 +282,7 @@ html
                         .sound(ng-repeat="word in weeklylist.words track by $index",ng-show="radioBoxType===RADIO_TYPE.NONE||word.status === radioBoxType")
                             i.icon-volume-medium
                     .table-column.part6.left
-                        .explanation(ng-repeat="word in weeklylist.words track by $index",ng-show="radioBoxType===RADIO_TYPE.NONE||word.status === radioBoxType") 
+                        .explanation(ng-repeat="word in weeklylist.words track by $index",ng-show="radioBoxType===RADIO_TYPE.NONE||word.status === radioBoxType")
                             span() {{word.explaination}}
                     .table-column.part7
                         .mark(ng-repeat="word in weeklylist.words track by $index",ng-show="radioBoxType===RADIO_TYPE.NONE||word.status === radioBoxType")
@@ -296,6 +298,7 @@ html
                 iframe(width=800,height=600,frameborder="no",border="0",ng-show="printMode",ng-src="{{$sce.trustAsResourceUrl(printURL)}}")
         include ../js
         script(src="/js/buzzHeaderModule.min.js")
+        script(src="/js/DateModule.min.js")
         script(src="/js/vocabularyModule.min.js")
         script.
             angular.element(document).ready(function () {
