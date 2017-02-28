@@ -18,6 +18,9 @@ body(ng-app="buzzHeaderModule")
         .hidden {
             visibility: hidden;
         }
+        .column {
+            display: inline-block;
+        }
         .row.special {
             height: 12rem;
         }
@@ -62,6 +65,32 @@ body(ng-app="buzzHeaderModule")
             height: 3rem;
             line-height: 3rem;
         }
+        .expend-calander {
+            line-height: 1rem;
+        }
+        .expend-calander.row {
+            width: 100%;
+        }
+        .expend-calander.unit {
+            width: 14.25%;
+            text-align: center;
+        }
+        .expend-calander.unit.past {
+            color: #bbbbbb;
+        }
+        .expend-calander.unit.current {
+            color: #f9b600;
+        }
+        .expend-calander.unit.next {
+            color: #bbbbbb;
+        }
+        .expend-calander.unit.signed {
+            color: #ff0000!important;
+        }
+        .expend-calander.unit.now {
+            color: #ffffff;
+            background-color: #f9b600;
+        }
         .learn {
             height: 5rem;
             font-size: 0.85rem;
@@ -72,6 +101,10 @@ body(ng-app="buzzHeaderModule")
         .chart {
             height: 3rem;
             line-height: 3rem;
+        }
+        .expend-chart {
+            height: 30rem;
+            line-height: 1rem;
         }
          .chart.left {
             width: 15rem;
@@ -165,7 +198,7 @@ body(ng-app="buzzHeaderModule")
         .bold {
             font-weight: bold;
         }
-    .body
+    .body(ng-app="buzzProgressModule")
         .row.special(id="profile", ng-controller="headerCtrl")
             .box
                 .account.column
@@ -174,7 +207,7 @@ body(ng-app="buzzHeaderModule")
                 .account.column
                     .text.head.font.black Lesson
                     .text.content.font.black.bold 20
-                .pic.column 
+                .pic.column
                     .img
                         img(ng-src="{{profile.avatar || '/public/images/default_avatar.png'}}")
                     .text(ng-bind="profile.real_name")
@@ -189,13 +222,82 @@ body(ng-app="buzzHeaderModule")
         .row
             .box.process-head 练习打卡日历
         .row.blank
-        .row
-            .box.process-content
+        .row(ng-controller="calendarCtrl")
+            .box.process-content(ng-if="!expandcontent")
                 .calander.left
                     span.font.grey 你来到BUZZ BUZZ已有：
                     span.font.black 20 Days
-                .calander.right
+                .calander.right(ng-click="expandcontent=true")
                     img.valign-middle(src="/public/images/calander.png")
+            .box.process-content(ng-if="expandcontent")
+                .expend-calander.row
+                    .expend-calander.left.font.orange(style="font-size: 1.5rem;line-height: 2.5rem;height: 2.5rem;width: 85%;display:inline-block;vertical-align:top;") 2016年2月
+                    .expend-calander.right(ng-click="expandcontent=false",style="height: 2.5rem;width: 15%;display:inline-block;vertical-align:top")
+                        img.valign-middle(style="width:1.86em",src="/public/images/calander_off.png")
+                .expend-calander.row.blank
+                .expend-calander.row.blank
+                .expend-calander.row(style="color: #999999;")
+                    .expend-calander.unit.column 日
+                    .expend-calander.unit.column 一
+                    .expend-calander.unit.column 二
+                    .expend-calander.unit.column 三
+                    .expend-calander.unit.column 四
+                    .expend-calander.unit.column 五
+                    .expend-calander.unit.column 六
+                .expend-calander.row.blank
+                .expend-calander.row.blank
+                .expend-calander.row
+                    .expend-calander.unit.column.past 30
+                    .expend-calander.unit.column.past 31
+                    .expend-calander.unit.column.current 1
+                    .expend-calander.unit.column.current 2
+                    .expend-calander.unit.column.current 3
+                    .expend-calander.unit.column.current 4
+                    .expend-calander.unit.column.current 5
+                .expend-calander.row.blank
+                .expend-calander.row.blank
+                .expend-calander.row
+                    .expend-calander.unit.column.current.signed 6
+                    .expend-calander.unit.column.current 7
+                    .expend-calander.unit.column.current.signed 8
+                    .expend-calander.unit.column.current 9
+                    .expend-calander.unit.column.current.signed 10
+                    .expend-calander.unit.column.current 11
+                    .expend-calander.unit.column.current 12
+                .expend-calander.row.blank
+                .expend-calander.row.blank
+                .expend-calander.row
+                    .expend-calander.unit.column.current 13
+                    .expend-calander.unit.column.current 14
+                    .expend-calander.unit.column.current 15
+                    .expend-calander.unit.column.current 16
+                    .expend-calander.unit.column.current 17
+                    .expend-calander.unit.column.current 18
+                    .expend-calander.unit.column.current 19
+                .expend-calander.row.blank
+                .expend-calander.row.blank
+                .expend-calander.row
+                    .expend-calander.unit.column.current 20
+                    .expend-calander.unit.column.current 21
+                    .expend-calander.unit.column.current 22
+                    .expend-calander.unit.column.current 23
+                    .expend-calander.unit.column.current 24
+                    .expend-calander.unit.column.current 25
+                    .expend-calander.unit.column.current 26
+                .expend-calander.row.blank
+                .expend-calander.row.blank
+                .expend-calander.row
+                    .expend-calander.unit.column.current 27
+                    .expend-calander.unit.column.current.now 28
+                    .expend-calander.unit.column.next 1
+                    .expend-calander.unit.column.next 2
+                    .expend-calander.unit.column.next 3
+                    .expend-calander.unit.column.next 4
+                    .expend-calander.unit.column.next 5
+                .expend-calander.row.blank
+                .expend-calander.row.blank
+                .expend-calander.row.blank
+                .expend-calander.row.blank
         .row.blank
         .row.blank
         .row
@@ -224,17 +326,18 @@ body(ng-app="buzzHeaderModule")
                     .text-content 2028
         .row.blank
         .row.blank
-        .row
-            .box.process-head 历史曲线
-        .row.blank
-        .row
-            .box.process-content
-                .chart.left
-                    span.font.grey 你已累计学习了
-                    span.font.black 1200个
-                    span.font.grey 单词
-                .chart.right
-                    img.valign-middle(src="/public/images/chart.png")
+        div()
+            .row
+                .box.process-head 历史曲线
+            .row.blank
+            .row
+                .box.process-content
+                    .chart.left
+                        span.font.grey 你已累计学习了
+                        span.font.black 1200个
+                        span.font.grey 单词
+                    .chart.right
+                        img.valign-middle(src="/public/images/chart.png")
         .row.blank
         .row.blank
         .row.blank
@@ -244,5 +347,6 @@ body(ng-app="buzzHeaderModule")
     include ../../js
     script(src="/node_modules/chart.js/dist/Chart.js")
     script(src="/node_modules/angular-chart.js/dist/angular-chart.min.js")
+    script(src="/js/quizModule.min.js")
     script(src="/js/buzzProgressModule.min.js")
     script(src="/js/buzzHeaderModule.min.js")
