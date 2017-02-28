@@ -1,5 +1,6 @@
 angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModule', 'clientConfigModule', 'buzzHeaderModule', 'chart.js', 'quizModule', 'DateModule'])
     .controller('calendarCtrl', ['$scope', '$http', 'clientConfig', 'quizFactory', '$filter', 'DateFactory', function ($scope, $http, clientConfig, quizFactory, $filter, DateFactory) {
+        $scope.expandcontent = false;
         $scope.today = new Date();
         $scope.current = DateFactory.getCurrent();
         $scope.performances = [
