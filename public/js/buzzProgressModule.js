@@ -1,29 +1,4 @@
-angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModule', 'clientConfigModule', 'buzzHeaderModule', 'chart.js', 'quizModule'])
-    .factory('DateFactory', ['queryParser', function (queryParser) {
-        return {
-            getCurrent: function () {
-                var query = queryParser.parse();
-                if (!query || !query.current) {
-                    return new Date();
-                }
-
-                try {
-                    return new Date(query.current);
-                } catch (ex) {
-                    return new Date();
-                }
-            },
-            getFirstDayOfMonth: function (date) {
-                return new Date(date.getFullYear(), date.getMonth(), 1);
-            },
-            getFirstDayOfNextMonth: function (date) {
-                return new Date(date.getFullYear(), date.getMonth() + 1, 1);
-            },
-            toDateISOString: function (date) {
-                return date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
-            }
-        };
-    }])
+angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModule', 'clientConfigModule', 'buzzHeaderModule', 'chart.js', 'quizModule', 'DateModule'])
     .controller('calendarCtrl', ['$scope', '$http', 'clientConfig', 'quizFactory', '$filter', 'DateFactory', function ($scope, $http, clientConfig, quizFactory, $filter, DateFactory) {
         $scope.today = new Date();
         $scope.current = DateFactory.getCurrent();
