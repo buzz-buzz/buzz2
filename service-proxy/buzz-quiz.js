@@ -46,5 +46,14 @@ module.exports = function (app, router, parse) {
                 method: 'POST'
             }, proxyOption))
         })
+        .get(serviceUrls.buzz.quiz.vocabularyPerformance.frontEnd, membership.ensureAuthenticated, function *() {
+            this.body = yield proxy(Object.assign({
+                path: Router.url(serviceUrls.buzz.quiz.vocabularyPerformance.upstream, {
+                    member_id: this.state.hcd_user.member_id,
+                    lesson_id: this.query.lesson_id
+                }),
+                method: 'GET'
+            }, proxyOption));
+        })
     ;
 };

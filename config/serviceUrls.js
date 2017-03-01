@@ -106,6 +106,10 @@ module.exports = {
                 upstream: {
                     save: '/quiz/save_result_group'
                 }
+            },
+            vocabularyPerformance: {
+                frontEnd: '/service-proxy/buzz/quiz/vocabulary',
+                upstream: '/quiz/vocabulary/:member_id/:lesson_id'
             }
         }
     }

@@ -1,306 +1,286 @@
-doctype html
-html
-    head
-        meta(charset='utf-8')
-        meta(http-equiv='X-UA-Compatible', content='IE=edge, chrome=1')
-        meta(name='viewport', content='width=device-width, initial-scale=1.0, maximum-scale=1.0')
-        title Buzz English
-        link(rel="stylesheet", href="/public/css/horizontal-menu.min.css")
-        link(rel="stylesheet", href="/public/css/player-layout.min.css")
-        link(rel="stylesheet", href="/public/css/my/layout.min.css")
-        link(rel='stylesheet', href='/public/css/player.min.css')
-        link(rel='stylesheet', href='/public/css/vocabulary.min.css')
-        link(rel="stylesheet", href="/public/css/my/layout.min.css")
-        style.
-            .table-cell {
-                display: flex;
-                flex-direction: row;
-                width: 100%;
-                flex-wrap: wrap;
-            }
+extends ../my/layout
 
-            .table-row {
-                display: flex;
-                flex-direction: row;
-                width: 100%;
-                flex-wrap: wrap;
-            }
+block head
+    link(rel='stylesheet', href='/public/css/vocabulary.min.css')
+    style.
+        .table-cell {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            flex-wrap: wrap;
+        }
 
-            .table-row.head {
-                margin-bottom: 0.6em;
-                border-bottom: #f7b52a 4px solid;
-            }
+        .table-row {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            flex-wrap: wrap;
+        }
 
-            .button {
-                padding: 0.4em;
-                background-color: #f7b52a;
-                border-radius: 4px;
-                color: white;
-                width: 80%;
-                text-align: center;
-            }
+        .table-row.head {
+            margin-bottom: 0.6em;
+            border-bottom: #f7b52a 4px solid;
+        }
 
-            .button.small {
-                display: inline-block;
-                padding: 0;
-                width: 80%;
-            }
+        .button {
+            padding: 0.4em;
+            background-color: #f7b52a;
+            border-radius: 4px;
+            color: white;
+            width: 80%;
+            text-align: center;
+        }
 
-            .table-column {
-                display: inline-block;
-                word-wrap: break-word;
-                position: relative;
-            }
+        .button.small {
+            display: inline-block;
+            padding: 0;
+            width: 80%;
+        }
 
-            .table-column.part1 {
-                width: 10%
-            }
+        .table-column {
+            display: inline-block;
+            word-wrap: break-word;
+            position: relative;
+        }
 
-            .table-column.part2 {
-                width: 1%;
-            }
+        .table-column.part1 {
+            width: 10%
+        }
 
-            .table-column.part3 {
-                width: 15%;
-            }
+        .table-column.part2 {
+            width: 1%;
+        }
 
-            .table-column.part4 {
-                width: 15%
-            }
+        .table-column.part3 {
+            width: 15%;
+        }
 
-            .table-column.part5 {
-                width: 4%;
-            }
+        .table-column.part4 {
+            width: 15%
+        }
 
-            .table-column.part6 {
-                width: 25%;
-            }
+        .table-column.part5 {
+            width: 4%;
+        }
 
-            .table-column.part7 {
-                width: 10%;
-            }
+        .table-column.part6 {
+            width: 25%;
+        }
 
-            .table-column.part8 {
-                width: 10%;
-            }
+        .table-column.part7 {
+            width: 10%;
+        }
 
-            .table-column.part9 {
-                width: 10%;
-            }
+        .table-column.part8 {
+            width: 10%;
+        }
 
-            .head .part1 {
-                padding-top: 0.4em;
-                padding-bottom: 0.4em;
-                font-size: 18px;
-                font-weight: bold;
-            }
+        .table-column.part9 {
+            width: 10%;
+        }
 
-            .head .part7,
-            .head .part8,
-            .head .part9 {
-                padding-top: 0.4em;
-                padding-bottom: 0.4em;
-                font-weight: bold;
-                font-size: 14px;
-            }
+        .head .part1 {
+            padding-top: 0.4em;
+            padding-bottom: 0.4em;
+            font-size: 18px;
+            font-weight: bold;
+        }
 
-            .body {
-                line-height: 1.6em;
-            }
+        .head .part7,
+        .head .part8,
+        .head .part9 {
+            padding-top: 0.4em;
+            padding-bottom: 0.4em;
+            font-weight: bold;
+            font-size: 14px;
+        }
 
-            .body .part1 {
-                padding-top: 0.6em;
-            }
+        .body {
+            line-height: 1.6em;
+        }
 
-            .body .part3,
-            .body .part4,
-            .body .part5,
-            .body .part6,
-            .body .part7,
-            .body .part8,
-            .body .part9 {
-                padding-top: 1em;
-                padding-bottom: 0.6em;
-            }
+        .body .part1 {
+            padding-top: 0.6em;
+        }
 
-            .table-column.part3 .word {
-                padding-left: 0.4em;
-            }
+        .body .part3,
+        .body .part4,
+        .body .part5,
+        .body .part6,
+        .body .part7,
+        .body .part8,
+        .body .part9 {
+            padding-top: 1em;
+            padding-bottom: 0.6em;
+        }
 
-            .word,
-            .mark,
-            .sound,
-            .explanation,
-            .ipa {
-                height: 32px;
-            }
+        .table-column.part3 .word {
+            padding-left: 0.4em;
+        }
 
-            .mark i,
-            .sound i {
-                color: #f7b52a;
-                font-size: 16px;
-                line-height: 1.6em;
-            }
+        .word,
+        .mark,
+        .sound,
+        .explanation,
+        .ipa {
+            height: 32px;
+        }
 
-            .body .part3:after,
-            .body .part4:after,
-            .body .part5:after,
-            .body .part6:after,
-            .body .part7:after,
-            .body .part8:after,
-            .body .part9:after {
-                content: "";
-                background-color: #cdcdcd;
-                width: 100%;
-                height: 3px;
-                display: block;
-                position: absolute;
-                bottom: 0;
-            }
+        .mark i,
+        .sound i {
+            color: #f7b52a;
+            font-size: 16px;
+            line-height: 1.6em;
+        }
 
-            .body .part3.last:after,
-            .body .part4.last:after,
-            .body .part5.last:after,
-            .body .part6.last:after,
-            .body .part7.last:after,
-            .body .part8.last:after,
-            .body .part9.last:after {
-                display: none;
-            }
+        .body .part3:after,
+        .body .part4:after,
+        .body .part5:after,
+        .body .part6:after,
+        .body .part7:after,
+        .body .part8:after,
+        .body .part9:after {
+            content: "";
+            background-color: #cdcdcd;
+            width: 100%;
+            height: 3px;
+            display: block;
+            position: absolute;
+            bottom: 0;
+        }
 
-            .center {
-                text-align: center;
-            }
+        .body .part3.last:after,
+        .body .part4.last:after,
+        .body .part5.last:after,
+        .body .part6.last:after,
+        .body .part7.last:after,
+        .body .part8.last:after,
+        .body .part9.last:after {
+            display: none;
+        }
 
-            .left {
-                text-align: left;
-            }
+        .center {
+            text-align: center;
+        }
 
-            .year {
-            }
+        .left {
+            text-align: left;
+        }
 
-            .monthday {
-                font-size: 10px;
-            }
+        .year {
+        }
 
-            .line {
-                background-color: #bcbcbc;
-                position: absolute;
-            }
+        .monthday {
+            font-size: 10px;
+        }
 
-            .line.head {
-                width: 0.6em;
-                height: 0.6em;
-                border-radius: 50%;
-                left: -0.3em;
-                top: 0.2em;
-            }
+        .line {
+            background-color: #bcbcbc;
+            position: absolute;
+        }
 
-            .line.body {
-                height: 100%;
-                width: 2px;
-                left: -1px;
-            }
+        .line.head {
+            width: 0.6em;
+            height: 0.6em;
+            border-radius: 50%;
+            left: -0.3em;
+            top: 0.2em;
+        }
 
-            .body-container {
-                width: 900px;
-                padding-top: 60px;
-                padding-bottom: 14px;
-                display: inline-block;
-                text-align: center;
-                background-color: white;
-            }
+        .line.body {
+            height: 100%;
+            width: 2px;
+            left: -1px;
+        }
 
-            .text-with-radio {
-                cursor: pointer;
-            }
+        .body-container {
+            width: 900px;
+            padding-top: 60px;
+            padding-bottom: 14px;
+            display: inline-block;
+            text-align: center;
+            background-color: white;
+        }
 
-            .text-with-radio i {
-                margin-right: 1em;
-            }
+        .text-with-radio {
+            cursor: pointer;
+        }
 
-    body.full.screen.container(style="text-align:center;background:url('http://source.bridgeplus.cn/buzz/skin2.png') repeat 0 0")
-        #buzz-header.fluid.container.header.fixed(ng-controller="headerCtrl")
-            .center.aligned.container.column.borderless
-                ul.large.right.floated.white.horizontal.menu
-                    li
-                        a.icon-history(title="历史课程", href="/my/history")
-                    li
-                        a.icon-stats-bars(title="学习进度", href="/my/progress")
-                    li.active
-                        a.icon-file-text(title="生词本")
-                    li
-                        img.avatar(ng-src="{{profile.avatar}}", ng-if="profile.avatar")
-                        a(ng-if="!profile.avatar") 欢迎你
-                .white.title
-                    a(href="/")
-                        img.white.background.logo(src="/images/logo1.png")
-                    span.space
-                    span.top.aligned.welcome.message Hello {{profile.display_name}}, welcome to Buzzbuzz English.
-        .body-container(ng-app="vocabularyModule", ng-controller="vocabularyCtrl")
-            .table-cell
-                .table-row.center.head
-                    .table-column.part1 &#x7B2C;&#x4E94;&#x5468;
-                    .table-column.part2
-                    .table-column.part3.left
-                        .button &#x91CD;&#x65B0;&#x7EC3;&#x4E60;
-                    .table-column.part4
-                        .button(ng-click="vocabularyPrint()") &#x6253;&#x5370;
-                    .table-column.part5
-                    .table-column.part6
-                    .table-column.part7
-                        div(ng-click="checkboxClick(RADIO_TYPE.PASS)" class="text-with-radio")
-                            i.icon-checkbox-checked(ng-show="radioBoxType===RADIO_TYPE.PASS")
-                            i.icon-checkbox-unchecked(ng-show="radioBoxType!==RADIO_TYPE.PASS")
-                            span &#x7406;&#x89E3;
-                        //- .button.small(onClick="vocabularyPrint()") &#x6253;&#x5370;
-                    .table-column.part8
-                        div(ng-click="checkboxClick(RADIO_TYPE.FAIL)" class="text-with-radio")
-                            i.icon-checkbox-checked(ng-show="radioBoxType===RADIO_TYPE.FAIL")
-                            i.icon-checkbox-unchecked(ng-show="radioBoxType!==RADIO_TYPE.FAIL")
-                            span &#x4E0D;&#x7406;&#x89E3;
-                        //- .button.small(onClick="vocabularyPrint()") &#x6253;&#x5370;
-                    .table-column.part9
-                        div(ng-click="checkboxClick(RADIO_TYPE.NOTTEST)" class="text-with-radio")
-                            i.icon-checkbox-checked(ng-show="radioBoxType===RADIO_TYPE.NOTTEST")
-                            i.icon-checkbox-unchecked(ng-show="radioBoxType!==RADIO_TYPE.NOTTEST")
-                            span &#x672A;&#x7EC3;&#x4E60;
-                .table-row.center.body(ng-repeat="weeklylist in vocabularyAll")
-                    .table-column.part1
-                        div {{weeklylist.year}}
-                        .monthday {{weeklylist.monthDay}}
-                    .table-column.part2
-                        .line.head
-                        .line.body
-                    .table-column.part3.left
-                        .word(ng-repeat="word in weeklylist.words track by $index",ng-show="radioBoxType===RADIO_TYPE.NONE||word.status === radioBoxType")
-                            span() {{word.name}}
-                    .table-column.part4.left
-                        .ipa(ng-repeat="word in weeklylist.words track by $index",ng-show="radioBoxType===RADIO_TYPE.NONE||word.status === radioBoxType")
-                            span() {{word.ipc}}
-                    .table-column.part5.left
-                        .sound(ng-repeat="word in weeklylist.words track by $index",ng-show="radioBoxType===RADIO_TYPE.NONE||word.status === radioBoxType")
-                            i.icon-volume-medium
-                    .table-column.part6.left
-                        .explanation(ng-repeat="word in weeklylist.words track by $index",ng-show="radioBoxType===RADIO_TYPE.NONE||word.status === radioBoxType")
-                            span() {{word.explaination}}
-                    .table-column.part7
-                        .mark(ng-repeat="word in weeklylist.words track by $index",ng-show="radioBoxType===RADIO_TYPE.NONE||word.status === radioBoxType")
-                            i.icon-checkmark(ng-show="word.status === RADIO_TYPE.PASS")
-                    .table-column.part8
-                        .mark(ng-repeat="word in weeklylist.words track by $index",ng-show="radioBoxType===RADIO_TYPE.NONE||word.status === radioBoxType")
-                            i.icon-cancel-circle(ng-show="word.status === RADIO_TYPE.FAIL")
-                    .table-column.part9
-                        .mark(ng-repeat="word in weeklylist.words track by $index",ng-show="radioBoxType===RADIO_TYPE.NONE||word.status === radioBoxType")
-                            i.icon-question(ng-show="word.status === RADIO_TYPE.NOTTEST")
-            .popup-mask(style="position:fixed;height:100%;width:100%;background-color:rgba(0,0,0,0.4);top:0;left:0",ng-show="printMode")
-            .popup(style="position:fixed;top: 5em;margin:auto;left:0;right:0",ng-show="printMode",ng-click="hidePopup()")
-                iframe(width=800,height=600,frameborder="no",border="0",ng-show="printMode",ng-src="{{$sce.trustAsResourceUrl(printURL)}}")
-        include ../js
-        script(src="/js/buzzHeaderModule.min.js")
-        script(src="/js/DateModule.min.js")
-        script(src="/js/vocabularyModule.min.js")
-        script.
-            angular.element(document).ready(function () {
-                angular.bootstrap(document.getElementById('buzz-header'), ['buzzHeaderModule']);
-            });
+        .text-with-radio i {
+            margin-right: 1em;
+        }
+
+        body {
+            text-align: center;
+            background: url('http://source.bridgeplus.cn/buzz/skin2.png') repeat 0 0;
+        }
+
+block content
+    .body-container(ng-app="vocabularyModule", ng-controller="vocabularyCtrl")
+        .table-cell
+            .table-row.center.head
+                .table-column.part1 &#x7B2C;&#x4E94;&#x5468;
+                .table-column.part2
+                .table-column.part3.left
+                    .button &#x91CD;&#x65B0;&#x7EC3;&#x4E60;
+                .table-column.part4
+                    .button(ng-click="vocabularyPrint()") &#x6253;&#x5370;
+                .table-column.part5
+                .table-column.part6
+                .table-column.part7
+                    div(ng-click="checkboxClick(RADIO_TYPE.PASS)" class="text-with-radio")
+                        i.icon-checkbox-checked(ng-show="radioBoxType===RADIO_TYPE.PASS")
+                        i.icon-checkbox-unchecked(ng-show="radioBoxType!==RADIO_TYPE.PASS")
+                        span &#x7406;&#x89E3;
+                    //- .button.small(onClick="vocabularyPrint()") &#x6253;&#x5370;
+                .table-column.part8
+                    div(ng-click="checkboxClick(RADIO_TYPE.FAIL)" class="text-with-radio")
+                        i.icon-checkbox-checked(ng-show="radioBoxType===RADIO_TYPE.FAIL")
+                        i.icon-checkbox-unchecked(ng-show="radioBoxType!==RADIO_TYPE.FAIL")
+                        span &#x4E0D;&#x7406;&#x89E3;
+                    //- .button.small(onClick="vocabularyPrint()") &#x6253;&#x5370;
+                .table-column.part9
+                    div(ng-click="checkboxClick(RADIO_TYPE.NOTTEST)" class="text-with-radio")
+                        i.icon-checkbox-checked(ng-show="radioBoxType===RADIO_TYPE.NOTTEST")
+                        i.icon-checkbox-unchecked(ng-show="radioBoxType!==RADIO_TYPE.NOTTEST")
+                        span &#x672A;&#x7EC3;&#x4E60;
+            .table-row.center.body(ng-repeat="weeklylist in vocabularyAll")
+                .table-column.part1
+                    div {{weeklylist.year}}
+                    .monthday {{weeklylist.monthDay}}
+                .table-column.part2
+                    .line.head
+                    .line.body
+                .table-column.part3.left
+                    .word(ng-repeat="word in weeklylist.words track by $index",ng-show="radioBoxType===RADIO_TYPE.NONE||word.status === radioBoxType")
+                        span() {{word.name}}
+                .table-column.part4.left
+                    .ipa(ng-repeat="word in weeklylist.words track by $index",ng-show="radioBoxType===RADIO_TYPE.NONE||word.status === radioBoxType")
+                        span() {{word.ipc}}
+                .table-column.part5.left
+                    .sound(ng-repeat="word in weeklylist.words track by $index",ng-show="radioBoxType===RADIO_TYPE.NONE||word.status === radioBoxType")
+                        i.icon-volume-medium
+                .table-column.part6.left
+                    .explanation(ng-repeat="word in weeklylist.words track by $index",ng-show="radioBoxType===RADIO_TYPE.NONE||word.status === radioBoxType")
+                        span() {{word.explaination}}
+                .table-column.part7
+                    .mark(ng-repeat="word in weeklylist.words track by $index",ng-show="radioBoxType===RADIO_TYPE.NONE||word.status === radioBoxType")
+                        i.icon-checkmark(ng-show="word.status === RADIO_TYPE.PASS")
+                .table-column.part8
+                    .mark(ng-repeat="word in weeklylist.words track by $index",ng-show="radioBoxType===RADIO_TYPE.NONE||word.status === radioBoxType")
+                        i.icon-cancel-circle(ng-show="word.status === RADIO_TYPE.FAIL")
+                .table-column.part9
+                    .mark(ng-repeat="word in weeklylist.words track by $index",ng-show="radioBoxType===RADIO_TYPE.NONE||word.status === radioBoxType")
+                        i.icon-question(ng-show="word.status === RADIO_TYPE.NOTTEST")
+        .popup-mask(style="position:fixed;height:100%;width:100%;background-color:rgba(0,0,0,0.4);top:0;left:0",ng-show="printMode")
+        .popup(style="position:fixed;top: 5em;margin:auto;left:0;right:0",ng-show="printMode",ng-click="hidePopup()")
+            iframe(width=800,height=600,frameborder="no",border="0",ng-show="printMode",ng-src="{{$sce.trustAsResourceUrl(printURL)}}")
+
+block js
+    script(src="/js/DateModule.min.js")
+    script(src="/js/level-ctrl.min.js")
+    script(src="/js/quizModule.min.js")
+    script(src="/js/vocabularyModule.min.js")
+
+block extraMenus
+    include ../my/partials/level-switcher

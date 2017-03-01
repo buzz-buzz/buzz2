@@ -13,6 +13,12 @@ angular.module('quizModule', ['clientConfigModule'])
                 return $http.get(clientConfig.serviceUrls.buzz.quiz.result.frontEnd, {
                     params: data
                 });
+            },
+
+            getVocabularyPerformance: function (data) {
+                return $http.get(clientConfig.serviceUrls.buzz.quiz.vocabularyPerformance.frontEnd, {
+                    params: data
+                });
             }
         };
     }])

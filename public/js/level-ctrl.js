@@ -10,3 +10,4 @@ angular.module('buzzHeaderModule')
 
         $scope.currentLevel = query.level || 'B';
     }])
+;
