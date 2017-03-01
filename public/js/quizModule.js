@@ -19,6 +19,14 @@ angular.module('quizModule', ['clientConfigModule'])
                 return $http.get(clientConfig.serviceUrls.buzz.quiz.vocabularyPerformance.frontEnd, {
                     params: data
                 });
+            },
+
+            getDailyExercisePerformance: function (groupId) {
+                return $http.get(clientConfig.serviceUrls.buzz.quiz.dailyExercisePerformance.frontEnd, {
+                    params: {
+                        quiz_result_group_id: groupId
+                    }
+                });
             }
         };
     }])

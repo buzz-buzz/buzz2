@@ -46,7 +46,7 @@ block content
         a.page-pos(name="page-1")
         .page.with-header.section.transparent
             .center.aligned.container.column.flex-box.white.background(style="padding-left: 50px; padding-right: 50px;")
-                .row.dynamic
+                .row.dynamic(ng-controller="calendarParentCtrl")
                     p.left.aligned 每月打卡
                     ul.right.floated.horizontal.menu.non-interactive
                         li
@@ -65,7 +65,7 @@ block content
                             div &nbsp;
                             img(ng-src="http://source.bridgeplus.cn/image/png/%E5%AD%A6%E4%B9%A0%E8%BF%9B%E5%BA%A6_19.png")
                             span.space
-                            span 200分
+                            span {{totalScore}}分
                             span.space
                             span.space
                         li.middle.aligned.all

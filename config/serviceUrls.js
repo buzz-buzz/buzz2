@@ -110,6 +110,10 @@ module.exports = {
             vocabularyPerformance: {
                 frontEnd: '/service-proxy/buzz/quiz/vocabulary',
                 upstream: '/quiz/vocabulary/:member_id/:lesson_id'
+            },
+            dailyExercisePerformance: {
+                frontEnd: '/service-proxy/buzz/quiz/daily-exercise',
+                upstream: '/quiz/daily-exercise/:quiz_result_group_id'
             }
         }
     }

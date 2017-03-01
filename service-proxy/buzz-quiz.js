@@ -55,5 +55,13 @@ module.exports = function (app, router, parse) {
                 method: 'GET'
             }, proxyOption));
         })
+        .get(serviceUrls.buzz.quiz.dailyExercisePerformance.frontEnd, function *() {
+            this.body = yield proxy(Object.assign({
+                path: Router.url(serviceUrls.buzz.quiz.dailyExercisePerformance.upstream, {
+                    quiz_result_group_id: this.query.quiz_result_group_id
+                }),
+                method: 'GET'
+            }, proxyOption));
+        })
     ;
 };

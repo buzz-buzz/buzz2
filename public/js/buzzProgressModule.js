@@ -1,7 +1,7 @@
 angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModule', 'clientConfigModule', 'buzzHeaderModule', 'chart.js', 'quizModule', 'DateModule'])
-    .controller('calendarCtrl', ['$scope', '$http', 'clientConfig', 'quizFactory', '$filter', 'DateFactory', function ($scope, $http, clientConfig, quizFactory, $filter, DateFactory) {
+    .controller('calendarCtrl', ['$scope', '$http', 'clientConfig', 'quizFactory', '$filter', 'DateFactory', '$q', function ($scope, $http, clientConfig, quizFactory, $filter, DateFactory, $q) {
         $scope.expanded = false;
-        $scope.expandContent = function(value) {
+        $scope.expandContent = function (value) {
             $scope.expanded = value;
         };
         $scope.today = new Date();
@@ -93,19 +93,49 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
                 start_date: DateFactory.toDateISOString(DateFactory.getFirstDayOfMonth($scope.current)),
                 end_date: DateFactory.toDateISOString(DateFactory.getFirstDayOfNextMonth($scope.current))
             }).then(function (result) {
+                var dailyExercisePerf = [];
+
                 result.data.map(function (p) {
                     var exerciseDate = new Date(p.start_date);
                     var d = $filter('date')(exerciseDate, 'yyyy-MM-dd');
                     $scope.perf[d].detail = p;
                     $scope.perf[d].goodness = getGoodness(p);
                     $scope.performances[$scope.perf[d].week][$scope.perf[d].day] = $scope.perf[d].goodness;
+
+                    dailyExercisePerf.push(quizFactory.getDailyExercisePerformance(p.quiz_result_group_id));
                 });
+
+                return dailyExercisePerf;
+            }).then(function (requests) {
+                return $q.all(requests);
+            }).then(function (results) {
+                $scope.$parent.totalScore = results
+                    .map(function (r) {
+                        return r.data;
+                    })
+                    .reduce(function (prev, next) {
+                        return prev.concat(next);
+                    }, [])
+                    .filter(function (p) {
+                        return p.key === 'score';
+                    })
+                    .map(function (perf) {
+                        return Number(perf.value);
+                    })
+                    .reduce(function (prev, next) {
+                        return prev + next;
+                    }, 0)
+                ;
             });
+
         }
 
         $scope.getYYYYMMDDByWeekDay = function (week, day) {
             return $filter('date')($scope.weekDays[week][day], 'yyyy-MM-dd');
         };
+    }])
+    .controller('calendarParentCtrl', ['$scope', function ($scope) {
+
     }])
     .controller('chartCtrl', ['$scope', function ($scope) {
         $scope.labels = ['第一周', '第二周', '第三周', '第四周', '第五周'];
