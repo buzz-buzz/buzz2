@@ -66,7 +66,7 @@ body
             line-height: 3rem;
         }
         .expend-calander {
-            line-height: 1rem;
+            line-height: 2rem;
         }
         .expend-calander.row {
             width: 100%;
@@ -242,12 +242,9 @@ body
                     .expend-calander.unit.column 五
                     .expend-calander.unit.column 六
                 .expend-calander.row.blank
-                .expend-calander.row.blank
                 .expend-calander.row(ng-repeat="week in extendedweekdays")
                     .expend-calander.unit.column(ng-repeat="day in week", ng-class="{'invalid': !day.iscurrentmonth,'now': day.istoday,'signed': day.goodness!==''}") {{day.date.getDate()}}
                     .expend-calander.row.blank
-                    .expend-calander.row.blank
-                .expend-calander.row.blank
                 .expend-calander.row.blank
         .row.blank
         .row.blank
