@@ -75,14 +75,11 @@ body
             width: 14.25%;
             text-align: center;
         }
-        .expend-calander.unit.past {
+        .expend-calander.unit.invalid {
             color: #bbbbbb;
         }
         .expend-calander.unit.current {
             color: #f9b600;
-        }
-        .expend-calander.unit.next {
-            color: #bbbbbb;
         }
         .expend-calander.unit.signed {
             color: #ff0000!important;
@@ -231,7 +228,7 @@ body
                     img.valign-middle(src="/public/images/calander.png")
             .box.process-content(ng-if="expanded")
                 .expend-calander.row
-                    .expend-calander.left.font.orange(style="font-size: 1.5rem;line-height: 2.5rem;height: 2.5rem;width: 85%;display:inline-block;vertical-align:top;") 2016年2月
+                    .expend-calander.left.font.orange(style="font-size: 1.5rem;line-height: 2.5rem;height: 2.5rem;width: 85%;display:inline-block;vertical-align:top;",) {{current | date: 'MMM, yyyy'}}
                     .expend-calander.right(ng-click="expandContent(false)",style="height: 2.5rem;width: 15%;display:inline-block;vertical-align:top")
                         img.valign-middle(style="width:1.86em",src="/public/images/calander_off.png")
                 .expend-calander.row.blank
@@ -246,56 +243,10 @@ body
                     .expend-calander.unit.column 六
                 .expend-calander.row.blank
                 .expend-calander.row.blank
-                .expend-calander.row
-                    .expend-calander.unit.column.past 30
-                    .expend-calander.unit.column.past 31
-                    .expend-calander.unit.column.current 1
-                    .expend-calander.unit.column.current 2
-                    .expend-calander.unit.column.current 3
-                    .expend-calander.unit.column.current 4
-                    .expend-calander.unit.column.current 5
-                .expend-calander.row.blank
-                .expend-calander.row.blank
-                .expend-calander.row
-                    .expend-calander.unit.column.current.signed 6
-                    .expend-calander.unit.column.current 7
-                    .expend-calander.unit.column.current.signed 8
-                    .expend-calander.unit.column.current 9
-                    .expend-calander.unit.column.current.signed 10
-                    .expend-calander.unit.column.current 11
-                    .expend-calander.unit.column.current 12
-                .expend-calander.row.blank
-                .expend-calander.row.blank
-                .expend-calander.row
-                    .expend-calander.unit.column.current 13
-                    .expend-calander.unit.column.current 14
-                    .expend-calander.unit.column.current 15
-                    .expend-calander.unit.column.current 16
-                    .expend-calander.unit.column.current 17
-                    .expend-calander.unit.column.current 18
-                    .expend-calander.unit.column.current 19
-                .expend-calander.row.blank
-                .expend-calander.row.blank
-                .expend-calander.row
-                    .expend-calander.unit.column.current 20
-                    .expend-calander.unit.column.current 21
-                    .expend-calander.unit.column.current 22
-                    .expend-calander.unit.column.current 23
-                    .expend-calander.unit.column.current 24
-                    .expend-calander.unit.column.current 25
-                    .expend-calander.unit.column.current 26
-                .expend-calander.row.blank
-                .expend-calander.row.blank
-                .expend-calander.row
-                    .expend-calander.unit.column.current 27
-                    .expend-calander.unit.column.current.now 28
-                    .expend-calander.unit.column.next 1
-                    .expend-calander.unit.column.next 2
-                    .expend-calander.unit.column.next 3
-                    .expend-calander.unit.column.next 4
-                    .expend-calander.unit.column.next 5
-                .expend-calander.row.blank
-                .expend-calander.row.blank
+                .expend-calander.row(ng-repeat="week in extendedweekdays")
+                    .expend-calander.unit.column(ng-repeat="day in week", ng-class="{'invalid': !day.iscurrentmonth,'now': day.istoday,'signed': day.goodness!==''}") {{day.date.getDate()}}
+                    .expend-calander.row.blank
+                    .expend-calander.row.blank
                 .expend-calander.row.blank
                 .expend-calander.row.blank
         .row.blank
@@ -349,6 +300,7 @@ body
     script(src="/node_modules/angular-chart.js/dist/angular-chart.min.js")
     script(src="/js/quizModule.min.js")
     script(src="/js/DateModule.min.js")
+    script(src="/node_modules/moment/min/moment.min.js")
     script(src="/js/buzzProgressModule.min.js")
     script(src="/js/buzzHeaderModule.min.js")
     script.

@@ -14,13 +14,41 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
             [null, null, null, null, null, null, null]
         ];
 
-        dateChanged();
-
         $scope.gotoMonth = function (diff) {
             $scope.current.setMonth($scope.current.getMonth() + diff);
             dateChanged();
         };
+        var extendWeekDays = function(weekDays) {
+            var ret = [];
+            weekDays.forEach(function(weeks, weekindex) {
+                var currentweek = ret[weekindex] = [];
+                var firstday = null;
+                var dayIndex = 0;
 
+                if (weekindex === 0) {
+                    var firstDataIndex = weeks.findIndex(function(val) {
+                        return !!val;
+                    });
+                    firstday = moment(weeks[firstDataIndex]).add((firstDataIndex*-1)-1, 'day');
+                } else if (weekindex === weekDays.length - 1) {
+                    var lastweek = weeks[weekindex];
+                    firstday = moment().add(1,'months').date(0);
+                };
+                weeks.forEach(function(day, dayindex) {
+                    var currentday = day || firstday.add(1, 'day').toDate();
+                    var today = new Date();
+                    currentweek.push({
+                        date: currentday,
+                        goodness: $scope.performances[weekindex][dayindex],
+                        iscurrentmonth: currentday.getMonth()===today.getMonth(),
+                        istoday: currentday.getMonth()===today.getMonth() && currentday.getDate()===today.getDate()
+                    });
+                });
+            })
+            return ret;
+        };
+
+        dateChanged();
         function dateChanged() {
             var days = new Date($scope.current.getFullYear(), $scope.current.getMonth() + 1, 0).getDate();
             var theFirstDayOfCurrentMonth = new Date($scope.current.getFullYear(), $scope.current.getMonth(), 1).getDay();
@@ -46,6 +74,7 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
             }
 
             getPerformances();
+            $scope.extendedweekdays = extendWeekDays($scope.weekDays);
         }
 
         function getPerformance(date, week, day) {
