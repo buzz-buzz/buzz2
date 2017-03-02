@@ -3,7 +3,7 @@ html
     meta(charset="utf-8")
     meta(http-equiv="X-UA-Compatible", content="IE=edge, chrome=1")
     meta(name="viewport", content="width=375, user-scalable=no")
-    title='Buzz English'
+    title='Buzzbuzz English'
     link(href="/public/css/style.min.css", rel="stylesheet")
 body
     style.
@@ -278,7 +278,7 @@ body
             .row
                 .box.process-head 历史曲线
             .row.blank
-            .row
+            .row(ng-controller="chartCtrl")
                 .box.process-content
                     .chart.left
                         span.font.grey 你已累计学习了
