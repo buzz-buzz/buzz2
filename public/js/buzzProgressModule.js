@@ -167,6 +167,10 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
 
     }])
     .controller('chartCtrl', ['$scope', function ($scope) {
+        $scope.expanded = false;
+        $scope.expandContent = function (value) {
+            $scope.expanded = value;
+        };
         $scope.labels = ['第一周', '第二周', '第三周', '第四周', '第五周'];
         $scope.series = ['你累计学习单词量：个/周', '系统整体排名：名/周'];
         $scope.data = [
