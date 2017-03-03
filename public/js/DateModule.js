@@ -30,7 +30,7 @@ angular.module('DateModule', ['angularQueryParserModule'])
     }])
     .factory('DateFactory', ['queryParser', function (queryParser) {
         return {
-            getCurrent: function () {
+            getCurrentDate: function () {
                 var query = queryParser.parse();
                 if (!query || !query.current) {
                     return new Date();
@@ -50,6 +50,9 @@ angular.module('DateModule', ['angularQueryParserModule'])
             },
             toDateISOString: function (date) {
                 return date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
+            },
+            getWeekNumberOfMonth: function (date) {
+                return Math.floor((date.getDate() + this.getFirstDayOfMonth(date).getDay() - 1) / 7) + 1;
             }
         };
     }])

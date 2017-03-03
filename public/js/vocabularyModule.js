@@ -1,4 +1,13 @@
 angular.module('vocabularyModule', ['trackingModule', 'clientConfigModule', 'DateModule', 'quizModule', 'angularQueryParserModule'])
+    .controller('vocabularyHeaderCtrl', ['$scope', 'DateFactory', function ($scope, DateFactory) {
+        $scope.chineseWeekNumber = {
+            1: '一',
+            2: '二',
+            3: '三',
+            4: '四',
+            5: '五'
+        }[DateFactory.getWeekNumberOfMonth(new Date())];
+    }])
     .controller('vocabularyCtrl', ['$scope', '$sce', 'tracking', 'clientConfig', '$http', 'Month', 'DateOfMonth', 'quizFactory', 'queryParser', '$q', function ($scope, $sce, tracking, clientConfig, $http, Month, DateOfMonth, quizFactory, queryParser, $q) {
         tracking.send('myVocabulary');
 
