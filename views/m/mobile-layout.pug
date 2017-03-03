@@ -1,0 +1,24 @@
+doctype html
+html
+    meta(charset="utf-8")
+    meta(http-equiv="X-UA-Compatible", content="IE=edge, chrome=1")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0, maximum-scale=1.0")
+    link(rel="stylesheet", href="/public/css/player-layout.min.css")
+    link(rel="stylesheet", href="/public/css/button.min.css")
+    title='Buzzbuzz English'
+    style.
+        body {
+            margin: 0;
+            padding: 0;
+        }
+body
+    #buzz-header.fluid.container.header(style="border: solid 1px #f6b52a; background-color: #f6b52a;")
+        .center.aligned.container.borderless(style=" border: solid 1px transparent!important;")
+            .left.floated
+                h2 &nbsp;
+                    a(href="javascript: history.back();", style="padding-left: 0.5em; padding-right: 0.5em; display: inline-block; font-weight: normal;") <
+            .black.title
+                h2(style="font-weight: normal;") Buzzbuzz English
+    block content
+    include ../js
+    block js
