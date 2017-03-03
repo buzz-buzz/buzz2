@@ -11,3 +11,12 @@
     border: solid 1px #f9b600;
     color: #f9b600;
 }
+
+.large.button {
+    font-size: large;
+}
+
+a.button {
+    display: inline-block;
+    padding: 0.5em 4em !important;
+}

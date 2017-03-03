@@ -50,10 +50,12 @@ module.exports = function (app, router, parse) {
             });
         })
         .get(serviceUrls.buzz.courses.findByLevel.frontEnd, membership.ensureAuthenticated, function*(next) {
+            let self = this;
+
             this.body = yield proxy.call(this, {
                 host: config.buzz.inner.host,
                 port: config.buzz.inner.port,
-                path: Router.url(serviceUrls.buzz.courses.findByLevel.upstream, {
+                path: Router.url(serviceUrls.buzz.courses.findByLevel.upstream + '?pageIndex' + self.query.pageIndex + '&pageSize=' + self.query.pageSize, {
                     level: this.params.level
                 }),
                 method: 'GET'

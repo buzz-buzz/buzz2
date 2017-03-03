@@ -5,7 +5,7 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
             $scope.expanded = value;
         };
         $scope.today = new Date();
-        $scope.current = DateFactory.getCurrent();
+        $scope.current = DateFactory.getCurrentDate();
         $scope.performances = [
             [null, null, null, null, null, null, null],
             [null, null, null, null, null, null, null],

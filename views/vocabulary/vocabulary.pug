@@ -218,8 +218,8 @@ block head
 block content
     .body-container(ng-app="vocabularyModule", ng-controller="vocabularyCtrl")
         .table-cell
-            .table-row.center.head
-                .table-column.part1 &#x7B2C;&#x4E94;&#x5468;
+            .table-row.center.head(ng-controller="vocabularyHeaderCtrl")
+                .table-column.part1 &#x7B2C;{{chineseWeekNumber}}&#x5468;
                 .table-column.part2
                 .table-column.part3.left
                     .button &#x91CD;&#x65B0;&#x7EC3;&#x4E60;
