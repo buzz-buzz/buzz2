@@ -90,7 +90,12 @@ angular.module('vocabularyModule', ['trackingModule', 'clientConfigModule', 'Dat
             });
         }
 
-        $http.get(clientConfig.serviceUrls.buzz.courses.findByLevel.frontEnd.replace(':level', queryParser.get('level') || 'B'))
+        $http.get(clientConfig.serviceUrls.buzz.courses.findByLevel.frontEnd.replace(':level', queryParser.get('level') || 'B'), {
+            params: {
+                pageIndex: 0,
+                pageSize: 10
+            }
+        })
             .then(function (result) {
                 $scope.vocabularyAll = [];
                 result.data.map(function (course) {
