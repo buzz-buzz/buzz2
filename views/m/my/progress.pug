@@ -244,6 +244,7 @@ body
             overflow: hidden;
             width: calc(50% + 1px);
             height: 50%;
+            z-index: 20;
         }
         .chart-box .part .shape{
             position: absolute;
@@ -294,7 +295,7 @@ body
             height: 2px;
             border-radius: 50%;
             border: 2px solid blue;
-            z-index: 2;
+            z-index: 20;
         }
         .chart-box.down:before {
             top: -2px;
@@ -358,6 +359,7 @@ body
             width: 1rem;
             background-color: #f9b600;
             position: absolute;
+            z-index: 5;
         }
     .body(ng-app="buzzProgressModule")
         .row.special(id="profile", ng-controller="headerCtrl")
