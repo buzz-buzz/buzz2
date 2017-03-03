@@ -105,7 +105,7 @@ body
                 input(type="password",placeholder="请输入登陆密码", ng-model="signInData.password")
             button.login(type="submit", ng-if="!bindMobileMode") 登录
             button.login(type="submit", ng-if="bindMobileMode") 登录并绑定
-        .center-row.link
+        .center-row.link(ng-controller="signInParentCtrl")
             a.forget(href="/reset-password") 忘记密码？
             a.signup(ng-href="/sign-up{{queryString}}") 新用户注册
     include ../js
