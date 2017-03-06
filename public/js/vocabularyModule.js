@@ -138,21 +138,10 @@ angular.module('vocabularyModule', ['trackingModule', 'clientConfigModule', 'Dat
 
                 })($scope.vocabularyAll[$scope.vocabularyAll.length - 1]);
             });
-
-            console.log($scope.vocabularyData);
         }
 
-        $scope.vocabularyData = new paginationData(clientConfig.serviceUrls.buzz.courses.findByLevel.frontEnd.replace(':level', queryParser.get('level') || 'B'));
-        $scope.vocabularyData.getNextPage({
+        $scope.vocabularyData = new paginationData(clientConfig.serviceUrls.buzz.courses.findByLevel.frontEnd.replace(':level', queryParser.get('level') || 'B'), {
             pageSize: 7
-        }).then(mapToDisplayData);
-
-        // $http.get(clientConfig.serviceUrls.buzz.courses.findByLevel.frontEnd.replace(':level', queryParser.get('level') || 'B'), {
-        //     params: {
-        //         pageIndex: 0,
-        //         pageSize: 7
-        //     }
-        // })
-        //     .then(mapToDisplayData)
-        // ;
+        });
+        $scope.vocabularyData.getNextPage().then(mapToDisplayData);
     }]);
