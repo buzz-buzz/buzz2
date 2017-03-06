@@ -16,7 +16,7 @@ angular.module('buzzHistoryModule', ['angularQueryParserModule', 'servicesModule
 
         $http.get(url.replace(':category', $scope.category).replace(':level', level).replace(':enabled', 'true'))
             .then(function (result) {
-                result = result.data;
+                result = result.data.data;
 
                 $scope.courseList = result.sort(function (a, b) {
                     if (a.date > b.date) {
