@@ -166,10 +166,13 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
     .controller('calendarParentCtrl', ['$scope', function ($scope) {
 
     }])
-    .controller('chartCtrl', ['$scope', function ($scope) {
+    .controller('chartCtrl', ['$scope', '$timeout', function ($scope, $timeout) {
         $scope.expanded = false;
         $scope.expandContent = function (value) {
             $scope.expanded = value;
+            $timeout(function() {
+                document.body.scrollTop = document.body.scrollHeight;
+            });
         };
         $scope.labels = ['第一周', '第二周', '第三周', '第四周', '第五周'];
         $scope.series = ['你累计学习单词量：个/周', '系统整体排名：名/周'];
