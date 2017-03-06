@@ -1,14 +1,14 @@
 extends layout
 
 block js
-    script(src="/node_modules/quiz-adapter/main.js")
-    script(src="/js/quizModule.min.js")
-    script(src="/js/buzzModule.min.js")
-    script(src="/lib/jwplayer/jwplayer.js")
+    + js("/node_modules/quiz-adapter/main.js")
+    + js("/js/quizModule.min.js")
+    + js("/js/buzzModule.min.js")
+    + js("/lib/jwplayer/jwplayer.js")
     script.
         jwplayer.key = 'lG24bAGJCRLF1gi4kajg4EnUKi+ujyUyKMoSNA==';
-    script(src="/js/level-ctrl.min.js")
-    script(src="/js/full-page.min.js")
+    + js("/js/level-ctrl.min.js")
+    + js("/js/full-page.min.js")
 
 block head
     style.

@@ -1,9 +1,11 @@
-script(src="/node_modules/angular/angular.min.js?4.0.3_20161216_0909")
-script(src="/node_modules/angular-translate/dist/angular-translate.min.js")
-script(src="/node_modules/angular-query-parser-module/dist/scripts/all.min.js")
-script(src="/node_modules/angular-service/dist/scripts/all.min.js?4.0.3_20161216_0909")
-script(src="/node_modules/angular-service-error-parser/dist/all.min.js")
-script(src="/clientConfig.js")
+include share/common
++ js("/node_modules/angular/angular.min.js")
++ js("/node_modules/angular-translate/dist/angular-translate.min.js")
++ js("/node_modules/angular-query-parser-module/dist/scripts/all.min.js")
++ js("/node_modules/angular-service/dist/scripts/all.min.js")
++ js("/node_modules/angular-service-error-parser/dist/all.min.js")
++ js("/clientConfig.js")
+
 if !config.mock
     script(src=config.tracking)
 else
