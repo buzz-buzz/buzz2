@@ -7,6 +7,12 @@ html
     link(href="/public/css/style.min.css?2017-03-03", rel="stylesheet")
 body
     style.
+        .init {
+            display: none;
+        }
+        .init.done {
+            display: initial;
+        }
         body {
             margin: 0px;
         }
@@ -361,7 +367,7 @@ body
             position: absolute;
             z-index: 5;
         }
-    .body(ng-app="buzzProgressModule")
+    .body(ng-app="buzzProgressModule").init
         .row.special(id="profile", ng-controller="headerCtrl")
             .box
                 .account.column
@@ -538,3 +544,6 @@ body
     script(src="/js/buzzHeaderModule.min.js?2017-03-03")
     script.
         angular.bootstrap(document.getElementById("profile"), ['buzzHeaderModule']);
+        Array.from(document.getElementsByClassName("init")).forEach(function(ele){
+            ele.className = ele.className.split(' ').concat("done").join(" ");
+        });
