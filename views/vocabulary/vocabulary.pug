@@ -272,6 +272,8 @@ block content
                 .table-column.part9
                     .mark(ng-repeat="word in weeklylist.words track by $index",ng-show="radioBoxType===RADIO_TYPE.NONE||word.status === radioBoxType")
                         i.icon-question(ng-show="word.status === RADIO_TYPE.NOTTEST")
+        include ../../node_modules/angular-service/views/pagination.pug
+        + pagination('vocabularyData')
         .popup-mask(style="position:fixed;height:100%;width:100%;background-color:rgba(0,0,0,0.4);top:0;left:0",ng-show="printMode")
         .popup(style="position:fixed;top: 5em;margin:auto;left:0;right:0",ng-show="printMode",ng-click="hidePopup()")
             iframe(width=800,height=600,frameborder="no",border="0",ng-show="printMode",ng-src="{{$sce.trustAsResourceUrl(printURL)}}")

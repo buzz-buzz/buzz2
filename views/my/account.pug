@@ -7,12 +7,12 @@ mixin pair(key, value)
             span.value #{value}
 
 block js
-    script(src="/js/accountModule.min.js")
-    script(src="/js/educationModule.min.js")
+    +js("/js/accountModule.min.js")
+    +js("/js/educationModule.min.js")
 
 block head
-    link(rel="stylesheet", href="/public/css/button.min.css")
-    link(rel="stylesheet", href="/public/css/modal.min.css")
+    + css("/public/css/button.min.css")
+    + css("/public/css/modal.min.css")
     style.
         .pair {
             display: flex;

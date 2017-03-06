@@ -1,17 +1,19 @@
+include ../share/common
+
 doctype html
 html
     head
         meta(charset="utf-8")
         meta(http-equiv="X-UA-Compatible", content="IE=edge, chrome=1")
         meta(name="viewport", content="width=device-width, initial-scale=1.0, maximum-scale=1.0")
-        link(rel="stylesheet", href="/public/css/player.min.css")
-        link(rel="stylesheet", href="/public/css/player-layout.min.css")
-        link(rel="stylesheet", href="/public/css/horizontal-menu.min.css")
-        link(rel="stylesheet", href="/public/css/flex-box.min.css")
-        link(rel="stylesheet", href="/public/css/media-query.min.css")
-        link(rel="stylesheet", href="/public/css/my/layout.min.css")
-        link(rel="stylesheet", href="/public/css/lib/cube.min.css")
-        title=title || 'Buzz English'
+        + css("/public/css/player.min.css")
+        + css("/public/css/player-layout.min.css")
+        + css("/public/css/horizontal-menu.min.css")
+        + css("/public/css/flex-box.min.css")
+        + css("/public/css/media-query.min.css")
+        + css("/public/css/my/layout.min.css")
+        + css("/public/css/lib/cube.min.css")
+        title=title || 'Buzzbuzz English'
         block head
     body.full.screen.container
         #buzz-header.fluid.container.header.fixed(ng-controller="headerCtrl")
@@ -41,7 +43,7 @@ html
                     span.top.aligned.welcome.message(style="position: absolute;") Hello {{profile.display_name}}, welcome to Buzzbuzz English.
         block content
         include ../js
-        script(src="/js/buzzHeaderModule.min.js")
+        + js("/js/buzzHeaderModule.min.js")
         script.
             angular.element(document).ready(function () {
                 angular.bootstrap(document.getElementById('buzz-header'), ['buzzHeaderModule']);

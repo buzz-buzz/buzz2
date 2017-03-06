@@ -1,0 +1,10 @@
+- var version = new Date().getTime()
+
+mixin js(src)
+    if src.indexOf('/node_modules') === 0 || src.indexOf('/js') === 0
+        script(src=config.cdn + src + '?' + version)
+    else
+        script(src=src + '?' + version)
+
+mixin css(src)
+    link(rel="stylesheet", href=config.cdn + src + '?' + version)

@@ -1,5 +1,5 @@
 module.exports = {
-    cdn: '',
+    cdn: '//10.20.32.51:16000',
 
     sso: {
         inner: {

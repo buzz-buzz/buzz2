@@ -1,15 +1,15 @@
 extends layout
 
 block js
-    script(src="/node_modules/chart.js/dist/Chart.js")
-    script(src="/node_modules/angular-chart.js/dist/angular-chart.min.js")
-    script(src="/js/quizModule.min.js")
-    script(src="/js/DateModule.min.js")
-    script(src="/node_modules/moment/min/moment.min.js")
-    script(src="/js/buzzProgressModule.min.js")
+    + js("/node_modules/chart.js/dist/Chart.js")
+    + js("/node_modules/angular-chart.js/dist/angular-chart.min.js")
+    + js("/js/quizModule.min.js")
+    + js("/js/DateModule.min.js")
+    + js("/node_modules/moment/min/moment.min.js")
+    + js("/js/buzzProgressModule.min.js")
 
 block head
-    link(rel="stylesheet", href="/public/css/progress-table.min.css")
+    + css("/public/css/progress-table.min.css")
     style.
         body {
             background: url('http://source.bridgeplus.cn/buzz/skin2.png') repeat-x 0 0;
@@ -105,7 +105,7 @@ block content
                     p.separate.title
                         span 你累计学习多少单词
 
-                    canvas#history-chart.chart.chart-bar(chart-data="data", chart-labels="labels", chart-series="series", chart-options="options", chart-dataset-override="datasetOverride")
+                    canvas#history-chart.chart.chart-bar(chart-data="data", chart-labels="labels", chart-series="series", chart-dataset-override="datasetOverride")
                     p &nbsp;
                     p &nbsp;
                     p test
