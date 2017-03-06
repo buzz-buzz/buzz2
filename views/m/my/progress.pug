@@ -244,6 +244,7 @@ body
         }
         .chart-box {
             position: absolute;
+            z-index: 20;
         }
         .chart-box .part {
             position: absolute;
@@ -348,10 +349,14 @@ body
             border: 1px solid #cccccc;
             width: 0px;
         }
-        .chart-element.row-text {
+        .chart-element.row-text.right,
+        .chart-element.row-text.left {
             font-size: 0.65rem;
             width: 1rem;
             text-align: right;
+        }
+        .chart-element.row-text.right {
+            left: 20rem;
         }
         .chart-element.column-text {
             font-size: 0.65rem;
@@ -478,11 +483,16 @@ body
                             .chart-element.column(style="left: 1.5rem;height: 11rem;")
                             .chart-element.row(style="top: 11rem;left: 1.5rem;width: 18rem;")
                             .chart-element.column(style="left: 19.5rem;height: 11rem;")
-                            .chart-element.row-text(style="top: 0.7rem") 200
-                            .chart-element.row-text(style="top: 3.2rem;") 150
-                            .chart-element.row-text(style="top: 5.7rem;") 100
-                            .chart-element.row-text(style="top: 8.2rem;") 50
-                            .chart-element.row-text(style="top: 10.7rem;") 0
+                            .chart-element.row-text.left(style="top: 0.7rem") 200
+                            .chart-element.row-text.left(style="top: 3.2rem;") 150
+                            .chart-element.row-text.left(style="top: 5.7rem;") 100
+                            .chart-element.row-text.left(style="top: 8.2rem;") 50
+                            .chart-element.row-text.left(style="top: 10.7rem;") 0
+                            .chart-element.row-text.right(style="top: 0.7rem") 100%
+                            .chart-element.row-text.right(style="top: 3.2rem;") 75%
+                            .chart-element.row-text.right(style="top: 5.7rem;") 50%
+                            .chart-element.row-text.right(style="top: 8.2rem;") 25%
+                            .chart-element.row-text.right(style="top: 10.7rem;") 0%
                             .chart-element.row(style="top: 1rem;left:1.5rem;width:0.5rem;")
                             .chart-element.row(style="top: 3.5rem;left:1.5rem;width:0.5rem;")
                             .chart-element.row(style="top: 6rem;left:1.5rem;width:0.5rem;")
@@ -502,32 +512,12 @@ body
                             .chart-element.column(style="top: 10.5rem;left:8.7rem;height:0.5rem;")
                             .chart-element.column(style="top: 10.5rem;left:12.3rem;height:0.5rem;")
                             .chart-element.column(style="top: 10.5rem;left:15.9rem;height:0.5rem;")
-                            .chart-box.up(style="top:2rem;left:3.6rem;height:4rem;")
+                            .chart-box(ng-repeat="chartdata in m_linedata", ng-class="chartdata.shapeClass", style="left:{{3.6+$index*3.6}}rem;top:{{(100-chartdata.point)/10+1}}rem;height:{{chartdata.height/10}}rem")
                                 .part.left
                                     .shape
                                 .part.right
                                     .shape
-                            .chart-box.down(style="top:2rem;left:7.2rem;height:2rem;")
-                                .part.left
-                                    .shape
-                                .part.right
-                                    .shape
-                            .chart-box.eval(style="top:calc(4rem - 1px);left:10.8rem;")
-                                .part.left
-                                    .shape
-                                .part.right
-                                    .shape
-                            .chart-box.down(style="top:4rem;left:14.4rem;height:4rem;")
-                                .part.left
-                                    .shape
-                                .part.right
-                                    .shape
-                            .chart-bar(style="left: 3rem; top:9rem;height:2rem;")
-                            .chart-bar(style="left: 6.6rem; top:5rem;height:6rem;")
-                            .chart-bar(style="left: 10.2rem; top:6rem;height:5rem;")
-                            .chart-bar(style="left: 13.8rem; top:6rem;height:5rem;")
-                            .chart-bar(style="left: 17.4rem; top:10rem;height:1rem;")
-                            
+                            .chart-bar(ng-repeat="bardata in data[1] track by $index", style="left: {{3+$index*3.6}}rem;top:{{11-bardata/200*10}}rem;height:{{bardata/200*10}}rem")
         .row.blank
         .row.blank
         .row.blank

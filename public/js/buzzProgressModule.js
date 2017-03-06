@@ -177,6 +177,34 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
             [65, 59, 84, 81, 56],
             [28, 48, 40, 19, 86]
         ];
+        function createM_Linedata(originDataArray) {
+            var retArrary = [];
+            originDataArray.reduce(function(previous, next, originPrevious) {
+                var result = {};
+                var adjustNext = next;
+                var absHeight = Math.abs(previous - next);
+                if (absHeight > 5) {
+                    if (next > previous) {
+                        result.shapeClass = "up";
+                        result.point = next;
+                    } else {
+                        result.shapeClass = "down";
+                        result.point = previous;
+                    }
+                    result.height = absHeight;
+                    adjustNext = next;
+                } else {
+                    adjustNext = previous;
+                    result.shapeClass = "eval";
+                    result.point = previous;
+                    result.height = 0;
+                }
+                retArrary.push(result);
+                return adjustNext;
+            });
+            return retArrary;
+        }
+        $scope.m_linedata = createM_Linedata($scope.data[0]);
         $scope.datasetOverride = [
             {
                 label: '你累计学习单词量：个/周',
