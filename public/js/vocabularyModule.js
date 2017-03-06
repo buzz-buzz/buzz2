@@ -1,4 +1,4 @@
-angular.module('vocabularyModule', ['trackingModule', 'clientConfigModule', 'DateModule', 'quizModule', 'angularQueryParserModule'])
+angular.module('vocabularyModule', ['trackingModule', 'clientConfigModule', 'DateModule', 'quizModule', 'angularQueryParserModule', 'servicesModule'])
     .controller('vocabularyHeaderCtrl', ['$scope', 'DateFactory', function ($scope, DateFactory) {
         $scope.chineseWeekNumber = {
             1: '一',
@@ -8,7 +8,7 @@ angular.module('vocabularyModule', ['trackingModule', 'clientConfigModule', 'Dat
             5: '五'
         }[DateFactory.getWeekNumberOfMonth(new Date())];
     }])
-    .controller('vocabularyCtrl', ['$scope', '$sce', 'tracking', 'clientConfig', '$http', 'Month', 'DateOfMonth', 'quizFactory', 'queryParser', '$q', function ($scope, $sce, tracking, clientConfig, $http, Month, DateOfMonth, quizFactory, queryParser, $q) {
+    .controller('vocabularyCtrl', ['$scope', '$sce', 'tracking', 'clientConfig', '$http', 'Month', 'DateOfMonth', 'quizFactory', 'queryParser', '$q', 'httpPaginationData', function ($scope, $sce, tracking, clientConfig, $http, Month, DateOfMonth, quizFactory, queryParser, $q, paginationData) {
         tracking.send('myVocabulary');
 
         $scope.printMode = false;
@@ -90,60 +90,69 @@ angular.module('vocabularyModule', ['trackingModule', 'clientConfigModule', 'Dat
             });
         }
 
-        $http.get(clientConfig.serviceUrls.buzz.courses.findByLevel.frontEnd.replace(':level', queryParser.get('level') || 'B'), {
-            params: {
-                pageIndex: 0,
-                pageSize: 10
-            }
-        })
-            .then(function (result) {
-                $scope.vocabularyAll = [];
-                result.data.map(function (course) {
-                    var date = new Date(course.date);
+        function mapToDisplayData(result) {
+            $scope.vocabularyAll = [];
+            result.data.map(function (course) {
+                var date = new Date(course.date);
 
-                    $scope.vocabularyAll.push({
-                        year: date.getFullYear(),
-                        monthDay: Month[date.getMonth()] + '.' + DateOfMonth.getShortString(date.getDate()),
-                        words: [],
-                        lesson_id: course.lesson_id
+                $scope.vocabularyAll.push({
+                    year: date.getFullYear(),
+                    monthDay: Month[date.getMonth()] + '.' + DateOfMonth.getShortString(date.getDate()),
+                    words: [],
+                    lesson_id: course.lesson_id
+                });
+
+                (function (v) {
+                    $q.all([
+                        $http.get(course.new_words_path).then(function (result) {
+                            for (var word in result.data.dictionary) {
+                                v.words.push({
+                                    name: word,
+                                    index: result.data.dictionary[word].id,
+                                    ipc: result.data.dictionary[word].ipc,
+                                    explaination: result.data.dictionary[word].explanation,
+                                    soundURL: result.data.dictionary[word].ipa,
+                                    url: result.data.dictionary[word].url,
+                                    exercise: result.data.dictionary[word].exercise
+                                });
+                            }
+
+                            v.words.sort(function (x, y) {
+                                var diff = x.index - y.index;
+
+                                if (diff > 0) return 1;
+                                if (diff < 0) return -1;
+                                return 0;
+                            });
+
+                            return v.words;
+                        }),
+
+                        quizFactory.getVocabularyPerformance({
+                            lesson_id: course.lesson_id,
+                        })
+                    ]).then(function (results) {
+                        parseVocabularyPerformance(results[0], results[1].data);
                     });
 
-                    (function (v) {
-                        $q.all([
-                            $http.get(course.new_words_path).then(function (result) {
-                                for (var word in result.data.dictionary) {
-                                    v.words.push({
-                                        name: word,
-                                        index: result.data.dictionary[word].id,
-                                        ipc: result.data.dictionary[word].ipc,
-                                        explaination: result.data.dictionary[word].explanation,
-                                        soundURL: result.data.dictionary[word].ipa,
-                                        url: result.data.dictionary[word].url,
-                                        exercise: result.data.dictionary[word].exercise
-                                    });
-                                }
 
-                                v.words.sort(function (x, y) {
-                                    var diff = x.index - y.index;
+                })($scope.vocabularyAll[$scope.vocabularyAll.length - 1]);
+            });
 
-                                    if (diff > 0) return 1;
-                                    if (diff < 0) return -1;
-                                    return 0;
-                                });
+            console.log($scope.vocabularyData);
+        }
 
-                                return v.words;
-                            }),
+        $scope.vocabularyData = new paginationData(clientConfig.serviceUrls.buzz.courses.findByLevel.frontEnd.replace(':level', queryParser.get('level') || 'B'));
+        $scope.vocabularyData.getNextPage({
+            pageSize: 7
+        }).then(mapToDisplayData);
 
-                            quizFactory.getVocabularyPerformance({
-                                lesson_id: course.lesson_id,
-                            })
-                        ]).then(function (results) {
-                            parseVocabularyPerformance(results[0], results[1].data);
-                        });
-
-
-                    })($scope.vocabularyAll[$scope.vocabularyAll.length - 1]);
-                });
-            })
-        ;
+        // $http.get(clientConfig.serviceUrls.buzz.courses.findByLevel.frontEnd.replace(':level', queryParser.get('level') || 'B'), {
+        //     params: {
+        //         pageIndex: 0,
+        //         pageSize: 7
+        //     }
+        // })
+        //     .then(mapToDisplayData)
+        // ;
     }]);
