@@ -90,6 +90,28 @@ angular.module('vocabularyModule', ['trackingModule', 'clientConfigModule', 'Dat
             });
         }
 
+        function sortByIndex(x, y) {
+            var diff = x.index - y.index;
+
+            if (diff > 0) return 1;
+            if (diff < 0) return -1;
+            return 0;
+        }
+
+        var newWordsCache = {};
+
+        function getNewWords(path) {
+            if (newWordsCache[path]) {
+                return $q.resolve(newWordsCache[path]);
+            }
+
+            return $http.get(path).then(function (res) {
+                newWordsCache[path] = res.data;
+
+                return newWordsCache[path]
+            });
+        }
+
         function mapToDisplayData(result) {
             $scope.vocabularyAll = [];
             result.map(function (course) {
@@ -104,26 +126,20 @@ angular.module('vocabularyModule', ['trackingModule', 'clientConfigModule', 'Dat
 
                 (function (v) {
                     $q.all([
-                        $http.get(course.new_words_path).then(function (res) {
-                            for (var word in res.data.dictionary) {
+                        getNewWords(course.new_words_path).then(function (res) {
+                            for (var word in res.dictionary) {
                                 v.words.push({
                                     name: word,
-                                    index: res.data.dictionary[word].id,
-                                    ipc: res.data.dictionary[word].ipc,
-                                    explaination: res.data.dictionary[word].explanation,
-                                    soundURL: res.data.dictionary[word].ipa,
-                                    url: res.data.dictionary[word].url,
-                                    exercise: res.data.dictionary[word].exercise
+                                    index: res.dictionary[word].id,
+                                    ipc: res.dictionary[word].ipc,
+                                    explaination: res.dictionary[word].explanation,
+                                    soundURL: res.dictionary[word].ipa,
+                                    url: res.dictionary[word].url,
+                                    exercise: res.dictionary[word].exercise
                                 });
                             }
 
-                            v.words.sort(function (x, y) {
-                                var diff = x.index - y.index;
-
-                                if (diff > 0) return 1;
-                                if (diff < 0) return -1;
-                                return 0;
-                            });
+                            v.words.sort(sortByIndex);
 
                             return v.words;
                         }),
