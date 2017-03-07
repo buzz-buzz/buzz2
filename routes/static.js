@@ -19,14 +19,14 @@ module.exports = function (app) {
     app.use(koaMount('/public', serveStatic('public', getStaticSetting())));
     app.use(koaMount('/mock', serveStatic('mock', getStaticSetting())));
     app.use(koaMount('/node_modules', serveStatic('node_modules', getStaticSetting())));
-    if (process.env.NODE_ENV !== 'prd') {
-        app.use(koaMount('/resources', function *(next) {
-            this.body = yield proxy({
-                host: 'www.buzzbuzzenglish.com',
-                port: 80,
-                path: '/resources' + this.request.url,
-                method: 'GET'
-            });
-        }));
-    }
+    // if (process.env.NODE_ENV !== 'prd') {
+    //     app.use(koaMount('/resources', function *(next) {
+    //         this.body = yield proxy({
+    //             host: 'www.buzzbuzzenglish.com',
+    //             port: 80,
+    //             path: '/resources' + this.request.url,
+    //             method: 'GET'
+    //         });
+    //     }));
+    // }
 };
