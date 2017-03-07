@@ -55,7 +55,7 @@ module.exports = function (app, router, parse) {
             this.body = yield proxy.call(this, {
                 host: config.buzz.inner.host,
                 port: config.buzz.inner.port,
-                path: Router.url(serviceUrls.buzz.courses.findByLevel.upstream + '?pageIndex' + self.query.pageIndex + '&pageSize=' + self.query.pageSize, {
+                path: Router.url(serviceUrls.buzz.courses.findByLevel.upstream + '?' + qs.stringify(self.query), {
                     level: this.params.level
                 }),
                 method: 'GET'

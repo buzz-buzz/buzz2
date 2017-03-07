@@ -13,7 +13,6 @@ angular.module('buzzHistoryModule', ['angularQueryParserModule', 'servicesModule
             url = clientConfig.serviceUrls.buzz.courses.findByLevel.frontEnd;
         }
 
-
         $http.get(url.replace(':category', $scope.category).replace(':level', level).replace(':enabled', 'true'))
             .then(function (result) {
                 if (typeof result.data.length !== 'undefined') {

@@ -91,6 +91,8 @@ angular.module('vocabularyModule', ['trackingModule', 'clientConfigModule', 'Dat
         }
 
         function mapToDisplayData(result) {
+            console.log(result);
+            result.data = result;
             $scope.vocabularyAll = [];
             result.data.map(function (course) {
                 var date = new Date(course.date);
@@ -142,6 +144,8 @@ angular.module('vocabularyModule', ['trackingModule', 'clientConfigModule', 'Dat
 
         $scope.vocabularyData = new paginationData(clientConfig.serviceUrls.buzz.courses.findByLevel.frontEnd.replace(':level', queryParser.get('level') || 'B'), {
             pageSize: 7
+        }, {
+            dataGotCallback: mapToDisplayData
         });
-        $scope.vocabularyData.getNextPage().then(mapToDisplayData);
+        $scope.vocabularyData.getNextPage();
     }]);
