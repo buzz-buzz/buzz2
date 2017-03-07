@@ -91,10 +91,8 @@ angular.module('vocabularyModule', ['trackingModule', 'clientConfigModule', 'Dat
         }
 
         function mapToDisplayData(result) {
-            console.log(result);
-            result.data = result;
             $scope.vocabularyAll = [];
-            result.data.map(function (course) {
+            result.map(function (course) {
                 var date = new Date(course.date);
 
                 $scope.vocabularyAll.push({
@@ -106,16 +104,16 @@ angular.module('vocabularyModule', ['trackingModule', 'clientConfigModule', 'Dat
 
                 (function (v) {
                     $q.all([
-                        $http.get(course.new_words_path).then(function (result) {
-                            for (var word in result.data.dictionary) {
+                        $http.get(course.new_words_path).then(function (res) {
+                            for (var word in res.data.dictionary) {
                                 v.words.push({
                                     name: word,
-                                    index: result.data.dictionary[word].id,
-                                    ipc: result.data.dictionary[word].ipc,
-                                    explaination: result.data.dictionary[word].explanation,
-                                    soundURL: result.data.dictionary[word].ipa,
-                                    url: result.data.dictionary[word].url,
-                                    exercise: result.data.dictionary[word].exercise
+                                    index: res.data.dictionary[word].id,
+                                    ipc: res.data.dictionary[word].ipc,
+                                    explaination: res.data.dictionary[word].explanation,
+                                    soundURL: res.data.dictionary[word].ipa,
+                                    url: res.data.dictionary[word].url,
+                                    exercise: res.data.dictionary[word].exercise
                                 });
                             }
 
@@ -136,8 +134,6 @@ angular.module('vocabularyModule', ['trackingModule', 'clientConfigModule', 'Dat
                     ]).then(function (results) {
                         parseVocabularyPerformance(results[0], results[1].data);
                     });
-
-
                 })($scope.vocabularyAll[$scope.vocabularyAll.length - 1]);
             });
         }

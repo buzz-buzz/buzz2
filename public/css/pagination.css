@@ -1,0 +1,29 @@
+.ui.right.floated.menu {
+    float: right;
+    margin: 0 0 0 0.5rem;
+}
+
+.ui.pagination .menu {
+    display: inline-flex;
+    vertical-align: middle;
+}
+
+.ui.pagination .menu .item {
+    min-width: 3em;
+    text-align: center;
+}
+
+.ui.menu .item {
+    position: relative;
+    vertical-align: middle;
+    line-height: 1;
+    text-decoration: none;
+    flex: 0 0 auto;
+    padding: 0.92857143em 1.14285714em;
+}
+
+.ui.menu .active.item {
+    background-color: #5f5f63;
+    color: #f7b52a !important;
+    font-weight: bold;
+}

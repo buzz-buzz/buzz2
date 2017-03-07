@@ -1,7 +1,8 @@
 extends ../my/layout
 
 block head
-    link(rel='stylesheet', href='/public/css/vocabulary.min.css')
+    + css('/public/css/vocabulary.min.css')
+    + css('/public/css/pagination.min.css')
     style.
         .table-cell {
             display: flex;
@@ -272,6 +273,7 @@ block content
                 .table-column.part9
                     .mark(ng-repeat="word in weeklylist.words track by $index",ng-show="radioBoxType===RADIO_TYPE.NONE||word.status === radioBoxType")
                         i.icon-question(ng-show="word.status === RADIO_TYPE.NOTTEST")
+        br
         include ../../node_modules/angular-service/views/pagination.pug
         + pagination('vocabularyData')
         .popup-mask(style="position:fixed;height:100%;width:100%;background-color:rgba(0,0,0,0.4);top:0;left:0",ng-show="printMode")
