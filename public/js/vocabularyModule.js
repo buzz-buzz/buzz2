@@ -90,9 +90,31 @@ angular.module('vocabularyModule', ['trackingModule', 'clientConfigModule', 'Dat
             });
         }
 
+        function sortByIndex(x, y) {
+            var diff = x.index - y.index;
+
+            if (diff > 0) return 1;
+            if (diff < 0) return -1;
+            return 0;
+        }
+
+        var newWordsCache = {};
+
+        function getNewWords(path) {
+            if (newWordsCache[path]) {
+                return $q.resolve(newWordsCache[path]);
+            }
+
+            return $http.get(path).then(function (res) {
+                newWordsCache[path] = res.data;
+
+                return newWordsCache[path]
+            });
+        }
+
         function mapToDisplayData(result) {
             $scope.vocabularyAll = [];
-            result.data.map(function (course) {
+            result.map(function (course) {
                 var date = new Date(course.date);
 
                 $scope.vocabularyAll.push({
@@ -104,26 +126,20 @@ angular.module('vocabularyModule', ['trackingModule', 'clientConfigModule', 'Dat
 
                 (function (v) {
                     $q.all([
-                        $http.get(course.new_words_path).then(function (result) {
-                            for (var word in result.data.dictionary) {
+                        getNewWords(course.new_words_path).then(function (res) {
+                            for (var word in res.dictionary) {
                                 v.words.push({
                                     name: word,
-                                    index: result.data.dictionary[word].id,
-                                    ipc: result.data.dictionary[word].ipc,
-                                    explaination: result.data.dictionary[word].explanation,
-                                    soundURL: result.data.dictionary[word].ipa,
-                                    url: result.data.dictionary[word].url,
-                                    exercise: result.data.dictionary[word].exercise
+                                    index: res.dictionary[word].id,
+                                    ipc: res.dictionary[word].ipc,
+                                    explaination: res.dictionary[word].explanation,
+                                    soundURL: res.dictionary[word].ipa,
+                                    url: res.dictionary[word].url,
+                                    exercise: res.dictionary[word].exercise
                                 });
                             }
 
-                            v.words.sort(function (x, y) {
-                                var diff = x.index - y.index;
-
-                                if (diff > 0) return 1;
-                                if (diff < 0) return -1;
-                                return 0;
-                            });
+                            v.words.sort(sortByIndex);
 
                             return v.words;
                         }),
@@ -132,27 +148,16 @@ angular.module('vocabularyModule', ['trackingModule', 'clientConfigModule', 'Dat
                             lesson_id: course.lesson_id,
                         })
                     ]).then(function (results) {
-                        parseVocabularyPerformance(results[0], results[1].data);
+                        parseVocabularyPerformance(results[0], results[1]);
                     });
-
-
                 })($scope.vocabularyAll[$scope.vocabularyAll.length - 1]);
             });
-
-            console.log($scope.vocabularyData);
         }
 
-        $scope.vocabularyData = new paginationData(clientConfig.serviceUrls.buzz.courses.findByLevel.frontEnd.replace(':level', queryParser.get('level') || 'B'));
-        $scope.vocabularyData.getNextPage({
+        $scope.vocabularyData = new paginationData(clientConfig.serviceUrls.buzz.courses.findByLevel.frontEnd.replace(':level', queryParser.get('level') || 'B'), {
             pageSize: 7
-        }).then(mapToDisplayData);
-
-        // $http.get(clientConfig.serviceUrls.buzz.courses.findByLevel.frontEnd.replace(':level', queryParser.get('level') || 'B'), {
-        //     params: {
-        //         pageIndex: 0,
-        //         pageSize: 7
-        //     }
-        // })
-        //     .then(mapToDisplayData)
-        // ;
+        }, {
+            dataGotCallback: mapToDisplayData
+        });
+        $scope.vocabularyData.getNextPage();
     }]);
