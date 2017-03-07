@@ -148,7 +148,7 @@ angular.module('vocabularyModule', ['trackingModule', 'clientConfigModule', 'Dat
                             lesson_id: course.lesson_id,
                         })
                     ]).then(function (results) {
-                        parseVocabularyPerformance(results[0], results[1].data);
+                        parseVocabularyPerformance(results[0], results[1]);
                     });
                 })($scope.vocabularyAll[$scope.vocabularyAll.length - 1]);
             });
