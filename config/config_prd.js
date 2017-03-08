@@ -1,5 +1,5 @@
 module.exports = {
-    cdn: '',
+    cdn: 'http://blob.buzzbuzzenglish.com',
 
     sso: {
         inner: {
