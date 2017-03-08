@@ -12,11 +12,11 @@ module.exports = {
 
     captcha: {
         public: {
-            "host": "uat.bridgeplus.cn",
+            "host": "uat.service.hcd.com",
             "port": "10001"
         },
         inner: {
-            "host": "uat.bridgeplus.cn",
+            "host": "uat.service.hcd.com",
             "port": "10001"
         }
     },
