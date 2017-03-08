@@ -1,6 +1,8 @@
 module.exports = {
     cdn: '',
 
+    date: '{{now}}',
+
     sso: {
         inner: {
             "host": "service.bridgeplus.cn",
