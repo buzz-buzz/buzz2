@@ -10,6 +10,11 @@
     height: 40px;
 }
 
+.clear.float {
+    clear: both;
+    float: none;
+}
+
 .header .right.floated.menu > li {
     height: 40px;
     line-height: 40px;
