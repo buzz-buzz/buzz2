@@ -25,32 +25,9 @@ angular.module('buzzHistoryModule', ['angularQueryParserModule', 'servicesModule
             return 0;
         }
 
-        // $http
-        //     .get(url.replace(':category', $scope.category).replace(':level', level).replace(':enabled', 'true'))
-        //     .then(function (result) {
-        //         if (typeof result.data.length !== 'undefined') {
-        //             result = result.data;
-        //         } else {
-        //             result = result.data.data;
-        //         }
-        //
-        //         $scope.courseList = result.sort(sortByDate);
-        //
-        //         $scope.courseList.map(function (c) {
-        //             $http.get(c.video_path).then(function (result) {
-        //                 c.title = result.data.title;
-        //                 c.baseNumber = result.data.baseNumber || 100;
-        //
-        //                 return $http.get(clientConfig.serviceUrls.buzz.courseViews.frontEnd.replace(':category', c.category).replace(':level', c.level).replace(':lesson_id', c.lesson_id));
-        //             }).then(function (result) {
-        //                 c.baseNumber = parseInt(c.baseNumber) + (parseInt(result.data.hits) || 0);
-        //             });
-        //         });
-        //     });
-
         $scope.courseData = new httpPaginationData({
             sourceUrl: url.replace(':category', $scope.category).replace(':level', level).replace(':enabled', 'true'),
-            pageSize: 2,
+            pageSize: 7,
             dataField: 'rows',
             dataGotCallback: function (result) {
                 if (typeof result.length === 'undefined') {
