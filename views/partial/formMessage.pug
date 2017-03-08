@@ -1,2 +1,2 @@
 .error.message(ng-if="errorMessage", ng-cloak) {{errorMessage}}
-.success.message(ng-if="successMessage", ng-cloak) {{successMessage}}
+.success.message(ng-if="successMessage || message", ng-cloak) {{successMessage || message}}

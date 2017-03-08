@@ -14,6 +14,10 @@ module.exports = {
             changePassword: {
                 frontEnd: '/service-proxy/sso/password/change',
                 upstream: '/profile/changepassword'
+            },
+
+            changeMobile: {
+                frontEnd: '/service-proxy/sso/mobile'
             }
         },
         signIn: {

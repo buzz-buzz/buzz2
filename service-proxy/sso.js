@@ -74,7 +74,28 @@ function * bindWechatAccount(token, member_id) {
         console.log(bindResult);
     }
 }
+
 module.exports = function (app, router, parse) {
+    function *updateProfile(next) {
+        let data = this.upstreamData;
+
+        if (!data) {
+            data = (yield parse(this.request));
+        }
+
+        if (!data.member_id) {
+            data.member_id = this.state.hcd_user.member_id;
+        }
+
+        this.body = yield proxy.call(this, {
+            host: config.sso.inner.host,
+            port: config.sso.inner.port,
+            path: serviceUrls.sso.profile.update.upstream,
+            method: 'POST',
+            data: data
+        });
+    }
+
     function *parseData(next) {
         this.upstreamData = yield parse(this.request);
 
@@ -150,20 +171,8 @@ module.exports = function (app, router, parse) {
                 data: data
             });
         })
-        .post(serviceUrls.sso.profile.update.frontEnd, membership.ensureAuthenticated, function *(next) {
-            let data = yield parse(this.request);
-            if (!data.member_id) {
-                data.member_id = this.state.hcd_user.member_id;
-            }
-
-            this.body = yield proxy.call(this, {
-                host: config.sso.inner.host,
-                port: config.sso.inner.port,
-                path: serviceUrls.sso.profile.update.upstream,
-                method: 'POST',
-                data: data
-            });
-        })
+        .post(serviceUrls.sso.profile.update.frontEnd, membership.ensureAuthenticated, updateProfile)
+        .post(serviceUrls.sso.profile.changeMobile.frontEnd, parseData, membership.ensureAuthenticated, validateSms, updateProfile)
         .post(serviceUrls.sso.profile.changePassword.frontEnd, membership.ensureAuthenticated, function *() {
             let data = yield parse(this.request);
             data.member_id = this.state.hcd_user.member_id;

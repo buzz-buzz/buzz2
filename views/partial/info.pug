@@ -19,8 +19,4 @@ mixin infoForm
                 span 年级
                 select(ng-model="infoData.grade", placeholder="请选择你所在的年级", ng-required="true")
                     option(ng-repeat="grade in grades", value="{{grade.key}}") {{grade.name}}
-                //ui-select(ng-model="infoData.grade", title="请选择你所在的年级", ng-required="true", theme="bootstrap")
-                    ui-select-match(placeholder="请选择你所在的年级") {{$select.selected.name}}
-                    ui-select-choices(repeat="grade in grades | filter: $select.search")
-                        span(ng-bind="grade.name | highlight: $select.search")
         block

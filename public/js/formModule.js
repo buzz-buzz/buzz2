@@ -108,7 +108,7 @@ angular.module('formModule', ['clientConfigModule', 'servicesModule', 'errorPars
                     })
                         .then(function (result) {
                             $scope.verificationButtonClicked = true;
-                            $rootScope.message = '短信验证码已发送,请注意查收';
+                            $scope.successMessage = $rootScope.message = '短信验证码已发送,请注意查收';
 
                             pollUpdateButtonText(function () {
                                 $scope.refreshCaptcha(function () {
@@ -116,13 +116,14 @@ angular.module('formModule', ['clientConfigModule', 'servicesModule', 'errorPars
                                 });
                             });
 
-                            $rootScope.errorMessage = null;
+                            $scope.errorMessage = $rootScope.errorMessage = null;
                             tracking.send('sign-up.identifyPhone.done');
                         })
                         .then(null, function (reason) {
                             $scope.refreshCaptcha();
                             $scope.signUpData.captcha = '';
                             $scope.errorMessage = serviceErrorParser.getErrorMessage(reason);
+                            $scope.message = null;
                             tracking.send('sign-up.identifyPhone.error');
                         })
                     ;

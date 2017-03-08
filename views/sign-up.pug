@@ -22,25 +22,6 @@ block head
             color: black;
             font-size: medium;
         }
-
-        .verification {
-            position: absolute;
-            left: 100%;
-            margin-left: 10px;
-            top: 0;
-            white-space: nowrap;
-        }
-
-        .captcha {
-            height: 100%;
-            position: absolute;
-            width: auto;
-            min-width: 100px;
-            left: 100%;
-            margin-left: 10px;
-            top: 0;
-            cursor: pointer;
-        }
 block js
     script(src="/node_modules/ui-select/dist/select.min.js")
     script(src="/js/educationModule.min.js")
@@ -55,22 +36,8 @@ block content
                 li(ng-class="{'active': step == 2}") 信息填写
         .one.wide.column
         .column(ng-cloak)
-            form.sign-up-form.text-label(name="signUpForm", ng-submit="signUp()", ng-if="step == 1", ng-controller="signUpCtrl")
-                .error.message(ng-if="errorMessage") {{errorMessage}}
-                .fluid.field
-                    label
-                        span 手机号码
-                        input(type="phone", placeholder="请输入您的手机号码", ng-model="signUpData.mobile", ng-required="true", maxlength="11", minlength="11")
-                .fluid.field(style="position: relative;")
-                    label
-                        span 图形验证码
-                        input(type="text", placeholder="请输入右侧图形验证码", ng-model="signUpData.captcha", ng-required="true", maxlength="4", minlength="4")
-                    div.captcha(ng-model="signUpData.captchaId", captcha)
-                .fluid.field(style="position: relative;")
-                    label
-                        span 短信验证码
-                        input(type="text", placeholder="请输入您收到的短信验证码", ng-model="signUpData.verificationCode", ng-required="true", maxlength="6", minlength="6")
-                    resend-verification
+            include partial/mobile-form
+            + mobileForm
                 .fluid.field
                     label
                         span 设置密码

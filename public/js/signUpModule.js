@@ -52,6 +52,7 @@ angular.module('signUpModule', ['angularQueryParserModule', 'clientConfigModule'
                 })
                 .catch(function (reason) {
                     $scope.errorMessage = serviceErrorParser.getErrorMessage(reason);
+                    $scope.successMessage = $scope.message = null;
                     tracking.send('sign-up.register.error', reason);
                 });
         };
@@ -74,8 +75,6 @@ angular.module('signUpModule', ['angularQueryParserModule', 'clientConfigModule'
                 grade: '' + $scope.infoData.grade
             })])
                 .then(function (result) {
-                    console.log(result);
-
                     tracking.send('sign-up.step2.saveInfo.done', result);
                     location.href = '/';
                 })

@@ -5,8 +5,10 @@ mixin pair(key, value)
         div.pair
             span.key #{key}
             span.value #{value}
+            block
 
 block js
+    +js("/js/formModule.min.js")
     +js("/js/accountModule.min.js")
     +js("/js/educationModule.min.js")
 
@@ -58,13 +60,15 @@ block content
                             span(style="padding-left: 4em; padding-right: 4em; background-color: white; display: inline-block;") 我的信息
                             hr(style="margin-top: -0.7em; height: 1px; border: none; border-top: solid 1px #f7b52a; display: block;")
                         div.clear
-                            button.linear.button.right.floated(ng-click="showModal()") 编辑
+                            button.linear.button.right.floated(ng-click="showModal('')") 编辑
                         br
                         .left.aligned.container
                             + pair('姓名', '{{$root.profile.real_name}}')
                             + pair('性别', '{{displayGender}}')
                             + pair('年级', '{{info.displayGrade}}')
                             + pair('绑定手机', '{{$root.profile.mobile}}')
+                                div
+                                    button.linear.button(type="button", ng-click="showModal('#mobile')") 修改
                             + pair('喜欢主题', '{{info.topics[0]}}')
                             + pair('难度版本', '{{info.level}}')
         #my-info.mask(ng-controller="infoFormParentCtrl", ng-class="{'hide': hideModal, 'show': showModal}", ng-click="hideTheModal()")
@@ -80,10 +84,6 @@ block content
                                     span 喜欢的主题
                                     select(ng-model="infoData.topics", placeholder="请选择你喜欢的主题", ng-required="false")
                                         option(ng-repeat="topic in topics", value="{{topic.key}}") {{topic.name}}
-                            //.fluid.field
-                                label
-                                    span 绑定手机号
-                                    input(type="text", placeholder="请输入手机号", ng-model="infoData.name", ng-required="true")
                             .fluid.field
                                 label(style="border: none;")
                                     span 选择难度版本
@@ -97,3 +97,14 @@ block content
                                 br
                             .field
                                 button.fluid.yellow.button(type="submit", ng-disabled="!infoForm.$valid") 保存我的信息
+
+        #mobile.mask(ng-controller="mobileModalCtrl", ng-class="{'hide': hideModal, 'show': showModal}", ng-click="hideTheModal()")
+            .popup(ng-click="keepModal($event)")
+                .title
+                    h3 修改手机号码
+                .body(ng-controller="changeMobileCtrl")
+                    .center.aligned.container(ng-cloak, style="padding-right: 120px; padding-left: 120px;")
+                        include ../partial/mobile-form
+                        + mobileForm
+                            .field
+                                button.fluid.yellow.button(type="submit", ng-disabled="!signUpForm.$valid") 确定
