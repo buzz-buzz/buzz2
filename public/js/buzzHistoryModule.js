@@ -28,7 +28,7 @@ angular.module('buzzHistoryModule', ['angularQueryParserModule', 'servicesModule
         $scope.courseData = new httpPaginationData({
             sourceUrl: url.replace(':category', $scope.category).replace(':level', level).replace(':enabled', 'true'),
             pageSize: 7,
-            dataField: 'rows',
+            dataField: !$scope.category ? 'data' : 'rows',
             dataGotCallback: function (result) {
                 if (typeof result.length === 'undefined') {
                     result = result.data;
