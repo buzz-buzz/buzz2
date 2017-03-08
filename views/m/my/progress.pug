@@ -4,7 +4,7 @@ html
     meta(http-equiv="X-UA-Compatible", content="IE=edge, chrome=1")
     meta(name="viewport", content="width=375, user-scalable=no")
     title='Buzzbuzz English'
-    link(href="/public/css/style.min.css?2017-03-03", rel="stylesheet")
+    link(href=`${config.cdn}/public/css/style.min.css?2017-03-03?${config.version}`, rel="stylesheet")
 body
     style.
         .init {
@@ -383,15 +383,15 @@ body
                     .text.content.font.black.bold 20
                 .pic.column
                     .img
-                        img(ng-src="{{profile.avatar || '/public/images/default_avatar.png'}}")
+                        img(ng-src=`{{profile.avatar || '${config.cdn}/public/images/default_avatar.png?${config.version}'}}`)
                     .text(ng-bind="profile.real_name")
                 .account.column
                     .text.head.font.black
-                        img(ng-src="/public/images/points.png")
+                        img(ng-src=`${config.cdn}/public/images/points.png?${config.version}`)
                     .text.content.font.black.bold 200
                 .account.column
                     .text.head.font.black
-                        img(ng-src="/public/images/medal.png")
+                        img(ng-src=`${config.cdn}/public/images/medal.png?${config.version}`)
                     .text.content.font.black.bold 5
         .row
             .box.process-head 练习打卡日历
@@ -402,22 +402,19 @@ body
                     span.font.grey 你来到BUZZ BUZZ已有：
                     span.font.black 20 Days
                 .calander.right(ng-click="expandContent(true)")
-                    img.valign-middle(src="/public/images/calander.png")
+                    img.valign-middle(src=`${config.cdn}/public/images/calander.png?${config.version}`)
             .box.process-content(ng-if="expanded")
                 .expand-calander.row
                     .expand-calander.left.font.orange {{current | date: 'MMM, yyyy'}}
                     .expand-calander.right(ng-click="expandContent(false)")
-                        img.valign-middle(style="width:1.86em",src="/public/images/calander_off.png")
+                        img.valign-middle(style="width:1.86em",src=`${config.cdn}/public/images/calander_off.png?${config.version}`)
                 .expand-calander.row.blank
                 .expand-calander.row.blank
                 .expand-calander.row(style="color: #999999;")
-                    .expand-calander.unit.column 日
-                    .expand-calander.unit.column 一
-                    .expand-calander.unit.column 二
-                    .expand-calander.unit.column 三
-                    .expand-calander.unit.column 四
-                    .expand-calander.unit.column 五
-                    .expand-calander.unit.column 六
+                    -
+                        var list = ["日", "一", "二", "三", "四", "五", "六"]
+                    each item in list
+                        .expand-calander.unit.column= item
                 .expand-calander.row.blank
                 .expand-calander.row(ng-repeat="week in extendedweekdays")
                     .expand-calander.unit.column(ng-repeat="day in week", ng-class="{'invalid': !day.iscurrentmonth,'now': day.istoday,'signed': day.goodness!==''}") {{day.date.getDate()}}
@@ -433,14 +430,8 @@ body
                 .learn.left
                     .title 练习全对
                     .content
-                        img(src="/public/images/correct.png")
-                        img(src="/public/images/correct.png")
-                        img(src="/public/images/correct.png")
-                        img(src="/public/images/correct.png")
-                        img(src="/public/images/correct.png")
-                        img(src="/public/images/correct.png")
-                        img(src="/public/images/correct.png")
-                        img(src="/public/images/correct.png")
+                        - for (var x = 0; x < 8; x++)
+                            img(src=`${config.cdn}/public/images/correct.png?${config.version}`)
                 .learn.middle
                     .title 练习有错
                     .content
@@ -462,7 +453,7 @@ body
                         span.font.black 1200个
                         span.font.grey 单词
                     .chart.right(ng-click="expandContent(true)")
-                        img.valign-middle(src="/public/images/chart.png")
+                        img.valign-middle(src=`${config.cdn}/public/images/chart.png?${config.version}`)
                 .box.process-content(ng-if="expanded")
                     .expand-chart.row
                         .expand-chart.left.font.orange 
@@ -470,48 +461,33 @@ body
                             span.font.black 1200
                             span.font.grey 个单词
                         .expand-chart.right(ng-click="expandContent(false)")
-                            img.valign-middle(style="width:1.6em",src="/public/images/chart_off.png")
+                            img.valign-middle(style="width:1.6em",src=`${config.cdn}/public/images/chart_off.png?${config.version}`)
                     .expand-chart.row
                         .expand-chart.small.left.font.orange
-                            img(style="vertical-align:middle;width:1.5rem",src="/public/images/mini_bar.png")
+                            img(style="vertical-align:middle;width:1.5rem",src=`${config.cdn}/public/images/mini_bar.png?${config.version}`)
                             span.font.grey 你累计学习单词词量：个/周
                         .expand-chart.small.right
-                            img(style="vertical-align:middle;width:1.5rem",src="/public/images/mini_chart.png")
+                            img(style="vertical-align:middle;width:1.5rem",src=`${config.cdn}/public/images/mini_chart.png?${config.version}`)
                             span.font.grey 系统整体排名：名/周
                     .expand-chart.row
                         .chart-main(style="height: 13rem;")
                             .chart-element.column(style="left: 1.5rem;height: 11rem;")
                             .chart-element.row(style="top: 11rem;left: 1.5rem;width: 18rem;")
                             .chart-element.column(style="left: 19.5rem;height: 11rem;")
-                            .chart-element.row-text.left(style="top: 0.7rem") 200
-                            .chart-element.row-text.left(style="top: 3.2rem;") 150
-                            .chart-element.row-text.left(style="top: 5.7rem;") 100
-                            .chart-element.row-text.left(style="top: 8.2rem;") 50
-                            .chart-element.row-text.left(style="top: 10.7rem;") 0
-                            .chart-element.row-text.right(style="top: 0.7rem") 100%
-                            .chart-element.row-text.right(style="top: 3.2rem;") 75%
-                            .chart-element.row-text.right(style="top: 5.7rem;") 50%
-                            .chart-element.row-text.right(style="top: 8.2rem;") 25%
-                            .chart-element.row-text.right(style="top: 10.7rem;") 0%
-                            .chart-element.row(style="top: 1rem;left:1.5rem;width:0.5rem;")
-                            .chart-element.row(style="top: 3.5rem;left:1.5rem;width:0.5rem;")
-                            .chart-element.row(style="top: 6rem;left:1.5rem;width:0.5rem;")
-                            .chart-element.row(style="top: 8.5rem;left:1.5rem;width:0.5rem;")
-                            .chart-element.row(style="top: 11rem;left:1.5rem;width:0.5rem;")
-                            .chart-element.row(style="top: 1rem;left:19rem;width:0.5rem;")
-                            .chart-element.row(style="top: 3.5rem;left:19rem;width:0.5rem;")
-                            .chart-element.row(style="top: 6rem;left:19rem;width:0.5rem;")
-                            .chart-element.row(style="top: 8.5rem;left:19rem;width:0.5rem;")
-                            .chart-element.row(style="top: 11rem;left:19rem;width:0.5rem;")
-                            .chart-element.column-text(style="top: 11.5rem;left:2.5rem") 第一周
-                            .chart-element.column-text(style="top: 11.5rem;left:6.1rem") 第二周
-                            .chart-element.column-text(style="top: 11.5rem;left:9.7rem") 第三周
-                            .chart-element.column-text(style="top: 11.5rem;left:13.3rem") 第四周
-                            .chart-element.column-text(style="top: 11.5rem;left:16.9rem") 第五周
-                            .chart-element.column(style="top: 10.5rem;left:5.1rem;height:0.5rem;")
-                            .chart-element.column(style="top: 10.5rem;left:8.7rem;height:0.5rem;")
-                            .chart-element.column(style="top: 10.5rem;left:12.3rem;height:0.5rem;")
-                            .chart-element.column(style="top: 10.5rem;left:15.9rem;height:0.5rem;")
+                            - for (var x = 0; x < 5; x++)
+                                .chart-element.row-text.left(style=`top: ${0.7 + x*2.5}rem`)= 200-50*x
+                            - for (var x = 0; x < 5; x++)
+                                .chart-element.row-text.right(style=`top: ${0.7 + x*2.5}rem`)= 100-25*x+'%'
+                            - for (var x = 0; x < 5; x++)
+                                .chart-element.row(style=`top: ${1 + x*2.5}rem;left:1.5rem;width:0.5rem;`)
+                            - for (var x = 0; x < 5; x++)
+                                .chart-element.row(style=`top: ${1 + x*2.5}rem;left:19rem;width:0.5rem;`)
+                            -
+                                var list = ["第一周", "第二周", "第三周", "第四周", "第五周"]
+                            each item, index in list
+                                .chart-element.column-text(style=`top: 11.5rem;left:${2.5 + 3.6*index}rem`)= item
+                            - for (var x = 0; x < 4; x++)
+                                .chart-element.column(style=`top: 10.5rem;left:${5.1+3.6*x}rem;height:0.5rem;`)
                             .chart-box(ng-repeat="chartdata in m_linedata", ng-class="chartdata.shapeClass", style="left:{{3.6+$index*3.6}}rem;top:{{(100-chartdata.point)/10+1}}rem;height:{{chartdata.height/10}}rem")
                                 .part.left
                                     .shape
@@ -525,13 +501,13 @@ body
         .row.blank
     include ../tail.pug
     include ../../js
-    script(src="/node_modules/chart.js/dist/Chart.js?2017-03-03")
-    script(src="/node_modules/angular-chart.js/dist/angular-chart.min.js?2017-03-03")
-    script(src="/js/quizModule.min.js?2017-03-03")
-    script(src="/js/DateModule.min.js?2017-03-03")
-    script(src="/node_modules/moment/min/moment.min.js?2017-03-03")
-    script(src="/js/buzzProgressModule.min.js?2017-03-06")
-    script(src="/js/buzzHeaderModule.min.js?2017-03-03")
+    script(src=`${config.cdn}/node_modules/chart.js/dist/Chart.js?${config.version}`)
+    script(src=`${config.cdn}/node_modules/angular-chart.js/dist/angular-chart.min.js?${config.version}`)
+    script(src=`${config.cdn}/js/quizModule.min.js?${config.version}`)
+    script(src=`${config.cdn}/js/DateModule.min.js?${config.version}`)
+    script(src=`${config.cdn}/node_modules/moment/min/moment.min.js?${config.version}`)
+    script(src=`${config.cdn}/js/buzzProgressModule.min.js?${config.version}`)
+    script(src=`${config.cdn}/js/buzzHeaderModule.min.js?${config.version}`)
     script.
         angular.bootstrap(document.getElementById("profile"), ['buzzHeaderModule']);
         Array.from(document.getElementsByClassName("init")).forEach(function(ele){

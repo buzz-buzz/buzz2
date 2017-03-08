@@ -1,8 +1,6 @@
 module.exports = {
     cdn: 'http://blob.buzzbuzzenglish.com',
 
-    data: "",
-
     sso: {
         inner: {
             "host": "uat.service.hcd.com",

@@ -2,7 +2,6 @@
 
 let gulp = require('gulp');
 let runSequence = require('run-sequence');
-let sh = require("shelljs");
 let uglify = require('gulp-uglify');
 let uglifyCss = require('gulp-minify-css');
 let rename = require('gulp-rename');
@@ -27,11 +26,6 @@ gulp.task('uglify-css', function (done) {
         ;
 });
 
-gulp.task('version-control', function(done) {
-    sh.sed("-i", '{{now}}', (new Date()).valueOf(), 'config/config_prd.js');
-    done();
-});
-
 gulp.task('default', ['uglify-js', 'uglify-css']);
 
-gulp.task('release', ['uglify-js', 'uglify-css', "version-control"]);
+gulp.task('release', ['uglify-js', 'uglify-css']);

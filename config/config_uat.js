@@ -1,8 +1,6 @@
 module.exports = {
     cdn: '//10.20.32.51:16000',
 
-    date: '',
-
     sso: {
         inner: {
             "host": "uat.service.hcd.com",
