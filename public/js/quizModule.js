@@ -26,7 +26,6 @@ angular.module('quizModule', ['clientConfigModule'])
                     params: data
                 }).then(function (res) {
                     perfCache[data.lesson_id] = res.data;
-
                     return res.data;
                 });
             },

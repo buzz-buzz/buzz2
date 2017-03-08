@@ -45,7 +45,7 @@ module.exports = function (app, router, parse) {
             this.body = yield proxy.call(this, {
                 host: config.buzz.inner.host,
                 port: config.buzz.inner.port,
-                path: serviceUrls.buzz.courses.find.upstream.replace(':category', category).replace(':level', level).replace(':enabled', enabled),
+                path: serviceUrls.buzz.courses.find.upstream.replace(':category', category).replace(':level', level).replace(':enabled', enabled) + '?' + qs.stringify(this.query),
                 method: 'GET'
             });
         })

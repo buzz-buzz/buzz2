@@ -1,5 +1,5 @@
 angular.module('buzzHistoryModule', ['angularQueryParserModule', 'servicesModule', 'clientConfigModule'])
-    .controller('historyCtrl', ['$scope', '$http', 'queryParser', 'service', 'clientConfig', function ($scope, $http, queryParser, service, clientConfig) {
+    .controller('historyCtrl', ['$scope', '$http', 'queryParser', 'service', 'clientConfig', 'httpPaginationData', function ($scope, $http, queryParser, service, clientConfig, httpPaginationData) {
         var query = queryParser.parse();
         var level = query.level || 'B';
 
@@ -13,25 +13,28 @@ angular.module('buzzHistoryModule', ['angularQueryParserModule', 'servicesModule
             url = clientConfig.serviceUrls.buzz.courses.findByLevel.frontEnd;
         }
 
-        $http.get(url.replace(':category', $scope.category).replace(':level', level).replace(':enabled', 'true'))
-            .then(function (result) {
-                if (typeof result.data.length !== 'undefined') {
+        function sortByDate(a, b) {
+            if (a.date > b.date) {
+                return -1;
+            }
+
+            if (a.date < b.date) {
+                return 1;
+            }
+
+            return 0;
+        }
+
+        $scope.courseData = new httpPaginationData({
+            sourceUrl: url.replace(':category', $scope.category).replace(':level', level).replace(':enabled', 'true'),
+            pageSize: 7,
+            dataField: !$scope.category ? 'data' : 'rows',
+            dataGotCallback: function (result) {
+                if (typeof result.length === 'undefined') {
                     result = result.data;
-                } else {
-                    result = result.data.data;
                 }
 
-                $scope.courseList = result.sort(function (a, b) {
-                    if (a.date > b.date) {
-                        return -1;
-                    }
-
-                    if (a.date < b.date) {
-                        return 1;
-                    }
-
-                    return 0;
-                });
+                $scope.courseList = result.sort(sortByDate);
 
                 $scope.courseList.map(function (c) {
                     $http.get(c.video_path).then(function (result) {
@@ -43,7 +46,10 @@ angular.module('buzzHistoryModule', ['angularQueryParserModule', 'servicesModule
                         c.baseNumber = parseInt(c.baseNumber) + (parseInt(result.data.hits) || 0);
                     });
                 });
-            });
+            }
+        });
+
+        $scope.courseData.getNextPage();
 
         $scope.aLikeClick = function (href) {
             window.location.href = href;

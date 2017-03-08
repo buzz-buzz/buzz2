@@ -5,6 +5,7 @@ block js
     + js("/js/level-ctrl.min.js")
 
 block head
+    + css('/public/css/pagination.min.css')
     style.
         body {
             background: url('http://source.bridgeplus.cn/buzz/skin2.png') repeat-x 0 0;
@@ -67,32 +68,36 @@ block extraMenus
     include partials/level-switcher
 
 block content
-    full.height.container(ng-app="buzzHistoryModule", style="white-space: nowrap;")
-        .page.with-header.section.transparent(style="overflow:visible;height:auto;min-height:100%;")
-            .center.aligned.container.column.flex-box.white.background(style="padding-left: 50px; padding-right: 50px;",ng-controller="historyCtrl")
-                br
-                .container.left.aligned.categories(ng-controller="courseCategoryCtrl")
-                    span(style="float: left; margin-right: 15px; margin-bottom: 10px;", ng-class="{'active': !currentCategory}")
-                        span.icon-price-tags(style="color: #ccc;")
-                        | &nbsp;
-                        a(ng-href="?") [All]
-                    span(ng-repeat="c in categories", style="float: left; margin-right: 15px; margin-bottom: 10px;", ng-class="{'active': currentCategory === c.category}")
-                        span.icon-price-tag(style="color: #ccc;")
-                        | &nbsp;
-                        a.tag(ng-href="?category={{c.category}}") {{c.category}}
-                .container(style="height:200px;margin-top:2em;margin-bottom:2em;",ng-repeat="lesson in courseList track by $index")
-                    .left.clickable(style="display:inline-block;vertical-align:top;height:200px;",ng-click='aLikeClick("/my/play?date="+lesson.date+"&cat="+ lesson.category.toLowerCase()+"&level="+lesson.level)')
-                        img(style="width:280px;height:200px",src="http://source.bridgeplus.cn/image/png/buzz-poster.png")
-                    .right(style="display:inline-block;vertical-align:top;height:100%;text-align:left;height:200px;padding:1.4em;position:relative;border:1px solid grey")
-                        .content
-                            a.title.clickable(style="color:#f7b52a;margin-bottom:0.4em;font-weight:bold;")(ng-click='aLikeClick("/my/play?date="+lesson.date+"&cat="+ lesson.category.toLowerCase()+"&level="+lesson.level)') {{lesson.title}}
-                            .time(style="font-size:12px;line-height:1.6em;margin-bottom:0.4em;") {{lesson.date}}
-                            .summery(style="min-width:418px;") {{lesson.description}}
-                        .tail(style="position:absolute;bottom:4px;width:435px;border-top: 1px dashed #bcbcbc;padding-top:1em;padding-bottom:1em;font-size:14px;")
-                            .likeit(style="display:inline-block;")
-                                i.icon-heart(style="color:red;margin-right:0.4em;")
-                                span(style="color:red;margin-right:0.4em;") {{lesson.baseNumber}}
-                                span 人参加了本节课程
-                            .reviewbtn.clickable(style="display:inline-block;position:absolute;right:0px;padding-top:0.4em;padding-bottom:0.4em;padding-left:0.8em;padding-right:0.8em;background-color:#f7b52a;color:white;font-size:14px;",ng-click='aLikeClick("/my/play?date="+lesson.date+"&cat="+ lesson.category.toLowerCase()+"&level="+lesson.level)')
-                                | 课程回顾
-                
+    #full-page.full.height.container(ng-app="buzzHistoryModule", style="white-space: nowrap;")
+        .page.with-header.section.transparent
+            .center.aligned.container.column.flex-box.white.background(style="padding-left: 50px; padding-right: 50px; overflow: auto;",ng-controller="historyCtrl")
+                .row.dynamic
+                    br
+                    .container.left.aligned.categories(ng-controller="courseCategoryCtrl")
+                        span(style="float: left; margin-right: 15px; margin-bottom: 10px;", ng-class="{'active': !currentCategory}")
+                            span.icon-price-tags(style="color: #ccc;")
+                            | &nbsp;
+                            a(ng-href="?") [All]
+                        span(ng-repeat="c in categories", style="float: left; margin-right: 15px; margin-bottom: 10px;", ng-class="{'active': currentCategory === c.category}")
+                            span.icon-price-tag(style="color: #ccc;")
+                            | &nbsp;
+                            a.tag(ng-href="?category={{c.category}}") {{c.category}}
+                        div.clear.float
+                    .container(style="height:200px;margin-top:2em;margin-bottom:2em;",ng-repeat="lesson in courseList track by $index")
+                        .left.clickable(style="display:inline-block;vertical-align:top;height:200px;",ng-click='aLikeClick("/my/play?date="+lesson.date+"&cat="+ lesson.category.toLowerCase()+"&level="+lesson.level)')
+                            img(style="width:280px;height:200px",src="http://source.bridgeplus.cn/image/png/buzz-poster.png")
+                        .right(style="display:inline-block;vertical-align:top;height:100%;text-align:left;height:200px;padding:1.4em;position:relative;border:1px solid grey")
+                            .content
+                                a.title.clickable(style="color:#f7b52a;margin-bottom:0.4em;font-weight:bold;")(ng-click='aLikeClick("/my/play?date="+lesson.date+"&cat="+ lesson.category.toLowerCase()+"&level="+lesson.level)') {{lesson.title}}
+                                .time(style="font-size:12px;line-height:1.6em;margin-bottom:0.4em;") {{lesson.date}}
+                                .summery(style="min-width:418px;") {{lesson.description}}
+                            .tail(style="position:absolute;bottom:4px;width:435px;border-top: 1px dashed #bcbcbc;padding-top:1em;padding-bottom:1em;font-size:14px;")
+                                .likeit(style="display:inline-block;")
+                                    i.icon-heart(style="color:red;margin-right:0.4em;")
+                                    span(style="color:red;margin-right:0.4em;") {{lesson.baseNumber}}
+                                    span 人参加了本节课程
+                                .reviewbtn.clickable(style="display:inline-block;position:absolute;right:0px;padding-top:0.4em;padding-bottom:0.4em;padding-left:0.8em;padding-right:0.8em;background-color:#f7b52a;color:white;font-size:14px;",ng-click='aLikeClick("/my/play?date="+lesson.date+"&cat="+ lesson.category.toLowerCase()+"&level="+lesson.level)')
+                                    | 课程回顾
+                    br
+                    include ../../node_modules/angular-service/views/pagination
+                    + pagination('courseData')
