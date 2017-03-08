@@ -1,4 +1,16 @@
-angular.module('accountModule', ['clientConfigModule', 'buzzHeaderModule', 'educationModule', 'servicesModule', 'errorParserModule'])
+angular.module('accountModule', ['clientConfigModule', 'buzzHeaderModule', 'educationModule', 'servicesModule', 'errorParserModule', 'formModule'])
+    .config(['$translateProvider', function ($translateProvider) {
+        $translateProvider.useSanitizeValueStrategy(null);
+        $translateProvider.translations('en', {}).translations('zh', {
+            'missing validation code': '图形验证码不正确',
+            'validate not pass': '图形验证码未通过，请重新输入',
+            "Password can't be empty": '密码不能为空',
+            'Identity already existed': '该手机号已注册',
+            'sms validate error': '短信验证码不正确',
+            'Invalid mobile': '手机号码不正确或者暂未被支持'
+        });
+        $translateProvider.preferredLanguage('zh');
+    }])
     .controller('viewAccountCtrl', ['$http', 'clientConfig', '$rootScope', '$scope', 'GenderDisplay', 'GradeDisplay', 'LevelDisplay', function ($http, clientConfig, $rootScope, $scope, GenderDisplay, GradeDisplay, LevelDisplay) {
         $rootScope.$watch('profile', function (newValue, oldValue) {
             if (newValue) {
@@ -16,44 +28,74 @@ angular.module('accountModule', ['clientConfigModule', 'buzzHeaderModule', 'educ
                 };
             });
 
-        $scope.showModal = function () {
-            $rootScope.$emit('modal:show');
+        $scope.showModal = function (id) {
+            $rootScope.$emit('modal:show' + id);
         };
 
         $rootScope.$on('info:updated', function (event, data) {
-            $scope.info.grade = data.grade;
-            $scope.info.displayGrade = GradeDisplay[data.grade];
-            $scope.displayGender = GenderDisplay[data.gender];
-            $rootScope.profile.real_name = data.name;
-            $scope.info.topics = [data.topics];
-            $scope.info.level = LevelDisplay[data.level];
+            if (data.grade) {
+                $scope.info.grade = data.grade;
+                $scope.info.displayGrade = GradeDisplay[data.grade];
+            }
+
+            if (data.gender) {
+                $scope.displayGender = GenderDisplay[data.gender];
+            }
+
+            if (data.name) {
+                $rootScope.profile.real_name = data.name;
+            }
+
+            if (data.topics) {
+                $scope.info.topics = [data.topics];
+            }
+
+            if (data.level) {
+                $scope.info.level = LevelDisplay[data.level];
+            }
+
+            if (data.mobile) {
+                $rootScope.profile.mobile = data.mobile;
+            }
         });
     }])
-    .controller('infoFormParentCtrl', ['$scope', '$rootScope', function ($scope, $rootScope) {
+    .controller('infoFormParentCtrl', ['$scope', '$rootScope', 'modalFactory', function ($scope, $rootScope, modalFactory) {
         $scope.step = 2;
-        $scope.showModal = false;
-        $scope.hideModal = false;
 
-        $scope.hideTheModal = function () {
-            $scope.hideModal = true;
-            $scope.showModal = false;
+        modalFactory.bootstrap($scope, $rootScope, '');
+    }])
+    .factory('modalFactory', [function () {
+        return {
+            bootstrap: function ($scope, $rootScope, modalId) {
+                console.log('bootstraped ', modalId);
+                $scope.showModal = false;
+                $scope.hideModal = false;
+
+                $scope.hideTheModal = function () {
+                    $scope.hideModal = true;
+                    $scope.showModal = false;
+                };
+
+                $scope.keepModal = function ($event) {
+                    $event.stopPropagation();
+                };
+
+                var destroy = $rootScope.$on('modal:show' + modalId, function () {
+                    $scope.hideModal = false;
+                    $scope.showModal = true;
+                });
+
+                var destroy2 = $rootScope.$on('modal:hide', $scope.hideTheModal);
+
+                $scope.$on('$destroy', function () {
+                    destroy();
+                    destroy2();
+                });
+            }
         };
-
-        $scope.keepModal = function ($event) {
-            $event.stopPropagation();
-        };
-
-        var destroy = $rootScope.$on('modal:show', function () {
-            $scope.hideModal = false;
-            $scope.showModal = true;
-        });
-
-        var destroy2 = $rootScope.$on('modal:hide', $scope.hideTheModal);
-
-        $scope.$on('$destroy', function () {
-            destroy();
-            destroy2();
-        });
+    }])
+    .controller('mobileModalCtrl', ['$scope', '$rootScope', 'modalFactory', function ($scope, $rootScope, modalFactory) {
+        modalFactory.bootstrap($scope, $rootScope, '#mobile');
     }])
     .controller('infoCtrl', ['$http', 'clientConfig', '$scope', '$rootScope', 'Grades', '$q', 'service', 'serviceErrorParser', '$timeout', function ($http, clientConfig, $scope, $rootScope, Grades, $q, service, serviceErrorParser, $timeout) {
         $scope.infoData = {};
@@ -113,6 +155,34 @@ angular.module('accountModule', ['clientConfigModule', 'buzzHeaderModule', 'educ
                 })
                 .catch(function (error) {
                     $scope.errorMessage = serviceErrorParser.getErrorMessage(error);
+                });
+        };
+    }])
+    .controller('changeMobileCtrl', ['$scope', function ($scope) {
+        $scope.step = 1;
+    }])
+    .controller('signUpCtrl', ['$scope', 'service', 'clientConfig', '$timeout', 'serviceErrorParser', function ($scope, service, clientConfig, $timeout, serviceErrorParser) {
+        $scope.signUpData = {
+            mobile: '',
+            verificationCode: '',
+            captchaId: '',
+            captcha: ''
+        };
+
+        $scope.signUp = function () {
+            service.post(clientConfig.serviceUrls.sso.profile.changeMobile.frontEnd, $scope.signUpData)
+                .then(function (res) {
+                    $scope.successMessage = '修改成功！';
+                    $scope.errorMessage = null;
+                    $scope.$emit('info:updated', $scope.signUpData);
+                    $timeout(function () {
+                        $scope.$emit('modal:hide');
+                        $scope.successMessage = '';
+                    }, 1000);
+                })
+                .catch(function (error) {
+                    $scope.errorMessage = serviceErrorParser.getErrorMessage(error);
+                    $scope.successMessage = null;
                 });
         };
     }])

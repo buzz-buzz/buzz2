@@ -14,7 +14,7 @@ module.exports = {
             "port": "10001"
         },
         inner: {
-            "host": "uat.bridgeplus.cn",
+            "host": "10.20.32.51",
             "port": "10001"
         }
     },
