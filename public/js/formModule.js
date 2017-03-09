@@ -123,7 +123,7 @@ angular.module('formModule', ['clientConfigModule', 'servicesModule', 'errorPars
                             $scope.refreshCaptcha();
                             $scope.signUpData.captcha = '';
                             $scope.errorMessage = serviceErrorParser.getErrorMessage(reason);
-                            $scope.message = null;
+                            $rootScope.successMessage = $rootScope.message = $scope.successMessage = $scope.message = null;
                             tracking.send('sign-up.identifyPhone.error');
                         })
                     ;

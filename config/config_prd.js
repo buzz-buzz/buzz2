@@ -1,5 +1,6 @@
 module.exports = {
     cdn: 'http://blob.buzzbuzzenglish.com',
+    date: '{{now}}',
 
     sso: {
         inner: {

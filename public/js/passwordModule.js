@@ -12,11 +12,13 @@ angular.module('passwordModule', ['clientConfigModule', 'buzzHeaderModule', 'ser
         $scope.changePassword = function () {
             if ($scope.data.currentPassword === $scope.data.password) {
                 $scope.errorMessage = '新密码不能与原密码相同！';
+                $scope.successMessage = null;
                 return false;
             }
 
             if (!($scope.data.password === $scope.data.password2)) {
                 $scope.errorMessage = '两次输入的新密码不一致！';
+                $scope.successMessage = null;
                 return false;
             }
 
@@ -25,9 +27,11 @@ angular.module('passwordModule', ['clientConfigModule', 'buzzHeaderModule', 'ser
                 newPassword: $scope.data.password
             }).then(function () {
                 $scope.successMessage = '密码修改成功！';
+                $scope.errorMessage = null;
             }).catch(function (reason) {
                 console.error(reason);
                 $scope.errorMessage = serviceErrorParser.getErrorMessage(reason);
+                $scope.successMessage = null;
             });
         };
     }])
