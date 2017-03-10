@@ -23,10 +23,10 @@ block head
             font-size: medium;
         }
 block js
-    script(src="/node_modules/ui-select/dist/select.min.js")
-    script(src="/js/educationModule.min.js")
-    script(src="/js/formModule.min.js")
-    script(src="/js/signUpModule.min.js")
+    + js("/node_modules/ui-select/dist/select.min.js")
+    + js("/js/educationModule.min.js")
+    + js("/js/formModule.min.js")
+    + js("/js/signUpModule.min.js")
 
 block content
     .top.aligned.grid(ng-app="signUpModule", ng-controller="signUpParentCtrl")

@@ -1,3 +1,4 @@
+include ../share/common
 doctype html
 html
     head
@@ -5,8 +6,8 @@ html
         meta(http-equiv='X-UA-Compatible', content='IE=edge, chrome=1')
         meta(name='viewport', content='width=device-width, initial-scale=1.0, maximum-scale=1.0')
         title Buzz Buzz English
-        link(rel='stylesheet', href='/public/css/player.min.css')
-        link(rel='stylesheet', href='/public/css/vocabulary-printable.min.css')
+        + css('/public/css/player.min.css')
+        + css('/public/css/vocabulary-printable.min.css')
     body.full.screen.container(ng-app="vocabularyPrintableModule",ng-controller="mainCtrl")
         .vocabulary-printable-container
             .vp-header
@@ -29,8 +30,8 @@ html
             .vp-body
                 .vp-word-check(ng-repeat="word in words track by $index",ng-class="{'last': $index % 2 !== 0}") {{word}}
     include ../js
-    script(src="/js/DateModule.min.js")
-    script(src="/js/vocabularyModule.min.js")
+    + js("/js/DateModule.min.js")
+    + js("/js/vocabularyModule.min.js")
     script.
         angular.module('vocabularyPrintableModule', [])
             .controller('mainCtrl', ['$scope', '$timeout', function ($scope, $timeout) {

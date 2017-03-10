@@ -281,10 +281,10 @@ block content
             iframe(width=800,height=600,frameborder="no",border="0",ng-show="printMode",ng-src="{{$sce.trustAsResourceUrl(printURL)}}")
 
 block js
-    script(src="/js/DateModule.min.js")
-    script(src="/js/level-ctrl.min.js")
-    script(src="/js/quizModule.min.js")
-    script(src="/js/vocabularyModule.min.js")
+    + js("/js/DateModule.min.js")
+    + js("/js/level-ctrl.min.js")
+    + js("/js/quizModule.min.js")
+    + js("/js/vocabularyModule.min.js")
 
 block extraMenus
     include ../my/partials/level-switcher
