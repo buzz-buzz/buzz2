@@ -21,6 +21,83 @@ body
             position: relative;
             margin: 0 auto;
         }
+        .row {
+            display: block;
+            position: relative;
+            width: 375px;
+        }
+        .row.blank {
+            height: 1rem;
+        }
+
+        .header {
+            width: 375px;
+            height: 3rem;
+            line-height: 3rem;
+            font-size: 1.4rem;
+            text-align: center;
+            color: #333333;
+            background-color: #f9b600;
+        }
+        body {
+            background-color: #e8e8e8;
+        }
+        .row.person {
+            background-color: white;
+            height: 5.4rem;
+            line-height: 5.4rem;
+            color: #333333;
+            margin-top: 1.2rem;
+            padding-left: 1rem;
+        }
+        .row.person img {
+            height: 4rem;
+            vertical-align: middle;
+        }
+        .row.person .name {
+            display: inline-block;
+            margin-left: 1rem;
+            width: 15.6rem;
+        }
+        .more {
+            font-size: 1.4rem;
+            color: #bcbcbc;
+        }
+        .row.quit,
+        .row.about,
+        .row.idea {
+            background-color: white;
+            margin-top: 1.4rem;
+            height: 2.8rem;
+            padding-left: 1rem;
+        }
+        .row.quit {
+            padding-left: 0;
+            text-align: center;
+            line-height: 2.6rem;
+            color: #f9b600;
+        }
+        .row .title {
+            display: inline-block;
+            width: 20.6rem;
+            line-height: 2.8rem;
+            color: #333333;
+        }
+    .header 我
+    .body.init(ng-app="buzzHeaderModule",ng-controller="headerCtrl")
+        .menu
+            .row.person
+                img(ng-src=`{{profile.avatar || '${config.cdn}/public/images/default_avatar.png?${config.version}'}}`)
+                .name {{profile.real_name}}
+                span.more >
+            .row.idea 
+                .title 意见反馈
+                span.more >
+            .row.about 
+                .title 了解Buzzbuzz
+                span.more >
+            .row.quit 退出当前登陆
+        .account
     include ../tail.pug
     + tailcontent(false, false, true)
     include ../../js
@@ -32,7 +109,6 @@ body
     script(src=`${config.cdn}/js/buzzProgressModule.min.js?${config.version}`)
     script(src=`${config.cdn}/js/buzzHeaderModule.min.js?${config.version}`)
     script.
-        angular.bootstrap(document.getElementById("profile"), ['buzzHeaderModule']);
         Array.from(document.getElementsByClassName("init")).forEach(function(ele){
             ele.className = ele.className.split(' ').concat("done").join(" ");
         });
