@@ -126,11 +126,23 @@ body
         .expand-calander.unit.current {
             color: #f9b600;
         }
-        .expand-calander.unit.signed {
+        .expand-calander.unit.bad {
             color: #ff0000!important;
         }
+        .expand-calander.unit.good {
+            color: #f9b600!important;
+        }
+        .expand-calander.unit.good.now {
+            color: white!important;
+        }
+        .expand-calander.unit.none {
+            color: #3366ff!important;
+        }
+        .expand-calander.unit.none.now {
+            color: black!important;
+        }
         .expand-calander.unit.now {
-            color: #ffffff;
+            color: black;
             background-color: #f9b600;
         }
         .learn {
@@ -414,7 +426,7 @@ body
                         .expand-calander.unit.column= item
                 .expand-calander.row.blank
                 .expand-calander.row(ng-repeat="week in extendedweekdays")
-                    .expand-calander.unit.column(ng-repeat="day in week", ng-class="{'invalid': !day.iscurrentmonth,'now': day.istoday,'signed': day.goodness!==''}") {{day.date.getDate()}}
+                    .expand-calander.unit.column(ng-repeat="day in week", ng-class="{'invalid': !day.iscurrentmonth,'now': day.istoday,'good': day.goodness=='good','bad': day.goodness=='bad','none':day.goodness=='none'}") {{day.date.getDate()}}
                     .expand-calander.row.blank
                 .expand-calander.row.blank
         .row.blank
