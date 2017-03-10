@@ -3,7 +3,8 @@
 const util = require('util');
 
 let config = {
-    version: '1.2.1-' + Date.now()
+    version: '1.2.1-' + Date.now(),
+    imageversion: "1.2.1-1489131411950"
 };
 
 let configPath = util.format('./config_%s.js', (process.env.NODE_ENV || 'dev'));

@@ -383,15 +383,15 @@ body
                     .text.content.font.black.bold 20
                 .pic.column
                     .img
-                        img(ng-src=`{{profile.avatar || '${config.cdn}/public/images/default_avatar.png?${config.version}'}}`)
+                        img(ng-src=`{{profile.avatar || '${config.cdn}/public/images/default_avatar.png?${config.imageversion}'}}`)
                     .text(ng-bind="profile.real_name")
                 .account.column
                     .text.head.font.black
-                        img(ng-src=`${config.cdn}/public/images/points.png?${config.version}`)
+                        img(ng-src=`${config.cdn}/public/images/points.png?${config.imageversion}`)
                     .text.content.font.black.bold 200
                 .account.column
                     .text.head.font.black
-                        img(ng-src=`${config.cdn}/public/images/medal.png?${config.version}`)
+                        img(ng-src=`${config.cdn}/public/images/medal.png?${config.imageversion}`)
                     .text.content.font.black.bold 5
         .row
             .box.process-head 练习打卡日历
@@ -431,12 +431,12 @@ body
                     .title 练习全对
                     .content
                         - for (var x = 0; x < 8; x++)
-                            img(src=`${config.cdn}/public/images/correct.png?${config.version}`)
+                            img(src=`${config.cdn}/public/images/correct.png?${config.imageversion}`)
                 .learn.middle
                     .title 练习有错
                     .content
-                        img(src=`${config.cdn}/public/images/wrong_1.png?${config.version}`)
-                        img(src=`${config.cdn}/public/images/wrong_2.png?${config.version}`)
+                        img(src=`${config.cdn}/public/images/wrong_1.png?${config.imageversion}`)
+                        img(src=`${config.cdn}/public/images/wrong_2.png?${config.imageversion}`)
                 .learn.right
                     .title 打败多少对手
                     .text-content 2028
@@ -453,7 +453,7 @@ body
                         span.font.black 1200个
                         span.font.grey 单词
                     .chart.right(ng-click="expandContent(true)")
-                        img.valign-middle(src=`${config.cdn}/public/images/chart.png?${config.version}`)
+                        img.valign-middle(src=`${config.cdn}/public/images/chart.png?${config.imageversion}`)
                 .box.process-content(ng-if="expanded")
                     .expand-chart.row
                         .expand-chart.left.font.orange 
@@ -461,13 +461,13 @@ body
                             span.font.black 1200
                             span.font.grey 个单词
                         .expand-chart.right(ng-click="expandContent(false)")
-                            img.valign-middle(style="width:1.6em",src=`${config.cdn}/public/images/chart_off.png?${config.version}`)
+                            img.valign-middle(style="width:1.6em",src=`${config.cdn}/public/images/chart_off.png?${config.imageversion}`)
                     .expand-chart.row
                         .expand-chart.small.left.font.orange
-                            img(style="vertical-align:middle;width:1.5rem",src=`${config.cdn}/public/images/mini_bar.png?${config.version}`)
+                            img(style="vertical-align:middle;width:1.5rem",src=`${config.cdn}/public/images/mini_bar.png?${config.imageversion}`)
                             span.font.grey 你累计学习单词词量：个/周
                         .expand-chart.small.right
-                            img(style="vertical-align:middle;width:1.5rem",src=`${config.cdn}/public/images/mini_chart.png?${config.version}`)
+                            img(style="vertical-align:middle;width:1.5rem",src=`${config.cdn}/public/images/mini_chart.png?${config.imageversion}`)
                             span.font.grey 系统整体排名：名/周
                     .expand-chart.row
                         .chart-main(style="height: 13rem;")

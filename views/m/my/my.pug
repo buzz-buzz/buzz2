@@ -4,7 +4,7 @@ html
     meta(http-equiv="X-UA-Compatible", content="IE=edge, chrome=1")
     meta(name="viewport", content="width=375, user-scalable=no")
     title='Buzzbuzz English'
-    link(href=`${config.cdn}/public/css/style.min.css?2017-03-03?${config.version}`, rel="stylesheet")
+    link(href=`${config.cdn}/public/css/style.min.css?${config.version}`, rel="stylesheet")
 body
     style.
         .init {
@@ -53,6 +53,7 @@ body
         .row.person img {
             height: 4rem;
             vertical-align: middle;
+            border-radius: 50%;
         }
         .row.person .name {
             display: inline-block;
@@ -87,7 +88,7 @@ body
     .body.init(ng-app="buzzHeaderModule",ng-controller="headerCtrl")
         .menu
             .row.person
-                img(ng-src=`{{profile.avatar || '${config.cdn}/public/images/default_avatar.png?${config.version}'}}`)
+                img(ng-src=`{{profile.avatar || '${config.cdn}/public/images/default_avatar.png?${config.imageversion}'}}`)
                 .name {{profile.real_name}}
                 span.more >
             .row.idea 
