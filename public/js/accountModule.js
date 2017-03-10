@@ -12,6 +12,10 @@ angular.module('accountModule', ['clientConfigModule', 'buzzHeaderModule', 'educ
         $translateProvider.preferredLanguage('zh');
     }])
     .controller('viewAccountCtrl', ['$http', 'clientConfig', '$rootScope', '$scope', 'GenderDisplay', 'GradeDisplay', 'LevelDisplay', function ($http, clientConfig, $rootScope, $scope, GenderDisplay, GradeDisplay, LevelDisplay) {
+        $scope.expanded = false;
+        $scope.expand = function(val) {
+            $scope.expanded = val;
+        };
         $rootScope.$watch('profile', function (newValue, oldValue) {
             if (newValue) {
                 $scope.displayGender = GenderDisplay[newValue.gender];

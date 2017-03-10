@@ -5,13 +5,10 @@ html
     meta(name="viewport", content="width=375, user-scalable=no")
     title='Buzzbuzz English'
     link(href=`${config.cdn}/public/css/style.min.css?${config.version}`, rel="stylesheet")
-body
+body(ng-app="accountModule",ng-controller="viewAccountCtrl")
     style.
         .init {
             display: none;
-        }
-        .init.done {
-            display: initial;
         }
         body {
             margin: 0px;
@@ -38,6 +35,7 @@ body
             text-align: center;
             color: #333333;
             background-color: #f9b600;
+            position: relative;
         }
         body {
             background-color: #e8e8e8;
@@ -75,8 +73,12 @@ body
         .row.quit {
             padding-left: 0;
             text-align: center;
-            line-height: 2.6rem;
+            line-height: 2.8rem;
             color: #f9b600;
+            text-decoration: none;
+        }
+        .row.quit:hover {
+            text-decoration: none;
         }
         .row .title {
             display: inline-block;
@@ -84,12 +86,31 @@ body
             line-height: 2.8rem;
             color: #333333;
         }
-    .header 我
-    .body.init(ng-app="buzzHeaderModule",ng-controller="headerCtrl")
-        .menu
-            .row.person
-                img(ng-src=`{{profile.avatar || '${config.cdn}/public/images/default_avatar.png?${config.imageversion}'}}`)
-                .name {{profile.real_name}}
+        .header .back {
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 1rem;
+        }
+        .row.title {
+            height: 2.8rem;
+            line-height: 2.8rem;
+            padding-left: 1rem;
+        }
+        .row.content {
+            background-color: white;
+            height: 2.8rem;
+            line-height: 2.8rem;
+            padding-left: 1rem;
+        }
+    .header.init
+        span 我
+        .back(ng-if="expanded", ng-click="expand(false)") <
+    .body.init
+        .menu(ng-if="!expanded")
+            .row.person(ng-click="expand(true)")
+                img(ng-src=`{{$root.profile.avatar || '${config.cdn}/public/images/default_avatar.png?${config.imageversion}'}}`)
+                .name {{$root.profile.real_name}}
                 span.more >
             .row.idea 
                 .title 意见反馈
@@ -97,11 +118,20 @@ body
             .row.about 
                 .title 了解Buzzbuzz
                 span.more >
-            .row.quit 退出当前登陆
-        .account
+            a.row.quit(href="/sign-out") 退出当前登陆
+        .account(ng-if="expanded")
+            .row.title 姓名
+            .row.content {{$root.profile.real_name}}
+            .row.title 性别
+            .row.content {{$root.profile.displayGender || "未知"}}
+            .row.title 年级
+            .row.content {{$root.profile.displayGrade || "未选择"}}
     include ../tail.pug
     + tailcontent(false, false, true)
     include ../../js
+    + js("/js/formModule.min.js")
+    + js("/js/accountModule.js")
+    + js("/js/educationModule.min.js")
     script(src=`${config.cdn}/node_modules/chart.js/dist/Chart.js?${config.version}`)
     script(src=`${config.cdn}/node_modules/angular-chart.js/dist/angular-chart.min.js?${config.version}`)
     script(src=`${config.cdn}/js/quizModule.min.js?${config.version}`)
@@ -111,5 +141,5 @@ body
     script(src=`${config.cdn}/js/buzzHeaderModule.min.js?${config.version}`)
     script.
         Array.from(document.getElementsByClassName("init")).forEach(function(ele){
-            ele.className = ele.className.split(' ').concat("done").join(" ");
+            ele.className = ele.className.replace(/(^|\s)init($|\s)/, ' ')
         });

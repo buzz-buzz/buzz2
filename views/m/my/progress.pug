@@ -10,9 +10,6 @@ body
         .init {
             display: none;
         }
-        .init.done {
-            display: initial;
-        }
         body {
             margin: 0px;
         }
@@ -512,5 +509,5 @@ body
     script.
         angular.bootstrap(document.getElementById("profile"), ['buzzHeaderModule']);
         Array.from(document.getElementsByClassName("init")).forEach(function(ele){
-            ele.className = ele.className.split(' ').concat("done").join(" ");
+            ele.className = ele.className.replace(/(^|\s)init($|\s)/, ' ')
         });
