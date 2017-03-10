@@ -8,11 +8,11 @@ const coBody = require('co-body');
 const fs = require('fs');
 
 function mobileDetectRender(app, router, render) {
-    let routes = ['sign-in', 'sign-up', 'reset-password', 'my/progress'];
+    let routes = ['sign-in', 'sign-up', 'reset-password'];
     routes.forEach(function (route) {
         let routename = '/' + route;
         router.get(routename, function *(next) {
-            if (this.state.userAgent.isMobile) {
+            if (this.state.userAgent.isMobile && !this.state.userAgent.isTablet) {
                 this.redirect('/m/' + route + this.request.search);
             } else {
                 yield next;
@@ -22,7 +22,7 @@ function mobileDetectRender(app, router, render) {
 }
 
 function mobileRender(app, router, render) {
-    let routes = ['sign-in', 'loading', 'sign-up', 'reset-password', 'my/progress'];
+    let routes = ['sign-in', 'loading', 'sign-up', 'reset-password', 'my/progress', 'my/vocabulary', 'my/my'];
     routes.forEach(function (route) {
         let routename = '/m/' + route;
         router.get(routename, require('./wechatOAuth'), function *(next) {
@@ -58,7 +58,7 @@ function renderWithServerData(app, router, render) {
 }
 function redirectRequest(app, router) {
     router.get('/', function *home(next) {
-        if (this.state.userAgent.isMobile) {
+        if (this.state.userAgent.isMobile && !this.state.userAgent.isTablet) {
             this.redirect('/m/loading?url=/m/my/progress');
         } else {
             this.redirect('/my/today');

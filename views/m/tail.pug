@@ -39,24 +39,40 @@ style.
     .tail-container .button.focus{
         color: #f9b600;
     }
-.tail-container
-    a.button.focus(href="/m/my/progress")
-        div.icon
-            i.icon-stats-bars
-        div.text 学习进度
-    a.button(href="")
-        div.icon
-            i.icon-book
-        div.text 生词
-    //- a.button(href="")
-    //-     div.icon
-    //-         i.icon-tv
-    //-     div.text 学习
-    //- a.button(href="")
-    //-     div.icon
-    //-         i.icon-clock
-    //-     div.text 历史课程
-    a.button(href="")
-        div.icon
-            i.icon-user
-        div.text 我
+mixin tailcontentdetail(href, focus, text, icon)
+    if focus
+        a.button.focus(href= href)
+            div.icon
+                i(class= icon)
+            div.text= text
+    else
+        a.button(href= href)
+            div.icon
+                i(class= icon)
+            div.text= text
+
+mixin tailcontent(progress, vocabulary, my)
+    .tail-container
+        + tailcontentdetail("/m/my/progress", progress, "学习进度", "icon-stats-bars")
+        + tailcontentdetail("/m/my/vocabulary", vocabulary, "生词", "icon-book")
+        + tailcontentdetail("/m/my/my", my, "我", "icon-user")
+        //- a.button.focus(href="/m/my/progress")
+        //-     div.icon
+        //-         i.icon-stats-bars
+        //-     div.text 学习进度
+        //- a.button(href="/m/my/vocabulary")
+        //-     div.icon
+        //-         i.icon-book
+        //-     div.text 生词
+        //- a.button(href="")
+        //-     div.icon
+        //-         i.icon-tv
+        //-     div.text 学习
+        //- a.button(href="")
+        //-     div.icon
+        //-         i.icon-clock
+        //-     div.text 历史课程
+        //- a.button(href="/m/my/my")
+        //-     div.icon
+        //-         i.icon-user
+        //-     div.text 我

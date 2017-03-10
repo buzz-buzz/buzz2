@@ -1,0 +1,117 @@
+doctype html
+html
+    meta(charset="utf-8")
+    meta(http-equiv="X-UA-Compatible", content="IE=edge, chrome=1")
+    meta(name="viewport", content="width=375, user-scalable=no")
+    title='Buzzbuzz English'
+    link(href=`${config.cdn}/public/css/style.min.css?2017-03-03?${config.version}`, rel="stylesheet")
+body
+    style.
+        .init {
+            display: none;
+        }
+        .init.done {
+            display: initial;
+        }
+        body {
+            margin: 0px;
+        }
+        .body {
+            width: 375px;
+            position: relative;
+            margin: 0 auto;
+        }
+        .row {
+            display: block;
+            position: relative;
+            width: 375px;
+        }
+        .row.blank {
+            height: 1rem;
+        }
+
+        .header {
+            width: 375px;
+            height: 3rem;
+            line-height: 3rem;
+            font-size: 1.4rem;
+            text-align: center;
+            color: #333333;
+            background-color: #f9b600;
+        }
+        .row.word {
+            border-top: 1px solid #dddddd;
+            border-bottom: 1px solid #dddddd;
+            height: 5rem;
+        }
+        .row.word .wordname {
+            display: inline-block;
+            height:3rem;
+            line-height:3rem;
+            padding-left: 1rem;
+            color: #333333;
+        }
+        .row.date {
+            background-color: #e8e8e8;
+            position: relative;
+            height: 1.8rem;
+        }
+        .row.date .datedetail {
+            position: absolute;
+            width: 3rem;
+            height: 1rem;
+            font-size: 0.7rem;
+            right: 2.4rem;
+            bottom: 0;
+            color: #666666;
+        }
+        .row.title {
+        }
+        .column {
+            display: inline-block;
+            width: 50%;
+        }
+        .title .item {
+            text-align: center;
+            color: #666666;
+            line-height: 2.2rem;
+        }
+        .title .item.active {
+            color: #f9b600;
+        }
+        .reserve-row {
+            min-height: 3rem;
+        }
+    //- .test(style="position: absolute;width:375px;z-index:-1;top:-21px;")
+    //-     img(src="/images/_v_.jpg", style="width:100%")
+    .header 生词
+    .body.init(ng-app="vocabularyModule", ng-controller="vocabularyCtrl")
+        .row.title
+            .column.item(ng-click="checkboxClick(RADIO_TYPE.NONE)", ng-class='{"active": radioBoxType==RADIO_TYPE.NONE}') 全部
+            .column.item(ng-click="checkboxClick(RADIO_TYPE.FAIL)", ng-class='{"active": radioBoxType==RADIO_TYPE.FAIL}') 不理解
+        div(ng-repeat="weeklylist in vocabularyAll")
+            .row.date
+                .datedetail {{weeklylist.year}}.{{weeklylist.monthDay}}
+            .reserve-row
+                .row.word(ng-repeat="word in weeklylist.words",ng-show="radioBoxType===RADIO_TYPE.NONE||word.status === radioBoxType")
+                    .wordname {{word.name}}
+        .row.blank
+        .row.blank
+        .row.blank
+        .row.blank
+        .row.blank
+    include ../tail.pug
+    + tailcontent(false, true, false)
+    include ../../js
+    script(src=`${config.cdn}/node_modules/chart.js/dist/Chart.js?${config.version}`)
+    script(src=`${config.cdn}/node_modules/angular-chart.js/dist/angular-chart.min.js?${config.version}`)
+    script(src=`${config.cdn}/js/quizModule.min.js?${config.version}`)
+    script(src=`${config.cdn}/js/DateModule.min.js?${config.version}`)
+    script(src=`${config.cdn}/node_modules/moment/min/moment.min.js?${config.version}`)
+    script(src=`${config.cdn}/js/buzzProgressModule.min.js?${config.version}`)
+    script(src=`${config.cdn}/js/buzzHeaderModule.min.js?${config.version}`)
+    + js("/js/vocabularyModule.min.js")
+    script.
+        Array.from(document.getElementsByClassName("init")).forEach(function(ele){
+            ele.className = ele.className.split(' ').concat("done").join(" ");
+        });
