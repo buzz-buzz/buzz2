@@ -162,6 +162,62 @@ angular.module('accountModule', ['clientConfigModule', 'buzzHeaderModule', 'educ
                 });
         };
     }])
+    .controller('mobileInfoCtrl', ['$scope', 'clientConfig', '$q', 'Grades', 'service', '$rootScope', '$http', function($scope, clientConfig, $q, Grades, service, $rootScope, $http) {
+        var findGrade = function(val) {
+            return Grades.find(function(gradeObj) {
+                return gradeObj.key === val || val === gradeObj.name;
+            });
+        };
+        $scope.data = {
+            name: $rootScope.profile.real_name,
+            gender: $rootScope.profile.gender,
+            grade: findGrade($scope.info.grade),
+            displayGrade: findGrade($scope.info.grade).name
+        };
+        $scope.grades = Grades;
+        $scope.cancel = function() {
+            $scope.data.name = $rootScope.profile.real_name;
+            $scope.data.gender = $rootScope.profile.gender;
+            $scope.data.grade = findGrade($scope.data.displayGrade);
+            $scope.$emit("editDone");
+        };
+        $scope.updateGender = $scope.updateName = function() {
+            return service.post(clientConfig.serviceUrls.sso.profile.update.frontEnd, {
+                real_name: $scope.data.name,
+                gender: $scope.data.gender
+            }).then(function() {
+                $rootScope.profile.real_name = $scope.data.name;
+                $rootScope.profile.gender = $scope.data.gender;
+                $scope.$emit("editDone");
+            }).catch(function() {
+                //todo
+                $scope.$emit("editDone");
+            });
+        };
+        $scope.updateGrade = function(newName) {
+            return $http.put(clientConfig.serviceUrls.buzz.profile.education.frontEnd, {
+               grade: $scope.data.grade.key.toString()
+           }).then(function() {
+                $scope.data.displayGrade = $scope.data.grade.name;
+                $scope.$emit("editDone");
+            }).catch(function() {
+                //todo
+                $scope.$emit("editDone");
+            });
+        };
+    }])
+    .controller('mobileWidgetCtrl', ['$scope', '$rootScope', function($scope, $rootScope) {
+        $rootScope.$on("editDone", function() {
+            $scope.changeMode(false);
+        })
+        $scope.editMode = false;
+        $scope.changeMode = function(val) {
+            if (val) {
+                $scope.$emit("editDone");
+            }
+            $scope.editMode = val;
+        };
+    }])
     .controller('changeMobileCtrl', ['$scope', function ($scope) {
         $scope.step = 1;
     }])
