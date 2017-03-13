@@ -199,6 +199,7 @@ angular.module('accountModule', ['clientConfigModule', 'buzzHeaderModule', 'educ
                grade: $scope.data.grade.key.toString()
            }).then(function() {
                 $scope.data.displayGrade = $scope.data.grade.name;
+                $scope.info.grade = $scope.data.grade.key;
                 $scope.$emit("editDone");
             }).catch(function() {
                 //todo
