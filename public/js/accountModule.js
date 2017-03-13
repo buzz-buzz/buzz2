@@ -166,7 +166,7 @@ angular.module('accountModule', ['clientConfigModule', 'buzzHeaderModule', 'educ
         var findGrade = function(val) {
             return Grades.find(function(gradeObj) {
                 return gradeObj.key === val || val === gradeObj.name;
-            });
+            }) || {name: "", key: ""};
         };
         $scope.data = {
             name: $rootScope.profile.real_name,
