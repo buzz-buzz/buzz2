@@ -194,7 +194,7 @@ angular.module('accountModule', ['clientConfigModule', 'buzzHeaderModule', 'educ
                 $scope.$emit("editDone");
             });
         };
-        $scope.updateGrade = function(newName) {
+        $scope.updateGrade = function() {
             return $http.put(clientConfig.serviceUrls.buzz.profile.education.frontEnd, {
                grade: $scope.data.grade.key.toString()
            }).then(function() {
