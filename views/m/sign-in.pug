@@ -2,7 +2,8 @@ doctype html
 html
     meta(charset="utf-8")
     meta(http-equiv="X-UA-Compatible", content="IE=edge, chrome=1")
-    meta(name="viewport", content="width=375, user-scalable=no")
+    meta(content="width=375, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport")
+    //meta(name="viewport", content="width=375, user-scalable=no")
     title='Buzzbuzz English'
 body
     style.
@@ -95,8 +96,10 @@ body
             text-decoration: none;
         }
 
+
     div.containter(ng-app="signInModule", ng-controller="signInCtrl")
         form(name="signInForm", ng-controller="signInCtrl", ng-submit="signIn()")
+            include ../partial/errMsg_m.pug
             .center-row.username.input-container
                 img(src="/images/i_account.png")
                 input(type="text",placeholder="请输入网站登陆账号/手机号", ng-model="signInData.account")

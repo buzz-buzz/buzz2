@@ -42,6 +42,10 @@ angular.module('signInModule', ['angularQueryParserModule', 'clientConfigModule'
         var query = queryParser.parse();
         $scope.bindMobileMode = !!query.token;
 
+        $scope.errDone=function () {
+            $scope.errorMessage=null;
+        }
+
     }])
     .controller('signInParentCtrl', ['$scope', function ($scope) {
         $scope.queryString = location.search;
