@@ -68,7 +68,7 @@ block extraMenus
     include partials/level-switcher
 
 block content
-    #full-page.full.height.container(ng-app="buzzHistoryModule", style="white-space: nowrap;")
+    #full-page.full.height.container(ng-app="buzzHistoryModule", style="white-space: nowrap;", ng-cloak)
         .page.with-header.section.transparent
             .center.aligned.container.column.flex-box.white.background(style="padding-left: 50px; padding-right: 50px; overflow: auto;",ng-controller="historyCtrl")
                 .row.dynamic

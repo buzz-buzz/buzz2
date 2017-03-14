@@ -217,6 +217,7 @@ block head
         }
 
 block content
+    include ../partial/svg
     .body-container(ng-app="vocabularyModule", ng-controller="vocabularyCtrl")
         .table-cell
             .table-row.center.head(ng-controller="vocabularyHeaderCtrl")
@@ -266,10 +267,11 @@ block content
                         span() {{word.explaination}}
                 .table-column.part7
                     .mark(ng-repeat="word in weeklylist.words track by $index",ng-show="radioBoxType===RADIO_TYPE.NONE||word.status === radioBoxType")
-                        i.icon-checkmark(ng-show="word.status === RADIO_TYPE.PASS")
+                        + pass(ng-show="word.status === RADIO_TYPE.PASS")
+
                 .table-column.part8
                     .mark(ng-repeat="word in weeklylist.words track by $index",ng-show="radioBoxType===RADIO_TYPE.NONE||word.status === radioBoxType")
-                        i.icon-cancel-circle(ng-show="word.status === RADIO_TYPE.FAIL")
+                        + fail(ng-show="word.status === RADIO_TYPE.FAIL")
                 .table-column.part9
                     .mark(ng-repeat="word in weeklylist.words track by $index",ng-show="radioBoxType===RADIO_TYPE.NONE||word.status === radioBoxType")
                         i.icon-question(ng-show="word.status === RADIO_TYPE.NOTTEST")
