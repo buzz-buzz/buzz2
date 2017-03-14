@@ -13,6 +13,7 @@ style.
     }
 
     .errmsg > div {
+        display: table;
         position: relative;
         top: 40%;
         margin: 0 auto;
@@ -20,8 +21,7 @@ style.
         background-color: #333;
         border-radius: 0.3rem;
         font-family: "微软雅黑", "Helvetica Neue", Helvetica, Arial, sans-serif;
-        height: 1.5rem;
-        width: 8rem;
+        width: auto;
         font-size: 1rem;
         line-height: 1.5rem;
         padding: 1rem;
@@ -30,4 +30,4 @@ style.
 
 
 div.errmsg(ng-if="errorMessage", ng-cloak, ng-click="errDone()")
-    div {{errorMessage=="错误的用户名或者密码"?"账号或密码错误":"未知错误"}}
+    div {{errorMessage}}
