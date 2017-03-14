@@ -25,7 +25,7 @@ angular.module('signUpModule', ['angularQueryParserModule', 'clientConfigModule'
 
         $scope.bindMobileMode = !!query.token;
     }])
-    .controller('signUpCtrl', ['$scope', 'clientConfig', 'service', 'queryParser', 'serviceErrorParser', 'tracking', function ($scope, clientConfig, service, queryParser, serviceErrorParser, tracking) {
+    .controller('signUpCtrl', ['$scope', 'clientConfig', 'service', 'queryParser', 'serviceErrorParser', 'tracking','$timeout',function ($scope, clientConfig, service, queryParser, serviceErrorParser, tracking,$timeout) {
         $scope.signUpData = {
             mobile: '',
             verificationCode: '',
@@ -56,8 +56,26 @@ angular.module('signUpModule', ['angularQueryParserModule', 'clientConfigModule'
                     tracking.send('sign-up.register.error', reason);
                 });
         };
+
+        //错误提示方法  用户点击，提示框消失  或者三秒后自动消失
+        //用户点击消失
+        $scope.errDone=function(){
+            $scope.errorMessage=null;
+        };
+
+        //3秒后中自动消失
+        $scope.$watch('errorMessage',function(newValue,oldValue){
+            console.log(newValue+","+oldValue);
+            if(newValue){
+                $timeout(function(){
+                    $scope.errorMessage=null;
+                },3000)
+            }
+        })
+
+
     }])
-    .controller('infoCtrl', ['$scope', 'clientConfig', 'service', 'queryParser', 'serviceErrorParser', '$q', 'tracking', '$http', 'Grades', function ($scope, clientConfig, service, queryParser, serviceErrorParser, $q, tracking, $http, Grades) {
+    .controller('infoCtrl', ['$scope', 'clientConfig', 'service', 'queryParser', 'serviceErrorParser', '$q', 'tracking', '$http', 'Grades','$timeout', function ($scope, clientConfig, service, queryParser, serviceErrorParser, $q, tracking, $http, Grades,$timeout) {
         $scope.infoData = {
             name: '',
             gender: null,
@@ -82,6 +100,22 @@ angular.module('signUpModule', ['angularQueryParserModule', 'clientConfigModule'
                     $scope.errorMessage = serviceErrorParser.getErrorMessage(error);
                     tracking.send('sign-up.step2.saveInfo.error', error);
                 });
+
+            //错误提示方法  用户点击，提示框消失  或者三秒后自动消失
+            //用户点击消失
+            $scope.errDone=function(){
+                $scope.errorMessage=null;
+            };
+
+            //3秒后中自动消失
+            $scope.$watch('errorMessage',function(newValue,oldValue){
+                console.log(newValue+","+oldValue);
+                if(newValue){
+                    $timeout(function(){
+                        $scope.errorMessage=null;
+                    },3000)
+                }
+            })
         };
     }])
 ;

@@ -26,6 +26,7 @@ block content
                         option(value="",disabled,selected, hidden) 请选择你所在的年级
                         option(ng-repeat="grade in grades", value="{{grade.key}}") {{grade.name}}
                 button.finish(type="submit", ng-disabled="!infoForm.$valid") 完成
+                include ../partial/errMsg_m.pug
         .form-container(ng-if="step == 1")
             form(name="signUpForm", ng-submit="signUp()", ng-controller="signUpCtrl")
                 .left-row.phone.input-container
@@ -51,6 +52,7 @@ block content
                         br
                         br
                         a.yellow.button(ng-href="/m/sign-in{{queryString}}", style="font-size: larger;") 绑定已注册手机号
+                include ../partial/errMsg_m.pug
 
 block js
     script(src="/node_modules/ui-select/dist/select.min.js?2017-03-03")
