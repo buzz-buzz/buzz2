@@ -13,7 +13,7 @@ angular.module('signInModule', ['angularQueryParserModule', 'clientConfigModule'
         });
         $translateProvider.preferredLanguage('zh');
     }])
-    .controller('signInCtrl', ['$scope', 'clientConfig', 'service', 'queryParser', 'serviceErrorParser', 'tracking', '$q', function ($scope, clientConfig, service, queryParser, serviceErrorParser, $q) {
+    .controller('signInCtrl', ['$scope', 'clientConfig', 'service', 'queryParser', 'serviceErrorParser', 'tracking', '$timeout', function ($scope, clientConfig, service, queryParser, serviceErrorParser, tracking, $timeout) {
         $scope.signInData = {
             account: '',
             password: ''
@@ -42,9 +42,17 @@ angular.module('signInModule', ['angularQueryParserModule', 'clientConfigModule'
         var query = queryParser.parse();
         $scope.bindMobileMode = !!query.token;
 
-        $scope.errDone=function () {
-            $scope.errorMessage=null;
-        }
+        $scope.errDone = function () {
+            $scope.errorMessage = null;
+        };
+
+        $scope.$watch('errorMessage', function (newValue, oldValue) {
+            if (newValue) {
+                $timeout(function () {
+                    $scope.errDone();
+                }, 3000);
+            }
+        });
 
     }])
     .controller('signInParentCtrl', ['$scope', function ($scope) {
