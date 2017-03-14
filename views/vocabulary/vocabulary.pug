@@ -255,7 +255,7 @@ block content
                     .line.body
                 .table-column.part3.left
                     .word(ng-repeat="word in weeklylist.words track by $index",ng-show="radioBoxType===RADIO_TYPE.NONE||word.status === radioBoxType")
-                        span() {{word.name}}
+                        span(style="white-space: nowrap;") {{word.name}}
                 .table-column.part4.left
                     .ipa(ng-repeat="word in weeklylist.words track by $index",ng-show="radioBoxType===RADIO_TYPE.NONE||word.status === radioBoxType")
                         span() {{word.ipc}}
@@ -264,7 +264,7 @@ block content
                         i.icon-volume-medium
                 .table-column.part6.left
                     .explanation(ng-repeat="word in weeklylist.words track by $index",ng-show="radioBoxType===RADIO_TYPE.NONE||word.status === radioBoxType")
-                        span() {{word.explaination}}
+                        span {{word.explaination}}
                 .table-column.part7
                     .mark(ng-repeat="word in weeklylist.words track by $index",ng-show="radioBoxType===RADIO_TYPE.NONE||word.status === radioBoxType")
                         + pass(ng-show="word.status === RADIO_TYPE.PASS")
