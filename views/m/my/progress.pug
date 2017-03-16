@@ -466,8 +466,8 @@ body
             z-index: 5;
         }
     .body(ng-app="buzzProgressModule").init
-        .row.special(id="profile", ng-controller="headerCtrl")
-            .box
+        .row.special(id="profile")
+            .box(ng-controller="myPerformanceCtrl")
                 .account.column
                     .text.head.font.black Level
                     .text.content.font.black.bold A

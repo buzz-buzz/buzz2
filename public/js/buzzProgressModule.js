@@ -1,4 +1,4 @@
-angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModule', 'clientConfigModule', 'buzzHeaderModule', 'chart.js', 'quizModule', 'DateModule'])
+angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModule', 'clientConfigModule', 'buzzHeaderModule', 'chart.js', 'quizModule', 'DateModule', 'serviceCacheModule'])
     .controller('calendarCtrl', ['$scope', '$http', 'clientConfig', 'quizFactory', '$filter', 'DateFactory', '$q', function ($scope, $http, clientConfig, quizFactory, $filter, DateFactory, $q) {
         $scope.expanded = false;
         $scope.expandContent = function (value) {
@@ -231,7 +231,7 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
             }
         };
     }])
-    .controller('myBuzzCtrl', ['$scope', '$rootScope', function ($scope, $rootScope) {
+    .controller('myBuzzCtrl', ['$scope', '$rootScope', '$http', 'clientConfig', function ($scope, $rootScope, $http, clientConfig) {
         $rootScope.$watch('profile', function (newValue, oldValue) {
             if (newValue) {
                 var registerDate = new Date(newValue.regist_date);
@@ -241,5 +241,20 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
                 $scope.buzzDays = days;
             }
         });
+    }])
+    .controller('myPerformanceCtrl', ['$scope', '$http', 'clientConfig', 'api', function ($scope, $http, clientConfig, api) {
+        $scope.infoData = {};
+
+        api.get(clientConfig.serviceUrls.buzz.profile.latestAllEducation.frontEnd)
+            .then(function (result) {
+                console.log('===');
+                console.log(result);
+                if (result.data.fav_topics && result.data.fav_topics.length) {
+                    $scope.infoData.topics = result.data.fav_topics[0];
+                }
+
+                $scope.infoData.level = result.data.fav_level;
+            });
+
     }])
 ;
