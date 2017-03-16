@@ -18,30 +18,31 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
             $scope.current.setMonth($scope.current.getMonth() + diff);
             dateChanged();
         };
-        var extendWeekDays = function(weekDays) {
+        var extendWeekDays = function (weekDays) {
             var ret = [];
-            weekDays.forEach(function(weeks, weekindex) {
+            weekDays.forEach(function (weeks, weekindex) {
                 var currentweek = ret[weekindex] = [];
                 var firstday = null;
                 var dayIndex = 0;
 
                 if (weekindex === 0) {
-                    var firstDataIndex = weeks.findIndex(function(val) {
+                    var firstDataIndex = weeks.findIndex(function (val) {
                         return !!val;
                     });
-                    firstday = moment(weeks[firstDataIndex]).add((firstDataIndex*-1)-1, 'day');
+                    firstday = moment(weeks[firstDataIndex]).add((firstDataIndex * -1) - 1, 'day');
                 } else if (weekindex === weekDays.length - 1) {
                     var lastweek = weeks[weekindex];
-                    firstday = moment().add(1,'months').date(0);
-                };
-                weeks.forEach(function(day, dayindex) {
+                    firstday = moment().add(1, 'months').date(0);
+                }
+                ;
+                weeks.forEach(function (day, dayindex) {
                     var currentday = day || firstday.add(1, 'day').toDate();
                     var today = new Date();
                     currentweek.push({
                         date: currentday,
                         goodness: $scope.performances[weekindex][dayindex],
-                        iscurrentmonth: currentday.getMonth()===today.getMonth(),
-                        istoday: currentday.getMonth()===today.getMonth() && currentday.getDate()===today.getDate()
+                        iscurrentmonth: currentday.getMonth() === today.getMonth(),
+                        istoday: currentday.getMonth() === today.getMonth() && currentday.getDate() === today.getDate()
                     });
                 });
             })
@@ -170,7 +171,7 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
         $scope.expanded = false;
         $scope.expandContent = function (value) {
             $scope.expanded = value;
-            $timeout(function() {
+            $timeout(function () {
                 document.body.scrollTop = document.body.scrollHeight;
             });
         };
@@ -182,7 +183,7 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
         ];
         function createM_Linedata(originDataArray) {
             var retArrary = [];
-            originDataArray.reduce(function(previous, next, originPrevious) {
+            originDataArray.reduce(function (previous, next, originPrevious) {
                 var result = {};
                 var adjustNext = next;
                 var absHeight = Math.abs(previous - next);
@@ -207,6 +208,7 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
             });
             return retArrary;
         }
+
         $scope.m_linedata = createM_Linedata($scope.data[0]);
         $scope.datasetOverride = [
             {
@@ -229,7 +231,15 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
             }
         };
     }])
-    .controller('topCtrl', ['$scope', function ($scope) {
+    .controller('myBuzzCtrl', ['$scope', '$rootScope', function ($scope, $rootScope) {
+        $rootScope.$watch('profile', function (newValue, oldValue) {
+            if (newValue) {
+                var registerDate = new Date(newValue.regist_date);
+                var now = new Date();
+                var days = (now - registerDate) / (1000 * 60 * 60 * 24);
 
+                $scope.buzzDays = days;
+            }
+        });
     }])
 ;
