@@ -40,7 +40,6 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
                     var today = new Date();
                     currentweek.push({
                         date: currentday,
-                        goodness: $scope.performances[weekindex][dayindex],
                         iscurrentmonth: currentday.getMonth() === today.getMonth(),
                         istoday: currentday.getMonth() === today.getMonth() && currentday.getDate() === today.getDate()
                     });

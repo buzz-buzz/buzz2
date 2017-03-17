@@ -508,10 +508,10 @@ body
                     -
                         var list = ["日", "一", "二", "三", "四", "五", "六"]
                     each item in list
-                        .expand-calander.unit.column= item
+                        .expand-calander.unit.column(style="font-family: '微软雅黑', 'Microsoft YaHei';")= item
                 .expand-calander.row.blank
                 .expand-calander.row(ng-repeat="week in extendedweekdays")
-                    .expand-calander.unit.column(ng-repeat="day in week", ng-class="{'invalid': !day.iscurrentmonth,'now': day.istoday,'good': day.goodness=='good','bad': day.goodness=='bad','none':day.goodness=='none'}") {{day.date.getDate()}}
+                    .expand-calander.unit.column(ng-repeat="day in week", ng-class="{'invalid': !day.iscurrentmonth,'now': day.istoday,'good': performances[$parent.$index][$index]=='good','bad': performances[$parent.$index][$index]=='bad','none':performances[$parent.$index][$index]=='none'}") {{day.date.getDate()}}
                     .expand-calander.row.blank
                 .expand-calander.row.blank
         .row.blank
