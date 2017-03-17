@@ -1,0 +1,28 @@
+extends ../vedio_layout
+
+block js
+    + js("/node_modules/quiz-adapter/main.js")
+    + js("/js/quizModule.min.js")
+    + js("/js/buzzModule.min.js")
+    + js("/lib/jwplayer/jwplayer.js")
+    script.
+        jwplayer.key = 'lG24bAGJCRLF1gi4kajg4EnUKi+ujyUyKMoSNA==';
+    + js("/js/level-ctrl.min.js")
+
+block head
+    style.
+        body {
+            background: url('http://source.bridgeplus.cn/buzz/skin2.png') repeat 0 0;
+            background-size: cover;
+            background-attachment: fixed;
+        }
+
+block content
+    .full.height.container(ng-app="buzzModule", ng-controller="UpdateHitsCtrl")
+        .page.with-header.section.transparent
+            .center.aligned.container.column.flex-box.transparent
+                iframe.row.content.white.background(ng-src="{{src}}" ng-controller="VideoPlayerCtrl", style="border:none; width: 100%;", allowfullscreen)
+    include ../tail.pug
+    + tailcontent(true, false, false)
+    include ../../js
+

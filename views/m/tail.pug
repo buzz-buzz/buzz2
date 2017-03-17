@@ -5,7 +5,7 @@ style.
         width: 100%;
         height: 4.3rem;
         background-color: #333333;
-        z-index: 100;
+        z-index: 11111;
     }
     .tail-container a:hover,
     .tail-container a {
@@ -13,7 +13,7 @@ style.
     }
     .tail-container .button{
         display: inline-block;
-        width: 33.33%;
+        width: 25%;
         height: 100%;
         color: white;
         height: 4rem;
@@ -51,8 +51,9 @@ mixin tailcontentdetail(href, focus, text, icon)
                 i(class= icon)
             div.text= text
 
-mixin tailcontent(progress, vocabulary, my)
+mixin tailcontent(today,progress, vocabulary, my)
     .tail-container
+        + tailcontentdetail("/m/my/today", today, "学习", "icon-play2")
         + tailcontentdetail("/m/my/progress", progress, "学习进度", "icon-stats-bars")
         + tailcontentdetail("/m/my/vocabulary", vocabulary, "生词", "icon-book")
         + tailcontentdetail("/m/my/my", my, "我", "icon-user")

@@ -6,6 +6,7 @@ const mount = require('koa-mount');
 const cookie = require('../helpers/cookie');
 const coBody = require('co-body');
 const fs = require('fs');
+const buzz = require('../service-proxy-for-server/buzz');
 
 function mobileDetectRender(app, router, render) {
     let routes = ['sign-in', 'sign-up', 'reset-password'];
@@ -59,7 +60,14 @@ function renderWithServerData(app, router, render) {
 function redirectRequest(app, router) {
     router.get('/', function *home(next) {
         if (this.state.userAgent.isMobile && !this.state.userAgent.isTablet) {
-            this.redirect('/m/loading?url=/m/my/progress');
+            let level = 'B';
+
+            let latestCourse = yield buzz.getLatestCourse(level);
+
+            let query_string='?date='+latestCourse.date+'&cat=business&level=B';
+
+            this.redirect('/m/my/today'+query_string+'');
+            //this.redirect('/m/loading?url=/m/my/progress');// m/my/today
         } else {
             this.redirect('/my/today');
         }

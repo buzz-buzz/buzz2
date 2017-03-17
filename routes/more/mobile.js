@@ -12,5 +12,11 @@ module.exports = function (app, router, render) {
             config: config,
             queryString: qs.stringify(this.query)
         });
-    });
+    })
+          .get('/m/my/today',function *(){
+              this.body = yield render('/m/my/today', {
+                    config: config
+                    //queryString: qs.stringify(this.query)
+              });
+          });
 };

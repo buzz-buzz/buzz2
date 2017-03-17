@@ -1,7 +1,6 @@
 angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'clientConfigModule', 'buzzHeaderModule', 'quizModule'])
     .run(['$rootScope', 'tracking', 'queryParser', function ($rootScope, tracking, queryParser) {
         var query = queryParser.parse();
-
         tracking.send('play', {
             date: query.date,
             category: query.cat,
@@ -13,7 +12,8 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
         $http.get(clientConfig.serviceUrls.buzz.courses.findByDate.frontEnd.replace(':category', query.cat).replace(':level', query.level).replace(':date', query.date))
             .then(function (result) {
                 $scope.queryString = location.search + '&video_path=' + (result.data.video_path) + '&new_words_path=' + result.data.new_words_path + '&lesson_id=' + result.data.lesson_id;
-                $scope.src = 'player' + $scope.queryString;
+
+                $scope.src = '/my/player' + $scope.queryString;
 
                 $rootScope.lessonInfo = {
                     video_path: result.data.video_path,
