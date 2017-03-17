@@ -95,13 +95,13 @@ block content
                                 td
                                     + badPerformance(ng-repeat="i in [].constructor(weekPerformance.bad) track by $index")
                                 td  2028
-                .row.content(ng-controller="chartCtrl")
+                .row.content(ng-controller="pcChartCtrl")
                     p &nbsp;
                     p &nbsp;
                     p.left.aligned 历史成绩
                     p.separate.title
                         span 你累计学习多少单词
 
-                    canvas#history-chart.chart.chart-bar(chart-data="data", chart-labels="labels", chart-series="series", chart-dataset-override="datasetOverride")
+                    canvas#history-chart.chart.chart-bar(chart-data="data", chart-labels="labels", chart-series="series", chart-options="options" chart-dataset-override="datasetOverride")
                     p &nbsp;
                     p &nbsp;

@@ -249,6 +249,46 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
             }
         };
     }])
+    .controller('pcChartCtrl', ['$scope', function ($scope) {
+        $scope.labels = ['第一周', '第二周', '第三周', '第四周', '第五周'];
+        $scope.series = ['Series A', 'Series B'];
+        $scope.data = [
+            [65, 59, 80, 81, 56],
+            [28, 48, 40, 19, 86]
+        ];
+        $scope.onClick = function (points, evt) {
+            console.log(points, evt);
+        };
+        $scope.datasetOverride = [{
+            yAxisID: 'y-axis-1',
+            label: '你累计学习单词量：个/周',
+            borderWidth: 0,
+            type: 'bar'
+        }, {
+            yAxisID: 'y-axis-2',
+            label: '系统整体排名：名/周',
+            borderWidth: 1,
+            type: 'line'
+        }];
+        $scope.options = {
+            scales: {
+                yAxes: [
+                    {
+                        id: 'y-axis-1',
+                        type: 'linear',
+                        display: true,
+                        position: 'left'
+                    },
+                    {
+                        id: 'y-axis-2',
+                        type: 'linear',
+                        display: true,
+                        position: 'right'
+                    }
+                ]
+            }
+        };
+    }])
     .controller('myBuzzCtrl', ['$scope', '$rootScope', '$http', 'clientConfig', function ($scope, $rootScope, $http, clientConfig) {
         $rootScope.$watch('profile', function (newValue, oldValue) {
             if (newValue) {
