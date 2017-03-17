@@ -43,11 +43,11 @@ block head
         }
 
 block content
-    #full-page.full.height.container(ng-app="buzzProgressModule")
+    #full-page.full.height.container(ng-app="buzzProgressModule", ng-controller="calendarParentCtrl")
         a.page-pos(name="page-1")
         .page.with-header.section.transparent
             .center.aligned.container.column.flex-box.white.background(style="padding-left: 50px; padding-right: 50px;")
-                .row.dynamic(ng-controller="calendarParentCtrl")
+                .row.dynamic
                     p.left.aligned 每月打卡
                     ul.right.floated.horizontal.menu.non-interactive
                         li
@@ -91,12 +91,9 @@ block content
                         tbody
                             tr
                                 td
-                                    + goodPerformance
-                                    + goodPerformance
-                                    + goodPerformance
-                                    + goodPerformance
+                                    + goodPerformance(ng-repeat="i in [].constructor(weekPerformance.good) track by $index")
                                 td
-                                    + badPerformance
+                                    + badPerformance(ng-repeat="i in [].constructor(weekPerformance.bad) track by $index")
                                 td  2028
                 .row.content(ng-controller="chartCtrl")
                     p &nbsp;

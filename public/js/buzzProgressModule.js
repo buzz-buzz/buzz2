@@ -122,17 +122,37 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
                 start_date: DateFactory.toDateISOString(DateFactory.getFirstDayOfMonth($scope.current)),
                 end_date: DateFactory.toDateISOString(DateFactory.getFirstDayOfNextMonth($scope.current))
             }).then(function (result) {
+                var firstDayOfWeek = DateFactory.getFirstDayOfWeek($scope.current);
+                var firstDayOfNextWeek = DateFactory.getFirstDayOfNextWeek($scope.current);
+                $scope.$parent.weekPerformance = {
+                    good: 0,
+                    bad: 0
+                };
                 var dailyExercisePerf = [];
 
                 result.data.map(function (p) {
                     var exerciseDate = new Date(p.start_date);
+
                     var d = $filter('date')(exerciseDate, 'yyyy-MM-dd');
                     $scope.perf[d].detail = p;
                     $scope.perf[d].goodness = getGoodness(p);
+
+                    if (exerciseDate >= firstDayOfWeek && exerciseDate < firstDayOfNextWeek) {
+                        if ($scope.perf[d].goodness === 'good') {
+                            $scope.$parent.weekPerformance.good++;
+                        }
+
+                        if ($scope.perf[d].goodness === 'bad') {
+                            $scope.$parent.weekPerformance.bad++;
+                        }
+                    }
+
                     $scope.performances[$scope.perf[d].week][$scope.perf[d].day] = $scope.perf[d].goodness;
 
                     dailyExercisePerf.push(quizFactory.getDailyExercisePerformance(p.quiz_result_group_id));
                 });
+
+                console.log('week perf: ', $scope.weekPerformance);
 
                 return dailyExercisePerf;
             }).then(function (requests) {
@@ -156,7 +176,6 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
                     }, 0)
                 ;
             });
-
         }
 
         $scope.getYYYYMMDDByWeekDay = function (week, day) {

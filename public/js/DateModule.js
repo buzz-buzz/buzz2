@@ -48,6 +48,12 @@ angular.module('DateModule', ['angularQueryParserModule'])
             getFirstDayOfNextMonth: function (date) {
                 return new Date(date.getFullYear(), date.getMonth() + 1, 1);
             },
+            getFirstDayOfWeek: function (date) {
+                return new Date(date.getFullYear(), date.getMonth(), Math.min(date.getDate() - date.getDay(), 1));
+            },
+            getFirstDayOfNextWeek: function (date) {
+                return new Date(date.getFullYear(), date.getMonth(), date.getDate() + 7 - date.getDay());
+            },
             toDateISOString: function (date) {
                 return date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
             },
