@@ -1,5 +1,6 @@
 angular.module('serviceCacheModule', ['clientConfigModule'])
     .factory('cache', ['$q', function ($q) {
+        // TODO: Add local storage cache
         var cache = {};
 
         return {

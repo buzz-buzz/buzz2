@@ -5,6 +5,7 @@ const serviceUrls = config.serviceUrls;
 const membership = require('../membership');
 const proxy = require('./proxy');
 const Router = require('koa-router');
+const qs = require('querystring');
 
 const proxyOption = {
     host: config.buzz.inner.host,
@@ -61,6 +62,15 @@ module.exports = function (app, router, parse) {
                     quiz_result_group_id: this.query.quiz_result_group_id
                 }),
                 method: 'GET'
+            }, proxyOption));
+        })
+        .get(serviceUrls.buzz.quiz.lessonCount.frontEnd, membership.ensureAuthenticated, function *() {
+            this.body = yield proxy(Object.assign({
+                path: serviceUrls.buzz.quiz.lessonCount.upstream + '?' + qs.stringify({
+                    member_id: this.state.hcd_user.member_id,
+                    type: this.query.type
+                }),
+                method: 'GET',
             }, proxyOption));
         })
     ;

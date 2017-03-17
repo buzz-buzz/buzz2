@@ -242,19 +242,22 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
             }
         });
     }])
-    .controller('myPerformanceCtrl', ['$scope', '$http', 'clientConfig', 'api', function ($scope, $http, clientConfig, api) {
-        $scope.infoData = {};
-
+    .controller('myPerformanceCtrl', ['$scope', '$http', 'clientConfig', 'api', '$q', function ($scope, $http, clientConfig, api, $q) {
         api.get(clientConfig.serviceUrls.buzz.profile.latestAllEducation.frontEnd)
             .then(function (result) {
-                console.log('===');
-                console.log(result);
-                if (result.data.fav_topics && result.data.fav_topics.length) {
-                    $scope.infoData.topics = result.data.fav_topics[0];
-                }
-
-                $scope.infoData.level = result.data.fav_level;
+                $scope.myEducationInfo = result.data;
             });
 
+        $q.all([api.get(clientConfig.serviceUrls.buzz.quiz.lessonCount.frontEnd, {
+            params: {
+                type: 'vocabulary'
+            }
+        })]).then(function (results) {
+            $scope.lessonCount = results.map(function (r) {
+                return r.data.count
+            }).reduce(function (prev, next) {
+                return Number(prev) + Number(next);
+            }, 0)
+        });
     }])
 ;

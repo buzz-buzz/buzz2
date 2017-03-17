@@ -118,6 +118,10 @@ module.exports = {
             dailyExercisePerformance: {
                 frontEnd: '/service-proxy/buzz/quiz/daily-exercise',
                 upstream: '/quiz/daily-exercise/:quiz_result_group_id'
+            },
+            lessonCount: {
+                frontEnd: '/service-proxy/buzz/quiz/lesson-count',
+                upstream: '/quiz-group/lesson-count'
             }
         }
     }

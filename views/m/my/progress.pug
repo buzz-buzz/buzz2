@@ -465,31 +465,32 @@ body
             position: absolute;
             z-index: 5;
         }
-    .body(ng-app="buzzProgressModule").init
+    .body(ng-app="buzzProgressModule", ng-controller="calendarParentCtrl").init
         .row.special(id="profile")
             .box(ng-controller="myPerformanceCtrl")
                 .account.column
                     .text.head.font.black Level
-                    .text.content.font.black.bold A
+                    .text.content.font.black.bold {{myEducationInfo.fav_level}}
                 .account.column
                     .text.head.font.black Lesson
-                    .text.content.font.black.bold 20
+                    .text.content.font.black.bold {{lessonCount}}
                 .pic.column
                     .img
                         img(ng-src=`{{profile.avatar || '${config.cdn}/public/images/default_avatar.png?${config.imageversion}'}}`)
                     .text(ng-bind="profile.real_name")
                 .account.column
+                .account.column
                     .text.head.font.black
                         img(ng-src=`${config.cdn}/public/images/points.png?${config.imageversion}`)
-                    .text.content.font.black.bold 200
-                .account.column
+                    .text.content.font.black.bold {{totalScore}}
+                .account.column(ng-show="false")
                     .text.head.font.black
                         img(ng-src=`${config.cdn}/public/images/medal.png?${config.imageversion}`)
                     .text.content.font.black.bold 5
         .row
             .box.process-head 练习打卡日历
         .row.blank
-        .row( ng-controller="calendarCtrl")
+        .row(ng-controller="calendarCtrl")
             .box.process-content(ng-if="!expanded")
                 .calander.left(ng-controller="myBuzzCtrl")
                     span.font.grey 你来到 Buzzbuzz 已有：
