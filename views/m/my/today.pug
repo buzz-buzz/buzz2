@@ -19,10 +19,10 @@ block head
 
 block content
     .full.height.container(ng-app="buzzModule", ng-controller="UpdateHitsCtrl")
-        .page.with-header.section.transparent
+        .page.with-header.with-footer.section.transparent
             .center.aligned.container.column.flex-box.transparent
                 iframe.row.content.white.background(ng-src="{{src}}" ng-controller="VideoPlayerCtrl", style="border:none; width: 100%;", allowfullscreen)
     include ../tail.pug
-    + tailcontent(true, false, false)
+    + tailcontent(true,  false, false, false)
     include ../../js
 

@@ -7,11 +7,13 @@ style.
         background-color: #333333;
         z-index: 11111;
     }
+
     .tail-container a:hover,
     .tail-container a {
         text-decoration: none;
     }
-    .tail-container .button{
+
+    .tail-container .button {
         display: inline-block;
         width: 25%;
         height: 100%;
@@ -20,23 +22,27 @@ style.
         text-align: center;
         color: #cccccc;
     }
-    .tail-container .button .icon{
+
+    .tail-container .button .icon {
         width: 100%;
         height: 2.8rem;
         line-height: 2.8rem;
         font-size: 2rem;
     }
-    .tail-container .button .icon i{
+
+    .tail-container .button .icon i {
         display: inline-block;
         vertical-align: middle;
     }
-    .tail-container .button .text{
+
+    .tail-container .button .text {
         width: 100%;
         height: 1.2rem;
         line-height: 1.2rem;
         font-size: 0.7rem;
     }
-    .tail-container .button.focus{
+
+    .tail-container .button.focus {
         color: #f9b600;
     }
 mixin tailcontentdetail(href, focus, text, icon)
@@ -53,7 +59,7 @@ mixin tailcontentdetail(href, focus, text, icon)
 
 mixin tailcontent(today,progress, vocabulary, my)
     .tail-container
-        + tailcontentdetail("/m/my/today", today, "学习", "icon-play2")
+        + tailcontentdetail("/my/today", today, "学习", "icon-play2")
         + tailcontentdetail("/m/my/progress", progress, "学习进度", "icon-stats-bars")
         + tailcontentdetail("/m/my/vocabulary", vocabulary, "生词", "icon-book")
         + tailcontentdetail("/m/my/my", my, "我", "icon-user")

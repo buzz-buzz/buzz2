@@ -255,6 +255,10 @@ span.space {
     padding-top: 40px;
 }
 
+.page.with-footer {
+    padding-bottom: 50px;
+}
+
 .page.scrolly {
     overflow-y: auto;
 }

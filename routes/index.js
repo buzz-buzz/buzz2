@@ -59,18 +59,7 @@ function renderWithServerData(app, router, render) {
 }
 function redirectRequest(app, router) {
     router.get('/', function *home(next) {
-        if (this.state.userAgent.isMobile && !this.state.userAgent.isTablet) {
-            let level = 'B';
-
-            let latestCourse = yield buzz.getLatestCourse(level);
-
-            let query_string='?date='+latestCourse.date+'&cat=business&level=B';
-
-            this.redirect('/m/my/today'+query_string+'');
-            //this.redirect('/m/loading?url=/m/my/progress');// m/my/today
-        } else {
-            this.redirect('/my/today');
-        }
+        this.redirect('/my/today');
     });
 
     router.get('/sign-out', function *deleteCookie(next) {

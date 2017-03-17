@@ -1,3 +1,18 @@
+<style type="text/css">
+    #sub-title {
+        column-count: 2;
+        -moz-column-count: 2;
+    }
+
+    @media screen and (max-width: 550px) {
+        #sub-title {
+            column-count: 1;
+            -moz-column-count: 1;
+        }
+    }
+</style>
+
+
 <div class="center aligned container flex-box">
     <div class="video row dynamic" style="width: 100%;">
         <div style="width: 100%;  background-color: black;" class="video-wrapper">
@@ -10,7 +25,7 @@
     <div class="subtitle row content" style="display: flex;">
         <div class="borderless segment" style="max-height: 100%; width: 100%; overflow: auto;">
             <h2 style="font-size: 1.2rem;">{{videoTitle}}</h2>
-            <div style="column-count: 2; -moz-column-count: 2;">
+            <div id="sub-title">
                 <p ng-repeat="st in subtitles" class="zero-margin">
                     <a class="script"
                        ng-class="{'highlight': currentTime >= st.startTime&&currentTime < st.endTime}"

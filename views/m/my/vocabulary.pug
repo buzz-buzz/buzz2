@@ -10,19 +10,23 @@ body
         .init {
             display: none;
         }
+
         body {
             margin: 0px;
         }
+
         .body {
             width: 375px;
             position: relative;
             margin: 0 auto;
         }
+
         .row {
             display: block;
             position: relative;
             width: 375px;
         }
+
         .row.blank {
             height: 1rem;
         }
@@ -36,23 +40,27 @@ body
             color: #333333;
             background-color: #f9b600;
         }
+
         .row.word {
             border-top: 1px solid #dddddd;
             border-bottom: 1px solid #dddddd;
             height: 5rem;
         }
+
         .row.word .wordname {
             display: inline-block;
-            height:3rem;
-            line-height:3rem;
+            height: 3rem;
+            line-height: 3rem;
             padding-left: 1rem;
             color: #333333;
         }
+
         .row.date {
             background-color: #e8e8e8;
             position: relative;
             height: 1.8rem;
         }
+
         .row.date .datedetail {
             position: absolute;
             width: 3rem;
@@ -62,20 +70,25 @@ body
             bottom: 0;
             color: #666666;
         }
+
         .row.title {
         }
+
         .column {
             display: inline-block;
             width: 50%;
         }
+
         .title .item {
             text-align: center;
             color: #666666;
             line-height: 2.2rem;
         }
+
         .title .item.active {
             color: #f9b600;
         }
+
         .reserve-row {
             min-height: 3rem;
         }
@@ -98,7 +111,7 @@ body
         .row.blank
         .row.blank
     include ../tail.pug
-    + tailcontent(false, true, false)
+    + tailcontent(false, false, true, false)
     include ../../js
     script(src=`${config.cdn}/node_modules/chart.js/dist/Chart.js?${config.version}`)
     script(src=`${config.cdn}/node_modules/angular-chart.js/dist/angular-chart.min.js?${config.version}`)
@@ -109,6 +122,6 @@ body
     script(src=`${config.cdn}/js/buzzHeaderModule.min.js?${config.version}`)
     + js("/js/vocabularyModule.min.js")
     script.
-        Array.from(document.getElementsByClassName("init")).forEach(function(ele){
+        Array.from(document.getElementsByClassName("init")).forEach(function (ele) {
             ele.className = ele.className.replace(/(^|\s)init($|\s)/, ' ')
         });

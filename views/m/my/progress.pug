@@ -592,7 +592,7 @@ body
         .row.blank
         .row.blank
     include ../tail.pug
-    + tailcontent(true, false, false)
+    + tailcontent(false, true, false, false)
     include ../../js
     script(src=`${config.cdn}/node_modules/chart.js/dist/Chart.js?${config.version}`)
     script(src=`${config.cdn}/node_modules/angular-chart.js/dist/angular-chart.min.js?${config.version}`)

@@ -189,7 +189,7 @@ body(ng-app="accountModule",ng-controller="viewAccountCtrl")
                     .blank
                     .button(ng-click="cancel()") 取消
     include ../tail.pug
-    + tailcontent(false, false, true)
+    + tailcontent(false, false, false, true)
     include ../../js
     + js("/js/formModule.min.js")
     + js("/js/accountModule.min.js")
