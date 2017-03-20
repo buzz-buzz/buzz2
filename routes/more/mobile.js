@@ -16,7 +16,8 @@ module.exports = function (app, router, render) {
         })
         .get('/m/my/today', function *() {
             this.body = yield render('/m/my/today', {
-                config: config
+                config: config,
+                hcd_user: this.state.hcd_user
             });
         })
         .get('/m/my/play', function *() {

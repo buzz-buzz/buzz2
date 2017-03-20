@@ -17,12 +17,20 @@ block head
             background-attachment: fixed;
         }
 
+mixin videoPlayer
+    .center.aligned.container.column.flex-box.transparent
+        iframe.row.content.white.background(ng-src="{{src}}" ng-controller="VideoPlayerCtrl", style="border:none; width: 100%;", allowfullscreen)
+
 block content
     .full.height.container(ng-app="buzzModule", ng-controller="UpdateHitsCtrl")
-        .page.with-header.with-footer.section.transparent
-            .center.aligned.container.column.flex-box.transparent
-                iframe.row.content.white.background(ng-src="{{src}}" ng-controller="VideoPlayerCtrl", style="border:none; width: 100%;", allowfullscreen)
-    include ../tail.pug
-    + tailcontent(true,  false, false, false)
+        if hcd_user
+            .page.with-header.with-footer.section.transparent
+                + videoPlayer
+        else
+            .page.with-header.section.transparent
+                + videoPlayer
+    if hcd_user
+        include ../tail.pug
+        + tailcontent(true,  false, false, false)
     include ../../js
 

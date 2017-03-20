@@ -61,7 +61,7 @@ module.exports = function (app, router, parse) {
                 method: 'GET'
             });
         })
-        .get(serviceUrls.buzz.courses.findByDate.frontEnd, membership.ensureAuthenticated, function*(next) {
+        .get(serviceUrls.buzz.courses.findByDate.frontEnd, function*(next) {
             this.body = yield proxy.call(this, {
                 host: config.buzz.inner.host,
                 port: config.buzz.inner.port,

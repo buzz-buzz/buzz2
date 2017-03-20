@@ -18,7 +18,7 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
             .then(function (result) {
                 $scope.queryString = location.search + '&video_path=' + (result.data.video_path) + '&new_words_path=' + result.data.new_words_path + '&lesson_id=' + result.data.lesson_id;
 
-                $scope.src = '/my/player' + $scope.queryString;
+                $scope.src = '/s/player' + $scope.queryString;
 
                 $rootScope.lessonInfo = {
                     video_path: result.data.video_path,
