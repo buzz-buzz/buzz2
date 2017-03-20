@@ -32,7 +32,7 @@ block content
             .page.with-header.section.transparent
                 + videoPlayer
 
-        #login.mask(ng-controller="loginModalCtrl", ng-class="{'hide': hideModal, 'show': showModal}", ng-click="hideTheModal()")
+        #login.mask(ng-controller="loginModalCtrl", ng-class="{'hide': hideModal, 'show': showModal}")
             .popup(ng-click="keepModal($event)", style="max-width: 250px;")
                 .body(style="padding: 1em;")
                     .center.aligned.container(ng-cloak)
