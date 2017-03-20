@@ -14,7 +14,7 @@ module.exports = function (app, router, render) {
 
             let latestCourse = yield buzz.getLatestCourse(level);
 
-            if (!(this.state.userAgent.isMobile && !this.state.userAgent.isTablet)) {
+            if (!this.state.userAgent.isMobile || this.state.userAgent.isTablet) {
                 return this.redirect('/my/play?date=' + latestCourse.date + '&cat=' + latestCourse.category.toLowerCase() + '&level=' + level, {
                     config: config
                 });
@@ -33,7 +33,13 @@ module.exports = function (app, router, render) {
             });
         })
         .get('/my/play', function *(next) {
-            this.body = yield render('my/play', {
+            if (!this.state.userAgent.isMobile || this.state.userAgent.isTablet) {
+                return this.body = yield render('my/play', {
+                    config: config
+                });
+            }
+
+            this.body = yield render('/m/my/today', {
                 config: config
             });
         })

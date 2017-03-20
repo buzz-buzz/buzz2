@@ -3,7 +3,7 @@
 const util = require('util');
 
 let config = {
-    version: '1.3.1-' + Date.now(),
+    version: '1.3.' + Date.now(),
     imageversion: "1.2.1-1489131411950"
 };
 

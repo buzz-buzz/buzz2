@@ -7,16 +7,22 @@ const mount = require('koa-mount');
 const qs = require('querystring');
 
 module.exports = function (app, router, render) {
-    router.get('/m/bind-mobile', function *() {
-        this.body = yield render('/m/bind-mobile', {
-            config: config,
-            queryString: qs.stringify(this.query)
-        });
-    })
-          .get('/m/my/today',function *(){
-              this.body = yield render('/m/my/today', {
-                    config: config
-                    //queryString: qs.stringify(this.query)
-              });
-          });
+    router
+        .get('/m/bind-mobile', function *() {
+            this.body = yield render('/m/bind-mobile', {
+                config: config,
+                queryString: qs.stringify(this.query)
+            });
+        })
+        .get('/m/my/today', function *() {
+            this.body = yield render('/m/my/today', {
+                config: config
+            });
+        })
+        .get('/m/my/play', function *() {
+            this.body = yield render('/m/my/today', {
+                config: config
+            });
+        })
+    ;
 };
