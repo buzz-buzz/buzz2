@@ -5,6 +5,7 @@ const buzz = require('../../service-proxy-for-server/buzz');
 const course = require('../../bll/course');
 const mount = require('koa-mount');
 const qs = require('querystring');
+const membership = require('../../membership');
 
 module.exports = function (app, router, render) {
     router
@@ -14,7 +15,7 @@ module.exports = function (app, router, render) {
                 queryString: qs.stringify(this.query)
             });
         })
-        .get('/m/my/today', function *() {
+        .get('/m/my/today', membership.setHcdUserIfSignedIn, function *() {
             this.body = yield render('/m/my/today', {
                 config: config,
                 hcd_user: this.state.hcd_user

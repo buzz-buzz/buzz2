@@ -73,6 +73,14 @@ let membership = {
     parseToken: parseToken
 };
 
+membership.setHcdUserIfSignedIn = function *(next) {
+    let context = this;
+
+    yield setHcdUserByToken(context);
+
+    yield next;
+};
+
 membership.ensureAuthenticated = function *(next) {
     let context = this;
 
