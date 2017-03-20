@@ -121,7 +121,10 @@ angular.module('vocabularyModule', ['trackingModule', 'clientConfigModule', 'Dat
                     year: date.getFullYear(),
                     monthDay: Month[date.getMonth()] + '.' + DateOfMonth.getShortString(date.getDate()),
                     words: [],
-                    lesson_id: course.lesson_id
+                    lesson_id: course.lesson_id,
+                    date: course.date,
+                    category: course.category,
+                    level: course.level
                 });
 
                 (function (v) {

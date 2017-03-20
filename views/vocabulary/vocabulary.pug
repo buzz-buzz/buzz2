@@ -85,12 +85,13 @@ block head
             padding-bottom: 0.4em;
             font-size: 18px;
             font-weight: bold;
+            padding-left: 0.5em;
         }
 
         .head .part7,
         .head .part8,
         .head .part9 {
-            padding-top: 0.4em;
+            padding-top: 1em;
             padding-bottom: 0.4em;
             font-weight: bold;
             font-size: 14px;
@@ -221,12 +222,11 @@ block content
     .body-container(ng-app="vocabularyModule", ng-controller="vocabularyCtrl")
         .table-cell
             .table-row.center.head(ng-controller="vocabularyHeaderCtrl")
-                .table-column.part1 &#x7B2C;{{chineseWeekNumber}}&#x5468;
-                .table-column.part2
-                .table-column.part3.left
-                    .button &#x91CD;&#x65B0;&#x7EC3;&#x4E60;
-                .table-column.part4
+                .table-column.part1
                     .button(ng-click="vocabularyPrint()") &#x6253;&#x5370;
+                .table-column.part2
+                .table-column.part3
+                .table-column.part4
                 .table-column.part5
                 .table-column.part6
                 .table-column.part7
@@ -249,7 +249,7 @@ block content
             .table-row.center.body(ng-repeat="weeklylist in vocabularyAll")
                 .table-column.part1
                     div {{weeklylist.year}}
-                    .monthday {{weeklylist.monthDay}}
+                    a(ng-href="/my/play?date={{weeklylist.date}}&cat={{weeklylist.category}}&level={{weeklylist.level}}").monthday {{weeklylist.monthDay}}
                 .table-column.part2
                     .line.head
                     .line.body

@@ -8,8 +8,13 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
         });
     }])
     .controller('VideoPlayerCtrl', ['$scope', '$sce', 'clientConfig', '$http', 'queryParser', '$rootScope', function ($scope, $sce, clientConfig, $http, queryParser, $rootScope) {
-        var query = queryParser.parse();
-        $http.get(clientConfig.serviceUrls.buzz.courses.findByDate.frontEnd.replace(':category', query.cat).replace(':level', query.level).replace(':date', query.date))
+        function getLesson() {
+            var query = queryParser.parse();
+
+            return $http.get(clientConfig.serviceUrls.buzz.courses.findByDate.frontEnd.replace(':category', query.cat).replace(':level', query.level).replace(':date', query.date));
+        }
+
+        getLesson()
             .then(function (result) {
                 $scope.queryString = location.search + '&video_path=' + (result.data.video_path) + '&new_words_path=' + result.data.new_words_path + '&lesson_id=' + result.data.lesson_id;
 
