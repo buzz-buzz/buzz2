@@ -2,11 +2,170 @@ angular.module('buzzPlayerModule', ['angularQueryParserModule', 'trackingModule'
     .run([function () {
         jwplayer.key = 'lG24bAGJCRLF1gi4kajg4EnUKi+ujyUyKMoSNA==';
     }])
-    .controller('videoCtrl', ['$scope', '$rootScope', '$http', 'queryParser', '$timeout', '$sce', 'tracking', function ($scope, $rootScope, $http, queryParser, $timeout, $sce, tracking) {
+    .factory('videoFactory', ['$http', function ($http) {
+        function convertSecondsToHHMMSS(seconds) {
+            var t = new Date(1970, 0, 1);
+            t.setMilliseconds(seconds * 1000);
+            var h = t.getHours();
+            var m = t.getMinutes();
+            if (m < 10) {
+                m = '0' + m;
+            }
+            var s = t.getSeconds();
+            if (s < 10) {
+                s = '0' + s;
+            }
+
+            var ms = t.getMilliseconds();
+            if (ms < 10) {
+                ms = '0' + ms;
+            }
+
+            return h + ':' + m + ':' + s + '.' + ms;
+        }
+
+
+        function convertHHMMSSToSeconds(time) {
+            var parts = time.split(':');
+            var s = parts[parts.length - 1];
+            var m = parts[parts.length - 2];
+            var h = parts[parts.length - 3];
+
+            return Number(h) * 3600 + Number(m) * 60 + Number(s);
+        }
+
+
+        function extra($scope) {
+            return {
+                seconds: $scope.seconds,
+                isFullScreen: $scope.fullScreen || false
+            };
+        }
+
+        function getData(event, videoInfo, $scope) {
+            return angular.extend({}, videoInfo, event, extra($scope));
+        }
+
+
+        function trackVideo($scope, mainVideo, tracking, videoInfo) {
+            mainVideo.onPlay(function (event) {
+                tracking.send('play.video.playBtn.click', getData(event, videoInfo, $scope));
+            });
+
+            mainVideo.onPause(function (event) {
+                tracking.send('play.video.pauseBtn.click', getData(event, videoInfo, $scope))
+            });
+
+            mainVideo.onSeek(function (event) {
+                tracking.send('play.video.seekBtn', getData(event, videoInfo, $scope));
+            });
+
+            mainVideo.onFullscreen(function (event) {
+                $scope.fullScreen = event.fullscreen;
+                $scope.$apply();
+
+                tracking.send('play.video.fullScreenBtn.clicked', getData(event, videoInfo, $scope));
+            });
+
+            mainVideo.onQualityChange(function (event) {
+                tracking.send('play.video.definitionBtn', angular.extend({}, getData(event, videoInfo, $scope), {
+                    toDefinition: event.levels[event.currentQuality].label
+                }));
+            });
+
+            mainVideo.onMute(function (event) {
+                tracking.send('play.video.muteBtn.click', getData(event, videoInfo, $scope));
+            });
+
+            mainVideo.onVolume(function (event) {
+                tracking.send('play.video.volumnBtn', getData(event, videoInfo, $scope));
+            });
+        }
+
+        function updateVideoTime(mainVideo, $scope) {
+            mainVideo.onTime(function (event) {
+                $scope.currentTime = convertSecondsToHHMMSS(event.position);
+                $scope.seconds = event.position;
+                $scope.$apply();
+            });
+        }
+
+        function emitVideoPlayedMessage(mainVideo, videoInfo, $scope) {
+            var played = false;
+            mainVideo.onPlay(function (event) {
+                if (!played) {
+                    window.parent.postMessage('video:played//' + JSON.stringify(getData(event, videoInfo, $scope)), window.parent.location.href);
+
+                    played = true;
+                }
+            });
+        }
+
+        function restrictVideoPlaying(currentPos, range, mainVideo) {
+            if (Number(currentPos) < Number(range.start)) {
+                mainVideo.seek(Number(range.start));
+                mainVideo.play(true);
+            }
+
+            if (Number(currentPos) >= Number(range.end)) {
+                mainVideo.play(false);
+            }
+        }
+
+        return {
+            listenVideo: function ($scope, mainVideo, tracking, query) {
+                var videoInfo = {
+                    date: query.date,
+                    category: query.cat,
+                    level: query.level,
+                    lesson_id: query.lesson_id
+                };
+
+                trackVideo($scope, mainVideo, tracking, videoInfo);
+                updateVideoTime(mainVideo, $scope);
+                emitVideoPlayedMessage(mainVideo, videoInfo, $scope);
+
+                $scope.playTo = function (subtitle) {
+                    var startSeconds = convertHHMMSSToSeconds(subtitle.startTime);
+
+                    function seekAndPlay() {
+                        mainVideo.seek(startSeconds);
+                        mainVideo.play(true);
+                        tracking.send('play.speakerBtn.click', angular.extend({}, getData(null, videoInfo, $scope), subtitle));
+                    }
+
+                    seekAndPlay();
+                };
+
+                $http.get('/service-proxy/video/playable').then(function (result) {
+                    if (!result.data || (!result.data.start && !result.data.end)) {
+                        return;
+                    }
+
+                    mainVideo.onPlay(function (event) {
+                        var pos = mainVideo.getPosition();
+                        restrictVideoPlaying(pos, result.data, mainVideo);
+                    });
+
+                    mainVideo.onTime(function (event) {
+                        if (event.type === 'time') {
+                            restrictVideoPlaying(event.position, result.data, mainVideo);
+                        }
+                    });
+
+                    mainVideo.onSeek(function (event) {
+                        // mainVideo.seek(event.position);
+                    });
+                });
+            }
+        };
+    }])
+    .controller('videoCtrl', ['$scope', '$rootScope', '$http', 'queryParser', '$timeout', '$sce', 'tracking', 'videoFactory', function ($scope, $rootScope, $http, queryParser, $timeout, $sce, tracking, videoFactory) {
         $scope.$sce = $sce;
+
         var query = queryParser.parse();
-        var smilJson = query.video_path;
-        $http.get(smilJson).then(function (result) {
+
+        $http.get(query.video_path).then(function (result) {
             var smil = result.data;
 
             var mainVideo = jwplayer('main-video').setup({
@@ -27,6 +186,8 @@ angular.module('buzzPlayerModule', ['angularQueryParserModule', 'trackingModule'
                     })
                 }]
             });
+
+            videoFactory.listenVideo($scope, mainVideo, tracking, query);
 
             $scope.videoTitle = smil.title;
 
@@ -59,115 +220,6 @@ angular.module('buzzPlayerModule', ['angularQueryParserModule', 'trackingModule'
                             text: structure.slice(9).join(', ')
                         });
                     }
-
-                    mainVideo.onTime(function (event) {
-                        $scope.currentTime = convertSecondsToHHMMSS(event.position);
-                        $scope.seconds = event.position;
-                        $scope.$apply();
-                    });
-
-                    var videoInfo = {
-                        date: query.date,
-                        category: query.cat,
-                        level: query.level,
-                        lesson_id: query.lesson_id
-                    };
-
-                    function extra() {
-                        return {
-                            seconds: $scope.seconds,
-                            isFullScreen: $scope.fullScreen || false
-                        };
-                    }
-
-                    function getData(event) {
-                        return angular.extend({}, videoInfo, event, extra());
-                    }
-
-                    mainVideo.onPlay(function (event) {
-                        tracking.send('play.video.playBtn.click', getData(event));
-                    });
-
-                    mainVideo.onPause(function (event) {
-                        tracking.send('play.video.pauseBtn.click', getData(event))
-                    });
-
-                    mainVideo.onSeek(function (event) {
-                        tracking.send('play.video.seekBtn', getData(event));
-                    });
-
-                    mainVideo.onFullscreen(function (event) {
-                        $scope.fullScreen = event.fullscreen;
-                        $scope.$apply();
-
-                        tracking.send('play.video.fullScreenBtn.clicked', getData(event));
-                    });
-
-                    mainVideo.onQualityChange(function (event) {
-                        tracking.send('play.video.definitionBtn', angular.extend({}, getData(event), {
-                            toDefinition: event.levels[event.currentQuality].label
-                        }));
-                    });
-
-                    mainVideo.onMute(function (event) {
-                        tracking.send('play.video.muteBtn.click', getData(event));
-                    });
-
-                    mainVideo.onVolume(function (event) {
-                        tracking.send('play.video.volumnBtn', getData(event));
-                    });
-
-                    function convertHHMMSSToSeconds(time) {
-                        var parts = time.split(':');
-                        var s = parts[parts.length - 1];
-                        var m = parts[parts.length - 2];
-                        var h = parts[parts.length - 3];
-
-                        return Number(h) * 3600 + Number(m) * 60 + Number(s);
-                    }
-
-                    function convertSecondsToHHMMSS(seconds) {
-                        var t = new Date(1970, 0, 1);
-                        t.setMilliseconds(seconds * 1000);
-                        var h = t.getHours();
-                        var m = t.getMinutes();
-                        if (m < 10) {
-                            m = '0' + m;
-                        }
-                        var s = t.getSeconds();
-                        if (s < 10) {
-                            s = '0' + s;
-                        }
-
-                        var ms = t.getMilliseconds();
-                        if (ms < 10) {
-                            ms = '0' + ms;
-                        }
-
-                        return h + ':' + m + ':' + s + '.' + ms;
-                    }
-
-                    $scope.playTo = function (subtitle) {
-                        var startSeconds = convertHHMMSSToSeconds(subtitle.startTime);
-
-                        function seekAndPlay() {
-                            console.log(mainVideo);
-                            mainVideo.seek(startSeconds);
-                            mainVideo.play(true);
-                            tracking.send('play.speakerBtn.click', angular.extend({}, getData(), subtitle));
-                        }
-
-                        seekAndPlay();
-                    };
-
-                    var played = false;
-                    mainVideo.onPlay(function (event) {
-                        if (!played) {
-                            window.parent.postMessage('video:played//' + JSON.stringify(getData(event)), window.parent.location.href);
-
-                            played = true;
-                        }
-                    });
                 }).then(function () {
                     if (query.new_words_path) {
                         $http.get(query.new_words_path).then(function (result) {
