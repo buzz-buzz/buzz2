@@ -68,36 +68,6 @@ angular.module('accountModule', ['clientConfigModule', 'buzzHeaderModule', 'educ
 
         modalFactory.bootstrap($scope, $rootScope, '');
     }])
-    .factory('modalFactory', [function () {
-        return {
-            bootstrap: function ($scope, $rootScope, modalId) {
-                console.log('bootstraped ', modalId);
-                $scope.showModal = false;
-                $scope.hideModal = false;
-
-                $scope.hideTheModal = function () {
-                    $scope.hideModal = true;
-                    $scope.showModal = false;
-                };
-
-                $scope.keepModal = function ($event) {
-                    $event.stopPropagation();
-                };
-
-                var destroy = $rootScope.$on('modal:show' + modalId, function () {
-                    $scope.hideModal = false;
-                    $scope.showModal = true;
-                });
-
-                var destroy2 = $rootScope.$on('modal:hide', $scope.hideTheModal);
-
-                $scope.$on('$destroy', function () {
-                    destroy();
-                    destroy2();
-                });
-            }
-        };
-    }])
     .controller('mobileModalCtrl', ['$scope', '$rootScope', 'modalFactory', function ($scope, $rootScope, modalFactory) {
         modalFactory.bootstrap($scope, $rootScope, '#mobile');
     }])

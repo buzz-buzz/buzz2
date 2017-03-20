@@ -101,7 +101,7 @@ angular.module('buzzPlayerModule', ['angularQueryParserModule', 'trackingModule'
             });
         }
 
-        function restrictVideoPlaying(currentPos, range, mainVideo) {
+        function restrictVideoPlaying(currentPos, range, mainVideo, videoInfo, $scope) {
             if (Number(currentPos) < Number(range.start)) {
                 mainVideo.seek(Number(range.start));
                 mainVideo.play(true);
@@ -109,6 +109,8 @@ angular.module('buzzPlayerModule', ['angularQueryParserModule', 'trackingModule'
 
             if (Number(currentPos) >= Number(range.end)) {
                 mainVideo.play(false);
+
+                window.parent.postMessage('video:restricted//' + JSON.stringify(getData(event, videoInfo, $scope)), window.parent.location.href);
             }
         }
 
@@ -144,12 +146,12 @@ angular.module('buzzPlayerModule', ['angularQueryParserModule', 'trackingModule'
 
                     mainVideo.onPlay(function (event) {
                         var pos = mainVideo.getPosition();
-                        restrictVideoPlaying(pos, result.data, mainVideo);
+                        restrictVideoPlaying(pos, result.data, mainVideo, videoInfo, $scope);
                     });
 
                     mainVideo.onTime(function (event) {
                         if (event.type === 'time') {
-                            restrictVideoPlaying(event.position, result.data, mainVideo);
+                            restrictVideoPlaying(event.position, result.data, mainVideo, videoInfo, $scope);
                         }
                     });
 

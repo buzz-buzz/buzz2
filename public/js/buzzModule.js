@@ -37,8 +37,6 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
             if (event.origin === location.origin && (typeof event.data === 'string') && event.data.indexOf('video:played//') === 0) {
                 try {
                     var data = JSON.parse(event.data.substr(14));
-                    console.log(data);
-
                     $http
                         .post(clientConfig.serviceUrls.buzz.courseViews.frontEnd.replace(':category', data.category).replace(':level', data.level).replace(':lesson_id', data.lesson_id), {})
                         .then(function (result) {
@@ -48,7 +46,7 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                     console.error(ex);
                 }
             }
-        }, false)
+        }, false);
     }])
     .controller('page2ParentCtrl', ['$scope', 'tracking', function ($scope, tracking) {
         $scope.$root.tabularIndex = 1;
@@ -422,7 +420,6 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                         forceRefresh: true
                     });
                 }
-                // $scope.wordURL = $sce.trustAsResourceUrl(newWords[wordIndex].url);
             };
 
             $scope.changeWordMode = function (isWordMode) {
@@ -447,6 +444,20 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
             var unbind = $rootScope.$on('lessonInfo:got', lessonDataGot);
             $scope.$on('$destroy', unbind);
         }
+    }])
+    .controller('loginModalCtrl', ['$scope', 'modalFactory', '$rootScope', function ($scope, modalFactory, $rootScope) {
+        var modalId = '#login';
+        modalFactory.bootstrap($scope, $rootScope, modalId);
 
+        window.addEventListener('message', function (event) {
+            if (event.origin === location.origin && (typeof event.data === 'string') && event.data.indexOf('video:restricted//') === 0) {
+                try {
+                    $rootScope.$emit('modal:show' + modalId);
+                } catch (ex) {
+                    console.error(ex);
+                }
+            }
+        }, false);
+        console.log('event will be listen');
     }])
 ;
