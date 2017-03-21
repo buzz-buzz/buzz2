@@ -22,6 +22,38 @@ block head
 mixin videoPlayer
     .center.aligned.container.column.flex-box.transparent
         iframe.row.content.white.background(ng-src="{{src}}" ng-controller="VideoPlayerCtrl", style="border:none; width: 100%;", allowfullscreen)
+        #page-2-header.center.aligned.container.column.white.background.row.dynamic
+            .tabular.menu
+                        .item.middle(ng-class="{'active': $root.tabularIndex===1}",ng-click="$root.tabularIndex=1")
+                            span.iconleft
+                            span.tag >
+                            span.title.word Today's Vocabulary
+                            br
+                            span.word 今日单词
+                        a.page-pos(name="page-2")
+                            .page.section.flex-box.scrolly(ng-controller="page2ParentCtrl")
+                                        .item(ng-show="$root.tabularIndex===1",ng-controller="newWordCtrl",style="position:relative;")
+                                            .left.arrow(ng-click="turnWord(false)",ng-class="{'hidden':wordIndex===0}")
+                                                span.icon-circle-left
+                                            .vocabulary.container.cube(ng-class="{'init': initStatus==='true', 'rtom':animateDirection==='rtom','ltom':animateDirection==='ltom','ttom':animateDirection==='ttom','btom':animateDirection==='btom','side-a':currentID==='word-1', 'side-b':currentID==='word-2', 'lock':!actionLock}")
+                                                .cube-side.side-a
+                                                    iframe(id="word-1",frameborder="0",style="width: 100%;height: 100%")
+                                                .cube-side.side-b
+                                                    iframe(id="word-2",frameborder="0",style="width: 100%;height: 100%")
+                                            .right.arrow(ng-click="turnWord(true)",ng-class="{'hidden':wordIndex===WORD_MAX_INDEX}")
+                                                span.icon-circle-right
+                        .item(ng-class="{'active': $root.tabularIndex===2}",ng-click="$root.tabularIndex=2")
+                            span.iconleft
+                            span.tag >
+                            span.title.word Daily Exercis
+                            br
+                            span.word 每日练习
+                        .item(ng-class="{'active': $root.tabularIndex===3}",ng-click="$root.tabularIndex=2")
+                            span.iconleft
+                            span.tag >
+                            span.title.word Weekly Quiz
+                            br
+                            span.word 每周测试
 
 block content
     .full.height.container(ng-app="buzzModule", ng-controller="UpdateHitsCtrl")

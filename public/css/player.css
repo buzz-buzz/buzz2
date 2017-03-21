@@ -76,8 +76,6 @@
     width: 20%;
 }
 
-.tabular.menu .item:hover {
-}
 
 .tabular.menu .item.active {
     background-color: #f7b52a;
