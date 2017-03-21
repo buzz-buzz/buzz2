@@ -125,8 +125,8 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
                 var firstDayOfWeek = DateFactory.getFirstDayOfWeek($scope.current);
                 var firstDayOfNextWeek = DateFactory.getFirstDayOfNextWeek($scope.current);
                 $scope.$parent.weekPerformance = {
-                    good: 0,
-                    bad: 0
+                    good: {},
+                    bad: {}
                 };
                 var dailyExercisePerf = [];
 
@@ -138,12 +138,13 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
                     $scope.perf[d].goodness = getGoodness(p);
 
                     if (exerciseDate >= firstDayOfWeek && exerciseDate < firstDayOfNextWeek) {
+                        var date = exerciseDate.getFullYear() + '-' + (exerciseDate.getMonth() + 1) + '-' + exerciseDate.getDay();
                         if ($scope.perf[d].goodness === 'good') {
-                            $scope.$parent.weekPerformance.good++;
+                            $scope.$parent.weekPerformance.good[date] = true;
                         }
 
                         if ($scope.perf[d].goodness === 'bad') {
-                            $scope.$parent.weekPerformance.bad++;
+                            $scope.$parent.weekPerformance.bad[date] = true;
                         }
                     }
 

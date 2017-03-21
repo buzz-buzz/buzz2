@@ -1,10 +1,12 @@
+include ../../share/common
+
 doctype html
 html
     meta(charset="utf-8")
     meta(http-equiv="X-UA-Compatible", content="IE=edge, chrome=1")
     meta(name="viewport", content="width=375, user-scalable=no")
     title='Buzzbuzz English'
-    link(href=`${config.cdn}/public/css/style.min.css?{config.version}`, rel="stylesheet")
+    + css("/public/css/style.min.css")
 body
     style.
         .init {
@@ -524,11 +526,11 @@ body
                 .learn.left
                     .title 练习全对
                     .content
-                        img(src=`${config.cdn}/public/images/correct.png?${config.imageversion}`, ng-repeat="i in [].constructor(weekPerformance.good) track by $index")
+                        img(src=`${config.cdn}/public/images/correct.png?${config.imageversion}`, ng-repeat="(i, v) in weekPerformance.good")
                 .learn.middle
                     .title 练习有错
                     .content
-                        img(src=`${config.cdn}/public/images/wrong_1.png?${config.imageversion}` ng-repeat="i in [].constructor(weekPerformance.bad) track by $index")
+                        img(src=`${config.cdn}/public/images/wrong_1.png?${config.imageversion}` ng-repeat="(i, v) in weekPerformance.bad")
                 .learn.right
                     .title 打败多少对手
                     .text-content 2028
@@ -594,13 +596,13 @@ body
     include ../tail.pug
     + tailcontent(false, true, false, false)
     include ../../js
-    script(src=`${config.cdn}/node_modules/chart.js/dist/Chart.js?${config.version}`)
-    script(src=`${config.cdn}/node_modules/angular-chart.js/dist/angular-chart.min.js?${config.version}`)
-    script(src=`${config.cdn}/js/quizModule.min.js?${config.version}`)
-    script(src=`${config.cdn}/js/DateModule.min.js?${config.version}`)
-    script(src=`${config.cdn}/node_modules/moment/min/moment.min.js?${config.version}`)
-    script(src=`${config.cdn}/js/buzzProgressModule.min.js?${config.version}`)
-    script(src=`${config.cdn}/js/buzzHeaderModule.min.js?${config.version}`)
+    + js("/node_modules/chart.js/dist/Chart.js")
+    + js("/node_modules/angular-chart.js/dist/angular-chart.min.js")
+    + js("/js/quizModule.min.js")
+    + js("/js/DateModule.min.js")
+    + js("/node_modules/moment/min/moment.min.js")
+    + js("/js/buzzProgressModule.min.js")
+    + js("/js/buzzHeaderModule.min.js")
     script.
         Array.from(document.getElementsByClassName("init")).forEach(function (ele) {
             ele.className = ele.className.replace(/(^|\s)init($|\s)/, ' ')
