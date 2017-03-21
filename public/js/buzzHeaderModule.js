@@ -1,10 +1,14 @@
-angular.module('buzzHeaderModule', ['angularQueryParserModule', 'servicesModule', 'clientConfigModule', 'trackingModule'])
-    .run(['$rootScope', 'service', 'clientConfig', function ($rootScope, service, clientConfig) {
-        service.get(clientConfig.serviceUrls.sso.profile.load.frontEnd).then(function (result) {
-            $rootScope.profile = result;
+angular.module('buzzHeaderModule', ['angularQueryParserModule', 'servicesModule', 'clientConfigModule', 'trackingModule', 'serviceCacheModule'])
+    .run(['$rootScope', 'service', 'clientConfig', 'api', function ($rootScope, service, clientConfig, api) {
+        api.get(clientConfig.serviceUrls.sso.profile.load.frontEnd).then(function (result) {
+            if (result.data.isSuccess) {
+                $rootScope.profile = result.data.result;
 
-            if ($rootScope.profile.avatar && $rootScope.profile.avatar.indexOf('//upload.bridgeplus.cn') === 0) {
-                $rootScope.profile.avatar += '-minor';
+                if ($rootScope.profile.avatar && $rootScope.profile.avatar.indexOf('//upload.bridgeplus.cn') === 0) {
+                    $rootScope.profile.avatar += '-minor';
+                }
+            } else {
+                throw result.data;
             }
         });
     }])

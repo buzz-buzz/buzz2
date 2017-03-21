@@ -1,52 +1,98 @@
-angular.module('serviceCacheModule', ['clientConfigModule'])
-    .factory('cache', ['$q', function ($q) {
-        // TODO: Add local storage cache
-        var cache = {};
+;
+(function () {
+    var apiStatus = {};
+    var apiQueue = {};
+    var inMemoryCache = {};
 
-        return {
-            get: function (key) {
-                var result = cache[key];
+    angular.module('serviceCacheModule', ['clientConfigModule'])
+        .factory('cache', ['$q', function ($q) {
+            // TODO: Add local storage cache
+            var cache = inMemoryCache;
 
-                if (result) {
-                    return $q.resolve(result);
-                } else {
-                    return $q.reject();
+            return {
+                get: function (key) {
+                    var result = cache[key];
+
+                    if (result) {
+                        return $q.resolve(result);
+                    } else {
+                        return $q.reject();
+                    }
+                },
+
+                set: function (key, value) {
+                    cache[key] = value;
+                    return $q.resolve();
+                },
+
+                all: function () {
+                    return cache;
                 }
-            },
+            };
+        }])
+        .factory('api', ['$http', 'clientConfig', 'cache', '$q', function ($http, clientConfig, cache, $q) {
+            function getApiResult(method, url, data) {
+                var key = method + '$' + url + '$' + (data ? JSON.stringify(data) : '');
 
-            set: function (key, value) {
-                cache[key] = value;
-                return $q.resolve();
-            },
+                if (apiStatus[key] === 'fetching') {
+                    console.log('fetching');
+                    if (!apiQueue[key]) {
+                        apiQueue[key] = [];
+                    }
 
-            all: function () {
-                return cache;
-            }
-        };
-    }])
-    .factory('api', ['$http', 'clientConfig', 'cache', function ($http, clientConfig, cache) {
-        function getApiResult(method, url, data) {
-            var key = url + '$' + (data ? JSON.stringify(data) : '');
+                    var notify = $q.defer();
+                    notify.notify('fetching ' + key);
+                    apiQueue[key].push(notify);
+                    console.log(apiQueue);
+                    return notify.promise;
+                }
 
-            return cache.get(key)
-                .catch(function (ex) {
-                    return $http[method](url, data).then(function (result) {
-                        cache.set(key, result);
+                apiStatus[key] = 'fetching';
+
+                return cache.get(key)
+                    .then(function (result) {
+                        if (apiQueue[key]) {
+                            apiQueue[key].map(function (n) {
+                                n.resolve(result);
+                            });
+                        }
 
                         return result;
-                    });
-                })
-                ;
-        }
+                    })
+                    .catch(function (ex) {
+                        return $http[method](url, data).then(function (result) {
+                            cache.set(key, result);
 
-        var api = {};
+                            if (apiQueue[key]) {
+                                apiQueue[key].map(function (n) {
+                                    n.resolve(result);
+                                });
+                            }
 
-        ['get', 'post', 'put', 'delete'].map(function (m) {
-            api[m] = function (url, data) {
-                return getApiResult(m, url, data);
-            };
-        });
+                            return result;
+                        }).catch(function (ex) {
+                            if (apiQueue[key]) {
+                                apiQueue[key].map(function (n) {
+                                    n.reject(ex);
+                                });
+                            }
+                        });
+                    })
+                    .finally(function () {
+                        delete apiStatus[key];
+                    })
+                    ;
+            }
 
-        return api;
-    }])
-;
+            var api = {};
+
+            ['get', 'post', 'put', 'delete'].map(function (m) {
+                api[m] = function (url, data) {
+                    return getApiResult(m, url, data);
+                };
+            });
+
+            return api;
+        }])
+    ;
+})();
