@@ -39,9 +39,7 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                     var data = JSON.parse(event.data.substr(14));
                     $http
                         .post(clientConfig.serviceUrls.buzz.courseViews.frontEnd.replace(':category', data.category).replace(':level', data.level).replace(':lesson_id', data.lesson_id), {})
-                        .then(function (result) {
-                            console.log(result);
-                        });
+                    ;
                 } catch (ex) {
                     console.error(ex);
                 }
