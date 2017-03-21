@@ -70,7 +70,7 @@ function redirectRequest(app, router) {
     });
 }
 function auth(app, router, render) {
-    app.use(mount('/my', membership.ensureAuthenticated));
+    // app.use(mount('/my', membership.ensureAuthenticated));
 
     require('./my')(app, router, render);
 

@@ -450,7 +450,6 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
     .controller('loginModalCtrl', ['$scope', 'modalFactory', '$rootScope', function ($scope, modalFactory, $rootScope) {
         var modalId = '#login';
         modalFactory.bootstrap($scope, $rootScope, modalId);
-
         window.addEventListener('message', function (event) {
             if (event.origin === location.origin && (typeof event.data === 'string') && event.data.indexOf('video:restricted//') === 0) {
                 try {

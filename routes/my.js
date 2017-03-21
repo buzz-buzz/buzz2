@@ -3,10 +3,11 @@
 const config = require('../config');
 const buzz = require('../service-proxy-for-server/buzz');
 const course = require('../bll/course');
+const membership = require('../membership');
 
 module.exports = function (app, router, render) {
     router
-        .get('/my/today', function *(next) {
+        .get('/my/today', membership.ensureAuthenticated, function *(next) {
             let level = config.mock ? 'A' : yield buzz.getMemberCurrentLevel(this.state.hcd_user.member_id);
             if (!level || level === 'U') {
                 level = 'B';
@@ -26,7 +27,7 @@ module.exports = function (app, router, render) {
                 config: config
             });
         })
-        .get('/my/history', function *(next) {
+        .get('/my/history', membership.ensureAuthenticated, function *(next) {
             let hcd_user = this.state.hcd_user;
 
             this.body = yield render('my/history', {
@@ -48,13 +49,13 @@ module.exports = function (app, router, render) {
         .get('/my/player', function *(next) {
             this.body = yield render('my/player', {config: config});
         })
-        .get('/my/progress', function *(next) {
+        .get('/my/progress', membership.ensureAuthenticated, function *(next) {
             this.body = yield render('my/progress', {config: config});
         })
-        .get('/my/account', function *() {
+        .get('/my/account', membership.ensureAuthenticated, function *() {
             this.body = yield render('my/account', {config: config});
         })
-        .get('/my/password', function *() {
+        .get('/my/password', membership.ensureAuthenticated, function *() {
             this.body = yield render('my/password', {config: config});
         })
     ;

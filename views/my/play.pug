@@ -11,6 +11,8 @@ block js
     + js("/js/full-page.min.js")
 
 block head
+    + css("/public/css/modal.min.css")
+    + css("/public/css/button.min.css")
     style.
         body {
             background: url('http://source.bridgeplus.cn/buzz/skin2.png') repeat 0 0;
@@ -82,3 +84,4 @@ block content
                             span.icon-circle-right
                     .item(ng-show="$root.tabularIndex===3", ng-controller="weeklyQuizCtrl")
                         p 正在建设中……
+        include ../partial/ask-for-login-modal

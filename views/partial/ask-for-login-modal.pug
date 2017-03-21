@@ -1,0 +1,10 @@
+#login.mask(ng-controller="loginModalCtrl", ng-class="{'hide': hideModal, 'show': showModal}")
+    .popup(ng-click="keepModal($event)", style="max-width: 250px;")
+        .body(style="padding: 1em;")
+            .center.aligned.container(ng-cloak)
+                img(src="http://resource.buzzbuzzenglish.com/image22_03.png", style="max-width: 180px;")
+                p 意犹未尽？戳这里注册登录获取完整内容，最炫视频加配套练习！
+                p
+                    a.yellow.button(href="/m/sign-in", style="padding-left: 2em!important; padding-right: 2em!important;") 已有账号，去登录
+                p
+                    a.linear.basic.button(href="/m/sign-up", style="padding-left: 2em!important; padding-right: 2em!important;") 没有账号，去注册
