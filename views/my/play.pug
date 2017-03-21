@@ -35,7 +35,7 @@ block content
                         .item(ng-class="{'active': $root.tabularIndex===2}",ng-click="$root.tabularIndex=2")
                             span.icon.icon-list2
                             span Daily Exercise
-                        .item(ng-class="{'active': $root.tabularIndex===3}",ng-click="$root.tabularIndex=2")
+                        .item(ng-class="{'active': $root.tabularIndex===3}",ng-click="$root.tabularIndex=3")
                             span.icon.icon-list2
                             span Weekly Quiz
         a.page-pos(name="page-2")
@@ -80,4 +80,5 @@ block content
                                 iframe(id="quiz-2",frameborder="0",style="width: 100%;height: 100%")
                         .right.arrow(ng-click="turnQuiz(true)",ng-class="{'hidden':quizIndex===quizzes.length-1}")
                             span.icon-circle-right
-                    .item(ng-show="$root.tabularIndex===3") item3
+                    .item(ng-show="$root.tabularIndex===3", ng-controller="weeklyQuizCtrl")
+                        p 正在建设中……

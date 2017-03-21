@@ -445,6 +445,8 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
             $scope.$on('$destroy', unbind);
         }
     }])
+    .controller('weeklyQuizCtrl', ['$scope', function ($scope) {
+    }])
     .controller('loginModalCtrl', ['$scope', 'modalFactory', '$rootScope', function ($scope, modalFactory, $rootScope) {
         var modalId = '#login';
         modalFactory.bootstrap($scope, $rootScope, modalId);
