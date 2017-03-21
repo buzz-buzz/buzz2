@@ -25,6 +25,10 @@ block head
             min-height: 400px;
         }
 
+        .wechat-share-img {
+            display: none;
+        }
+
 mixin videoPlayer
     .center.aligned.container.column.flex-box.transparent
         iframe.row.content.white.background(ng-src="{{src}}" ng-controller="VideoPlayerCtrl", style="border:none; width: 100%;", allowfullscreen)
@@ -78,6 +82,8 @@ mixin quiz
             //    span.word 每周测试
 
 block content
+    .wechat-share-img
+        img(src="http://resource.buzzbuzzenglish.com/image2.jpg")
     #full-page.full.height.container(ng-app="buzzModule", ng-controller="UpdateHitsCtrl")
         if hcd_user
             a.page-pos(name="page-1")
