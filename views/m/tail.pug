@@ -45,12 +45,12 @@ style.
     }
 mixin tailcontentdetail(href, focus, text, icon)
     if focus
-        a.button.focus(href= href)
+        a.button.focus(href= href, style="padding: 5px 0!important;")
             div.icon
                 i(class= icon)
             div.text= text
     else
-        a.button(href= href)
+        a.button(href= href, style="padding: 5px 0!important;")
             div.icon
                 i(class= icon)
             div.text= text

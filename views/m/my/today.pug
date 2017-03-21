@@ -113,9 +113,9 @@ block content
             .page.section.flex-box.scrolly(ng-controller="page2ParentCtrl")
                 + quiz
         include ../../partial/ask-for-login-modal
-        if hcd_user
-            include ../tail.pug
-            + tailcontent(true,  false, false, false)
+    if hcd_user
+        include ../tail.pug
+        + tailcontent(true,  false, false, false)
 
 
     include ../../js
