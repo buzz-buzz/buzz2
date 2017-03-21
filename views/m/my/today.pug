@@ -79,13 +79,14 @@ mixin quiz
                 .item(ng-show="$root.tabularIndex===2",ng-controller="quizCtrl")
                     .left.arrow(ng-click="turnQuiz(false)",ng-class="{'hidden':quizIndex===0}")
                         span.icon-circle-left
+                    .right.arrow(ng-click="turnQuiz(true)",ng-class="{'hidden':quizIndex>=quizLimit}")
+                        span.icon-circle-right
                     .exercise.container.cube(ng-class="{'init': initStatus==='true', 'rtom':animateDirection==='rtom','ltom':animateDirection==='ltom','side-a':currentID==='quiz-1', 'side-b':currentID==='quiz-2', 'lock':!actionLock}")
                         .cube-side.side-a
                             iframe(id="quiz-1",frameborder="0",style="width: 100%;min-height: 400px;")
                         .cube-side.side-b
                             iframe(id="quiz-2",frameborder="0",style="width: 100%;min-height: 400px;")
-                    .right.arrow(ng-click="turnQuiz(true)",ng-class="{'hidden':quizIndex>=quizLimit}")
-                        span.icon-circle-right
+
 
             //.item(ng-class="{'active': $root.tabularIndex===3}",ng-click="$root.tabularIndex=2")
             //    span.iconleft
