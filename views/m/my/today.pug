@@ -24,6 +24,20 @@ block head
             height: auto;
             min-height: 400px;
         }
+        .arrow{
+            padding-top: .2em;
+        }
+        .left.arrow{
+            display: inline-block;
+            width: 70%;
+        }
+        .right.arrow{
+            display: inline-block;
+            width: 30%;
+            text-align: right;
+            padding-right: 1rem;
+        }
+
 
         .wechat-share-img {
             display: none;
@@ -47,14 +61,13 @@ mixin quiz
                 .item(ng-show="$root.tabularIndex===1",ng-controller="newWordCtrl",style="position:relative;")
                     .left.arrow(ng-click="turnWord(false)",ng-class="{'hidden':wordIndex===0}")
                         span.icon-circle-left
+                    .right.arrow(ng-click="turnWord(true)",ng-class="{'hidden':wordIndex===WORD_MAX_INDEX}")
+                        span.icon-circle-right
                     .vocabulary.container.cube(ng-class="{'init': initStatus==='true', 'rtom':animateDirection==='rtom','ltom':animateDirection==='ltom','ttom':animateDirection==='ttom','btom':animateDirection==='btom','side-a':currentID==='word-1', 'side-b':currentID==='word-2', 'lock':!actionLock}")
                         .cube-side.side-a
                             iframe(id="word-1",frameborder="0",style="width: 100%; min-height: 400px;")
                         .cube-side.side-b
                             iframe(id="word-2",frameborder="0",style="width: 100%;min-height: 400px;")
-                    .right.arrow(ng-click="turnWord(true)",ng-class="{'hidden':wordIndex===WORD_MAX_INDEX}")
-                        span.icon-circle-right
-
             .item(ng-class="{'active': $root.tabularIndex===2}",ng-click="$root.tabularIndex=2")
                 span.iconleft
                 span.tag >
@@ -87,7 +100,7 @@ block content
     #full-page.full.height.container(ng-app="buzzModule", ng-controller="UpdateHitsCtrl")
         if hcd_user
             a.page-pos(name="page-1")
-            .page.with-header.with-footer.section.transparent
+            .page.with-header.section.transparent
                 + videoPlayer
             a.page-pos(name="page-2")
             .with-footer.page.section.flex-box.scrolly(ng-controller="page2ParentCtrl")
@@ -100,9 +113,9 @@ block content
             .page.section.flex-box.scrolly(ng-controller="page2ParentCtrl")
                 + quiz
         include ../../partial/ask-for-login-modal
-    if hcd_user
-        include ../tail.pug
-        + tailcontent(true,  false, false, false)
+        if hcd_user
+            include ../tail.pug
+            + tailcontent(true,  false, false, false)
 
 
     include ../../js
