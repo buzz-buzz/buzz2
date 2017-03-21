@@ -1,4 +1,4 @@
-angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'clientConfigModule', 'buzzHeaderModule', 'quizModule'])
+angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'clientConfigModule', 'buzzHeaderModule', 'quizModule', 'serviceCacheModule'])
     .run(['$rootScope', 'tracking', 'queryParser', function ($rootScope, tracking, queryParser) {
         var query = queryParser.parse();
         tracking.send('play', {
@@ -67,7 +67,8 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
             }
         });
     }])
-    .controller('quizCtrl', ['$scope', '$http', 'queryParser', '$sce', '$window', 'clientConfig', '$rootScope', 'tracking', '$timeout', 'quizFactory', function ($scope, $http, queryParser, $sce, $window, clientConfig, $rootScope, tracking, $timeout, quizFactory) {
+    .controller('quizCtrl', ['$scope', '$http', 'queryParser', '$sce', '$window', 'clientConfig', '$rootScope', 'tracking', '$timeout', 'quizFactory', 'api', function ($scope, $http, queryParser, $sce, $window, clientConfig, $rootScope, tracking, $timeout, quizFactory, api) {
+        var modalId = '#login';
         $scope.$sce = $sce;
         $scope.quizURL = "";
 
@@ -154,22 +155,34 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                     });
                 });
                 $scope.quizzes = retArray;
+                $scope.quizLimit = $scope.quizzes.length - 1;
+                api.get(clientConfig.serviceUrls.buzz.quiz.limit).then(function (result) {
+                    if (result.data) {
+                        $scope.quizLimit = Number(result.data) - 1;
+                    }
+                });
 
                 setUrl(true);
 
                 $scope.itemClick = function (index) {
-                    if (!doAction()) {
-                        return;
-                    }
-                    if ($scope.quizIndex !== index) {
-                        if ($scope.quizIndex > index) {
-                            $scope.animateDirection = "ltom";
+                    api.get(clientConfig.serviceUrls.buzz.quiz.limit).then(function (result) {
+                        if (!result.data || (Number(result.data) - 1 >= index)) {
+                            if (!doAction()) {
+                                return;
+                            }
+                            if ($scope.quizIndex !== index) {
+                                if ($scope.quizIndex > index) {
+                                    $scope.animateDirection = "ltom";
+                                } else {
+                                    $scope.animateDirection = "rtom";
+                                }
+                                $scope.quizIndex = index;
+                                setUrl(true);
+                            }
                         } else {
-                            $scope.animateDirection = "rtom";
+                            $rootScope.$emit('modal:show' + modalId);
                         }
-                        $scope.quizIndex = index;
-                        setUrl(true);
-                    }
+                    });
                 };
                 $scope.turnQuiz = function (isNext) {
                     if (!doAction()) {
@@ -206,8 +219,8 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
             $scope.$on('$destroy', unbind);
         }
     }])
-    .controller('newWordCtrl', ['$scope', '$http', 'queryParser', '$timeout', '$sce', '$window', 'tracking', 'clientConfig', '$rootScope', 'quizFactory', function ($scope, $http, queryParser, $timeout, $sce, $window, tracking, clientConfig, $rootScope, quizFactory) {
-
+    .controller('newWordCtrl', ['$scope', '$http', 'queryParser', '$timeout', '$sce', '$window', 'tracking', 'clientConfig', '$rootScope', 'quizFactory', 'api', function ($scope, $http, queryParser, $timeout, $sce, $window, tracking, clientConfig, $rootScope, quizFactory, api) {
+        var modalId = '#login';
         $scope.$sce = $sce;
         $scope.newWords = [];
         $scope.word = {};
@@ -317,6 +330,13 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                     });
                 }
                 $scope.WORD_MAX_INDEX = $scope.newWords.length - 1;
+
+                api.get(clientConfig.serviceUrls.buzz.quiz.limit).then(function (result) {
+                    if (result.data) {
+                        $scope.WORD_MAX_INDEX = Number(result.data) - 1;
+                    }
+                });
+
                 if ($scope.newWords[wordIndex].exercise && $scope.newWords[wordIndex].exercise !== "") {
                     $scope.isWordMode = false;
                     if ($scope.newWords[wordIndex].url && $scope.newWords[wordIndex].url !== "") {
@@ -342,38 +362,44 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
             });
 
             $scope.itemClick = function (index) {
-                if (!shouldDoAction()) {
-                    return;
-                }
-                if ($scope.wordIndex < index) {
-                    $scope.animateDirection = "rtom";
-                } else if ($scope.wordIndex > index) {
-                    $scope.animateDirection = "ltom";
-                } else {
-                    return;
-                }
-                $scope.wordIndex = wordIndex = index;
-                if ($scope.newWords[wordIndex].exercise && $scope.newWords[wordIndex].exercise !== "") {
-                    $scope.isWordMode = false;
-                    if ($scope.newWords[wordIndex].url && $scope.newWords[wordIndex].url !== "") {
-                        $scope.hasWordMode = true;
+                api.get(clientConfig.serviceUrls.buzz.quiz.limit).then(function (result) {
+                    if (!result.data || (Number(result.data) - 1 >= index)) {
+                        if (!shouldDoAction()) {
+                            return;
+                        }
+                        if ($scope.wordIndex < index) {
+                            $scope.animateDirection = "rtom";
+                        } else if ($scope.wordIndex > index) {
+                            $scope.animateDirection = "ltom";
+                        } else {
+                            return;
+                        }
+                        $scope.wordIndex = wordIndex = index;
+                        if ($scope.newWords[wordIndex].exercise && $scope.newWords[wordIndex].exercise !== "") {
+                            $scope.isWordMode = false;
+                            if ($scope.newWords[wordIndex].url && $scope.newWords[wordIndex].url !== "") {
+                                $scope.hasWordMode = true;
+                            } else {
+                                $scope.hasWordMode = false;
+                            }
+                            seturl({
+                                url: $scope.newWords[wordIndex].exercise,
+                                isQuiz: true,
+                                forceRefresh: true
+                            });
+                        } else {
+                            $scope.hasWordMode = false;
+                            $scope.isWordMode = true;
+                            seturl({
+                                url: $scope.newWords[wordIndex].url,
+                                isQuiz: false,
+                                forceRefresh: true
+                            });
+                        }
                     } else {
-                        $scope.hasWordMode = false;
+                        $rootScope.$emit('modal:show' + modalId);
                     }
-                    seturl({
-                        url: $scope.newWords[wordIndex].exercise,
-                        isQuiz: true,
-                        forceRefresh: true
-                    });
-                } else {
-                    $scope.hasWordMode = false;
-                    $scope.isWordMode = true;
-                    seturl({
-                        url: $scope.newWords[wordIndex].url,
-                        isQuiz: false,
-                        forceRefresh: true
-                    });
-                }
+                });
             };
             $scope.turnWord = function (isNext) {
                 if (!shouldDoAction()) {

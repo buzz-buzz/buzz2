@@ -65,7 +65,7 @@ block content
                                 iframe(id="word-1",frameborder="0",style="width: 100%;height: 100%")
                             .cube-side.side-b
                                 iframe(id="word-2",frameborder="0",style="width: 100%;height: 100%")
-                        .right.arrow(ng-click="turnWord(true)",ng-class="{'hidden':wordIndex===WORD_MAX_INDEX}")
+                        .right.arrow(ng-click="turnWord(true)",ng-class="{'hidden':wordIndex>=WORD_MAX_INDEX}")
                             span.icon-circle-right
                     .item(ng-show="$root.tabularIndex===2",ng-controller="quizCtrl")
                         .statusbar
@@ -80,7 +80,7 @@ block content
                                 iframe(id="quiz-1",frameborder="0",style="width: 100%;height: 100%")
                             .cube-side.side-b
                                 iframe(id="quiz-2",frameborder="0",style="width: 100%;height: 100%")
-                        .right.arrow(ng-click="turnQuiz(true)",ng-class="{'hidden':quizIndex===quizzes.length-1}")
+                        .right.arrow(ng-click="turnQuiz(true)",ng-class="{'hidden':quizIndex>=quizLimit}")
                             span.icon-circle-right
                     .item(ng-show="$root.tabularIndex===3", ng-controller="weeklyQuizCtrl")
                         p 正在建设中……

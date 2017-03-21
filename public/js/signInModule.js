@@ -9,7 +9,8 @@ angular.module('signInModule', ['angularQueryParserModule', 'clientConfigModule'
             'Invalid identity or password': '错误的用户名或者密码',
             '/': '登录成功, 正在跳转中……',
             '/my/today': '登录成功, 正在跳转至今日课程页面……',
-            '/my/history': '登录成功，正在跳转至历史课程页面……'
+            '/my/history': '登录成功，正在跳转至历史课程页面……',
+            '/my/progress': '登录成功，正在跳转至我的进度页面……'
         });
         $translateProvider.preferredLanguage('zh');
     }])

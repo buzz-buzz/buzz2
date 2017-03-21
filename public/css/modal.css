@@ -58,9 +58,17 @@
     animation-fill-mode: forwards;
 }
 
+.mask.hide {
+    position: absolute;
+}
+
 .mask.show {
     animation: magic-show 0.3s;
     animation-fill-mode: forwards;
+}
+
+.mask.show {
+    position: fixed;
 }
 
 @keyframes magic-show {

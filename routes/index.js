@@ -125,6 +125,7 @@ function serviceProxy(app, router) {
     require('../service-proxy/sms')(app, router, coBody);
     require('../service-proxy/buzz')(app, router, coBody);
     require('../service-proxy/video')(app, router, coBody);
+    require('../service-proxy/exercise')(app, router, coBody);
 }
 function staticFiles(app) {
     require('./static')(app);

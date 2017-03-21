@@ -122,7 +122,8 @@ module.exports = {
             lessonCount: {
                 frontEnd: '/service-proxy/buzz/quiz/lesson-count',
                 upstream: '/quiz-group/lesson-count'
-            }
+            },
+            limit: '/service-proxy/exercise/limit'
         }
     }
 };
