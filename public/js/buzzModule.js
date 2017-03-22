@@ -47,7 +47,7 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
         }, false);
     }])
     .controller('page2ParentCtrl', ['$scope', 'tracking', function ($scope, tracking) {
-        $scope.$root.tabularIndex = 1;
+        $scope.$root.tabularIndex = 0;
 
         $scope.$watch('tabularIndex', function (newVal, oldVal) {
             switch (newVal) {
@@ -64,6 +64,14 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                     break;
             }
         });
+        
+        $scope.tagToggle=function(index){
+            if($scope.$root.tabularIndex==index){
+                $scope.$root.tabularIndex=0;
+            }else{
+                $scope.$root.tabularIndex=index;
+            }
+        };
     }])
     .controller('quizCtrl', ['$scope', '$http', 'queryParser', '$sce', '$window', 'clientConfig', '$rootScope', 'tracking', '$timeout', 'quizFactory', 'api', function ($scope, $http, queryParser, $sce, $window, clientConfig, $rootScope, tracking, $timeout, quizFactory, api) {
         var modalId = '#login';
