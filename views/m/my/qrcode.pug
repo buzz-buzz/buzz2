@@ -1,0 +1,17 @@
++ css("/public/css/modal.css")
+
+style.
+    #qr-code.mask:before {
+        opacity: 0.9;
+    }
+
+    #qr-code .popup,
+    #qr-code .body {
+        border-radius: 3px !important;
+        border: none !important;
+    }
+
+#qr-code.mask(ng-controller="qrCodeModalCtrl", ng-class="{'hide': hideModal, 'show': showModal}", ng-click="hideTheModal()")
+    .popup(ng-click="keepModal($event)")
+        .body
+            p 扫描二维码，加入 Buzzbuzz

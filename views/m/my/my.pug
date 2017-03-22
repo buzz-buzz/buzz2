@@ -20,7 +20,6 @@ body(ng-app="accountModule",ng-controller="viewAccountCtrl")
         }
 
         .body {
-            width: 375px;
             position: relative;
             margin: 0 auto;
         }
@@ -205,7 +204,7 @@ body(ng-app="accountModule",ng-controller="viewAccountCtrl")
                 img(ng-src=`{{$root.profile.avatar || '${config.cdn}/public/images/default_avatar.png?${config.imageversion}'}}`)
                 .name {{$root.profile.real_name}}
                 span.more >
-            .row.bar.narrow.stackable.notch()
+            .row.bar.narrow.stackable.notch(ng-click="showDetail()", ng-controller="qrCodeCtrl")
                 span.more >
                 span 我的二维码
             a.row.bar.quit(href="/sign-out") 退出当前登陆
@@ -246,6 +245,7 @@ body(ng-app="accountModule",ng-controller="viewAccountCtrl")
                     .button(ng-click="cancel()") 取消
     include ../tail.pug
     + tailcontent(false, false, false, true)
+    include qrcode
     include ../../js
     + js("/js/formModule.min.js")
     + js("/js/accountModule.min.js")

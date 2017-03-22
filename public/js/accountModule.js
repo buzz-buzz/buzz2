@@ -13,7 +13,7 @@ angular.module('accountModule', ['clientConfigModule', 'buzzHeaderModule', 'educ
     }])
     .controller('viewAccountCtrl', ['$http', 'clientConfig', '$rootScope', '$scope', 'GenderDisplay', 'GradeDisplay', 'LevelDisplay', function ($http, clientConfig, $rootScope, $scope, GenderDisplay, GradeDisplay, LevelDisplay) {
         $scope.expanded = false;
-        $scope.expand = function(val) {
+        $scope.expand = function (val) {
             $scope.expanded = val;
         };
         $rootScope.$watch('profile', function (newValue, oldValue) {
@@ -62,6 +62,15 @@ angular.module('accountModule', ['clientConfigModule', 'buzzHeaderModule', 'educ
                 $rootScope.profile.mobile = data.mobile;
             }
         });
+    }])
+    .controller('qrCodeCtrl', ['$scope', '$rootScope', function ($scope, $rootScope) {
+        var modalId = '#qr-code';
+        $scope.showDetail = function () {
+            $rootScope.$emit('modal:show' + modalId);
+        };
+    }])
+    .controller('qrCodeModalCtrl', ['$scope', '$rootScope', 'modalFactory', function ($scope, $rootScope, modalFactory) {
+        modalFactory.bootstrap($scope, $rootScope, '#qr-code');
     }])
     .controller('infoFormParentCtrl', ['$scope', '$rootScope', 'modalFactory', function ($scope, $rootScope, modalFactory) {
         $scope.step = 2;
@@ -132,11 +141,11 @@ angular.module('accountModule', ['clientConfigModule', 'buzzHeaderModule', 'educ
                 });
         };
     }])
-    .controller('mobileInfoCtrl', ['$scope', 'clientConfig', '$q', 'Grades', 'service', '$rootScope', '$http', function($scope, clientConfig, $q, Grades, service, $rootScope, $http) {
-        var findGrade = function(val) {
-            return Grades.find(function(gradeObj) {
-                return gradeObj.key === val || val === gradeObj.name;
-            }) || {name: "", key: ""};
+    .controller('mobileInfoCtrl', ['$scope', 'clientConfig', '$q', 'Grades', 'service', '$rootScope', '$http', function ($scope, clientConfig, $q, Grades, service, $rootScope, $http) {
+        var findGrade = function (val) {
+            return Grades.find(function (gradeObj) {
+                    return gradeObj.key === val || val === gradeObj.name;
+                }) || {name: "", key: ""};
         };
         $scope.data = {
             name: $rootScope.profile.real_name,
@@ -145,44 +154,44 @@ angular.module('accountModule', ['clientConfigModule', 'buzzHeaderModule', 'educ
             displayGrade: findGrade($scope.info.grade).name
         };
         $scope.grades = Grades;
-        $scope.cancel = function() {
+        $scope.cancel = function () {
             $scope.data.name = $rootScope.profile.real_name;
             $scope.data.gender = $rootScope.profile.gender;
             $scope.data.grade = findGrade($scope.data.displayGrade);
             $scope.$emit("editDone");
         };
-        $scope.updateGender = $scope.updateName = function() {
+        $scope.updateGender = $scope.updateName = function () {
             return service.post(clientConfig.serviceUrls.sso.profile.update.frontEnd, {
                 real_name: $scope.data.name,
                 gender: $scope.data.gender
-            }).then(function() {
+            }).then(function () {
                 $rootScope.profile.real_name = $scope.data.name;
                 $rootScope.profile.gender = $scope.data.gender;
                 $scope.$emit("editDone");
-            }).catch(function() {
+            }).catch(function () {
                 //todo
                 $scope.$emit("editDone");
             });
         };
-        $scope.updateGrade = function() {
+        $scope.updateGrade = function () {
             return $http.put(clientConfig.serviceUrls.buzz.profile.education.frontEnd, {
-               grade: $scope.data.grade.key.toString()
-           }).then(function() {
+                grade: $scope.data.grade.key.toString()
+            }).then(function () {
                 $scope.data.displayGrade = $scope.data.grade.name;
                 $scope.info.grade = $scope.data.grade.key;
                 $scope.$emit("editDone");
-            }).catch(function() {
+            }).catch(function () {
                 //todo
                 $scope.$emit("editDone");
             });
         };
     }])
-    .controller('mobileWidgetCtrl', ['$scope', '$rootScope', function($scope, $rootScope) {
-        $rootScope.$on("editDone", function() {
+    .controller('mobileWidgetCtrl', ['$scope', '$rootScope', function ($scope, $rootScope) {
+        $rootScope.$on("editDone", function () {
             $scope.changeMode(false);
-        })
+        });
         $scope.editMode = false;
-        $scope.changeMode = function(val) {
+        $scope.changeMode = function (val) {
             if (val) {
                 $scope.$emit("editDone");
             }
