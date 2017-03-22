@@ -121,3 +121,25 @@ cubic-bezier(0.75, 0.0, 0.75, 0.9)*/
     transform-origin: 50% 50% -310px;
     -webkit-animation: rtom 1s 1 forwards;
 }
+@media screen and (max-width: 500px){
+    @keyframes btom
+    {
+        from {transform: rotateY(0deg)}
+        to {transform: rotateY(0deg)}
+    }
+    @keyframes ttom
+    {
+        from {transform: rotateX(0deg)}
+        to {transform: rotateX(0deg)}
+    }
+    @keyframes rtom
+    {
+        from {transform: rotateY(0deg)}
+        to {transform: rotateY(0deg)}
+    }
+    @keyframes ltom
+    {
+        from {transform: rotateY(0deg)}
+        to {transform: rotateY(0deg)}
+    }
+}

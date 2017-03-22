@@ -66,9 +66,10 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
         });
         
         $scope.tagToggle=function(index){
+            //如果是当前页 就关闭
             if($scope.$root.tabularIndex==index){
                 $scope.$root.tabularIndex=0;
-            }else{
+            }else{ //否则 打开当前页
                 $scope.$root.tabularIndex=index;
             }
         };
