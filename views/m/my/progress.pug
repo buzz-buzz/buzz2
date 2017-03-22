@@ -526,11 +526,11 @@ body
                 .learn.left
                     .title 练习全对
                     .content
-                        img(src=`${config.cdn}/public/images/correct.png?${config.imageversion}`, ng-repeat="(i, v) in weekPerformance.good")
+                        img(src=`${config.cdn}/public/images/correct.png?${config.imageversion}`, ng-repeat="i in [].constructor(weekPerformance.good) track by $index")
                 .learn.middle
                     .title 练习有错
                     .content
-                        img(src=`${config.cdn}/public/images/wrong_1.png?${config.imageversion}` ng-repeat="(i, v) in weekPerformance.bad")
+                        img(src=`${config.cdn}/public/images/wrong_1.png?${config.imageversion}` ng-repeat="i in [].constructor(weekPerformance.bad) track by $index")
                 .learn.right
                     .title 打败多少对手
                     .text-content 2028
