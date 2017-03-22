@@ -94,5 +94,19 @@
 
             return api;
         }])
+        .factory('buzzApi', ['api', 'clientConfig', function (api, clientConfig) {
+            return {
+                getMyShareLink: function () {
+                    return api.get(clientConfig.serviceUrls.buzz.share.myLink).then(function (result) {
+                        return location.origin + result.data;
+                    });
+                },
+                getMySharingQrCode: function (size) {
+                    return this.getMyShareLink().then(function (link) {
+                        return 'https://api.qrserver.com/v1/create-qr-code/?size=' + size + '&data=' + link;
+                    });
+                }
+            };
+        }])
     ;
 })();

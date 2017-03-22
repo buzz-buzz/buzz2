@@ -11,7 +11,17 @@ style.
         border: none !important;
     }
 
+    #qr-code .popup {
+        margin-left: 1.5em;
+        margin-right: 1.5em;
+    }
+
 #qr-code.mask(ng-controller="qrCodeModalCtrl", ng-class="{'hide': hideModal, 'show': showModal}", ng-click="hideTheModal()")
     .popup(ng-click="keepModal($event)")
-        .body
+        .body(style="text-align: center;")
+            p &nbsp;
             p 扫描二维码，加入 Buzzbuzz
+            p &nbsp;
+            p
+                img(ng-src="{{qrCodeLink}}", style="max-width: 100%;")
+            p &nbsp;

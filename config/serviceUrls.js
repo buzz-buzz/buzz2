@@ -124,6 +124,9 @@ module.exports = {
                 upstream: '/quiz-group/lesson-count'
             },
             limit: '/service-proxy/exercise/limit'
+        },
+        share: {
+            myLink: '/service-proxy/share/my-link'
         }
     }
 };
