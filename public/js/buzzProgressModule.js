@@ -1,8 +1,16 @@
-angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModule', 'clientConfigModule', 'buzzHeaderModule', 'chart.js', 'quizModule', 'DateModule', 'serviceCacheModule'])
+angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModule', 'clientConfigModule', 'buzzHeaderModule', 'chart.js', 'quizModule', 'DateModule', 'serviceCacheModule','trackingModule'])
+    .run(['$rootScope', 'tracking', function ($rootScope, tracking) {
+        tracking.sendX('Progress');
+    }])
     .controller('calendarCtrl', ['$scope', '$http', 'clientConfig', 'quizFactory', '$filter', 'DateFactory', '$q', function ($scope, $http, clientConfig, quizFactory, $filter, DateFactory, $q) {
         $scope.expanded = false;
         $scope.expandContent = function (value) {
             $scope.expanded = value;
+            if(value){
+                tracking.sendX('Progress.calanderon.click');
+            }else{
+                tracking.sendX('Progress.calanderoff.click');
+            }
         };
         $scope.today = new Date();
         $scope.current = DateFactory.getCurrentDate();
@@ -192,6 +200,11 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
             $timeout(function () {
                 document.body.scrollTop = document.body.scrollHeight;
             });
+            if(value){
+                tracking.sendX('Progress.charton.click');
+            }else{
+                tracking.sendX('Progress.chartoff.click');
+            }
         };
         $scope.labels = ['第一周', '第二周', '第三周', '第四周', '第五周'];
         $scope.series = ['你累计学习单词量：个/周', '系统整体排名：名/周'];
