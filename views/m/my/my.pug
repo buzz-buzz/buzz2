@@ -207,7 +207,7 @@ body(ng-app="accountModule",ng-controller="viewAccountCtrl")
             .row.bar.narrow.stackable.notch(ng-click="showDetail()", ng-controller="qrCodeCtrl")
                 span.more >
                 span.more
-                    img(ng-src="{{qrCodeLink}}", style="display: inline; vertical-align: middle;")
+                    i.icon-qrcode
                 span 我的二维码
             a.row.bar.quit(href="/sign-out") 退出当前登陆
         .account(ng-if="expanded",ng-controller="mobileInfoCtrl")

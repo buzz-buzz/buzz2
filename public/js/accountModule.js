@@ -69,9 +69,6 @@ angular.module('accountModule', ['clientConfigModule', 'buzzHeaderModule', 'educ
             $rootScope.$emit('modal:show' + modalId);
         };
 
-        buzzApi.getMySharingQrCode('30x30').then(function (link) {
-            $scope.qrCodeLink = link;
-        });
         buzzApi.getMySharingQrCode('300x300');
     }])
     .controller('qrCodeModalCtrl', ['$scope', '$rootScope', 'modalFactory', 'buzzApi', function ($scope, $rootScope, modalFactory, buzzApi) {
