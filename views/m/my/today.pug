@@ -45,6 +45,9 @@ block head
         .uiz_title_panel,.inProgress{
             display:none;
         }
+        .tabular.menu .item#tag_mobile{
+            padding: .5em 1em;
+        }
         .titlecontainer{
             height: 70%;
             width: auto;
@@ -59,6 +62,7 @@ block head
             margin:0;
             display:inline-block;
             padding: .5em 0 0 0;
+
         }
         a.exercisebutton{
             width:45%;
@@ -95,7 +99,7 @@ mixin videoPlayer
 mixin quiz
     .center.aligned.container.column.white.background.row.content
         .tabular.menu(ng-controller="page2ParentCtrl")
-            .item.middle(ng-class="{'active': $root.tabularIndex===1}",ng-click="tagToggle(1)")
+            .item.middle#tag_mobile(ng-class="{'active': $root.tabularIndex===1}",ng-click="tagToggle(1)")
                 div.imagecontainer
                     image(src='../../../public/images/exersise1.png' style="width: 3em;")
                 span.tag >
@@ -123,12 +127,12 @@ mixin quiz
                             iframe(id="word-1",frameborder="0",style="width: 100%; min-height: 400px;")
                         .cube-side.side-b
                             iframe(id="word-2",frameborder="0",style="width: 100%;min-height: 400px;")
-                    div(style="z-index:1000;height:2.5em;width: 100%;background-color:white;")
+                    div(style="z-index:1000;height:2.5em;width: 100%;background-color:white;padding-bottom:1%;")
                         a.button.yellow.exercisebutton(ng-show="isWordMode&&hasWordMode",ng-click="changeWordMode(false)") 进入练习
                         a.button.yellow.exercisebutton(ng-show="!isWordMode&&hasWordMode",ng-click="changeWordMode(true)") 显示词汇
                         div#space
                         a.button.yellow.exercisebutton(ng-click="turnWord(true)",ng-class="{'hidden':wordIndex===WORD_MAX_INDEX}") 下一题
-            .item(ng-class="{'active': $root.tabularIndex===2}",ng-click="tagToggle(2)")
+            .item#tag_mobile(ng-class="{'active': $root.tabularIndex===2}",ng-click="tagToggle(2)")
                 div.imagecontainer
                     image(src='../../../public/images/exersise2.png' style="width: 3em;")
                 span.tag >
@@ -150,7 +154,7 @@ mixin quiz
                             iframe(id="quiz-2",frameborder="0",style="width: 100%;min-height: 400px;")
                     div(style="z-index:1000;height:2.5em;width: 100%;background-color:white;padding:0 0 1% 5%;")
                         a.button.yellow.exercisebutton2(ng-click="turnQuiz(true)",ng-class="{'hidden':quizIndex>=quizLimit}") 下一题
-            .item(ng-class="{'active': $root.tabularIndex===3}")
+            .item#tag_mobile(ng-class="{'active': $root.tabularIndex===3}")
                 div.imagecontainer
                     image(src='../../../public/images/exersise3.png' style="width: 3em;")
                 span.tag >

@@ -10,5 +10,8 @@ module.exports = function (app, router, render) {
         .get('/s/player', function *() {
             this.body = yield render('my/player', {config: config});
         })
+        .get('/s/ad', function*() {
+            this.body = yield render('ad', {config: config});
+        })
     ;
 };
