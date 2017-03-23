@@ -251,11 +251,11 @@ span.space {
     max-height: 30px;
 }
 
-.page.with-header {
+.with-header {
     padding-top: 40px;
 }
 
-.page.with-footer {
+.with-footer {
     padding-bottom: 50px;
 }
 

@@ -47,7 +47,11 @@ module.exports = function (app, router, render) {
             });
         })
         .get('/my/player', function *(next) {
-            this.body = yield render('my/player', {config: config});
+            if (this.state.userAgent.isMobile && !this.state.userAgent.isTablet) {
+                this.body = yield render('m/player', {config: config});
+            } else {
+                this.body = yield render('my/player', {config: config});
+            }
         })
         .get('/my/progress', membership.ensureAuthenticated, function *(next) {
             this.body = yield render('my/progress', {config: config});

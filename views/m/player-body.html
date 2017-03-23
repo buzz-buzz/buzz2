@@ -1,0 +1,31 @@
+<div class="center aligned container">
+    <div class="video" style="width: 100%;">
+        <div style="width: 100%;  background-color: black;" class="video-wrapper">
+            <video style="width: 100%;"
+                   id="main-video"
+                   type='video/mp4'>
+            </video>
+        </div>
+    </div>
+    <div class="subtitle" style="display: flex;">
+        <div class="borderless segment" style="max-height: 100%; width: 100%; overflow: auto; padding: 0;">
+            <h2 style="font-size: 1.2rem;">{{videoTitle}}</h2>
+            <div id="sub-title">
+                <p ng-repeat="st in subtitles" class="zero-margin">
+                    <a class="script"
+                       ng-class="{'highlight': currentTime >= st.startTime&&currentTime < st.endTime}"
+                       ng-click="playTo(st)">
+                        <span ng-bind-html="$sce.trustAsHtml(st.text)"></span>
+                        &nbsp;<span class="icon-volume-medium playsound-volume-icon"
+                                    ng-click="playTo(st)"
+                                    style="color: orange; cursor: pointer;"
+                                    ng-if="!currentTime || currentTime < st.startTime || currentTime >= st.endTime"></span>
+                        <span class="icon-volume-high playsound-volume-icon" ng-click="playTo(st)"
+                              style="color: orange; cursor: pointer;"
+                              ng-if="currentTime >= st.startTime && currentTime < st.endTime"></span>
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

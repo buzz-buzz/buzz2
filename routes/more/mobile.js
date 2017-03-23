@@ -26,5 +26,8 @@ module.exports = function (app, router, render) {
                 config: config
             });
         })
+        .get('/m/player', function*() {
+            this.body = yield render('/m/player', {config: config})
+        })
     ;
 };
