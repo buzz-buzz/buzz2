@@ -17,7 +17,7 @@ angular.module('signUpModule', ['angularQueryParserModule', 'clientConfigModule'
     .controller('signUpParentCtrl', ['$scope', 'queryParser', 'tracking', function ($scope, queryParser, tracking) {
         $scope.step = queryParser.get('step') || 1;
 
-        tracking.send('sign-up', {
+        tracking.sendX('sign-up', {
             step: $scope.step
         });
 
@@ -38,10 +38,10 @@ angular.module('signUpModule', ['angularQueryParserModule', 'clientConfigModule'
         $scope.queryString = location.search;
 
         $scope.signUp = function () {
-            tracking.send('sign-up.register', $scope.signUpData);
+            tracking.sendX('sign-up.register', $scope.signUpData);
             service.put(clientConfig.serviceUrls.sso.signUp.frontEnd, $scope.signUpData)
                 .then(function (member_id) {
-                    tracking.send('sign-up.register.done', {member_id: member_id});
+                    tracking.sendX('sign-up.register.done', {member_id: member_id});
 
                     return service.post(clientConfig.serviceUrls.sso.signIn.frontEnd, {
                         value: $scope.signUpData.mobile,
@@ -53,7 +53,7 @@ angular.module('signUpModule', ['angularQueryParserModule', 'clientConfigModule'
                 .catch(function (reason) {
                     $scope.errorMessage = serviceErrorParser.getErrorMessage(reason);
                     $scope.successMessage = $scope.message = null;
-                    tracking.send('sign-up.register.error', reason);
+                    tracking.sendX('sign-up.register.error', reason);
                 });
         };
 
@@ -85,7 +85,7 @@ angular.module('signUpModule', ['angularQueryParserModule', 'clientConfigModule'
         $scope.grades = Grades;
 
         $scope.submitInfo = function () {
-            tracking.send('sign-up.step2.saveInfo.click', $scope.infoData);
+            tracking.sendX('sign-up.step2.saveInfo.click', $scope.infoData);
             $q.all([service.post(clientConfig.serviceUrls.sso.profile.update.frontEnd, {
                 real_name: $scope.infoData.name,
                 gender: $scope.infoData.gender
@@ -93,12 +93,12 @@ angular.module('signUpModule', ['angularQueryParserModule', 'clientConfigModule'
                 grade: '' + $scope.infoData.grade
             })])
                 .then(function (result) {
-                    tracking.send('sign-up.step2.saveInfo.done', result);
+                    tracking.sendX('sign-up.step2.saveInfo.done', result);
                     location.href = '/';
                 })
                 .catch(function (error) {
                     $scope.errorMessage = serviceErrorParser.getErrorMessage(error);
-                    tracking.send('sign-up.step2.saveInfo.error', error);
+                    tracking.sendX('sign-up.step2.saveInfo.error', error);
                 });
 
             //错误提示方法  用户点击，提示框消失  或者三秒后自动消失

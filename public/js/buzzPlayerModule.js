@@ -49,36 +49,36 @@ angular.module('buzzPlayerModule', ['angularQueryParserModule', 'trackingModule'
 
         function trackVideo($scope, mainVideo, tracking, videoInfo) {
             mainVideo.onPlay(function (event) {
-                tracking.send('play.video.playBtn.click', getData(event, videoInfo, $scope));
+                tracking.sendX('play.video.playBtn.click', getData(event, videoInfo, $scope));
             });
 
             mainVideo.onPause(function (event) {
-                tracking.send('play.video.pauseBtn.click', getData(event, videoInfo, $scope))
+                tracking.sendX('play.video.pauseBtn.click', getData(event, videoInfo, $scope))
             });
 
             mainVideo.onSeek(function (event) {
-                tracking.send('play.video.seekBtn', getData(event, videoInfo, $scope));
+                tracking.sendX('play.video.seekBtn', getData(event, videoInfo, $scope));
             });
 
             mainVideo.onFullscreen(function (event) {
                 $scope.fullScreen = event.fullscreen;
                 $scope.$apply();
 
-                tracking.send('play.video.fullScreenBtn.clicked', getData(event, videoInfo, $scope));
+                tracking.sendX('play.video.fullScreenBtn.clicked', getData(event, videoInfo, $scope));
             });
 
             mainVideo.onQualityChange(function (event) {
-                tracking.send('play.video.definitionBtn', angular.extend({}, getData(event, videoInfo, $scope), {
+                tracking.sendX('play.video.definitionBtn', angular.extend({}, getData(event, videoInfo, $scope), {
                     toDefinition: event.levels[event.currentQuality].label
                 }));
             });
 
             mainVideo.onMute(function (event) {
-                tracking.send('play.video.muteBtn.click', getData(event, videoInfo, $scope));
+                tracking.sendX('play.video.muteBtn.click', getData(event, videoInfo, $scope));
             });
 
             mainVideo.onVolume(function (event) {
-                tracking.send('play.video.volumnBtn', getData(event, videoInfo, $scope));
+                tracking.sendX('play.video.volumnBtn', getData(event, videoInfo, $scope));
             });
         }
 
@@ -133,7 +133,7 @@ angular.module('buzzPlayerModule', ['angularQueryParserModule', 'trackingModule'
                     function seekAndPlay() {
                         mainVideo.seek(startSeconds);
                         mainVideo.play(true);
-                        tracking.send('play.speakerBtn.click', angular.extend({}, getData(null, videoInfo, $scope), subtitle));
+                        tracking.sendX('play.speakerBtn.click', angular.extend({}, getData(null, videoInfo, $scope), subtitle));
                     }
 
                     seekAndPlay();

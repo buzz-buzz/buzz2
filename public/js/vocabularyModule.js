@@ -9,7 +9,7 @@ angular.module('vocabularyModule', ['trackingModule', 'clientConfigModule', 'Dat
         }[DateFactory.getWeekNumberOfMonth(new Date())];
     }])
     .controller('vocabularyCtrl', ['$scope', '$sce', 'tracking', 'clientConfig', '$http', 'Month', 'DateOfMonth', 'quizFactory', 'queryParser', '$q', 'httpPaginationData', function ($scope, $sce, tracking, clientConfig, $http, Month, DateOfMonth, quizFactory, queryParser, $q, paginationData) {
-        tracking.send('myVocabulary');
+        tracking.sendX('myVocabulary');
 
         $scope.printMode = false;
         $scope.printURL = "";
@@ -27,7 +27,7 @@ angular.module('vocabularyModule', ['trackingModule', 'clientConfigModule', 'Dat
             wordsToPrint[RADIO_TYPE[key]] = [];
         }
         $scope.vocabularyPrint = function () {
-            tracking.send('myVocabulary.printBtn.click');
+            tracking.sendX('myVocabulary.printBtn.click');
             $scope.printMode = true;
             var content = encodeURIComponent(wordsToPrint[$scope.radioBoxType].slice(","));
             $scope.printURL = PRINT_URL_PREFIX + content;
@@ -55,12 +55,12 @@ angular.module('vocabularyModule', ['trackingModule', 'clientConfigModule', 'Dat
 
             if (type === $scope.radioBoxType) {
                 $scope.radioBoxType = RADIO_TYPE.NONE;
-                tracking.send(event, {
+                tracking.sendX(event, {
                     checked: false
                 });
             } else {
                 $scope.radioBoxType = type;
-                tracking.send(event, {
+                tracking.sendX(event, {
                     checked: true
                 });
             }

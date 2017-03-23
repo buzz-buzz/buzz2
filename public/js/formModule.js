@@ -9,7 +9,7 @@ angular.module('formModule', ['clientConfigModule', 'servicesModule', 'errorPars
             link: function ($scope, $element, attrs, ngModel) {
                 function errorHandler(res) {
                     console.error(res);
-                    tracking.send('sign-up.changeIdentifyCode.error')
+                    tracking.sendX('sign-up.changeIdentifyCode.error')
                 }
 
                 var refreshing = false;
@@ -21,7 +21,7 @@ angular.module('formModule', ['clientConfigModule', 'servicesModule', 'errorPars
 
                     refreshing = true;
 
-                    tracking.send('sign-up.changeIdentifyCode');
+                    tracking.sendX('sign-up.changeIdentifyCode');
                     service.jsonp(captchaServiceDomain + '/captcha/generator/p?callback=JSON_CALLBACK&appid=bplus')
                         .then(function (result) {
                             $scope.captchaImageUrl = captchaServiceDomain + result.url;
@@ -34,7 +34,7 @@ angular.module('formModule', ['clientConfigModule', 'servicesModule', 'errorPars
                         .catch(errorHandler)
                         .finally(function () {
                             refreshing = false;
-                            tracking.send('sign-up.changeIdentifyCode.done')
+                            tracking.sendX('sign-up.changeIdentifyCode.done')
                         });
                 }
 
@@ -98,7 +98,7 @@ angular.module('formModule', ['clientConfigModule', 'servicesModule', 'errorPars
                 $scope.sendingVerificationCode = false;
                 $scope.verificationButtonClicked = false;
                 $scope.sendVerificationCode = function () {
-                    tracking.send('sign-up.identifyPhone');
+                    tracking.sendX('sign-up.identifyPhone');
                     service.executePromiseAvoidDuplicate($scope, 'sendingVerificationCode', function () {
                         return service.put(clientConfig.serviceUrls.sms.sendWithCaptcha.frontEnd, {
                             captchaId: $scope.signUpData.captchaId,
@@ -117,14 +117,14 @@ angular.module('formModule', ['clientConfigModule', 'servicesModule', 'errorPars
                             });
 
                             $scope.errorMessage = $rootScope.errorMessage = null;
-                            tracking.send('sign-up.identifyPhone.done');
+                            tracking.sendX('sign-up.identifyPhone.done');
                         })
                         .then(null, function (reason) {
                             $scope.refreshCaptcha();
                             $scope.signUpData.captcha = '';
                             $scope.errorMessage = serviceErrorParser.getErrorMessage(reason);
                             $rootScope.successMessage = $rootScope.message = $scope.successMessage = $scope.message = null;
-                            tracking.send('sign-up.identifyPhone.error');
+                            tracking.sendX('sign-up.identifyPhone.error');
                         })
                     ;
                 };

@@ -21,7 +21,7 @@ angular.module('signInModule', ['angularQueryParserModule', 'clientConfigModule'
         };
 
         $scope.signIn = function () {
-            tracking.send('log-in.login.beforeClick');
+            tracking.sendX('log-in.login.beforeClick');
             service.post(clientConfig.serviceUrls.sso.signIn.frontEnd, {
                 value: $scope.signInData.account,
                 password: $scope.signInData.password,
@@ -29,16 +29,16 @@ angular.module('signInModule', ['angularQueryParserModule', 'clientConfigModule'
                 token: queryParser.get('token')
             })
                 .then(function (result) {
-                    tracking.send('log-in.login.afterClick');
+                    tracking.sendX('log-in.login.afterClick');
                     return result;
                 })
                 .catch(function (reason) {
                     $scope.errorMessage = serviceErrorParser.getErrorMessage(reason);
-                    tracking.send('log-in.login.afterClick.error', reason);
+                    tracking.sendX('log-in.login.afterClick.error', reason);
                 });
         };
 
-        tracking.send('log-in');
+        tracking.sendX('log-in');
 
         var query = queryParser.parse();
         $scope.bindMobileMode = !!query.token;

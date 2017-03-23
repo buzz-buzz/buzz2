@@ -1,7 +1,7 @@
 angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'clientConfigModule', 'buzzHeaderModule', 'quizModule', 'serviceCacheModule'])
     .run(['$rootScope', 'tracking', 'queryParser', function ($rootScope, tracking, queryParser) {
         var query = queryParser.parse();
-        tracking.send('play', {
+        tracking.sendX('play', {
             date: query.date,
             category: query.cat,
             level: query.level
@@ -49,33 +49,33 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
     .controller('page2ParentCtrl', ['$scope', 'tracking', function ($scope, tracking) {
         $scope.$root.tabularIndex = 0;
         //如果是PC端  初始值为1
-        if(!navigator.userAgent.match(/(iPhone|iPod|Android|ios|Windows Phone)/i)){
+        if (!navigator.userAgent.match(/(iPhone|iPod|Android|ios|Windows Phone)/i)) {
             $scope.$root.tabularIndex = 1;
         }
-        console.log("gator:"+navigator.userAgent);
+        console.log("gator:" + navigator.userAgent);
 
         $scope.$watch('tabularIndex', function (newVal, oldVal) {
             switch (newVal) {
                 case 1:
-                    tracking.send('play.vocabularyTab.click');
+                    tracking.sendX('play.vocabularyTab.click');
                     break;
                 case 2:
-                    tracking.send('play.exerciseTab.click');
+                    tracking.sendX('play.exerciseTab.click');
                     break;
                 case 3:
-                    tracking.send('play.quizTab.click');
+                    tracking.sendX('play.quizTab.click');
                     break;
                 default:
                     break;
             }
         });
-        
-        $scope.tagToggle=function(index){
+
+        $scope.tagToggle = function (index) {
             //如果是当前页 就关闭
-            if($scope.$root.tabularIndex==index){
-                $scope.$root.tabularIndex=0;
-            }else{ //否则 打开当前页
-                $scope.$root.tabularIndex=index;
+            if ($scope.$root.tabularIndex == index) {
+                $scope.$root.tabularIndex = 0;
+            } else { //否则 打开当前页
+                $scope.$root.tabularIndex = index;
             }
         };
     }])
@@ -111,7 +111,7 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                     $scope.initStatus = "false";
                 }
                 if ($window.quizAdapter) {
-                    tracking.send('today-quiz', {
+                    tracking.sendX('today-quiz', {
                         index: $scope.quizIndex
                     });
                     $window.quizAdapter.getResult(getNextId(), $scope.quizzes[$scope.quizIndex].url, forcerefresh).then(function (ret) {
@@ -131,7 +131,7 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
 
                         var status = ret.status;
                         $scope.quizzes[$scope.quizIndex].status = status.toLowerCase();
-                        tracking.send('today-quiz.submit', {
+                        tracking.sendX('today-quiz.submit', {
                             index: $scope.quizIndex,
                             ispassed: ret.status.toLowerCase() === STATUS.P,
                             score: ret.mark
@@ -249,7 +249,7 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
         function track(isQuiz, word) {
             var trackingTarget = isQuiz ? 'quiz' : 'word';
 
-            tracking.send('today-vocabulary-' + trackingTarget, {
+            tracking.sendX('today-vocabulary-' + trackingTarget, {
                 word: word
             });
         }
@@ -299,7 +299,7 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
 
                             var status = ret.status;
                             $scope.newWords[$scope.wordIndex].status = status.toLowerCase();
-                            tracking.send('today-vocabulary-quiz.submit', {
+                            tracking.sendX('today-vocabulary-quiz.submit', {
                                 word: word,
                                 ispassed: ret.status.toLowerCase() === STATUS.P,
                                 score: ret.mark
@@ -418,9 +418,9 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                     return;
                 }
                 if (isNext) {
-                    tracking.send('play.vocabularyTab.slideNextBtn.clicked');
+                    tracking.sendX('play.vocabularyTab.slideNextBtn.clicked');
                 } else {
-                    tracking.send('play.vocabularyTab.slidePrevBtn.clicked');
+                    tracking.sendX('play.vocabularyTab.slidePrevBtn.clicked');
                 }
 
                 var length = $scope.newWords.length;
