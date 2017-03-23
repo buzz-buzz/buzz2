@@ -69,6 +69,15 @@ block head
             line-height: 2.5em;
             text-align: center;
         }
+        a.exercisebutton2{
+            width: 90%;
+            height: 100%;
+            display: inline-block;
+            margin: 0;
+            padding: 0!important;
+            line-height: 2.5em;
+            text-align: center;
+        }
         div#space{
             width:5%;
             display:inline-block;
@@ -130,16 +139,17 @@ mixin quiz
 
             .div
                 .item(ng-show="$root.tabularIndex===2",ng-controller="quizCtrl")
-                    .left.arrow(ng-click="turnQuiz(false)",ng-class="{'hidden':quizIndex===0}")
-                        span.icon-circle-left
-                    .right.arrow(ng-click="turnQuiz(true)",ng-class="{'hidden':quizIndex>=quizLimit}")
-                        span.icon-circle-right
+                    //.left.arrow(ng-click="turnQuiz(false)",ng-class="{'hidden':quizIndex===0}")
+                    //    span.icon-circle-left
+                    //.right.arrow(ng-click="turnQuiz(true)",ng-class="{'hidden':quizIndex>=quizLimit}")
+                    //    span.icon-circle-right
                     .exercise.container.cube(ng-class="{'init': initStatus==='true', 'rtom':animateDirection==='rtom','ltom':animateDirection==='ltom','side-a':currentID==='quiz-1', 'side-b':currentID==='quiz-2', 'lock':!actionLock}")
                         .cube-side.side-a
                             iframe(id="quiz-1",frameborder="0",style="width: 100%;min-height: 400px;")
                         .cube-side.side-b
                             iframe(id="quiz-2",frameborder="0",style="width: 100%;min-height: 400px;")
-
+                    div(style="z-index:1000;height:2.5em;width: 100%;background-color:white;padding:0 0 1% 5%;")
+                        a.button.yellow.exercisebutton2(ng-click="turnQuiz(true)",ng-class="{'hidden':quizIndex>=quizLimit}") 下一题
             .item(ng-class="{'active': $root.tabularIndex===3}")
                 div.imagecontainer
                     image(src='../../../public/images/exersise3.png' style="width: 3em;")

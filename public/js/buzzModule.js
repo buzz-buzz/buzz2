@@ -48,6 +48,11 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
     }])
     .controller('page2ParentCtrl', ['$scope', 'tracking', function ($scope, tracking) {
         $scope.$root.tabularIndex = 0;
+        //如果是PC端  初始值为1
+        if(!navigator.userAgent.match(/(iPhone|iPod|Android|ios|Windows Phone)/i)){
+            $scope.$root.tabularIndex = 1;
+        }
+        console.log("gator:"+navigator.userAgent);
 
         $scope.$watch('tabularIndex', function (newVal, oldVal) {
             switch (newVal) {
