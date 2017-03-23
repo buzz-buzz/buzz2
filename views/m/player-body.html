@@ -1,3 +1,10 @@
+<style type="text/css">
+    #sub-title.hide-more {
+        max-height: 6em;
+        overflow: hidden;
+    }
+</style>
+
 <div class="center aligned container">
     <div class="video" style="width: 100%;">
         <div style="width: 100%;  background-color: black;" class="video-wrapper">
@@ -9,8 +16,11 @@
     </div>
     <div class="subtitle" style="display: flex;">
         <div class="borderless segment" style="max-height: 100%; width: 100%; overflow: auto; padding: 0;">
-            <h2 style="font-size: 1.2rem;">{{videoTitle}}</h2>
-            <div id="sub-title">
+            <h2 class="video-title" style="font-size: 1.2rem; text-align: center;">
+                <div>{{videoTitle}}</div>
+                <hr style="border: none; border-bottom: solid 1px #f7b52a; width: 25px;"/>
+            </h2>
+            <div id="sub-title" ng-class="{'hide-more': !subTitleExpanded}">
                 <p ng-repeat="st in subtitles" class="zero-margin">
                     <a class="script"
                        ng-class="{'highlight': currentTime >= st.startTime&&currentTime < st.endTime}"
@@ -25,6 +35,10 @@
                               ng-if="currentTime >= st.startTime && currentTime < st.endTime"></span>
                     </a>
                 </p>
+            </div>
+            <div style="text-align: center; margin-top: 10px;" ng-hide="subTitleExpanded">
+                <i class="icon-point-down" style="color: #f7b52a;font-size: larger; cursor: pointer"
+                   ng-click="subTitleExpanded=true"></i>
             </div>
         </div>
     </div>
