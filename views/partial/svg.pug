@@ -5,3 +5,11 @@ mixin pass()
 mixin fail()
     div&attributes(attributes)
         include svg-fail.html
+
+mixin pass_pic()
+    div&attributes(attributes)
+        img(src='/public/images/pass.png',style='width:20px;')
+
+mixin fail_pic()
+    div&attributes(attributes)
+        img(src='/public/images/fail.png',style='width:20px;')

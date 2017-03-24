@@ -225,7 +225,9 @@ mixin quiz
                         iframe(id="quiz-2",frameborder="0",style="width: 100%;min-height: 400px;")
                 div(style="display: flex; margin-top: 5px; text-align: center;")
                     a.fluid.button.yellow(ng-click="turnQuiz(true)",ng-class="{'hidden':quizIndex>=quizLimit}") 下一题
-            + itemBar('/public/images/exersise3.png', "Weekly Quiz", "每周测试")
+            + itemBar('/public/images/exersise3.png', "Weekly Quiz", "每周测试")(ng-class="{'active': $root.tabularIndex===3}",ng-click="tagToggle(3)")
+            .item(ng-show="$root.tabularIndex===3", ng-controller="weeklyQuizCtrl")
+                p Sorry,正在建设中……
 
 block content
     .wechat-share-img

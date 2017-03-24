@@ -267,11 +267,10 @@ block content
                         span {{word.explaination}}
                 .table-column.part7
                     .mark(ng-repeat="word in weeklylist.words track by $index",ng-show="radioBoxType===RADIO_TYPE.NONE||word.status === radioBoxType")
-                        + pass(ng-show="word.status === RADIO_TYPE.PASS")
-
+                        + pass_pic(ng-show="word.status === RADIO_TYPE.PASS")
                 .table-column.part8
                     .mark(ng-repeat="word in weeklylist.words track by $index",ng-show="radioBoxType===RADIO_TYPE.NONE||word.status === radioBoxType")
-                        + fail(ng-show="word.status === RADIO_TYPE.FAIL")
+                        + fail_pic(ng-show="word.status === RADIO_TYPE.FAIL")
                 .table-column.part9
                     .mark(ng-repeat="word in weeklylist.words track by $index",ng-show="radioBoxType===RADIO_TYPE.NONE||word.status === radioBoxType")
                         i.icon-question(ng-show="word.status === RADIO_TYPE.NOTTEST")
