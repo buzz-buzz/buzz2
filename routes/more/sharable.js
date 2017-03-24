@@ -14,8 +14,12 @@ module.exports = function (app, router, render) {
                 this.body = yield render('my/player', {config: config});
             }
         })
-        .get('/s/ad', function*() {
-            this.body = yield render('ad', {config: config});
+        .get('/s/ad/:trk_tag?', function*() {
+            if (!this.query.trk_tag) {
+                this.redirect(`/s/ad?trk_tag=${this.params.trk_tag}`);
+            } else {
+                this.body = yield render('ad', {config: config, trk_tag: this.query.trk_tag});
+            }
         })
     ;
 };
