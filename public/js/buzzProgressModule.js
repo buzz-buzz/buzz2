@@ -7,9 +7,9 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
         $scope.expandContent = function (value) {
             $scope.expanded = value;
             if(value){
-                tracking.sendX('Progress.calanderon.click');
+                tracking.sendX('progress.calanderOn.click');
             }else{
-                tracking.sendX('Progress.calanderoff.click');
+                tracking.sendX('Pprogress.calander0ff.click');
             }
         };
         $scope.today = new Date();
@@ -201,9 +201,9 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
                 document.body.scrollTop = document.body.scrollHeight;
             });
             if(value){
-                tracking.sendX('Progress.charton.click');
+                tracking.sendX('progress.chartOn.click');
             }else{
-                tracking.sendX('Progress.chartoff.click');
+                tracking.sendX('progress.chartOff.click');
             }
         };
         $scope.labels = ['第一周', '第二周', '第三周', '第四周', '第五周'];
