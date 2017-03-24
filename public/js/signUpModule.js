@@ -25,14 +25,15 @@ angular.module('signUpModule', ['angularQueryParserModule', 'clientConfigModule'
 
         $scope.bindMobileMode = !!query.token;
     }])
-    .controller('signUpCtrl', ['$scope', 'clientConfig', 'service', 'queryParser', 'serviceErrorParser', 'tracking','$timeout',function ($scope, clientConfig, service, queryParser, serviceErrorParser, tracking,$timeout) {
+    .controller('signUpCtrl', ['$scope', 'clientConfig', 'service', 'queryParser', 'serviceErrorParser', 'tracking', '$timeout', function ($scope, clientConfig, service, queryParser, serviceErrorParser, tracking, $timeout) {
         $scope.signUpData = {
             mobile: '',
             verificationCode: '',
             password: '',
             captchaId: '',
             captcha: '',
-            agreed: false
+            agreed: false,
+            referee: queryParser.get('trk_tag')
         };
 
         $scope.queryString = location.search;
@@ -59,23 +60,22 @@ angular.module('signUpModule', ['angularQueryParserModule', 'clientConfigModule'
 
         //错误提示方法  用户点击，提示框消失  或者三秒后自动消失
         //用户点击消失
-        $scope.errDone=function(){
-            $scope.errorMessage=null;
+        $scope.errDone = function () {
+            $scope.errorMessage = null;
         };
 
         //3秒后中自动消失
-        $scope.$watch('errorMessage',function(newValue,oldValue){
-            console.log(newValue+","+oldValue);
-            if(newValue){
-                $timeout(function(){
-                    $scope.errorMessage=null;
-                },3000)
+        $scope.$watch('errorMessage', function (newValue, oldValue) {
+            if (newValue) {
+                $timeout(function () {
+                    $scope.errorMessage = null;
+                }, 3000)
             }
         })
 
 
     }])
-    .controller('infoCtrl', ['$scope', 'clientConfig', 'service', 'queryParser', 'serviceErrorParser', '$q', 'tracking', '$http', 'Grades','$timeout', function ($scope, clientConfig, service, queryParser, serviceErrorParser, $q, tracking, $http, Grades,$timeout) {
+    .controller('infoCtrl', ['$scope', 'clientConfig', 'service', 'queryParser', 'serviceErrorParser', '$q', 'tracking', '$http', 'Grades', '$timeout', function ($scope, clientConfig, service, queryParser, serviceErrorParser, $q, tracking, $http, Grades, $timeout) {
         $scope.infoData = {
             name: '',
             gender: null,
@@ -103,17 +103,17 @@ angular.module('signUpModule', ['angularQueryParserModule', 'clientConfigModule'
 
             //错误提示方法  用户点击，提示框消失  或者三秒后自动消失
             //用户点击消失
-            $scope.errDone=function(){
-                $scope.errorMessage=null;
+            $scope.errDone = function () {
+                $scope.errorMessage = null;
             };
 
             //3秒后中自动消失
-            $scope.$watch('errorMessage',function(newValue,oldValue){
-                console.log(newValue+","+oldValue);
-                if(newValue){
-                    $timeout(function(){
-                        $scope.errorMessage=null;
-                    },3000)
+            $scope.$watch('errorMessage', function (newValue, oldValue) {
+                console.log(newValue + "," + oldValue);
+                if (newValue) {
+                    $timeout(function () {
+                        $scope.errorMessage = null;
+                    }, 3000)
                 }
             })
         };
