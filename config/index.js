@@ -1,10 +1,17 @@
 'use strict';
 
 const util = require('util');
+const fs = require('fs');
+
+function getPackageJson() {
+    return JSON.parse(fs.readFileSync('./package.json', 'utf8'));
+}
+
+let packageJson = getPackageJson();
 
 let config = {
-    version: '1.4.' + Date.now(),
-    imageversion: "1.2.1-1489131411950"
+    version: packageJson.version,
+    imageversion: packageJson.version
 };
 
 let configPath = util.format('./config_%s.js', (process.env.NODE_ENV || 'dev'));
