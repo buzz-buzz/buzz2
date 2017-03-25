@@ -8,7 +8,7 @@ include share/common
 + js("/clientConfig.js")
 
 if !config.mock
-    script(src=config.tracking)
+    + js(config.tracking)
 else
     script.
         angular.module('trackingModule', [])

@@ -1,8 +1,9 @@
 mixin js(src)
+    - var sep = src.indexOf('?') >= 0 ? '&' : '?';
     if src.indexOf('/node_modules') === 0 || src.indexOf('/js') === 0
-        script(src=config.cdn + src + '?' + config.version)
+        script(src=config.cdn + src + sep + 'v=' + config.version)
     else
-        script(src=src + '?' + config.version)
+        script(src=src + sep + 'v=' + config.version)
 
 mixin css(src)
     link(rel="stylesheet", href=config.cdn + src + '?' + config.version)
