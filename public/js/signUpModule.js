@@ -10,7 +10,8 @@ angular.module('signUpModule', ['angularQueryParserModule', 'clientConfigModule'
             "Password can't be empty": '密码不能为空',
             'Identity already existed': '该手机号已注册',
             'sms validate error': '短信验证码不正确',
-            '/sign-up?step=2': '注册成功，正在跳转至信息填写页面'
+            '/sign-up?step=2': '注册成功，正在跳转至信息填写页面',
+            '/m/sign-up?step=2': '注册成功，正在跳转至信息填写页面'
         });
         $translateProvider.preferredLanguage('zh');
     }])
