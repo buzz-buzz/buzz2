@@ -139,7 +139,7 @@ angular.module('accountModule', ['clientConfigModule', 'buzzHeaderModule', 'educ
                 gender: $scope.infoData.gender
             }), $http.put(clientConfig.serviceUrls.buzz.profile.education.frontEnd, {
                 grade: '' + $scope.infoData.grade,
-                fav_topics: [$scope.infoData.topics],
+                fav_topics: $scope.infoData.topics ? [$scope.infoData.topics] : [],
                 fav_level: $scope.infoData.level
             })])
                 .then(function (result) {

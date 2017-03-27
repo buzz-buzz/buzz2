@@ -1,4 +1,4 @@
-angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModule', 'clientConfigModule', 'buzzHeaderModule', 'chart.js', 'quizModule', 'DateModule', 'serviceCacheModule','trackingModule'])
+angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModule', 'clientConfigModule', 'buzzHeaderModule', 'chart.js', 'quizModule', 'DateModule', 'serviceCacheModule', 'trackingModule'])
     .run(['$rootScope', 'tracking', function ($rootScope, tracking) {
         tracking.sendX('Progress');
     }])
@@ -6,9 +6,9 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
         $scope.expanded = false;
         $scope.expandContent = function (value) {
             $scope.expanded = value;
-            if(value){
+            if (value) {
                 tracking.sendX('progress.calanderOn.click');
-            }else{
+            } else {
                 tracking.sendX('Pprogress.calander0ff.click');
             }
         };
@@ -200,9 +200,9 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
             $timeout(function () {
                 document.body.scrollTop = document.body.scrollHeight;
             });
-            if(value){
+            if (value) {
                 tracking.sendX('progress.chartOn.click');
-            }else{
+            } else {
                 tracking.sendX('progress.chartOff.click');
             }
         };
@@ -314,10 +314,9 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
         });
     }])
     .controller('myPerformanceCtrl', ['$scope', '$http', 'clientConfig', 'api', '$q', function ($scope, $http, clientConfig, api, $q) {
-        api.get(clientConfig.serviceUrls.buzz.profile.latestAllEducation.frontEnd)
-            .then(function (result) {
-                $scope.myEducationInfo = result.data;
-            });
+        api.get(clientConfig.serviceUrls.buzz.profile.currentLevel.frontEnd).then(function (result) {
+            $scope.currentLevel = result.data;
+        });
 
         $q.all([api.get(clientConfig.serviceUrls.buzz.quiz.lessonCount.frontEnd, {
             params: {
