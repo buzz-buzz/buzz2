@@ -4,7 +4,7 @@ angular.module('buzzHeaderModule', ['angularQueryParserModule', 'servicesModule'
             if (result.data.isSuccess) {
                 $rootScope.profile = result.data.result;
 
-                if ($rootScope.profile.avatar && $rootScope.profile.avatar.indexOf('//upload.bridgeplus.cn') === 0) {
+                if ($rootScope.profile.avatar && $rootScope.profile.avatar.indexOf('//upload.bridgeplus.cn') === 0 && !$rootScope.profile.avatar.match(/-minor$/)) {
                     $rootScope.profile.avatar += '-minor';
                 }
             } else {

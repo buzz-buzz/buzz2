@@ -1,9 +1,11 @@
-mixin js(src)
+mixin js(src, disableCdn)
     - var sep = src.indexOf('?') >= 0 ? '&' : '?';
+    - var cdn = disableCdn ?  '' : config.cdn;
     if src.indexOf('/node_modules') === 0 || src.indexOf('/js') === 0
-        script(src=config.cdn + src + sep + 'v=' + config.version)
+        script(src=cdn + src + sep + 'v=' + config.version)
     else
         script(src=src + sep + 'v=' + config.version)
 
-mixin css(src)
-    link(rel="stylesheet", href=config.cdn + src + '?' + config.version)
+mixin css(src, disableCdn)
+    - var cdn = disableCdn ? '' : config.cdn;
+    link(rel="stylesheet", href=cdn + src + '?' + config.version)
