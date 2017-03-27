@@ -85,7 +85,7 @@ block content
                         div.clear.float
                     .container(style="height:200px;margin-top:2em;margin-bottom:2em;",ng-repeat="lesson in courseList track by $index")
                         .left.clickable(style="display:inline-block;vertical-align:top;height:200px;",ng-click='aLikeClick("/my/play?date="+lesson.date+"&cat="+ lesson.category.toLowerCase()+"&level="+lesson.level)')
-                            img(style="width:280px;height:200px",src="http://source.bridgeplus.cn/image/png/buzz-poster.png")
+                            img(style="width:280px;height:200px",ng-src="{{lesson.image}}")
                         .right(style="display:inline-block;vertical-align:top;height:100%;text-align:left;height:200px;padding:1.4em;position:relative;border:1px solid grey")
                             .content
                                 a.title.clickable(style="color:#f7b52a;margin-bottom:0.4em;font-weight:bold;")(ng-click='aLikeClick("/my/play?date="+lesson.date+"&cat="+ lesson.category.toLowerCase()+"&level="+lesson.level)') {{lesson.title}}

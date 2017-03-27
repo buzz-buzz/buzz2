@@ -51,7 +51,7 @@
   },
   "name": "buzz",
   "description": "Install dependencies and run your app locally ###Install Dependencies### ``` npm install ```",
-  "version": "2.15.1-1490601039044",
+  "version": "2.17.1-1490601426396",
   "main": "app.js",
   "directories": {
     "test": "test"

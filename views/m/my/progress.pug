@@ -496,7 +496,7 @@ body
             .box.process-content(ng-if="!expanded")
                 .calander.left(ng-controller="myBuzzCtrl")
                     span.font.grey 你来到 Buzzbuzz 已有：
-                    span.font.black {{buzzDays | number : 0}} Days
+                    span.font.black {{buzzDays | number : 0}} {{Math.floor(buzzDays) > 1 ? 'Days': 'Day'}}
                 .calander.right(ng-click="expandContent(true)")
                     img.valign-middle(src=`${config.cdn}/public/images/calander.png?${config.version}`)
             .box.process-content(ng-if="expanded")
