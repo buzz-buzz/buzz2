@@ -69,12 +69,21 @@ angular.module('accountModule', ['clientConfigModule', 'buzzHeaderModule', 'educ
             $rootScope.$emit('modal:show' + modalId);
         };
 
-        buzzApi.getMySharingQrCode('300x300');
+        $rootScope.$watch('profile', function (newValue, oldValue) {
+            if (newValue) {
+                buzzApi.getMySharingQrCode(newValue.invite_code, '300x300');
+            }
+        });
     }])
     .controller('qrCodeModalCtrl', ['$scope', '$rootScope', 'modalFactory', 'buzzApi', function ($scope, $rootScope, modalFactory, buzzApi) {
         modalFactory.bootstrap($scope, $rootScope, '#qr-code');
-        buzzApi.getMySharingQrCode('300x300').then(function (link) {
-            $scope.qrCodeLink = link;
+
+        $rootScope.$watch('profile', function (newValue, oldValue) {
+            if (newValue) {
+                buzzApi.getMySharingQrCode(newValue.invite_code, '300x300', $rootScope.profile.invite_code).then(function (link) {
+                    $scope.qrCodeLink = link;
+                });
+            }
         });
     }])
     .controller('infoFormParentCtrl', ['$scope', '$rootScope', 'modalFactory', function ($scope, $rootScope, modalFactory) {

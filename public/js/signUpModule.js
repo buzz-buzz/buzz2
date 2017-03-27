@@ -33,7 +33,8 @@ angular.module('signUpModule', ['angularQueryParserModule', 'clientConfigModule'
             captchaId: '',
             captcha: '',
             agreed: false,
-            referee: queryParser.get('trk_tag')
+            invite_code: queryParser.get('trk_tag'),
+            app_name: 'buzz'
         };
 
         $scope.queryString = location.search;

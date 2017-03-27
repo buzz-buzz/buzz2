@@ -96,13 +96,17 @@
         }])
         .factory('buzzApi', ['api', 'clientConfig', function (api, clientConfig) {
             return {
-                getMyShareLink: function () {
-                    return api.get(clientConfig.serviceUrls.buzz.share.myLink).then(function (result) {
+                getMyShareLink: function (invite_code) {
+                    return api.get(clientConfig.serviceUrls.buzz.share.myLink, {
+                        params: {
+                            invite_code: invite_code
+                        }
+                    }).then(function (result) {
                         return location.origin + result.data;
                     });
                 },
-                getMySharingQrCode: function (size) {
-                    return this.getMyShareLink().then(function (link) {
+                getMySharingQrCode: function (invite_code, size) {
+                    return this.getMyShareLink(invite_code).then(function (link) {
                         return 'https://api.qrserver.com/v1/create-qr-code/?size=' + size + '&data=' + link;
                     });
                 }
