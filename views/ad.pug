@@ -3,7 +3,302 @@ include share/common
 doctype html
 html
     head
-        title 正在建设中……
+        meta(charset="utf-8")
+        meta(http-equiv="X-UA-Compatible", content="IE=edge, chrome=1")
+        meta(name="viewport", content="width=device-width, user-scalable=no")
+        title Buzz
+        style.
+            body,div{
+                padding:0;
+                margin:0;
+            }
+            .box{
+                box-sizing: border-box;
+            }
+            .img-top{
+                position: absolute;
+                top:0;
+                width: 100%;
+                z-index:1;
+            }
+            .img-top img{
+                width:100%;
+            }
+
+            .translate-img{
+                transform: rotate(180deg);
+                -ms-transform: rotate(180deg); /* IE 9 */
+                -moz-transform: rotate(180deg); /* Firefox */
+                -webkit-transform: rotate(180deg); /* Safari 和 Chrome */
+                -o-transform: rotate(180deg); /* Opera */
+            }
+            .middle{
+                margin: 0 auto;
+            }
+            .middle-word{
+                margin:0 auto;
+                display: table;
+            }
+            .top{
+                margin-top:5em;
+            }
+            .bg-black{
+                background-color:#000;
+            }
+            .word{
+                font-family: "微软雅黑", "Helvetica Neue", Helvetica, Arial, sans-serif;
+                font-size: 1em;
+                padding-top: .8em;
+            }
+
+            .main-page{
+                position: absolute;
+                z-index:999;
+                display: block;
+                box-sizing: border-box;
+                margin: .5em  5%  1em 5%;
+                padding:.2em 5% 1em  5%;
+                width: 90%;
+                border:2px solid #aaa;
+                min-height: 800px;
+            }
+            .main-page>.item{
+                width:100%;
+            }
+
+            .litter-title{
+                color:#FFFFFF;
+                font-size: 1.5em;
+                font-family: "微软雅黑", "Helvetica Neue", Helvetica, Arial, sans-serif;
+                padding: 8px 0;
+
+            }
+
+            .to-teacher{
+                margin-top: 3em;
+            }
+            .title-teacher{
+                margin: 1.5em 0 1em 0;
+                letter-spacing: .1em;
+                width:100%;
+                background-color:#fff;
+                color:#fff;
+                font-weight: 500;
+                height:2em;
+                line-height: 2em;
+                font-size:1em;
+                text-align: center;
+                position: relative;
+            }
+            .title-teacher>img{
+                width:100%;
+            }
+            .title-teacher>div{
+                position: absolute;
+                display: table;
+                margin:0 auto;
+                top:5%;
+                width:50%;
+                left:25%;
+                font-size: 1.4em;
+            }
+
+
+            .teacher-gift{
+                color:#f7b52a;
+                margin-bottom: .5em;
+            }
+
+            .ours-features{
+                margin-top:.5em;
+            }
+            .fea-list{
+                width: 33%;
+                display:inline-block;
+                margin:1em 0;
+            }
+
+            .fea-list > img {
+                width: 45%;
+                display:block;
+                margin:0 auto;
+            }
+            .fea-list>div{
+                text-align: center;
+            }
+
+            .full-width{
+                width:100%;
+            }
+            .half-width{
+                width: 50%;
+            }
+            .feature-list{
+                border-bottom: 2px dotted #f7b52a;
+            }
+            .feature-list>div{
+                display: inline-block;
+            }
+
+            .gifts>.gift-item{
+                width: 100%;
+                height:2em;
+                line-height: 2em;
+                font-size: 1em;
+                margin-bottom: 2px;
+                padding:.3em 0;
+                background-color: #FFF5DE;
+                color:#000;
+                text-align: center;
+            }
+            .item.gift-title{
+                width: 100%;
+                height: auto;
+                color:#FFB500;
+                font-size: 1em;
+                text-align: center;
+                font-weight: 500;
+                margin-top:1em;
+                margin-bottom:.5em;
+
+            }
+
+
+            .heart-move{
+                margin:1em 0;
+                width: 100%;
+                color: #FFB500;
+                font-size: 1em;
+                text-align: center;
+                font-weight: 500;
+                box-sizing: border-box;
+                height: 2em;
+            }
+            .heart-move div{
+                width: 33%;
+                box-sizing: border-box;
+                display: inline-block;
+                height:100%;
+            }
+            .heart-img>img{
+                width: 20%;
+                display: inline-block;
+                margin-left: 10%;
+                vertical-align: middle;
+
+            }
+            .heart-img{
+                display: inline-flex;
+                align-items:center;
+            }
+
+            .sign-up{
+                border-bottom: 2px dotted #aaa;
+                padding-bottom:1.5em;
+            }
+            .sign-up-link{
+                display: flex;
+                align-items:center;
+                margin-top:.5em;
+            }
+            .sign-up-link img{
+                vertical-align: middle;
+            }
+
+            .bottom-createdby .img-left{
+                width: 30%;
+                display: inline-block;
+            }
+            .bottom-sherily{
+                width:40%;
+                display: inline-block;
+                color: #FFB600;
+                text-align: center;
+            }
+
+            .bottom-sherily div{
+                margin-top:.5em;
+            }
+
+
+
+
     body
-        h1
-            a(href="/sign-up?trk_tag=" + trk_tag) 正在建设中……
+        .img-top
+            img(src='http://resource.buzzbuzzenglish.com/ad-background.png')
+        .main-page
+            .item.box(style='min-height:30%;')
+                .img.middle(style='width:50%;')
+                    img(src='http://resource.buzzbuzzenglish.com/ad-top-1.png',style="width:100%;")
+                .litter-title
+                    div.middle-word.middle(style="border-top:2px solid #fff;padding-top:3px;margin-bottom:.2em;") 给学生最好的礼物
+                    div.middle-word.middle(style="border-bottom:2px solid #fff;padding-bottom:5px;") 是接受优质教育的机会
+                .img.middle(style='width:50%;')
+                    img.translate-img(src='http://resource.buzzbuzzenglish.com/ad-top-1.png',style="width:100%;")
+            .item.box.to-teacher
+                .title-teacher
+                    img(src='http://resource.buzzbuzzenglish.com/ad-teacher-title.png')
+                    div 敬爱的老师
+                .middle-word.teacher-gift 我们为您送上一份与众不同的礼物
+                .middle-word BuzzBuzz English
+                .icons-title.middle-word.ours-features 我们的特点
+                .feature-list.full-width
+                    .fea-list.box
+                        img(src='http://resource.buzzbuzzenglish.com/ad-icon-1.png')
+                        div 时效性
+                    .fea-list.box
+                        img(src='http://resource.buzzbuzzenglish.com/ad-icon-2.png')
+                        div 相关性
+                    .fea-list.box
+                        img(src='http://resource.buzzbuzzenglish.com/ad-icon-3.png')
+                        div 实用性
+                    .fea-list.box
+                        img(src='http://resource.buzzbuzzenglish.com/ad-icon-4.png')
+                        div 交互性
+                    .fea-list.box
+                        img(src='http://resource.buzzbuzzenglish.com/ad-icon-5.png')
+                        div 个性化
+                    .fea-list.box
+                        img(src='http://resource.buzzbuzzenglish.com/ad-icon-6.png')
+                        div 全球性
+            .item.word  BuzzBuzz每日英语是国内首家线上青少年英语新闻分级阅读,由国际教育者、资深媒体人和国内英语名师强强联手制作播出。每天更新，孩子只花15分钟观看英语新闻时事,做与新闻匹配的互练习。不知不觉中,英语前进一大步！
+            .item.pic.full-width(style="min-height:150px;background-color:#ddd;padding-top:27%;text-align:center;box-sizing:border-box;margin-top:1em;")
+                span 动图演示操作
+            .item.gift-title  您的礼物接收人可以享受以下福利:
+            .item.gifts
+                .gift-item
+                   span 一个月免费订阅
+                .gift-item 英语学习+全球时事
+                .gift-item 个性化定制生词本
+                .gift-item 多维度可视报告
+            .item.heart-move
+                .heart-img
+                    img(src='http://resource.buzzbuzzenglish.com/ad-heart.png')
+                    img(src='http://resource.buzzbuzzenglish.com/ad-heart.png')
+                    img(src='http://resource.buzzbuzzenglish.com/ad-heart.png')
+                .heart-img(style='width:33%;line-height:2em;') 怦然心动吗
+                .heart-img
+                     img(src='http://resource.buzzbuzzenglish.com/ad-heart.png')
+                     img(src='http://resource.buzzbuzzenglish.com/ad-heart.png')
+                     img(src='http://resource.buzzbuzzenglish.com/ad-heart.png')
+            .item.sign-up
+                .sign-up-title 好东西,要分享！只需点击图片,注册后在【我的】获取专属二维码,一键分享给5位亲朋好友。福利来的就这么简单,您将获得双倍的免费订阅！
+                .sign-up-link
+                    .img.half-width
+                        a(href="/sign-up?trk_tag=" + trk_tag)
+                            img(src='http://resource.buzzbuzzenglish.com/ad-link-signup.png',style='width:60%;display:block;margin:0 auto;')
+                    .link.half-width.clickme
+                        img(src='http://resource.buzzbuzzenglish.com/ad-clickme.png',ng-click='clickme()')
+                        span  &nbsp;点我！
+            .item.bottom
+                .middle-word(style='margin-top:1em;margin-bottom:.5em;') 让孩子的英语学习超越语言学习,
+                .middle-word(style='margin-bottom:1em;') 这是我们间的约定!
+                .full-width.bottom-createdby
+                    .img-left.translate-img
+                       img(src='http://resource.buzzbuzzenglish.com/ad-bottom.png',style='width:100%;')
+                    .bottom-sherily
+                        span Buzz创始人
+                        div 雪梨姐姐
+                    .img-left
+                        img(src='http://resource.buzzbuzzenglish.com/ad-bottom.png',style='width:100%;')
+
