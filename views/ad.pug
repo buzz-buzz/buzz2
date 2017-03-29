@@ -8,217 +8,242 @@ html
         meta(name="viewport", content="width=device-width, user-scalable=no")
         title BuzzBuzz English
         style.
-            body,div{
-                padding:0;
-                margin:0;
-            }
-            .box{
-                box-sizing: border-box;
-            }
-            .img-top{
-                position: absolute;
-                top:0;
-                width: 100%;
-                z-index:1;
-            }
-            .img-top img{
-                width:100%;
+            body, div {
+                padding: 0;
+                margin: 0;
             }
 
-            .translate-img{
+            a{
+                color:black;
+                text-decoration: none;
+            }
+            .margin-b{
+                margin-bottom:.5em;
+            }
+            .box {
+                box-sizing: border-box;
+            }
+
+            .img-top {
+                position: absolute;
+                top: 0;
+                width: 100%;
+                z-index: 1;
+            }
+
+            .img-top img {
+                width: 100%;
+            }
+
+            .translate-img {
                 transform: rotate(180deg);
                 -ms-transform: rotate(180deg); /* IE 9 */
                 -moz-transform: rotate(180deg); /* Firefox */
                 -webkit-transform: rotate(180deg); /* Safari 和 Chrome */
                 -o-transform: rotate(180deg); /* Opera */
             }
-            .translate-img-y{
+
+            .translate-img-y {
                 transform: rotateY(180deg);
                 -ms-transform: rotateY(180deg); /* IE 9 */
                 -moz-transform: rotateY(180deg); /* Firefox */
                 -webkit-transform: rotateY(180deg); /* Safari 和 Chrome */
                 -o-transform: rotateY(180deg); /* Opera */
             }
-            .line-height-lit{
+
+            .line-height-lit {
                 line-height: 1.5em;
             }
-            .middle{
+
+            .middle {
                 margin: 0 auto;
             }
-            .middle-word{
-                margin:0 auto;
+
+            .middle-word {
+                margin: 0 auto;
                 display: table;
             }
-            .border-b{
+
+            .border-b {
                 border-bottom: 2px dotted #f7b52a;
             }
 
-            .word{
+            .word {
                 font-family: "微软雅黑", "Helvetica Neue", Helvetica, Arial, sans-serif;
                 font-size: 1em;
                 padding-top: .8em;
             }
 
-            .main-page{
+            .main-page {
                 position: absolute;
-                z-index:999;
+                z-index: 999;
                 display: block;
                 box-sizing: border-box;
-                margin: .5em  5%  1em 5%;
-                padding:.2em 5% 1em  5%;
+                margin: .5em 5% 1em 5%;
+                padding: .2em 5% 1em 5%;
                 width: 90%;
                 min-height: 800px;
-                border-bottom:2px solid #aaa;
-                border-top:2px solid #aaa;
-            }
-            .main-page>.item{
-                width:100%;
+                border-bottom: 2px solid #aaa;
+                border-top: 2px solid #aaa;
             }
 
-            .border-outside-right{
-                height:100%;
-                position: absolute;
-                top: 0;
-                right:0;
-                border-left:2px solid #aaa;
+            .main-page > .item {
+                width: 100%;
             }
 
-            .border-outside-left{
+            .border-outside-right {
                 height: 100%;
                 position: absolute;
-                left: 0;
-                top:0;
+                top: 0;
+                right: 0;
                 border-left: 2px solid #aaa;
             }
 
-            .litter-title{
-                color:#FFFFFF;
+            .border-outside-left {
+                height: 100%;
+                position: absolute;
+                left: 0;
+                top: 0;
+                border-left: 2px solid #aaa;
+            }
+
+            .litter-title {
+                color: #FFFFFF;
                 font-size: 1.5em;
                 font-family: "微软雅黑", "Helvetica Neue", Helvetica, Arial, sans-serif;
                 padding: 8px 0;
 
             }
 
-            .to-teacher{
+            .to-teacher {
                 margin-top: 3em;
             }
-            .title-teacher{
+
+            .title-teacher {
                 margin: 1.5em 0 1em 0;
                 letter-spacing: .1em;
-                width:100%;
-                background-color:#fff;
-                color:#fff;
+                width: 100%;
+                background-color: #fff;
+                color: #fff;
                 font-weight: 500;
-                height:2em;
+                height: 2em;
                 line-height: 2em;
-                font-size:1em;
+                font-size: 1em;
                 text-align: center;
                 position: relative;
             }
-            .title-teacher>img{
-                width:100%;
+
+            .title-teacher > img {
+                width: 100%;
             }
-            .title-teacher>div{
+
+            .title-teacher > div {
                 position: absolute;
                 display: table;
-                margin:0 auto;
-                top:5%;
-                width:60%;
-                left:20%;
+                margin: 0 auto;
+                top: 5%;
+                width: 60%;
+                left: 20%;
                 font-size: 1.2em;
             }
 
-
-            .teacher-gift{
-                color:#f7b52a;
+            .teacher-gift {
+                color: #f7b52a;
                 margin-bottom: .5em;
             }
 
-            .ours-features{
-                margin-top:.5em;
+            .ours-features {
+                margin-top: .5em;
                 width: 100%;
             }
-            .ours-features>div{
+
+            .ours-features > div {
                 display: inline-block;
             }
-            .ours-features>.fea-dot{
-                width:20%;
+
+            .ours-features > .fea-dot {
+                width: 20%;
                 height: 100%;
                 border-bottom: 2px dotted #f7b52a;
             }
+
             .ours-features > .fea-word {
                 width: 35%;
                 text-align: center;
                 font-size: .8em;
             }
+
             .ours-features > .img {
                 width: 12.5%;
             }
 
-
-
-
-            .fea-list{
+            .fea-list {
                 width: 33%;
-                display:inline-block;
-                margin:1em 0;
+                display: inline-block;
+                margin: 1em 0;
             }
 
             .fea-list > img {
                 width: 45%;
-                display:block;
-                margin:0 auto;
+                display: block;
+                margin: 0 auto;
             }
-            .fea-list>div{
+
+            .fea-list > div {
                 text-align: center;
             }
 
-            .full-width{
-                width:100%;
+            .full-width {
+                width: 100%;
             }
-            .half-width{
+
+            .half-width {
                 width: 50%;
             }
-            .feature-list{
+
+            .feature-list {
                 border-bottom: 2px dotted #f7b52a;
             }
-            .feature-list>div{
+
+            .feature-list > div {
                 display: inline-block;
             }
 
-            .gifts{
+            .gifts {
                 position: relative;
             }
-            .gifts>.gift-item{
+
+            .gifts > .gift-item {
                 width: 100%;
-                height:2em;
+                height: 2em;
                 line-height: 2em;
                 font-size: 1em;
                 margin-bottom: 2px;
-                padding:.3em 0;
+                padding: .3em 0;
                 background-color: #FFF5DE;
-                color:#000;
+                color: #000;
                 text-align: center;
             }
-            .item.gift-title{
+
+            .item.gift-title {
                 width: 100%;
                 height: auto;
-                color:#FFB500;
+                color: #FFB500;
                 font-size: 1em;
                 text-align: center;
                 font-weight: 500;
-                margin-bottom:.5em;
+                margin-bottom: .5em;
             }
-            .gift-animate{
+
+            .gift-animate {
                 position: absolute;
                 width: 100%;
-                height:100%;
-                z-index:1000;
+                height: 100%;
+                z-index: 1000;
             }
 
-
-            .heart-move{
-                margin:1em 0;
+            .heart-move {
+                margin: 1em 0;
                 width: 100%;
                 color: #FFB500;
                 font-size: 1em;
@@ -227,92 +252,105 @@ html
                 box-sizing: border-box;
                 height: 2em;
             }
-            .heart-move div{
+
+            .heart-move div {
                 width: 33%;
                 box-sizing: border-box;
                 display: inline-block;
-                height:100%;
+                height: 100%;
             }
-            .heart-img>img{
+
+            .heart-img > img {
                 width: 20%;
                 display: inline-block;
                 margin-left: 10%;
                 vertical-align: middle;
 
             }
-            .heart-img{
+
+            .heart-img {
                 display: inline-flex;
-                align-items:center;
+                align-items: center;
             }
 
-            .sign-up-link{
+            .sign-up-link {
                 display: flex;
-                align-items:center;
-                margin-top:.5em;
+                align-items: center;
+                margin-top: .5em;
             }
-            .sign-up-link img{
+
+            .sign-up-link img {
                 vertical-align: middle;
             }
-            .padding-b{
+
+            .padding-b {
                 padding-bottom: 1.5em;
             }
-            .padding-t{
+
+            .padding-t {
                 padding-top: 1.5em;
             }
 
-            span.important{
+            span.important {
                 font-weight: bold;
-                color:#FFB600;
+                color: #FFB600;
             }
-            .bottom-createdby .img-left{
+
+            .bottom-createdby .img-left {
                 width: 20%;
                 display: inline-block;
                 vertical-align: middle;
             }
-            .bottom-sherily{
-                width:60%;
+
+            .bottom-sherily {
+                width: 60%;
                 display: inline-block;
                 color: #FFB600;
                 text-align: center;
             }
 
-            .bottom-sherily div{
-                margin-top:.5em;
+            .bottom-sherily div {
+                margin-top: .5em;
             }
 
-            .question-body{
+            .question-body {
                 position: relative;
                 margin-top: .5em;
                 min-height: 15em;
                 margin-bottom: 1em;
             }
-            .question-body>.back-img{
+
+            .question-body > .back-img {
                 position: absolute;
-                margin-left:-15%;
+                margin-left: -15%;
                 width: 130%;
                 z-index: -20;
             }
-            .question-body>.question{
+
+            .question-body > .question {
                 position: absolute;
-                z-index:100;
+                z-index: 100;
                 padding-top: .5em;
             }
-            .question-body>.question>.question-list{
-                width:100%;
+
+            .question-body > .question > .question-list {
+                width: 100%;
             }
-            .question-body>.question .question-list-title{
+
+            .question-body > .question .question-list-title {
                 font-weight: 400;
                 color: snow;
-                margin:.2em 0;
+                margin: .2em 0;
             }
-            .question-body>.question>.question-list>span{
+
+            .question-body > .question > .question-list > span {
                 font-size: .8em;
-                color:#F2F2F2;
+                color: #F2F2F2;
             }
 
             @media screen and (min-width: 410px) {
-                .question-body{
-                    margin-bottom:3em;
+                .question-body {
+                    margin-bottom: 3em;
                 }
             }
 
@@ -320,10 +358,44 @@ html
                 .question-body {
                     margin-top: 0;
                 }
-                .question-body .question-list:nth-child(4){
+
+                .question-body .question-list:nth-child(4) {
                     display: none;
                     margin-bottom: 0;
 
+                }
+            }
+
+            .gift-animate {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: #FFF5DE;
+            }
+
+            .gift-animate > img {
+                display: block;
+                margin: 0 auto;
+            }
+
+            @keyframes open-gift {
+                0% {
+                    width: 100%;
+                    height: 100%;
+                    top: 0;
+                    left: 0;
+                    display: block;
+                    opacity: 1;
+                }
+                100% {
+                    height:0;
+                    opacity: 0;
+                    display: none;
+                    width: 0;
+                    top: 50%;
+                    left: 50%;
                 }
             }
 
@@ -346,7 +418,7 @@ html
                     div 亲爱的爸爸妈妈
                 .middle-word.teacher-gift 恭喜您获得邀请
                 .middle-word.teacher-gift(style='margin-bottom:1em;') 一起开启Buzzbuzz每日英语吧!
-                .question-title 孩子有没有......
+                .question-title.margin-b 孩子有没有......
                 .full-width.question-body
                     .question
                         .question-list
@@ -398,21 +470,21 @@ html
             .item.gift-title  现在就点击下方图片注册
             .item.gift-title  即可享受以下福利
             .item.gifts
-                .gift-item
-                   span 一个月免费订阅
+                .gift-item 一个月免费订阅
                 .gift-item 英语学习+全球时事
                 .gift-item 个性化定制生词本
                 .gift-item 多维度可视报告
-                //.gift-animate
-                //img(style='width:100%;',src='')
+                .gift-animate
+                    img(style='height:100%;',src='http://resource.buzzbuzzenglish.com/ad-gift.png')
             .item.sign-up
-                .sign-up-link
-                    .img.half-width
-                        a(href="/sign-up?trk_tag=" + trk_tag)
-                            img(src='http://resource.buzzbuzzenglish.com/ad-link-signup.png',style='width:60%;display:block;margin:0 auto;')
-                    .link.half-width.clickme
-                        img(src='http://resource.buzzbuzzenglish.com/ad-clickme.png',ng-click='clickme()')
-                        span  &nbsp;点我！
+                a(href="/sign-up?trk_tag=" + trk_tag)
+                    .sign-up-link
+                        .img.half-width
+
+                                img(src='http://resource.buzzbuzzenglish.com/ad-link-signup.png',style='width:60%;display:block;margin:0 auto;')
+                        .link.half-width.clickme
+                            img(src='http://resource.buzzbuzzenglish.com/ad-clickme.png',ng-click='clickme()')
+                            span  &nbsp;点我注册！
             .item.heart-move
                 .heart-img
                     img(src='http://resource.buzzbuzzenglish.com/ad-heart.png')
@@ -424,19 +496,31 @@ html
                     img(src='http://resource.buzzbuzzenglish.com/ad-heart.png')
                     img(src='http://resource.buzzbuzzenglish.com/ad-heart.png')
             .sign-up-title.padding-b.border-b.line-height-lit
-                    span 好东西，要分享！只需点击图片，注册后在【我的】获取专属二维码，一键分享给
-                    span.important 5位
-                    span 亲朋好友。福利来的就这么简单，您将获得
-                    span.important 双倍
-                    span 的免费订阅！
+                span 好东西，要分享！只需点击图片，注册后在【我的】获取专属二维码，一键分享给
+                span.important 5位
+                span 亲朋好友。福利来的就这么简单，您将获得
+                span.important 双倍
+                span 的免费订阅！
             .item.word.padding-t.padding-b.border-b.line-height-lit BuzzBuzz每日英语是国内首家线上青少年英语新闻分级阅读,由国际教育者、资深媒体人和国内英语名师强强联手制作播出。每天更新，孩子只花15分钟观看英语新闻时事,做与新闻匹配的互练习。不知不觉中,英语前进一大步！
             .item.bottom
                 .middle-word(style='margin-top:1em;margin-bottom:.5em;color:#F5B41A') 让孩子的英语学习超越语言学习,
                 .full-width.bottom-createdby(style='margin-bottom:1em;')
                     .img-left.translate-img
-                       img(src='http://resource.buzzbuzzenglish.com/ad-bottom.png',style='width:100%;')
+                        img(src='http://resource.buzzbuzzenglish.com/ad-bottom.png',style='width:100%;')
                     .bottom-sherily 这是我们间的约定!
                     .img-left
                         img(src='http://resource.buzzbuzzenglish.com/ad-bottom.png',style='width:100%;')
             .border-outside-left
             .border-outside-right
+        script(src='//cdn.bootcss.com/jquery/3.1.0/jquery.min.js')
+        script.
+            $('.gift-animate').on('click', function () {
+                $('.gift-animate').animate({
+                    height: '0',
+                    opacity: '0',
+                    display: 'none',
+                    width: '0',
+                    top: '50%',
+                    left: '50%'
+                }, 2000);
+            });
