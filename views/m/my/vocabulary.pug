@@ -42,18 +42,38 @@ body
         }
 
         .row.word {
+            box-sizing: border-box;
             border-top: 1px solid #dddddd;
             border-bottom: 1px solid #dddddd;
             height: 5rem;
+            padding:.5em 0;
         }
 
         .row.word .wordname {
             display: inline-block;
-            height: 3rem;
-            line-height: 3rem;
+            height: 2rem;
+            line-height: 2rem;
             padding-left: 1rem;
             color: #333333;
+            font-size:1em;
+            font-weight: bold;
         }
+        .row.word .wordname>span{
+            font-weight: normal;
+            font-size: .8em;
+            color:#666666;
+
+        }
+
+        .row.word .wordexplain {
+            display: block;
+            height: 2rem;
+            line-height: 2rem;
+            padding-left: 1rem;
+            color: #333333;
+            font-size: .8em;
+        }
+
 
         .row.date {
             background-color: #e8e8e8;
@@ -105,6 +125,9 @@ body
             .reserve-row
                 .row.word(ng-repeat="word in weeklylist.words",ng-show="radioBoxType===RADIO_TYPE.NONE||word.status === radioBoxType")
                     .wordname {{word.name}}
+                        span &nbsp;&nbsp;&nbsp;英 [hear]  &nbsp;&nbsp;&nbsp;美 [hear]
+                    .wordexplain n.头发,毛发;(动、植物的)毛;一丝丝
+
         .row.blank
         .row.blank
         .row.blank
