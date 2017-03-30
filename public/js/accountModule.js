@@ -80,6 +80,10 @@ angular.module('accountModule', ['clientConfigModule', 'buzzHeaderModule', 'educ
 
         $rootScope.$watch('profile', function (newValue, oldValue) {
             if (newValue) {
+                buzzApi.getMyShareLink(newValue.invite_code).then(function (link) {
+                    $scope.myShareLink = link;
+                });
+
                 buzzApi.getMySharingQrCode(newValue.invite_code, '300x300', $rootScope.profile.invite_code).then(function (link) {
                     $scope.qrCodeLink = link;
                 });

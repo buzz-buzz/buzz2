@@ -7,6 +7,8 @@ angular.module('buzzHeaderModule', ['angularQueryParserModule', 'servicesModule'
                 if ($rootScope.profile.avatar && $rootScope.profile.avatar.indexOf('//upload.bridgeplus.cn') === 0 && !$rootScope.profile.avatar.match(/-minor$/)) {
                     $rootScope.profile.avatar += '-minor';
                 }
+
+                $rootScope.profile.displayName = $rootScope.profile.display_name || $rootScope.profile.name || $rootScope.profile.nick_name || $rootScope.profile.real_name;
             } else {
                 throw result.data;
             }

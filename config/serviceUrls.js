@@ -128,5 +128,8 @@ module.exports = {
         share: {
             myLink: '/service-proxy/share/my-link'
         }
+    },
+    wechat: {
+        sign: {frontEnd: '/service-proxy/wechat/sign', upstream: '/sign/buzz'}
     }
 };

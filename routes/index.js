@@ -127,6 +127,7 @@ function serviceProxy(app, router) {
     require('../service-proxy/video')(app, router, coBody);
     require('../service-proxy/exercise')(app, router, coBody);
     require('../service-proxy/share')(app, router, coBody);
+    require('../service-proxy/wechatSign')(app, router, coBody);
 }
 function staticFiles(app) {
     require('./static')(app);

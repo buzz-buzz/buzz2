@@ -160,8 +160,6 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
                     dailyExercisePerf.push(quizFactory.getDailyExercisePerformance(p.quiz_result_group_id));
                 });
 
-                console.log('week perf: ', $scope.weekPerformance);
-
                 return dailyExercisePerf;
             }).then(function (requests) {
                 return $q.all(requests);

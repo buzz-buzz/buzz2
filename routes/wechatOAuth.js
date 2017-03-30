@@ -7,6 +7,10 @@ module.exports = function * wechatOAuth(next) {
         return yield next;
     }
 
+    if (process.env.NODE_ENV !== 'prd') {
+        return yield next;
+    }
+
     if (this.path !== '/m/sign-in') {
         return yield next;
     }

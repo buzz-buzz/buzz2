@@ -32,7 +32,7 @@ app.use(function* (next) {
 require('./routes')(app, router, render);
 
 if (!module.parent) {
-    var port = process.env.PORT || config.port || 16000;
+    var port = process.env.PORT || config.port || 80;
     app.listen(port);
     console.log('Running %s site at: http://localhost:%d', config.mode, port);
 }
