@@ -246,14 +246,9 @@ block content
             .page.section.flex-box.scrolly(ng-controller="page2ParentCtrl")
                 + quiz
         include ../../partial/ask-for-login-modal
-        .share(ng-app="shareModule",style='width:0;height:0;box-sizing:border-box;')
     if hcd_user
         include ../tail.pug
         + tailcontent(true,  false, false, false)
     include ../../js
     + js("/js/wechat-share.js")
-    + js("/js/wechat-share.js")
-        script.
-            angular.module('shareModule', ['wechatShareModule'])
-            ;
 

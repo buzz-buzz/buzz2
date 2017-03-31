@@ -1,10 +1,10 @@
 angular.module('wechatShareModule', ['clientConfigModule', 'buzzHeaderModule'])
     .run(['$rootScope', '$http', 'clientConfig', function ($rootScope, $http, clientConfig) {
-        var index = location.href.indexOf('#')
+        var index = location.href.indexOf('#');
         if (index < 0) {
             index = undefined;
         }
-
+        console.log("url："+location.href.substr(0, index));
         function getDesc(who) {
             return who + ' 邀请您一起看今日Buzzbuzz青少年英语新闻';
         }
@@ -26,7 +26,7 @@ angular.module('wechatShareModule', ['clientConfigModule', 'buzzHeaderModule'])
 
         $http.get(clientConfig.serviceUrls.wechat.sign.frontEnd, {
             params: {
-                url: location.href.substr(0, index)
+                url: encodeURIComponent(location.href.substr(0, index))
             }
         }).then(function (result) {
             wx.config({
