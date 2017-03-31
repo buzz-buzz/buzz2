@@ -210,6 +210,7 @@ mixin quiz
                         iframe(id="word-1",frameborder="0",style="width: 100%; min-height: 400px;")
                     .cube-side.side-b
                         iframe(id="word-2",frameborder="0",style="width: 100%;min-height: 400px;")
+                    .exersise-progress(style='height:44px;position:absolute;top:0;width:100%;background-color:#fff;text-align:center;line-height:44px;')  {{wordIndex+1}}/{{WORD_MAX_INDEX+1}}
                 div(style="display: flex; margin-top: 5px;")
                     a.button.yellow.exercisebutton(ng-show="isWordMode&&hasWordMode",ng-click="changeWordMode(false)", style="flex: 1;") 进入练习
                     a.button.yellow.exercisebutton(ng-show="!isWordMode&&hasWordMode",ng-click="changeWordMode(true)", style="flex: 1;") 显示词汇
@@ -223,6 +224,7 @@ mixin quiz
                         iframe(id="quiz-1",frameborder="0",style="width: 100%;min-height: 400px;")
                     .cube-side.side-b
                         iframe(id="quiz-2",frameborder="0",style="width: 100%;min-height: 400px;")
+                    .exersise-progress(style='height:44px;position:absolute;top:0;width:100%;background-color:#fff;text-align:center;line-height:44px;')  {{quizIndex+1}}/{{quizLimit+1}}
                 div(style="display: flex; margin-top: 5px; text-align: center;")
                     a.fluid.button.yellow(ng-click="turnQuiz(true)",ng-class="{'hidden':quizIndex>=quizLimit}") 下一题
             + itemBar('/public/images/exersise3.png', "Weekly Quiz", "每周测试")(ng-class="{'active': $root.tabularIndex===3}",ng-click="tagToggle(3)")
@@ -244,10 +246,14 @@ block content
             .page.section.flex-box.scrolly(ng-controller="page2ParentCtrl")
                 + quiz
         include ../../partial/ask-for-login-modal
+        .share(ng-app="shareModule",style='width:0;height:0;box-sizing:border-box;')
     if hcd_user
         include ../tail.pug
         + tailcontent(true,  false, false, false)
-
-
     include ../../js
+    + js("/js/wechat-share.js")
+    + js("/js/wechat-share.js")
+        script.
+            angular.module('shareModule', ['wechatShareModule'])
+            ;
 

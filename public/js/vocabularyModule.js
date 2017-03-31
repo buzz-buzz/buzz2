@@ -67,6 +67,15 @@ angular.module('vocabularyModule', ['trackingModule', 'clientConfigModule', 'Dat
         };
         $scope.vocabularyAll = [];
 
+        $scope.explain={
+           word:'',
+            phon_en:'',
+            phon_us:'',
+            class:'',
+            explain:'',
+            example:''
+        };
+
         function parseVocabularyPerformance(words, performances) {
             words.map(function (w) {
                 wordsToPrint[RADIO_TYPE.NONE].push(w.name);
@@ -134,8 +143,8 @@ angular.module('vocabularyModule', ['trackingModule', 'clientConfigModule', 'Dat
                                 v.words.push({
                                     name: word,
                                     index: res.dictionary[word].id,
-                                    ipc: res.dictionary[word].ipc,
-                                    explaination: res.dictionary[word].explanation,
+                                    ipc:res.dictionary[word].ipc,
+                                    explaination:res.dictionary[word].explanation,
                                     soundURL: res.dictionary[word].ipa,
                                     url: res.dictionary[word].url,
                                     exercise: res.dictionary[word].exercise

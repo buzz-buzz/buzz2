@@ -125,8 +125,8 @@ body
             .reserve-row
                 .row.word(ng-repeat="word in weeklylist.words",ng-show="radioBoxType===RADIO_TYPE.NONE||word.status === radioBoxType")
                     .wordname {{word.name}}
-                        span &nbsp;&nbsp;&nbsp;英 [hear]  &nbsp;&nbsp;&nbsp;美 [hear]
-                    .wordexplain n.头发,毛发;(动、植物的)毛;一丝丝
+                        span  {{word.ipc}}
+                    .wordexplain {{word.explaination}}
 
         .row.blank
         .row.blank
