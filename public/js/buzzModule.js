@@ -24,7 +24,8 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                     video_path: result.data.video_path,
                     quiz_path: result.data.quiz_path,
                     new_words_path: result.data.new_words_path,
-                    lesson_id: result.data.lesson_id
+                    lesson_id: result.data.lesson_id,
+                    enabled: result.data.enabled
                 };
 
                 $scope.$emit('lessonInfo:got', $rootScope.lessonInfo);
@@ -498,5 +499,14 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
             }
         }, false);
         console.log('event will be listen');
+    }])
+    .controller('auditModalCtrl', ['$scope', '$rootScope', 'modalFactory', function ($scope, $rootScope, modalFactory) {
+        modalFactory.bootstrap($scope, $rootScope, '#audit-modal');
+
+        $rootScope.$watch('lessonInfo', function (newValue, oldValue) {
+            if (newValue && !newValue.enabled) {
+                $scope.showTheModal();
+            }
+        });
     }])
 ;

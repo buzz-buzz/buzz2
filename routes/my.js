@@ -28,22 +28,22 @@ module.exports = function (app, router, render) {
             });
         })
         .get('/my/history', membership.ensureAuthenticated, function *(next) {
-            let hcd_user = this.state.hcd_user;
-
             this.body = yield render('my/history', {
                 config: config,
-                hcd_user: hcd_user
+                hcd_user: this.state.hcd_user
             });
         })
-        .get('/my/play', function *(next) {
+        .get('/my/play', membership.setHcdUserIfSignedIn, function *(next) {
             if (!this.state.userAgent.isMobile || this.state.userAgent.isTablet) {
                 return this.body = yield render('my/play', {
-                    config: config
+                    config: config,
+                    hcd_user: this.state.hcd_user
                 });
             }
 
             this.body = yield render('/m/my/today', {
-                config: config
+                config: config,
+                hcd_user: this.state.hcd_user
             });
         })
         .get('/my/player', function *(next) {

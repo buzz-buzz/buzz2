@@ -35,8 +35,6 @@ function *parseToken(context, token) {
         });
 
         result = result.body;
-        console.log('parse token result: ');
-        console.log(result);
     }
 
     if (result.isSuccess) {

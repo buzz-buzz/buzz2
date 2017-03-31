@@ -29,6 +29,10 @@
     z-index: 100;
 }
 
+.dark.mask:before{
+    opacity: 0.9;
+}
+
 .popup {
     background-color: white;
     z-index: 200;

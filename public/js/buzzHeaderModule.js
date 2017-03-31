@@ -39,6 +39,11 @@ angular.module('buzzHeaderModule', ['angularQueryParserModule', 'servicesModule'
                     $event.stopPropagation();
                 };
 
+                $scope.showTheModal = function () {
+                    $scope.showModal = true;
+                    $scope.hideModal = false;
+                };
+
                 var destroy = $rootScope.$on('modal:show' + modalId, function () {
                     $timeout(function () {
                         $scope.hideModal = false;
