@@ -76,26 +76,29 @@ style.
     }
 
 mixin goodPerformance()
-    img(ng-src="http://source.bridgeplus.cn/image/png/%E5%AD%A6%E4%B9%A0%E8%BF%9B%E5%BA%A6_06.png")&attributes(attributes)
+    img(ng-src="http://source.bridgeplus.cn/image/png/%E5%AD%A6%E4%B9%A0%E8%BF%9B%E5%BA%A6_06.png")&attributes(
+    attributes)
 
 mixin badPerformance()
-    img(ng-src="http://source.bridgeplus.cn/image/png/%E5%AD%A6%E4%B9%A0%E8%BF%9B%E5%BA%A6_10.png")&attributes(attributes)
+    img(ng-src="http://source.bridgeplus.cn/image/png/%E5%AD%A6%E4%B9%A0%E8%BF%9B%E5%BA%A6_10.png")&attributes(
+    attributes)
 
 mixin noPerformance()
-    img(ng-src="http://source.bridgeplus.cn/image/png/%E5%AD%A6%E4%B9%A0%E8%BF%9B%E5%BA%A6_13.png")&attributes(attributes)
+    img(ng-src="http://source.bridgeplus.cn/image/png/%E5%AD%A6%E4%B9%A0%E8%BF%9B%E5%BA%A6_13.png")&attributes(
+    attributes)
 
 mixin noCourse()
     div
 
 mixin weeks()
     - var week = 0;
-    while week < 5
-        .row.day
+    while week < 6
+        .row.day(ng-if=week + " < weekDays.length")
             - var day = 0;
                 while day < 7
                     - var showPerformance = 'performances[' + week + '][' + day + '] !== ""';
                     .column(style="position: relative;", ng-class="{'future': today < weekDays[" + week + "][" + day + "]}")
-                        p.dayOfWeek {{weekDays[#{week}][#{day}] | date: 'd'}}
+                        p.dayOfWeek {{weekDays[#{week}][#{day}] | date: 'd'}} 
                         .performance(ng-if=showPerformance)
                         a
                             - var good = 'performances[' + week + '][' + day + '] === "good"'

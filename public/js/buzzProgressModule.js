@@ -19,11 +19,12 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
             [null, null, null, null, null, null, null],
             [null, null, null, null, null, null, null],
             [null, null, null, null, null, null, null],
+            [null, null, null, null, null, null, null],
             [null, null, null, null, null, null, null]
         ];
 
         $scope.gotoMonth = function (diff) {
-            $scope.current.setMonth($scope.current.getMonth() + diff);
+            $scope.current = new Date($scope.current.getFullYear(), $scope.current.getMonth() + diff, 1);
             dateChanged();
         };
         var extendWeekDays = function (weekDays) {
@@ -65,6 +66,7 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
                 [null, null, null, null, null, null, null],
                 [null, null, null, null, null, null, null],
                 [null, null, null, null, null, null, null],
+                [null, null, null, null, null, null, null],
                 [null, null, null, null, null, null, null]
             ];
             var day = 1;
@@ -76,9 +78,16 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
                 }
 
                 for (var j = start; j < $scope.weekDays[i].length && day <= days; j++) {
-
                     $scope.weekDays[i][j] = new Date($scope.current.getFullYear(), $scope.current.getMonth(), day++, 0, 0, 0);
                 }
+
+                if (day > days) {
+                    break;
+                }
+            }
+
+            if (i < $scope.weekDays.length - 1) {
+                $scope.weekDays.splice($scope.weekDays.length - 1, 1);
             }
 
             getPerformances();
