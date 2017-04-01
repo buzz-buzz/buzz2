@@ -4,7 +4,7 @@ angular.module('wechatShareModule', ['clientConfigModule', 'buzzHeaderModule'])
         if (index < 0) {
             index = undefined;
         }
-        console.log("url："+location.href.substr(0, index));
+        console.log("url：" + location.href.substr(0, index));
         function getDesc(who) {
             return who + ' 邀请您一起看今日Buzzbuzz青少年英语新闻';
         }
@@ -70,17 +70,14 @@ angular.module('wechatShareModule', ['clientConfigModule', 'buzzHeaderModule'])
             }
 
             wx.ready(function () {
-                wx.onMenuShareTimeline(angular.extend(sharable, {
+                wx.onMenuShareTimeline(angular.extend({}, sharable, {
                     success: shareToTimelineSuccess,
                     cancel: shareToTimelineCancel,
-                    title: sharable.title
+                    title: sharable.desc
                 }));
-                wx.onMenuShareAppMessage(angular.extend(sharable, {
+                wx.onMenuShareAppMessage(angular.extend({}, sharable, {
                     success: shareToFriendSuccess,
-                    cancel: shareToFriendCancel,
-                    title: sharable.title,
-                    desc:sharable.desc
-
+                    cancel: shareToFriendCancel
                 }));
             });
 
