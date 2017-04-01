@@ -4,8 +4,7 @@ html
     body(ng-app="buzzPlayerModule", ng-controller="videoCtrl", class="full screen container")
         .center.aligned.container
             .video(style="width: 100%;")
-                div.video-wrapper(style="width: 100%;background-color:black;")
-                    video(style="width: 100%;id=main-video;type='video/mp4'")
+
         include ../my/player-js.html
         script(src=config.tracking)
 

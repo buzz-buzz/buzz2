@@ -477,7 +477,8 @@ html
                         div 全球性
             //.item.pic.full-width(style="min-height:150px;background-color:#ddd;padding-top:27%;text-align:center;box-sizing:border-box;margin-top:1em;margin-bottom:1em;")
             //    span 动图演示操作
-            iframe.ad-video(src='/s/player?cat=technology&date=2017-03-16&level=A&video_path=/resources/buzz/smil/2017-03-16-A.json&new_words_path=/resources/buzz/newWords/2017-03-16-A.json&lesson_id=9b5b67a0-07c5-11e7-97e8-89cde76fc6f3' style="border:none; width: 100%; display: block;", allowfullscreen)
+            div.video-wrapper(style="width: 100%;background-color:white;")
+                video(style="width: 100%;id=main-video;type='video/mp4';",src="http://resource.buzzbuzzenglish.com/video/Bikesharing.mp4",controls)
             .item.gift-title(style="margin-top:1em;")  现在就点击下方图片注册
             .item.gift-title  即可享受以下福利
             .item.gifts
