@@ -75,6 +75,7 @@ angular.module('wechatShareModule', ['clientConfigModule', 'buzzHeaderModule'])
                     cancel: shareToTimelineCancel,
                     title: sharable.desc
                 }));
+
                 wx.onMenuShareAppMessage(angular.extend({}, sharable, {
                     success: shareToFriendSuccess,
                     cancel: shareToFriendCancel
