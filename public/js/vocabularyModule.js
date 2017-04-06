@@ -67,13 +67,13 @@ angular.module('vocabularyModule', ['trackingModule', 'clientConfigModule', 'Dat
         };
         $scope.vocabularyAll = [];
 
-        $scope.explain={
-           word:'',
-            phon_en:'',
-            phon_us:'',
-            class:'',
-            explain:'',
-            example:''
+        $scope.explain = {
+            word: '',
+            phon_en: '',
+            phon_us: '',
+            class: '',
+            explain: '',
+            example: ''
         };
 
         function parseVocabularyPerformance(words, performances) {
@@ -140,11 +140,15 @@ angular.module('vocabularyModule', ['trackingModule', 'clientConfigModule', 'Dat
                     $q.all([
                         getNewWords(course.new_words_path).then(function (res) {
                             for (var word in res.dictionary) {
+                                if (word[0] === '_') {
+                                    continue;
+                                }
+
                                 v.words.push({
                                     name: word,
                                     index: res.dictionary[word].id,
-                                    ipc:res.dictionary[word].ipc,
-                                    explaination:res.dictionary[word].explanation,
+                                    ipc: res.dictionary[word].ipc,
+                                    explaination: res.dictionary[word].explanation,
                                     soundURL: res.dictionary[word].ipa,
                                     url: res.dictionary[word].url,
                                     exercise: res.dictionary[word].exercise

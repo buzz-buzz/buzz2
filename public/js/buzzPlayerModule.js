@@ -176,14 +176,14 @@ angular.module('buzzPlayerModule', ['angularQueryParserModule', 'trackingModule'
                 playlist: [{
                     // title: smil.title,
                     description: smil.description,
-                    image: smil.image,
+                    image: smil.image || 'http://source.bridgeplus.cn/image/png/buzz-poster.png',
                     stretching: "none",
                     sources: smil.switch.map(function (s) {
                         return {
                             file: s.src,
                             label: s.title,
                             default: s.default,
-                            image: s.image
+                            image: s.image || 'http://source.bridgeplus.cn/image/png/buzz-poster.png'
                         };
                     })
                 }]

@@ -40,7 +40,7 @@ angular.module('buzzHistoryModule', ['angularQueryParserModule', 'servicesModule
                     $http.get(c.video_path).then(function (result) {
                         c.title = result.data.title;
                         c.baseNumber = result.data.baseNumber || 100;
-                        c.image = result.data.image;
+                        c.image = result.data.image || 'http://source.bridgeplus.cn/image/png/buzz-poster.png';
 
                         return $http.get(clientConfig.serviceUrls.buzz.courseViews.frontEnd.replace(':category', c.category).replace(':level', c.level).replace(':lesson_id', c.lesson_id));
                     }).then(function (result) {
