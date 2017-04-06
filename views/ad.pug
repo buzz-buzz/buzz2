@@ -533,10 +533,8 @@ html
         script.
             var animate = true;
             $(window).scroll(function () {
-                console.log($(document).scrollTop());
-                if (($(document).scrollTop()+210 >= $('.gift-animate').offset().top)&&animate) {
+                if (($(document).scrollTop()+300 >= $('.gift-animate').offset().top)&&animate) {
                     animate = false;
-                    console.log('move!');
                     $('.gift-animate').animate({
                         height: '0',
                         opacity: '0',
