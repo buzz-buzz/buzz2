@@ -130,7 +130,8 @@ module.exports = {
         },
         progress:{
             Statistics:{
-                frontEnd:'http://10.20.32.61:15000/v1/buzz/report/weekly_stat?$filter=member_id%20eq%20%27a%27%20and%20level%20eq%20%27A%27&$select=week,week_start_at,week_end_at,num_of_correct_word,num_of_all_correct_day,num_of_incorrect_day,rank&$top=1'
+                frontEnd:'/service-proxy/progress/data',
+                upstream:'/v1/buzz/report/weekly_stat'
             }
         }
     },

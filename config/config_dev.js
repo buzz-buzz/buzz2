@@ -51,6 +51,13 @@ module.exports = {
         }
     },
 
+    progress:{
+        inner:{
+            host: '10.20.32.61',
+            port: 15000
+        }
+    },
+
     applicationId: "4f6b3929-38c3-4828-88a7-11da836cae34",
 
     logger: {

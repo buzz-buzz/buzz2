@@ -131,6 +131,8 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
 
         function getPerformances() {
             $scope.perf = {};
+            $scope.rank=2048;
+            $scope.totalWord=1200;
             for (var i = 0; i < $scope.weekDays.length; i++) {
                 for (var j = 0; j < $scope.weekDays[i].length; j++) {
                     $scope.performances[i][j] = getPerformance($scope.weekDays[i][j], i, j);
@@ -149,13 +151,16 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
                     bad: 0
                 };
 
-                // getScore({
-                //     member_id:'',
-                //     level:$scope.level
-                // }).then(function(response){
-                //     $scope.$parent.weekPerformance.good= response.value[0].num_of_all_correct_day;
-                //     $scope.$parent.weekPerformance.bad= response.value[0].num_of_incorrect_day;
-                // });
+                getScore({
+                    member_id:'',
+                    level:$scope.level
+                }).then(function(response){
+                    console.log(response.data.value[0]);
+                    $scope.$parent.weekPerformance.good=response.data.value[0].num_of_all_correct_day;
+                    $scope.$parent.weekPerformance.bad=response.data.value[0].num_of_incorrect_day;
+                    $scope.$parent.rank=response.data.value[0].rank;
+                    $scope.$parent.totalWord=response.data.value[0].num_of_correct_word;
+                });
 
                 var dailyExercisePerf = [];
 

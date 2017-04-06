@@ -128,6 +128,7 @@ function serviceProxy(app, router) {
     require('../service-proxy/exercise')(app, router, coBody);
     require('../service-proxy/share')(app, router, coBody);
     require('../service-proxy/wechatSign')(app, router, coBody);
+    require('../service-proxy/progress')(app, router, coBody);
 }
 function staticFiles(app) {
     require('./static')(app);
