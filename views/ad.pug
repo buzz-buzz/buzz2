@@ -425,7 +425,7 @@ html
                     img.translate-img(src='http://resource.buzzbuzzenglish.com/ad-top-1.png',style="width:100%;")
             .item.box.to-teacher
                 .middle-word.teacher-gift 情景视频记单词
-                .middle-word.teacher-gift 一年近1600个单词
+                .middle-word.teacher-gift 1年近1600个单词
                 .middle-word.teacher-gift 2年掌握中考词汇
                 //.middle-word.teacher-gift(style='margin-bottom:1em;') 一起开启Buzzbuzz每日英语吧!
                 .full-width.question-body
@@ -481,7 +481,7 @@ html
             //    span 动图演示操作
             div.video-wrapper(style="width: 100%;background-color:white;")
                 video(style="width: 100%;id=main-video;type='video/mp4';",src="http://resource.buzzbuzzenglish.com/video/Bikesharing.mp4",controls)
-            .item.gift-title(style="margin-top:1em;")  现在就戳下方礼物盒
+            .item.gift-title(style="margin-top:1em;")  点击下方图片注册
             .item.gift-title  收获属于您的惊喜
             .item.gifts
                 .gift-item 一个月免费订阅
@@ -531,42 +531,48 @@ html
             .border-outside-right
         script(src='//cdn.bootcss.com/jquery/3.1.0/jquery.min.js')
         script.
-            $('.gift-animate').on('click', function () {
-                $('.gift-animate').animate({
-                    height: '0',
-                    opacity: '0',
-                    width: '0',
-                    top: '50%',
-                    left: '50%'
-                }, 2000);
-                //定时器弹出礼物
-                setTimeout(function(){
-                    //弹出四个选项的动画
-                    $('.gifts >.gift-item:nth-child(1)').animate({
-                        opacity: '1',
-                        width: '100%',
-                        top: '0',
-                        left: '0'
-                    }, 1200);
-                    $('.gifts >.gift-item:nth-child(2)').animate({
-                        opacity: '1',
-                        width: '100%',
-                        top: '27%',
-                        left: '0'
-                    }, 800);
-                    $('.gifts >.gift-item:nth-child(3)').animate({
-                        opacity: '1',
-                        width: '100%',
-                        top: '54%',
-                        left: '0'
-                    }, 1000);
-                    $('.gifts >.gift-item:nth-child(4)').animate({
-                        opacity: '1',
-                        width: '100%',
-                        top: '81%',
-                        left: '0'
-                    }, 500);
-                },2000)
+            var animate = true;
+            $(window).scroll(function () {
+                console.log($(document).scrollTop());
+                if (($(document).scrollTop()+210 >= $('.gift-animate').offset().top)&&animate) {
+                    animate = false;
+                    console.log('move!');
+                    $('.gift-animate').animate({
+                        height: '0',
+                        opacity: '0',
+                        width: '0',
+                        top: '50%',
+                        left: '50%'
+                    }, 2000);
+                    //定时器弹出礼物
+                    setTimeout(function () {
+                        //弹出四个选项的动画
+                        $('.gifts >.gift-item:nth-child(1)').animate({
+                            opacity: '1',
+                            width: '100%',
+                            top: '0',
+                            left: '0'
+                        }, 1200);
+                        $('.gifts >.gift-item:nth-child(2)').animate({
+                            opacity: '1',
+                            width: '100%',
+                            top: '27%',
+                            left: '0'
+                        }, 800);
+                        $('.gifts >.gift-item:nth-child(3)').animate({
+                            opacity: '1',
+                            width: '100%',
+                            top: '54%',
+                            left: '0'
+                        }, 1000);
+                        $('.gifts >.gift-item:nth-child(4)').animate({
+                            opacity: '1',
+                            width: '100%',
+                            top: '81%',
+                            left: '0'
+                        }, 500);
+                    }, 2000)
+                }
             });
         include js.pug
         + js("/js/buzzHeaderModule.min.js")

@@ -125,7 +125,7 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
             }
         }
 
-        function getScore(){
+        function getScore(data){
             return $http.get(clientConfig.serviceUrls.buzz.progress.Statistics.frontEnd);
         }
 
@@ -149,11 +149,12 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
                     bad: 0
                 };
 
-                // getScore().then(function(response){
-                //     $scope.$parent.weekPerformance = {
-                //         good: response.value[0].num_of_all_correct_day,
-                //         bad: response.value[0].num_of_incorrect_day
-                //     };
+                // getScore({
+                //     member_id:'',
+                //     level:$scope.level
+                // }).then(function(response){
+                //     $scope.$parent.weekPerformance.good= response.value[0].num_of_all_correct_day;
+                //     $scope.$parent.weekPerformance.bad= response.value[0].num_of_incorrect_day;
                 // });
 
                 var dailyExercisePerf = [];
