@@ -224,7 +224,7 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
             $scope.$on('$destroy', unbind);
         }
     }])
-    .controller('newWordCtrl', ['$scope', '$http', 'queryParser', '$timeout', '$sce', '$window', 'tracking', 'clientConfig', '$rootScope', 'quizFactory', 'api', function ($scope, $http, queryParser, $timeout, $sce, $window, tracking, clientConfig, $rootScope, quizFactory, api) {
+    .controller('newWordCtrl', ['$scope', '$http', 'queryParser', '$timeout', '$sce', '$window', 'tracking', 'clientConfig', '$rootScope', 'quizFactory', 'api', 'vocabularyParser', 'vocabularyStatus', function ($scope, $http, queryParser, $timeout, $sce, $window, tracking, clientConfig, $rootScope, quizFactory, api, vocabularyParser, vocabularyStatus) {
         var modalId = '#login';
         $scope.$sce = $sce;
         $scope.newWords = [];
@@ -294,7 +294,7 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                             $scope.newWords[$scope.wordIndex].status = status.toLowerCase();
                             tracking.sendX('today-vocabulary-quiz.submit', {
                                 word: word,
-                                ispassed: ret.status.toLowerCase() === STATUS.P,
+                                ispassed: ret.status.toLowerCase() === vocabularyStatus.pass,
                                 score: ret.mark
                             });
                         });
@@ -311,28 +311,17 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                 return true;
             };
 
-            var STATUS = $scope.STATUS = {
-                "U": "unchecked",
-                "P": "passed",
-                "F": "failed"
+            $scope.STATUS = {
+                "U": vocabularyStatus.unchecked,
+                "P": vocabularyStatus.pass,
+                "F": vocabularyStatus.failed
             };
             $http.get(lessonData.new_words_path).then(function (ret) {
                 if (!ret || !ret.data) {
                     return null;
                 }
-                var wordsData = ret.data;
-                if (wordsData.dictionary) {
-                    Object.keys(wordsData.dictionary).forEach(function (key) {
-                        var thisWord = wordsData.dictionary[key];
-                        $scope.newWords.push({
-                            "word": key,
-                            "id": thisWord.id,
-                            "url": thisWord.url,
-                            "exercise": thisWord.exercise || "",
-                            "status": STATUS.U
-                            // "exercise": thisWord.exercise || "http://content.bridgeplus.cn/buzz-quiz/" + query.date + '-' + query.level + "/index.html"
-                        });
-                    });
+                if (ret.data.dictionary) {
+                    $scope.newWords = vocabularyParser.parseV1(ret.data);
                 }
                 $scope.WORD_MAX_INDEX = $scope.newWords.length - 1;
 
