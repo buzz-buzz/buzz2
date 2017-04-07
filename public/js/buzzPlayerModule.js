@@ -1,4 +1,4 @@
-angular.module('buzzPlayerModule', ['angularQueryParserModule', 'trackingModule', 'parserModule'])
+angular.module('buzzPlayerModule', ['angularQueryParserModule', 'trackingModule', 'parserModule', 'serviceCacheCoreModule'])
     .run([function () {
         jwplayer.key = 'lG24bAGJCRLF1gi4kajg4EnUKi+ujyUyKMoSNA==';
     }])
@@ -162,7 +162,7 @@ angular.module('buzzPlayerModule', ['angularQueryParserModule', 'trackingModule'
             }
         };
     }])
-    .controller('videoCtrl', ['$scope', '$rootScope', '$http', 'queryParser', '$timeout', '$sce', 'tracking', 'videoFactory', 'vocabularyParser', function ($scope, $rootScope, $http, queryParser, $timeout, $sce, tracking, videoFactory, vocabularyParser) {
+    .controller('videoCtrl', ['$scope', '$rootScope', '$http', 'queryParser', '$timeout', '$sce', 'tracking', 'videoFactory', 'vocabularyParser', 'api', function ($scope, $rootScope, $http, queryParser, $timeout, $sce, tracking, videoFactory, vocabularyParser, api) {
         $scope.$sce = $sce;
 
         var query = queryParser.parse();
@@ -194,7 +194,7 @@ angular.module('buzzPlayerModule', ['angularQueryParserModule', 'trackingModule'
             $scope.videoTitle = smil.title;
 
             if (smil.subtitle) {
-                $http.get(smil.subtitle).then(function (result) {
+                api.get(smil.subtitle).then(function (result) {
                     var subtitles = result.data;
                     var events = subtitles.split('[Events]');
                     if (events.length < 2) {
@@ -229,8 +229,6 @@ angular.module('buzzPlayerModule', ['angularQueryParserModule', 'trackingModule'
                             var highlights = vocabularyParser.parse(newWords).map(function (w) {
                                 return w.word;
                             });
-
-                            console.log(highlights);
 
                             var rules = new RegExp("(" + highlights.join("|") + ")", "g");
                             for (var j = 0; j < $scope.subtitles.length; j++) {
