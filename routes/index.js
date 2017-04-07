@@ -78,10 +78,6 @@ function auth(app, router, render) {
 
     require('./vocabulary')(app, router, render);
 
-    app.use(mount('/exercise', membership.ensureAuthenticated));
-
-    require('./exercise')(app, router, render);
-
     app.use(mount('/m/my/progress', membership.ensureAuthenticated));
     app.use(mount('/m/my/my', membership.ensureAuthenticated));
     app.use(mount('/m/my/vocabulary', membership.ensureAuthenticated));
