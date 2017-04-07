@@ -1,4 +1,4 @@
-angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'clientConfigModule', 'buzzHeaderModule', 'quizModule', 'serviceCacheModule','wechatShareModule'])
+angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'clientConfigModule', 'buzzHeaderModule', 'quizModule', 'serviceCacheModule', 'wechatShareModule', 'parserModule'])
     .run(['$rootScope', 'tracking', 'queryParser', function ($rootScope, tracking, queryParser) {
         var query = queryParser.parse();
         tracking.sendX('play', {
@@ -80,17 +80,17 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
             }
         };
     }])
-    .controller('quizCtrl', ['$scope', '$http', 'queryParser', '$sce', '$window', 'clientConfig', '$rootScope', 'tracking', '$timeout', 'quizFactory', 'api', function ($scope, $http, queryParser, $sce, $window, clientConfig, $rootScope, tracking, $timeout, quizFactory, api) {
+    .controller('quizCtrl', ['$scope', '$http', 'queryParser', '$sce', '$window', 'clientConfig', '$rootScope', 'tracking', '$timeout', 'quizFactory', 'api', 'quizParser', 'quizStatus', function ($scope, $http, queryParser, $sce, $window, clientConfig, $rootScope, tracking, $timeout, quizFactory, api, quizParser, quizStatus) {
         var modalId = '#login';
         $scope.$sce = $sce;
         $scope.quizURL = "";
 
         $scope.quizzes = [];
         $scope.quizIndex = 0;
-        var STATUS = $scope.STATUS = {
-            "U": "unchecked",
-            "P": "passed",
-            "F": "failed"
+        $scope.STATUS = {
+            "U": quizStatus.unchecked,
+            "P": quizStatus.pass,
+            "F": quizStatus.failed
         };
 
         function lessonDataGot(event, lessonData) {
@@ -134,7 +134,7 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                         $scope.quizzes[$scope.quizIndex].status = status.toLowerCase();
                         tracking.sendX('today-quiz.submit', {
                             index: $scope.quizIndex,
-                            ispassed: ret.status.toLowerCase() === STATUS.P,
+                            ispassed: ret.status.toLowerCase() === quizStatus.pass,
                             score: ret.mark
                         });
                     }, function () {
@@ -159,15 +159,7 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
 
             $http.get(lessonData.quiz_path).then(function (ret) {
                 var data = ret.data;
-                var retArray = [];
-                Object.keys(data).forEach(function (key) {
-                    retArray.push({
-                        "name": key,
-                        "url": data[key],
-                        "status": STATUS.U
-                    });
-                });
-                $scope.quizzes = retArray;
+                $scope.quizzes = quizParser.parseV1(data);
                 $scope.quizLimit = $scope.quizzes.length - 1;
                 api.get(clientConfig.serviceUrls.buzz.quiz.limit).then(function (result) {
                     if (result.data) {
