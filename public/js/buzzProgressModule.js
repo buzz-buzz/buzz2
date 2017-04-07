@@ -2,7 +2,7 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
     .run(['$rootScope', 'tracking', function ($rootScope, tracking) {
         tracking.sendX('Progress');
     }])
-    .controller('calendarCtrl', ['$scope', '$http', 'clientConfig', 'quizFactory', '$filter', 'DateFactory', '$q', function ($scope, $http, clientConfig, quizFactory, $filter, DateFactory, $q) {
+    .controller('calendarCtrl', ['$scope', '$http', 'clientConfig', 'quizFactory', '$filter', 'DateFactory', '$q','api', function ($scope, $http, clientConfig, quizFactory, $filter, DateFactory, $q,api) {
         $scope.expanded = false;
         $scope.expandContent = function (value) {
             $scope.expanded = value;
@@ -125,10 +125,6 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
             }
         }
 
-        function getScore(data){
-            return $http.get(clientConfig.serviceUrls.buzz.progress.Statistics.frontEnd);
-        }
-
         function getPerformances() {
             $scope.perf = {};
             $scope.rank=2048;
@@ -138,7 +134,6 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
                     $scope.performances[i][j] = getPerformance($scope.weekDays[i][j], i, j);
                 }
             }
-
             quizFactory.getResult({
                 type: 'daily-exercise',
                 start_date: DateFactory.toDateISOString(DateFactory.getFirstDayOfMonth($scope.current)),
@@ -150,16 +145,17 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
                     good: 0,
                     bad: 0
                 };
-
-                getScore({
-                    member_id:'',
-                    level:$scope.level
-                }).then(function(response){
-                    console.log(response.data.value[0]);
-                    $scope.$parent.weekPerformance.good=response.data.value[0].num_of_all_correct_day;
-                    $scope.$parent.weekPerformance.bad=response.data.value[0].num_of_incorrect_day;
-                    $scope.$parent.rank=response.data.value[0].rank;
-                    $scope.$parent.totalWord=response.data.value[0].num_of_correct_word;
+                //hank
+                api.get(clientConfig.serviceUrls.buzz.profile.currentLevel.frontEnd)
+                   .then(function (result) {
+                       $http.get(clientConfig.serviceUrls.buzz.progress.Statistics.frontEnd+'?level='+result.data)
+                           .then(function(response){
+                               console.log(response.data.value[0]);
+                               $scope.$parent.weekPerformance.good=response.data.value[0].num_of_all_correct_question_day;
+                               $scope.$parent.weekPerformance.bad=response.data.value[0].num_of_incorrect_question_day;
+                               $scope.$parent.rank=response.data.value[0].rank;
+                               $scope.$parent.totalWord=response.data.value[0].num_of_correct_word;
+                           });
                 });
 
                 var dailyExercisePerf = [];
@@ -236,6 +232,18 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
             [65, 59, 84, 81, 56],
             [28, 48, 40, 19, 86]
         ];
+        //hank
+        api.get(clientConfig.serviceUrls.buzz.profile.currentLevel.frontEnd)
+            .then(function (result) {
+                $http.get(clientConfig.serviceUrls.buzz.progress.Statistics.frontEnd+'?level='+result.data)
+                    .then(function(response){
+                        console.log(response.data.value[0]);
+                        $scope.$parent.weekPerformance.good=response.data.value[0].num_of_all_correct_question_day;
+                        $scope.$parent.weekPerformance.bad=response.data.value[0].num_of_incorrect_question_day;
+                        $scope.$parent.rank=response.data.value[0].rank;
+                        $scope.$parent.totalWord=response.data.value[0].num_of_correct_word;
+                    });
+            });
         function createM_Linedata(originDataArray) {
             var retArrary = [];
             originDataArray.reduce(function (previous, next, originPrevious) {
@@ -289,6 +297,7 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
     .controller('pcChartCtrl', ['$scope', function ($scope) {
         $scope.labels = ['第一周', '第二周', '第三周', '第四周', '第五周'];
         $scope.series = ['Series A', 'Series B'];
+        //周学习单词量、系统排名  目前按照五天算
         $scope.data = [
             [65, 59, 80, 81, 56],
             [28, 48, 40, 19, 86]

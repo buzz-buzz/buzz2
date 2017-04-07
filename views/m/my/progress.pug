@@ -484,7 +484,7 @@ body
                 .account.column
                     .text.head.font.black
                         img(ng-src=`${config.cdn}/public/images/points.png?${config.imageversion}`)
-                    .text.content.font.black.bold {{totalScore}}
+                    .text.content.font.black.bold {{totalScore || 188}}
                 .account.column(ng-show="false")
                     .text.head.font.black
                         img(ng-src=`${config.cdn}/public/images/medal.png?${config.imageversion}`)
