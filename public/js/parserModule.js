@@ -24,8 +24,28 @@ angular.module('parserModule', [])
 
                 return retArray;
             },
-            parse: function () {
+
+            parseV2: function (json) {
+                return json.quizzes.map(function (q, i) {
+                    return {
+                        name: 'quiz' + (i + 1),
+                        url: q.quiz,
+                        status: quizStatus.unchecked
+                    };
+                });
             }
+        };
+
+        quizParser.parse = function (json) {
+            if (!json.version) {
+                return quizParser.parseV1(json);
+            }
+
+            if (json.version[0] === '2') {
+                return quizParser.parseV2(json);
+            }
+
+            throw new Error('unsupported quiz version "' + json.version + '" for now!');
         };
 
         return quizParser;
@@ -50,6 +70,8 @@ angular.module('parserModule', [])
                 return newWords;
             }
         };
+
+        vocabularyParser.parse = vocabularyParser.parseV1;
 
         return vocabularyParser;
     }])

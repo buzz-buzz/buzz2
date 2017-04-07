@@ -1,0 +1,26 @@
+{
+  "type": "quiz",
+  "version": "2.0.0",
+  "quizzes": [
+    {
+      "point": 4,
+      "quiz": "/buzz-quiz/20170321-AH-B-1/index.html"
+    },
+    {
+      "point": 5,
+      "quiz": "/buzz-quiz/20170321-AH-B-2/index.html"
+    },
+    {
+      "point": 6,
+      "quiz": "/buzz-quiz/20170321-AH-B-3/index.html"
+    },
+    {
+      "point": 7,
+      "quiz": "/buzz-quiz/20170321-AH-B-4/index.html"
+    },
+    {
+      "point": 8,
+      "quiz": "/buzz-quiz/20170321-AH-B-5/index.html"
+    }
+  ]
+}

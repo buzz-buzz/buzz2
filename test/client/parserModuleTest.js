@@ -10,24 +10,39 @@ describe('parser module', function () {
         vocabularyParser = _vocabularyParser_;
     }));
 
+    let v1QuizJson = {
+        quiz1: "/buzz-quiz/20170321-AH-B-1/index.html",
+        quiz2: "/buzz-quiz/20170321-AH-B-2/index.html"
+    };
+
+    let v2QuizJson = {
+        type: 'quiz',
+        version: '2.0.0',
+        quizzes: [{
+            point: 4,
+            quiz: "/buzz-quiz/20170321-AH-B-1/index.html",
+        }, {
+            point: 5,
+            quiz: "/buzz-quiz/20170321-AH-B-2/index.html"
+        }]
+    };
+
+    let parsedQuizJson = [{
+        "name": 'quiz1',
+        "url": "/buzz-quiz/20170321-AH-B-1/index.html",
+        "status": "unchecked"
+    }, {
+        "name": 'quiz2',
+        "url": "/buzz-quiz/20170321-AH-B-2/index.html",
+        "status": "unchecked"
+    }];
+
     it('parses old files', function () {
         expect(typeof quizParser.parse).toBe('function');
 
-        var quizJson = {
-            quiz1: "/buzz-quiz/20170321-AH-B-1/index.html",
-            quiz2: "/buzz-quiz/20170321-AH-B-2/index.html"
-        };
+        expect(quizParser.parseV1(v1QuizJson)).toEqual(parsedQuizJson);
 
-        expect(quizParser.parseV1(quizJson)).toEqual([{
-            "name": 'quiz1',
-            "url": "/buzz-quiz/20170321-AH-B-1/index.html",
-            "status": "unchecked"
-        }, {
-            "name": 'quiz2',
-            "url": "/buzz-quiz/20170321-AH-B-2/index.html",
-            "status": "unchecked"
-        }]);
-
+        expect(typeof vocabularyParser.parse).toBe('function');
         var vocabularyJson = {
             caseSensitive: false,
             array: [
@@ -74,5 +89,11 @@ describe('parser module', function () {
             "exercise": "/buzz-quiz/20170321-AH-B-match/index.html",
             "status": "unchecked"
         }]);
+    });
+
+    it('parses quiz v2 files', function () {
+        expect(quizParser.parseV2(v2QuizJson)).toEqual(parsedQuizJson);
+        expect(quizParser.parse(v2QuizJson)).toEqual(parsedQuizJson);
+        expect(quizParser.parse(v1QuizJson)).toEqual(parsedQuizJson);
     });
 });

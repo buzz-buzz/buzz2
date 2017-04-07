@@ -159,7 +159,7 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
 
             $http.get(lessonData.quiz_path).then(function (ret) {
                 var data = ret.data;
-                $scope.quizzes = quizParser.parseV1(data);
+                $scope.quizzes = quizParser.parse(data);
                 $scope.quizLimit = $scope.quizzes.length - 1;
                 api.get(clientConfig.serviceUrls.buzz.quiz.limit).then(function (result) {
                     if (result.data) {
@@ -321,7 +321,7 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                     return null;
                 }
                 if (ret.data.dictionary) {
-                    $scope.newWords = vocabularyParser.parseV1(ret.data);
+                    $scope.newWords = vocabularyParser.parse(ret.data);
                 }
                 $scope.WORD_MAX_INDEX = $scope.newWords.length - 1;
 
