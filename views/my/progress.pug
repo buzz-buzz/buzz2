@@ -91,14 +91,14 @@ block content
                             tr
                                 th 练习全对
                                 th 练习有错
-                                th 打败多少选手
+                                th 系统排名
                         tbody
                             tr
                                 td
                                     + goodPerformance(ng-repeat="i in [].constructor(weekPerformance.good) track by $index")
                                 td
                                     + badPerformance(ng-repeat="i in [].constructor(weekPerformance.bad) track by $index")
-                                td  2028
+                                td  {{rank}}
                 .row.content(ng-controller="pcChartCtrl")
                     p &nbsp;
                     p &nbsp;

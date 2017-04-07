@@ -148,7 +148,7 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
                 //hank
                 api.get(clientConfig.serviceUrls.buzz.profile.currentLevel.frontEnd)
                    .then(function (result) {
-                       $http.get(clientConfig.serviceUrls.buzz.progress.Statistics.frontEnd+'?level='+result.data)
+                       $http.get(clientConfig.serviceUrls.buzz.progress.Statistics.frontEnd+'?level='+result.data+'&top=1')
                            .then(function(response){
                                console.log(response.data.value[0]);
                                $scope.$parent.weekPerformance.good=response.data.value[0].num_of_all_correct_question_day;
@@ -213,7 +213,7 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
     .controller('calendarParentCtrl', ['$scope', function ($scope) {
 
     }])
-    .controller('chartCtrl', ['$scope', '$timeout', function ($scope, $timeout) {
+    .controller('chartCtrl', ['$scope', '$timeout','api','$http', 'clientConfig', function ($scope, $timeout,api,$http, clientConfig) {
         $scope.expanded = false;
         $scope.expandContent = function (value) {
             $scope.expanded = value;
@@ -235,13 +235,20 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
         //hank
         api.get(clientConfig.serviceUrls.buzz.profile.currentLevel.frontEnd)
             .then(function (result) {
-                $http.get(clientConfig.serviceUrls.buzz.progress.Statistics.frontEnd+'?level='+result.data)
+                $http.get(clientConfig.serviceUrls.buzz.progress.Statistics.frontEnd+'?level='+result.data+'&top=5')
                     .then(function(response){
-                        console.log(response.data.value[0]);
-                        $scope.$parent.weekPerformance.good=response.data.value[0].num_of_all_correct_question_day;
-                        $scope.$parent.weekPerformance.bad=response.data.value[0].num_of_incorrect_question_day;
-                        $scope.$parent.rank=response.data.value[0].rank;
-                        $scope.$parent.totalWord=response.data.value[0].num_of_correct_word;
+                        if(response.data.value){
+                            var score_total_num=[];
+                            var score_rank=[];
+                            for(var x in response.data.value){
+                                score_total_num.push(response.data.value[x].num_of_correct_word);
+                            }
+                            for(var x in response.data.value){
+                                score_rank.push(response.data.value[x].rank);
+                            }
+                            $scope.data[0]=score_total_num;
+                            $scope.data[1]=score_rank;
+                        }
                     });
             });
         function createM_Linedata(originDataArray) {
@@ -294,14 +301,32 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
             }
         };
     }])
-    .controller('pcChartCtrl', ['$scope', function ($scope) {
+    .controller('pcChartCtrl', ['$scope','api','$http', 'clientConfig', function ($scope,api,$http,clientConfig) {
         $scope.labels = ['第一周', '第二周', '第三周', '第四周', '第五周'];
         $scope.series = ['Series A', 'Series B'];
-        //周学习单词量、系统排名  目前按照五天算
         $scope.data = [
             [65, 59, 80, 81, 56],
             [28, 48, 40, 19, 86]
         ];
+        //hank
+        api.get(clientConfig.serviceUrls.buzz.profile.currentLevel.frontEnd)
+            .then(function (result) {
+                $http.get(clientConfig.serviceUrls.buzz.progress.Statistics.frontEnd+'?level='+result.data+'&top=5')
+                    .then(function(response){
+                        if(response.data.value){
+                            var score_total_num=[];
+                            var score_rank=[];
+                            for(var x in response.data.value){
+                                score_total_num.push(response.data.value[x].num_of_correct_word);
+                            }
+                            for(var x in response.data.value){
+                                score_rank.push(response.data.value[x].rank);
+                            }
+                            $scope.data[0]=score_total_num;
+                            $scope.data[1]=score_rank;
+                        }
+                    });
+            });
         $scope.onClick = function (points, evt) {
             console.log(points, evt);
         };
