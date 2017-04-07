@@ -7,6 +7,7 @@ let uglifyCss = require('gulp-minify-css');
 let rename = require('gulp-rename');
 let bump = require('gulp-bump');
 let fs = require('fs');
+var karmaServer = require('karma').Server;
 let getPackageJson = function () {
     return JSON.parse(fs.readFileSync('./package.json', 'utf8'));
 };
@@ -28,7 +29,9 @@ gulp.task('patch-time', function () {
         ;
 });
 
-gulp.task('bump', runSequence('bump-minor-patch', 'patch-time'));
+gulp.task('bump', function () {
+    runSequence('bump-minor-patch', 'patch-time');
+});
 
 gulp.task('uglify-js', function (done) {
     return gulp.src(['public/js/**/*.js', '!public/js/**/*.min.js'])
@@ -53,3 +56,10 @@ gulp.task('uglify-css', function (done) {
 gulp.task('default', ['uglify-js', 'uglify-css']);
 
 gulp.task('release', ['bump', 'uglify-js', 'uglify-css']);
+
+gulp.task('test', function (done) {
+    new karmaServer({
+        configFile: __dirname + '/karma.conf.js',
+        singleRun: true
+    }, done).start();
+});
