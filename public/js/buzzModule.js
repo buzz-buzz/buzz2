@@ -320,9 +320,7 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                 if (!ret || !ret.data) {
                     return null;
                 }
-                if (ret.data.dictionary) {
-                    $scope.newWords = vocabularyParser.parse(ret.data);
-                }
+                $scope.newWords = vocabularyParser.parse(ret.data);
                 $scope.WORD_MAX_INDEX = $scope.newWords.length - 1;
 
                 api.get(clientConfig.serviceUrls.buzz.quiz.limit).then(function (result) {

@@ -9,7 +9,20 @@ angular.module('parserModule', [])
         "pass": "passed",
         "failed": "failed"
     })
-    .factory('quizParser', ['quizStatus', function (quizStatus) {
+    .value('generateParse', function (parser) {
+        return function (json) {
+            if (!json.version) {
+                return parser.parseV1(json);
+            }
+
+            if (json.version[0] === '2') {
+                return parser.parseV2(json);
+            }
+
+            throw new Error('unsupported ' + json.type + ' version "' + json.version + '" for now!');
+        };
+    })
+    .factory('quizParser', ['quizStatus', 'generateParse', function (quizStatus, generateParse) {
         var quizParser = {
             parseV1: function (json) {
                 var retArray = [];
@@ -36,21 +49,11 @@ angular.module('parserModule', [])
             }
         };
 
-        quizParser.parse = function (json) {
-            if (!json.version) {
-                return quizParser.parseV1(json);
-            }
-
-            if (json.version[0] === '2') {
-                return quizParser.parseV2(json);
-            }
-
-            throw new Error('unsupported quiz version "' + json.version + '" for now!');
-        };
+        quizParser.parse = generateParse(quizParser);
 
         return quizParser;
     }])
-    .factory('vocabularyParser', ['vocabularyStatus', function (vocabularyStatus) {
+    .factory('vocabularyParser', ['vocabularyStatus', 'generateParse', function (vocabularyStatus, generateParse) {
         var vocabularyParser = {
             parseV1: function (json) {
                 var newWords = [];
@@ -68,10 +71,28 @@ angular.module('parserModule', [])
                 });
 
                 return newWords;
+            },
+
+            parseV2: function (json) {
+                return json.words.map(function (w, i) {
+                    return {
+                        word: w.word,
+                        id: i + 1,
+                        url: w.explain,
+                        exercise: w.exercise || '',
+                        status: vocabularyStatus.unchecked
+                    };
+                }).concat([{
+                    word: '_match_',
+                    id: json.words.length + 1,
+                    url: undefined,
+                    exercise: json.match.exercise,
+                    status: vocabularyStatus.unchecked
+                }]);
             }
         };
 
-        vocabularyParser.parse = vocabularyParser.parseV1;
+        vocabularyParser.parse = generateParse(vocabularyParser);
 
         return vocabularyParser;
     }])

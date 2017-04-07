@@ -1,4 +1,4 @@
-angular.module('buzzPlayerModule', ['angularQueryParserModule', 'trackingModule'])
+angular.module('buzzPlayerModule', ['angularQueryParserModule', 'trackingModule', 'parserModule'])
     .run([function () {
         jwplayer.key = 'lG24bAGJCRLF1gi4kajg4EnUKi+ujyUyKMoSNA==';
     }])
@@ -162,7 +162,7 @@ angular.module('buzzPlayerModule', ['angularQueryParserModule', 'trackingModule'
             }
         };
     }])
-    .controller('videoCtrl', ['$scope', '$rootScope', '$http', 'queryParser', '$timeout', '$sce', 'tracking', 'videoFactory', function ($scope, $rootScope, $http, queryParser, $timeout, $sce, tracking, videoFactory) {
+    .controller('videoCtrl', ['$scope', '$rootScope', '$http', 'queryParser', '$timeout', '$sce', 'tracking', 'videoFactory', 'vocabularyParser', function ($scope, $rootScope, $http, queryParser, $timeout, $sce, tracking, videoFactory, vocabularyParser) {
         $scope.$sce = $sce;
 
         var query = queryParser.parse();
@@ -226,13 +226,17 @@ angular.module('buzzPlayerModule', ['angularQueryParserModule', 'trackingModule'
                     if (query.new_words_path) {
                         $http.get(query.new_words_path).then(function (result) {
                             var newWords = result.data;
-                            if (newWords.array) {
-                                var rules = new RegExp("(" + newWords.array.join("|") + ")", "g");
-                                for (var j = 0; j < $scope.subtitles.length; j++) {
-                                    $scope.subtitles[j].text = $scope.subtitles[j].text.replace(rules, function (newWord) {
-                                        return '<strong class="newWord">' + newWord + '</strong>';
-                                    });
-                                }
+                            var highlights = vocabularyParser.parse(newWords).map(function (w) {
+                                return w.word;
+                            });
+
+                            console.log(highlights);
+
+                            var rules = new RegExp("(" + highlights.join("|") + ")", "g");
+                            for (var j = 0; j < $scope.subtitles.length; j++) {
+                                $scope.subtitles[j].text = $scope.subtitles[j].text.replace(rules, function (newWord) {
+                                    return '<strong class="newWord">' + newWord + '</strong>';
+                                });
                             }
                         });
                     }

@@ -1,0 +1,24 @@
+{
+  "type": "vocabulary",
+  "version": "2.0.0",
+  "words": [
+    {
+      "word": "noodles",
+      "explain": "/dict/noodles/index.html",
+      "exercise": "/dict-quiz/noodles-quiz/index.html"
+    },
+    {
+      "word": "delicious",
+      "explain": "/dict/delicious/index.html",
+      "exercise": "/dict-quiz/noodles-quiz/index.html"
+    },
+    {
+      "word": "treasure",
+      "explain": "/dict/treasure/index.html",
+      "exercise": "/dict-quiz/treasure-quiz/index.html"
+    }
+  ],
+  "match": {
+    "exercise": "/buzz-quiz/20170331-SN-B-match/index.html"
+  }
+}
