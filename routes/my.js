@@ -62,12 +62,8 @@ module.exports = function (app, router, render) {
         .get('/my/password', membership.ensureAuthenticated, function *() {
             this.body = yield render('my/password', {config: config});
         })
-        .get('/my/vocabulary', membership.ensureAuthenticated, function *(res,req) {
-            var name=req.query.name;
-            var rf=require("fs");
-            var data=rf.readFileSync("/mock/"+name+"/index","utf-8");
-            console.log(data);
-            res.send(data);
+        .get('/my/vocabulary', membership.ensureAuthenticated, function *() {
+            this.body = 'ok';
         })
     ;
 };

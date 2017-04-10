@@ -112,10 +112,9 @@ angular.module('vocabularyModule', ['trackingModule', 'clientConfigModule', 'Dat
             });
         }
 
-        function getWord(name){
-            $http.get('/my/vocabulary?name='+name).
-                 then(function(response){
-                     return response;
+        function getWord(name) {
+            return $http.get('/my/vocabulary?name=' + name).then(function (response) {
+                return response;
             });
         }
 
@@ -141,18 +140,16 @@ angular.module('vocabularyModule', ['trackingModule', 'clientConfigModule', 'Dat
                                 if (word[0] === '_') {
                                     continue;
                                 }
-                                getWord("word").then(function(response){
-                                    v.words.push({
-                                        name: word,
-                                        index: res.dictionary[word].id,
-                                        ipc: response.phon-en + response.phon-us,
-                                        explaination: response.explain,
-                                        soundURL: res.dictionary[word].ipa,
-                                        url: res.dictionary[word].url,
-                                        exercise: res.dictionary[word].exercise
-                                    });
-                                });
 
+                                v.words.push({
+                                    name: word,
+                                    index: res.dictionary[word].id,
+                                    ipc: '',
+                                    explaination: '',
+                                    soundURL: res.dictionary[word].ipa,
+                                    url: res.dictionary[word].url,
+                                    exercise: res.dictionary[word].exercise
+                                });
                             }
 
                             v.words.sort(sortByIndex);
