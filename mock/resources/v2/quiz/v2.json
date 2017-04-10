@@ -22,5 +22,22 @@
       "point": 8,
       "quiz": "/buzz-quiz/20170321-AH-B-5/index.html"
     }
+  ],
+  "weekly-quizzes": [
+    {
+      "sub-type": "quiz-group",
+      "id": "BQDC",
+      "name": "根据汉语意思补全单词",
+      "quizzes": [
+        {
+          "point": 4,
+          "quiz": "/buzz-quiz/20170321-AH-B-1/index.html"
+        },
+        {
+          "point": 5,
+          "quiz": "/buzz-quiz/20170321-AH-B-2/index.html"
+        }
+      ]
+    }
   ]
 }
