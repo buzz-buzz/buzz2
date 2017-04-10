@@ -264,7 +264,7 @@ block content
                         i.icon-volume-medium
                 .table-column.part6.left
                     .explanation(ng-repeat="word in weeklylist.words track by $index",ng-show="radioBoxType===RADIO_TYPE.NONE||word.status === radioBoxType")
-                        span {{word.explaination}}
+                        span {{word.explanation}}
                 .table-column.part7
                     .mark(ng-repeat="word in weeklylist.words track by $index",ng-show="radioBoxType===RADIO_TYPE.NONE||word.status === radioBoxType")
                         + pass_pic(ng-show="word.status === RADIO_TYPE.PASS")
@@ -285,7 +285,7 @@ block js
     + js("/js/DateModule.min.js")
     + js("/js/level-ctrl.min.js")
     + js("/js/quizModule.min.js")
-    + js("/js/vocabularyModule.min.js")
+    + js("/js/vocabularyModule.js")
 
 block extraMenus
     include ../my/partials/level-switcher
