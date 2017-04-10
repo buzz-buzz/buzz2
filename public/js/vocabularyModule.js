@@ -67,15 +67,6 @@ angular.module('vocabularyModule', ['trackingModule', 'clientConfigModule', 'Dat
         };
         $scope.vocabularyAll = [];
 
-        $scope.explain = {
-            word: '',
-            phon_en: '',
-            phon_us: '',
-            class: '',
-            explain: '',
-            example: ''
-        };
-
         function parseVocabularyPerformance(words, performances) {
             words.map(function (w) {
                 wordsToPrint[RADIO_TYPE.NONE].push(w.name);
@@ -121,6 +112,13 @@ angular.module('vocabularyModule', ['trackingModule', 'clientConfigModule', 'Dat
             });
         }
 
+        function getWord(name){
+            $http.get('/my/vocabulary?name='+name).
+                 then(function(response){
+                     return response;
+            });
+        }
+
         function mapToDisplayData(result) {
             $scope.vocabularyAll = [];
             result.map(function (course) {
@@ -143,16 +141,18 @@ angular.module('vocabularyModule', ['trackingModule', 'clientConfigModule', 'Dat
                                 if (word[0] === '_') {
                                     continue;
                                 }
-
-                                v.words.push({
-                                    name: word,
-                                    index: res.dictionary[word].id,
-                                    ipc: res.dictionary[word].ipc,
-                                    explaination: res.dictionary[word].explanation,
-                                    soundURL: res.dictionary[word].ipa,
-                                    url: res.dictionary[word].url,
-                                    exercise: res.dictionary[word].exercise
+                                getWord("word").then(function(response){
+                                    v.words.push({
+                                        name: word,
+                                        index: res.dictionary[word].id,
+                                        ipc: response.phon-en + response.phon-us,
+                                        explaination: response.explain,
+                                        soundURL: res.dictionary[word].ipa,
+                                        url: res.dictionary[word].url,
+                                        exercise: res.dictionary[word].exercise
+                                    });
                                 });
+
                             }
 
                             v.words.sort(sortByIndex);
