@@ -86,6 +86,6 @@ block content
                     .item(ng-show="$root.tabularIndex===3", ng-controller="weeklyQuizCtrl")
                         p 正在建设中……
         include ../partial/ask-for-login-modal
-        #audit-modal.dark.mask(ng-controller="auditModalCtrl", ng-class="{'hide': hideModal, 'show': showModal}", ng-click=(hcd_user && hcd_user.isAdmin) + '? hideTheModal() : ""')
+        #audit-modal.dark.mask(ng-controller="auditModalCtrl", ng-class="{'hide': hideModal, 'show': showModal}", ng-click=(hcd_user && hcd_user.isAdmin) + ' ? hideTheModal() : ""')
             .popup(style="padding: 1em 2em;")
                 h1 当前课程正在审核中，请稍后再来哦……

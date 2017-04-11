@@ -62,4 +62,41 @@ angular.module('DateModule', ['angularQueryParserModule'])
             }
         };
     }])
+    .factory('Calendar', [function () {
+        function getOffsetToMonday(date) {
+            return (date.getDay() + 6) % 7;
+        }
+
+        function dateOffsetOfThisMonday(date) {
+            return date.getDate() - getOffsetToMonday(date);
+        }
+
+        function dateOffsetOfNextMonday(date) {
+            return date.getDate() - getOffsetToMonday(date) + 7;
+        }
+
+        return {
+            dateOffsetOfThisMonday: dateOffsetOfThisMonday,
+            dateOffsetOfNextMonday: dateOffsetOfNextMonday
+        };
+    }])
+    .factory('BuzzCalendar', ['Calendar', function (Calendar) {
+        return {
+            getFirstDateOfWeek: function (date) {
+                return new Date(date.getFullYear(), date.getMonth(), Calendar.dateOffsetOfThisMonday(date));
+            },
+            getFirstDateOfNextWeek: function (date) {
+                return new Date(date.getFullYear(), date.getMonth(), Calendar.dateOffsetOfNextMonday(date));
+            },
+            getDatesOfThisWeek: function (date) {
+                var dates = [];
+                var first = this.getFirstDateOfWeek(date);
+                for (var i = 0; i < 7; i++) {
+                    dates.push(new Date(first.getFullYear(), first.getMonth(), first.getDate() + i));
+                }
+
+                return dates;
+            }
+        };
+    }])
 ;

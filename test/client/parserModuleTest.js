@@ -68,11 +68,11 @@ describe('parser module', function () {
         "type": "vocabulary",
         "version": "2.0.0",
         "words": [{
-            name: "hero",
+            word: "hero",
             explain: "/dict/hero/index.html",
             exercise: "/dict-quiz/hero-quiz/index.html"
         }, {
-            name: "travel",
+            word: "travel",
             explain: "/dict/travel/index.html",
             exercise: "/dict-quiz/travel-quiz/index.html"
         }],
