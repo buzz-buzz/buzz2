@@ -4,6 +4,7 @@ block js
     + js("/node_modules/quiz-adapter/main.js")
     + js('/js/parserModule.min.js')
     + js("/js/quizModule.min.js")
+    + js("/js/dateModule.min.js")
     + js("/js/buzzModule.min.js")
     + js("/lib/jwplayer/jwplayer.js")
     script.
@@ -32,13 +33,13 @@ block content
                 iframe.row.content.white.background(ng-src="{{src}}" ng-controller="VideoPlayerCtrl", style="border:none; width: 100%;", allowfullscreen)
                 #page-2-header.center.aligned.container.column.white.background.row.dynamic
                     .tabular.menu
-                        .item.middle(ng-class="{'active': $root.tabularIndex===1}",ng-click="$root.tabularIndex=1")
+                        .item.middle(ng-class="{'active': $root.tabularIndex===1}", ng-click="$root.tabularIndex=1")
                             span.icon.icon-list2
                             span Today's Vocabulary
-                        .item(ng-class="{'active': $root.tabularIndex===2}",ng-click="$root.tabularIndex=2")
+                        .item(ng-class="{'active': $root.tabularIndex===2}", ng-click="$root.tabularIndex=2")
                             span.icon.icon-list2
                             span Daily Exercise
-                        .item(ng-class="{'active': $root.tabularIndex===3}",ng-click="$root.tabularIndex=3")
+                        .item(ng-class="{'active': $root.tabularIndex===3}", ng-click="$root.tabularIndex=3", ng-show="showWeeklyQuiz", ng-controller="weeklyQuizTabCtrl", ng-cloak)
                             span.icon.icon-list2
                             span Weekly Quiz
         a.page-pos(name="page-2")
@@ -84,7 +85,9 @@ block content
                         .right.arrow(ng-click="turnQuiz(true)",ng-class="{'hidden':quizIndex>=quizLimit}")
                             span.icon-circle-right
                     .item(ng-show="$root.tabularIndex===3", ng-controller="weeklyQuizCtrl")
-                        p 正在建设中……
+                        .exercise.container.cube()
+                            .cube-side.side-a
+                                iframe(id="weekly-quiz-1", frameborder="0", style="width: 100%; height: 100%;")
         include ../partial/ask-for-login-modal
         #audit-modal.dark.mask(ng-controller="auditModalCtrl", ng-class="{'hide': hideModal, 'show': showModal}", ng-click=(hcd_user && hcd_user.isAdmin) + ' ? hideTheModal() : ""')
             .popup(style="padding: 1em 2em;")

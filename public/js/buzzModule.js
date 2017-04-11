@@ -1,4 +1,4 @@
-angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'clientConfigModule', 'buzzHeaderModule', 'quizModule', 'serviceCacheModule', 'wechatShareModule', 'parserModule'])
+angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'clientConfigModule', 'buzzHeaderModule', 'quizModule', 'serviceCacheModule', 'wechatShareModule', 'parserModule', 'DateModule'])
     .run(['$rootScope', 'tracking', 'queryParser', function ($rootScope, tracking, queryParser) {
         var query = queryParser.parse();
         tracking.sendX('play', {
@@ -463,7 +463,49 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
             $scope.$on('$destroy', unbind);
         }
     }])
-    .controller('weeklyQuizCtrl', ['$scope', function ($scope) {
+    .controller('weeklyQuizTabCtrl', ['$scope', 'BuzzCalendar', 'queryParser', function ($scope, BuzzCalendar, queryParser) {
+        var query = queryParser.parse();
+        var now = query.today ? new Date(query.today) : new Date();
+        var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        var thisWeekDates = BuzzCalendar.getDatesOfThisWeek(today);
+
+        if (thisWeekDates[thisWeekDates.length - 2] <= today) {
+            $scope.showWeeklyQuiz = true;
+        } else {
+            $scope.showWeeklyQuiz = false;
+        }
+    }])
+    .controller('weeklyQuizCtrl', ['$scope', 'BuzzCalendar', 'queryParser', 'api', 'clientConfig', 'weeklyQuizParser', '$q', '$window', function ($scope, BuzzCalendar, queryParser, api, clientConfig, weeklyQuizParser, $q, $window) {
+        var query = queryParser.parse();
+        var now = query.today ? new Date(query.today) : new Date();
+        var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+        api.get(clientConfig.serviceUrls.buzz.courses.search.frontEnd, {
+            params: {
+                date: {
+                    start: BuzzCalendar.getFirstDateOfWeek(today).toLocaleDateString(),
+                    end: BuzzCalendar.getFirstDateOfNextWeek(today).toLocaleDateString()
+                }
+            }
+        }).then(function (result) {
+            return result.data.map(function (lesson) {
+                return api.get(lesson.quiz_path);
+            });
+        }).then(function (quizRequests) {
+            return $q.all(quizRequests);
+        }).then(function (quizResponses) {
+            return quizResponses.map(function (r) {
+                return r.data;
+            });
+        }).then(function (jsonArray) {
+            $scope.weeklyQuiz = weeklyQuizParser.parse(jsonArray);
+
+            console.log($scope.weeklyQuiz);
+
+            if ($window.quizAdapter) {
+                $window.quizAdapter.getResult('weekly-quiz-1', $scope.weeklyQuiz.quizzes.BQDC.quizzes[0].quiz);
+            }
+        });
     }])
     .controller('loginModalCtrl', ['$scope', 'modalFactory', '$rootScope', function ($scope, modalFactory, $rootScope) {
         var modalId = '#login';
@@ -477,7 +519,6 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                 }
             }
         }, false);
-        console.log('event will be listen');
     }])
     .controller('auditModalCtrl', ['$scope', '$rootScope', 'modalFactory', function ($scope, $rootScope, modalFactory) {
         modalFactory.bootstrap($scope, $rootScope, '#audit-modal');

@@ -96,4 +96,48 @@ angular.module('parserModule', [])
 
         return vocabularyParser;
     }])
+    .factory('weeklyQuizParser', ['quizStatus', 'generateParse', function (quizStatus, generateParse) {
+        var p = {
+            parseV1: function (jsonArray) {
+                return [];
+            },
+
+            parseV2: function (jsonArray) {
+                var res = {
+                    type: 'grouped-weekly-quiz',
+                    version: '2.0.0',
+                    quizzes: {}
+                };
+
+                jsonArray.map(function (json) {
+                    if (json.type !== 'quiz') {
+                        return;
+                    }
+
+                    if (json.version !== '2.0.0') {
+                        return;
+                    }
+
+                    json['weekly-quizzes'].map(function (q) {
+                        if (!res.quizzes[q.id]) {
+                            res.quizzes[q.id] = {
+                                'sub-type': 'quiz-group',
+                                id: q.id,
+                                name: q.name,
+                                quizzes: []
+                            };
+                        }
+
+                        res.quizzes[q.id].quizzes = res.quizzes[q.id].quizzes.concat(q.quizzes);
+                    });
+                });
+
+                return res;
+            }
+        };
+
+        p.parse = p.parseV2;
+
+        return p;
+    }])
 ;
