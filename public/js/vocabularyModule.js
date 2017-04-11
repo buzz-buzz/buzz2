@@ -115,8 +115,10 @@ angular.module('vocabularyModule', ['trackingModule', 'clientConfigModule', 'Dat
 
         function queryVocabularyExplanation(v){
             $http.get('/mock/word/' + v.name + '/index.json').then(function(detail){
-                v.ipc = detail.data['phon-en']  + detail.data['phon-us'];
-                v.explanation = detail.data.explain;
+                if(detail.data!=''){
+                    v.ipc = detail.data['phon-en']  + detail.data['phon-us'];
+                    v.explanation = detail.data.explain;
+                }
             });
         }
 

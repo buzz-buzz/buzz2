@@ -375,7 +375,7 @@ body
             content: "";
             display: block;
             position: absolute;
-            background-color: #3366ff;
+            background-color:#3366ff;
             width: 2px;
             height: 2px;
             border-radius: 50%;
@@ -533,7 +533,7 @@ body
                         img(src=`${config.cdn}/public/images/wrong_1.png?${config.imageversion}` ng-repeat="i in [].constructor(weekPerformance.bad) track by $index")
                 .learn.right
                     .title 系统排名
-                    .text-content {{rank}}
+                    .text-content {{rank||12}}
         .row.blank
         .row.blank
         div()
@@ -582,12 +582,12 @@ body
                                 .chart-element.column-text(style=`top: 11.5rem;left:${2.5 + 3.6*index}rem`)= item
                             - for (var x = 0; x < 4; x++)
                             .chart-element.column(style=`top: 10.5rem;left:${5.1+3.6*x}rem;height:0.5rem;`)
-                            .chart-box(ng-repeat="chartdata in m_linedata", ng-class="chartdata.shapeClass", style="left:{{3.6+$index*3.6}}rem;top:{{(100-chartdata.point)/10+1}}rem;height:{{chartdata.height/10}}rem")
+                            .chart-box(ng-repeat="chartdata in m_linedata", ng-class="chartdata.shapeClass", style="left:{{3.6+$index*3.6}}rem;top:{{(100-chartdata.point)/10+1}}rem;height:{{chartdata.height/10}}rem;")
                                 .part.left
                                     .shape
                                 .part.right
                                     .shape
-                            .chart-bar(ng-repeat="bardata in data[1] track by $index", style="left: {{3+$index*3.6}}rem;top:{{11-bardata/200*10}}rem;height:{{bardata/200*10}}rem")
+                            .chart-bar(ng-repeat="bardata in data[1] track by $index", style="left: {{3+$index*3.6}}rem;top:{{11-bardata/200*10}}rem;height:{{bardata/200*10}}rem;")
         .row.blank
         .row.blank
         .row.blank

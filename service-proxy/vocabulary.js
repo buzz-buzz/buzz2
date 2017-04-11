@@ -11,7 +11,7 @@ const membership = require('../membership');
 
 module.exports = function (app, router, parse) {
     router
-        .get('/my/vocabulary',  membership.ensureAuthenticated, function *() {
+        .get('/vocabulary',  membership.ensureAuthenticated, function *() {
             var name=this.query.name;
             var rf=require("fs");
             var data=rf.readFileSync("../buzz/mock/"+name+"/index.json","utf-8");
