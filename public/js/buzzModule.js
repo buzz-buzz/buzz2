@@ -474,12 +474,16 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
         } else {
             $scope.showWeeklyQuiz = false;
         }
+        //$scope.showWeeklyQuiz = true;
     }])
     .controller('weeklyQuizCtrl', ['$scope', 'BuzzCalendar', 'queryParser', 'api', 'clientConfig', 'weeklyQuizParser', '$q', '$window', function ($scope, BuzzCalendar, queryParser, api, clientConfig, weeklyQuizParser, $q, $window) {
         var query = queryParser.parse();
         var now = query.today ? new Date(query.today) : new Date();
         var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-
+        $scope.weeklyStatus='menu';
+        $scope.turnTo=function(sta){
+            $scope.weeklyStatus=sta;
+        };
         api.get(clientConfig.serviceUrls.buzz.courses.search.frontEnd, {
             params: {
                 date: {

@@ -305,7 +305,7 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
     .controller('pcChartCtrl', ['$scope','api','$http', 'clientConfig', function ($scope,api,$http,clientConfig) {
         $scope.labels = ['第一周', '第二周', '第三周', '第四周', '第五周'];
         $scope.colors = [{
-            backgroundColor: "#f9b600",
+            backgroundColor: "rgba(249,182,0,.6)",
             pointBackgroundColor: "#f9b600",
             pointHoverBackgroundColor: "#f9b600",
             borderColor: "#f9b600",
@@ -349,7 +349,7 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
         $scope.datasetOverride = [{
             yAxisID: 'y-axis-1',
             label: '你累计学习单词量：个/周',
-            borderWidth: 0,
+            borderWidth: 1,
             type: 'bar'
         }, {
             yAxisID: 'y-axis-2',
@@ -369,7 +369,7 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
                     {
                         id: 'y-axis-2',
                         type: 'linear',
-                        display: false,
+                        display: true,
                         position: 'right'
                     }
                 ]
