@@ -474,7 +474,6 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
         } else {
             $scope.showWeeklyQuiz = false;
         }
-        //$scope.showWeeklyQuiz = true;
     }])
     .controller('weeklyQuizCtrl', ['$scope', 'BuzzCalendar', 'queryParser', 'api', 'clientConfig', 'weeklyQuizParser', '$q', '$window', function ($scope, BuzzCalendar, queryParser, api, clientConfig, weeklyQuizParser, $q, $window) {
         var query = queryParser.parse();
@@ -509,7 +508,22 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
             if ($window.quizAdapter) {
                 $window.quizAdapter.getResult('weekly-quiz-1', $scope.weeklyQuiz.quizzes.BQDC.quizzes[0].quiz);
             }
+            $scope.currentIndex=0;
+            $scope.totalWeekly=$scope.weeklyQuiz.quizzes.BQDC.quizzes.length;
         });
+        $scope.turnWeekly=function(isNext){
+            // if (isNext) {
+            //     tracking.sendX('play.vocabularyTab.slideNextBtn.clicked');
+            // }
+            console.log("补全单词个数为："+$scope.totalWeekly);
+
+            if(isNext&&$scope.currentIndex<$scope.totalWeekly){
+                if ($window.quizAdapter) {
+                    $window.quizAdapter.getResult('weekly-quiz-1', $scope.weeklyQuiz.quizzes.BQDC.quizzes[1].quiz);
+                    $scope.currentIndex++;
+                }
+            }
+        }
     }])
     .controller('loginModalCtrl', ['$scope', 'modalFactory', '$rootScope', function ($scope, modalFactory, $rootScope) {
         var modalId = '#login';

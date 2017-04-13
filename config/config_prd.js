@@ -52,6 +52,13 @@ module.exports = {
 
     applicationId: "4f6b3929-38c3-4828-88a7-11da836cae34",
 
+    progress:{
+        inner:{
+            host: 'service.hcdlearning.com',
+            port: 15000
+        }
+    },
+
     logger: {
         appName: 'buzz'
     },

@@ -124,9 +124,7 @@ function serviceProxy(app, router) {
     require('../service-proxy/exercise')(app, router, coBody);
     require('../service-proxy/share')(app, router, coBody);
     require('../service-proxy/wechatSign')(app, router, coBody);
-    if (process.env.NODE_ENV !== 'prd') {
-        require('../service-proxy/progress')(app, router, coBody);
-    }
+    require('../service-proxy/progress')(app, router, coBody);
 }
 function staticFiles(app) {
     require('./static')(app);
