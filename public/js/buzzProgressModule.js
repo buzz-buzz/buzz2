@@ -151,8 +151,6 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
                        $http.get(clientConfig.serviceUrls.buzz.progress.Statistics.frontEnd+'?level='+result.data+'&top=1')
                            .then(function(response){
                                if(response.data.value.length){
-                                   $scope.$parent.weekPerformance.good=response.data.value[0].num_of_all_correct_question_day;
-                                   $scope.$parent.weekPerformance.bad=response.data.value[0].num_of_incorrect_question_day;
                                    $scope.$parent.rank=response.data.value[0].rank;
                                    $scope.$parent.totalWord=response.data.value[0].num_of_correct_word;
                                }
@@ -216,6 +214,7 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
     }])
     .controller('chartCtrl', ['$scope', '$timeout','api','$http', 'clientConfig', function ($scope, $timeout,api,$http, clientConfig) {
         $scope.expanded = false;
+        $scope.totalWord=1200;
         $scope.expandContent = function (value) {
             $scope.expanded = value;
             $timeout(function () {
@@ -239,10 +238,12 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
                 $http.get(clientConfig.serviceUrls.buzz.progress.Statistics.frontEnd+'?level='+result.data+'&top=5')
                     .then(function(response){
                         if(response.data.value.length){
+                            $scope.totalWord=0;
                             var score_total_num=[];
                             var score_rank=[];
                             for(var x in response.data.value){
                                 score_total_num.push(response.data.value[x].num_of_correct_word);
+                                $scope.totalWord+=response.data.value[x].num_of_correct_word;
                             }
                             for(var x in response.data.value){
                                 score_rank.push(response.data.value[x].rank);
@@ -321,19 +322,22 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
         }];
         $scope.series = ['Series A', 'Series B'];
         $scope.data = [
-            [65, 59, 80, 81, 56],
-            [28, 48, 40, 19, 50]
+            [65, 59, 84, 81, 56],
+            [28, 48, 40, 19, 86]
         ];
         //hank
+        $scope.totalWord=1200;
         api.get(clientConfig.serviceUrls.buzz.profile.currentLevel.frontEnd)
             .then(function (result) {
                 $http.get(clientConfig.serviceUrls.buzz.progress.Statistics.frontEnd+'?level='+result.data+'&top=5')
                     .then(function(response){
                         if(response.data.value.length){
+                            $scope.totalWord=0;
                             var score_total_num=[];
                             var score_rank=[];
                             for(var x in response.data.value){
                                 score_total_num.push(response.data.value[x].num_of_correct_word);
+                                $scope.totalWord+=response.data.value[x].num_of_correct_word;
                             }
                             for(var x in response.data.value){
                                 score_rank.push(response.data.value[x].rank);
