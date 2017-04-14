@@ -232,27 +232,6 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
             [65, 59, 84, 81, 56],
             [28, 48, 40, 19, 86]
         ];
-        //hank
-        api.get(clientConfig.serviceUrls.buzz.profile.currentLevel.frontEnd)
-            .then(function (result) {
-                $http.get(clientConfig.serviceUrls.buzz.progress.Statistics.frontEnd+'?level='+result.data+'&top=5')
-                    .then(function(response){
-                        if(response.data.value.length){
-                            $scope.totalWord=0;
-                            var score_total_num=[];
-                            var score_rank=[];
-                            for(var x in response.data.value){
-                                score_total_num.push(response.data.value[x].num_of_correct_word);
-                                $scope.totalWord+=response.data.value[x].num_of_correct_word;
-                            }
-                            for(var x in response.data.value){
-                                score_rank.push(response.data.value[x].rank);
-                            }
-                            $scope.data[0]=score_total_num;
-                            $scope.data[1]=score_rank;
-                        }
-                    });
-            });
         function createM_Linedata(originDataArray) {
             var retArrary = [];
             originDataArray.reduce(function (previous, next, originPrevious) {
@@ -280,8 +259,29 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
             });
             return retArrary;
         }
+        //hank
+        api.get(clientConfig.serviceUrls.buzz.profile.currentLevel.frontEnd)
+            .then(function (result) {
+                $http.get(clientConfig.serviceUrls.buzz.progress.Statistics.frontEnd+'?level='+result.data+'&top=5')
+                    .then(function(response){
+                        if(response.data.value.length){
+                            $scope.totalWord=0;
+                            var score_total_num=[];
+                            var score_rank=[];
+                            for(var x in response.data.value){
+                                score_total_num.push(response.data.value[x].num_of_correct_word);
+                                $scope.totalWord+=response.data.value[x].num_of_correct_word;
+                            }
+                            for(var x in response.data.value){
+                                score_rank.push(response.data.value[x].rank);
+                            }
+                            $scope.data[0]=score_total_num;
+                            $scope.data[1]=score_rank;
+                            $scope.m_linedata = createM_Linedata($scope.data[1]);
+                        }
+                    });
+            });
 
-        $scope.m_linedata = createM_Linedata($scope.data[0]);
         $scope.datasetOverride = [
             {
                 label: '你累计学习单词量：个/周',
