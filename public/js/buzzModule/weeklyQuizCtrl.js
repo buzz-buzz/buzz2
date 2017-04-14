@@ -1,5 +1,18 @@
 angular.module('buzzModule')
-    .controller('weeklyQuizCtrl', ['$scope', 'BuzzCalendar', 'queryParser', 'api', 'clientConfig', 'weeklyQuizParser', 'arrayWeeklyQuizParser', '$q', 'quizFactory', function ($scope, BuzzCalendar, queryParser, api, clientConfig, weeklyQuizParser, arrayWeeklyQuizParser, $q, quizFactory) {
+
+    .controller('weeklyQuizTabCtrl', ['$scope', 'BuzzCalendar', 'queryParser', function ($scope, BuzzCalendar, queryParser) {
+        var query = queryParser.parse();
+        var now = query.today ? new Date(query.today) : new Date();
+        var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        var thisWeekDates = BuzzCalendar.getDatesOfThisWeek(today);
+
+        if (thisWeekDates[thisWeekDates.length - 2] <= today) {
+            $scope.showWeeklyQuiz = true;
+        } else {
+            $scope.showWeeklyQuiz = false;
+        }
+    }])
+    .controller('weeklyQuizCtrl', ['$scope', 'BuzzCalendar', 'queryParser', 'api', 'clientConfig', 'weeklyQuizParser', 'arrayWeeklyQuizParser', '$q', 'quizFactory', '$rootScope', function ($scope, BuzzCalendar, queryParser, api, clientConfig, weeklyQuizParser, arrayWeeklyQuizParser, $q, quizFactory, $rootScope) {
         var query = queryParser.parse();
         var now = query.today ? new Date(query.today) : new Date();
         var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
@@ -46,39 +59,20 @@ angular.module('buzzModule')
             $scope.currentQuiz = $scope.arrayWeeklyQuiz[++$scope.currentIndex];
         };
 
-        var parse = function (originData) {
-            var retData = {};
-
-            if (originData) {
-                switch (originData.type) {
-                    case 'ispring':
-                        retData.mark = originData.AWARDED_SCORE;
-                        retData.status = originData.QUIZ_STATUS;
-                        retData.title = originData.QUIZ_TITLE;
-                        break;
+        $rootScope.$on('answer:weekly-quiz', function (event, d) {
+            quizFactory.saveResult({
+                lesson_id: $scope.weeklyLessonId,
+                type: 'weekly-quiz',
+                result_id: String($scope.currentIndex),
+                total: $scope.arrayWeeklyQuiz.length,
+                wrong: d.status === 'Failed' ? 1 : 0,
+                correct: d.status === 'Passed' ? 1 : 0,
+                detail: {
+                    title: String(d.title),
+                    score: String(d.mark),
+                    status: String(d.status)
                 }
-            }
-
-            return retData;
-        };
-        window.addEventListener("message", function (event) {
-            if (event.data.type && event.data.type === 'ispring') {
-                var d = parse(event.data);
-
-                quizFactory.saveResult({
-                    lesson_id: $scope.weeklyLessonId,
-                    type: 'weekly-quiz',
-                    result_id: $scope.currentIndex,
-                    total: $scope.arrayWeeklyQuiz.length,
-                    wrong: d.status === 'Failed' ? 1 : 0,
-                    correct: d.status === 'Passed' ? 1 : 0,
-                    detail: {
-                        title: String(d.title),
-                        score: String(d.mark),
-                        status: String(d.status)
-                    }
-                });
-            }
+            });
         });
     }])
 ;

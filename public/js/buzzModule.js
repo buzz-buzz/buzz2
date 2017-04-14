@@ -6,6 +6,43 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
             category: query.cat,
             level: query.level
         });
+
+        var parse = function (originData) {
+            var retData = {};
+
+            if (originData) {
+                switch (originData.type) {
+                    case 'ispring':
+                        retData.mark = originData.AWARDED_SCORE;
+                        retData.status = originData.QUIZ_STATUS;
+                        retData.title = originData.QUIZ_TITLE;
+                        break;
+                }
+            }
+
+            return retData;
+        };
+
+        window.addEventListener("message", function (event) {
+            if (event.data.type && event.data.type === 'ispring') {
+                var type = '';
+                switch ($rootScope.tabularIndex) {
+                    case 1:
+                        type = 'vocabulary';
+                        break;
+                    case 2:
+                        type = 'daily-exercise';
+                        break;
+                    case 3:
+                        type = 'weekly-quiz';
+                        break;
+                    default:
+                        break;
+                }
+
+                $rootScope.$emit('answer:' + type, parse(event.data));
+            }
+        });
     }])
     .controller('VideoPlayerCtrl', ['$scope', '$sce', 'clientConfig', '$http', 'queryParser', '$rootScope', function ($scope, $sce, clientConfig, $http, queryParser, $rootScope) {
         function getLesson() {
@@ -79,7 +116,7 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
             }
         };
     }])
-    .controller('quizCtrl', ['$scope', '$http', 'queryParser', '$sce', '$window', 'clientConfig', '$rootScope', 'tracking', '$timeout', 'quizFactory', 'api', 'quizParser', 'quizStatus', function ($scope, $http, queryParser, $sce, $window, clientConfig, $rootScope, tracking, $timeout, quizFactory, api, quizParser, quizStatus) {
+    .controller('quizCtrl', ['$scope', '$http', 'queryParser', '$sce', '$window', 'clientConfig', '$rootScope', 'tracking', '$timeout', 'quizFactory', 'api', 'quizParser', 'quizStatus', '$rootScope', function ($scope, $http, queryParser, $sce, $window, clientConfig, $rootScope, tracking, $timeout, quizFactory, api, quizParser, quizStatus, $rootScope) {
         var modalId = '#login';
         $scope.$sce = $sce;
         $scope.quizURL = "";
@@ -104,6 +141,23 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                 }
                 return $scope.currentID;
             };
+
+            $rootScope.$on('answer:vocabulary', function (event, ret) {
+                quizFactory.saveResult({
+                    lesson_id: lessonData.lesson_id,
+                    type: 'daily-exercise',
+                    result_id: $scope.quizIndex.toString(),
+                    total: $scope.quizzes.length,
+                    wrong: ret.status === 'Failed' ? 1 : 0,
+                    correct: ret.status === 'Passed' ? 1 : 0,
+                    detail: {
+                        title: String(ret.title),
+                        score: String(ret.mark),
+                        status: String(ret.status)
+                    }
+                });
+            });
+
             var setUrl = function (forcerefresh) {
                 if ($scope.initStatus === "") {
                     $scope.initStatus = "true";
@@ -115,20 +169,6 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                         index: $scope.quizIndex
                     });
                     $window.quizAdapter.getResult(getNextId(), $scope.quizzes[$scope.quizIndex].url, forcerefresh).then(function (ret) {
-                        quizFactory.saveResult({
-                            lesson_id: lessonData.lesson_id,
-                            type: 'daily-exercise',
-                            result_id: $scope.quizIndex.toString(),
-                            total: $scope.quizzes.length,
-                            wrong: ret.status === 'Failed' ? 1 : 0,
-                            correct: ret.status === 'Passed' ? 1 : 0,
-                            detail: {
-                                title: String(ret.title),
-                                score: String(ret.mark),
-                                status: String(ret.status)
-                            }
-                        });
-
                         var status = ret.status;
                         $scope.quizzes[$scope.quizIndex].status = status.toLowerCase();
                         tracking.sendX('today-quiz.submit', {
@@ -205,12 +245,6 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                     } else if ($scope.quizIndex < 0) {
                         $scope.quizIndex = 0;
                     }
-                    // if ($scope.quizIndex===2) {
-                    //     $scope.quizzes[$scope.quizIndex].status=STATUS.P;
-                    // }
-                    // if ($scope.quizIndex===3) {
-                    //     $scope.quizzes[$scope.quizIndex].status=STATUS.F;
-                    // }
                     setUrl(true);
                 };
             });
@@ -264,6 +298,22 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
             $scope.initStatus = "";
             $scope.animateDirection = "";
 
+            $rootScope.$on('answer:daily-exercise', function (event, ret) {
+                quizFactory.saveResult({
+                    lesson_id: lessonData.lesson_id,
+                    type: 'vocabulary',
+                    result_id: $scope.wordIndex.toString(),
+                    total: $scope.newWords.length,
+                    wrong: ret.status === 'Failed' ? 1 : 0,
+                    correct: ret.status === 'Passed' ? 1 : 0,
+                    detail: {
+                        title: String(ret.title),
+                        score: String(ret.mark),
+                        status: String(ret.status)
+                    }
+                });
+            });
+
             var seturl = function (options) {
                 setInitStatus();
 
@@ -275,20 +325,6 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                     $window.quizAdapter
                         .getResult($scope.currentID, options.url, options.forceRefresh)
                         .then(function resultGot(ret) {
-                            quizFactory.saveResult({
-                                lesson_id: lessonData.lesson_id,
-                                type: 'vocabulary',
-                                result_id: $scope.wordIndex.toString(),
-                                total: $scope.newWords.length,
-                                wrong: ret.status === 'Failed' ? 1 : 0,
-                                correct: ret.status === 'Passed' ? 1 : 0,
-                                detail: {
-                                    title: String(ret.title),
-                                    score: String(ret.mark),
-                                    status: String(ret.status)
-                                }
-                            });
-
                             var status = ret.status;
                             $scope.newWords[$scope.wordIndex].status = status.toLowerCase();
                             tracking.sendX('today-vocabulary-quiz.submit', {
@@ -460,18 +496,6 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
         } else {
             var unbind = $rootScope.$on('lessonInfo:got', lessonDataGot);
             $scope.$on('$destroy', unbind);
-        }
-    }])
-    .controller('weeklyQuizTabCtrl', ['$scope', 'BuzzCalendar', 'queryParser', function ($scope, BuzzCalendar, queryParser) {
-        var query = queryParser.parse();
-        var now = query.today ? new Date(query.today) : new Date();
-        var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-        var thisWeekDates = BuzzCalendar.getDatesOfThisWeek(today);
-
-        if (thisWeekDates[thisWeekDates.length - 2] <= today) {
-            $scope.showWeeklyQuiz = true;
-        } else {
-            $scope.showWeeklyQuiz = false;
         }
     }])
     .controller('loginModalCtrl', ['$scope', 'modalFactory', '$rootScope', function ($scope, modalFactory, $rootScope) {
