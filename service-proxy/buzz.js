@@ -118,6 +118,12 @@ module.exports = function (app, router, parse) {
                 method: 'GET'
             }, proxyOption))
         })
+        .get(serviceUrls.buzz.weekly.getScore.frontEnd, membership.ensureAuthenticated, function *() {
+            this.body = yield proxy(Object.assign({
+                path: '/weekly-quiz/'+this.state.hcd_user.member_id+'/'+this.query.lesson_id,
+                method: 'GET'
+            }, proxyOption))
+        })
     ;
 
     require('./buzz-quiz')(app, router, parse);

@@ -18,10 +18,16 @@ angular.module('buzzModule')
         var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
         $scope.weeklyStatus = 'menu';
         $scope.turnTo = function (sta) {
+            if(sta=='grade'){
+                getScore();
+            }
             $scope.weeklyStatus = sta;
         };
 
         $scope.weeklyLessonId = null;
+        $scope.score=0;
+        $scope.total_sum=0;
+        $scope.total_correct=0;
 
         api.get(clientConfig.serviceUrls.buzz.courses.search.frontEnd, {
             params: {
@@ -74,5 +80,25 @@ angular.module('buzzModule')
                 }
             });
         });
+
+        function getScore(){
+            //发送请求获取分数
+            api.get(clientConfig.serviceUrls.buzz.weekly.getScore.frontEnd,{
+                params: {
+                    lesson_id:$scope.weeklyLessonId
+                }
+            }
+            ).then(function(result){
+                console.log(result.data);
+                if(result.data.group){
+                    //进行分数计算
+                    var score;
+                    score = parseInt((result.data.group.correct/result.data.group.total)*100);
+                    $scope.score=score;
+                    $scope.total_sum=result.data.group.total;
+                    $scope.total_correct=result.data.group.correct;
+                }
+            });
+        }
     }])
 ;

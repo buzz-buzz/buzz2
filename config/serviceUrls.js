@@ -133,6 +133,12 @@ module.exports = {
                 frontEnd:'/service-proxy/progress/data',
                 upstream:'/v1/buzz/report/weekly_stat'
             }
+        },
+        weekly:{
+            getScore:{
+                frontEnd:'/service-proxy/weekly/score',
+                upstream:'/weekly-quiz'
+            }
         }
     },
     wechat: {

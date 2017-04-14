@@ -11,10 +11,14 @@
         .grade-body
             .course
                 .title 得分
-                .span 90
+                .span {{score}}
             .content
                 .title 得分详情
                 .detail
+                    .detail-title 单选题
+                    .detail-con 共{{total_sum}}题
+                    .detail-con 答对{{total_correct}}题
+                    .detail-con 获得{{score}}分
         a.button(ng-click="turnTo('menu')") 返回
     .exercise.container.cube(ng-show="weeklyStatus=='exercise'")
         .cube-side.side-a
