@@ -213,7 +213,7 @@ html
 
             .gifts {
                 position: relative;
-                height:10em;
+                height: 10em;
             }
 
             .gifts > .gift-item {
@@ -227,12 +227,10 @@ html
                 text-align: center;
                 position: absolute;
                 opacity: 0;
-                top:25%;
-                left:25%;
-                width:0;
+                top: 25%;
+                left: 25%;
+                width: 0;
             }
-
-
 
             .item.gift-title {
                 width: 100%;
@@ -355,7 +353,8 @@ html
                 font-size: .8em;
                 color: #F2F2F2;
             }
-            .question-body > .question > .question-list>.div{
+
+            .question-body > .question > .question-list > .div {
                 font-size: .8em;
                 color: #F2F2F2;
             }
@@ -530,7 +529,7 @@ html
         script.
             var animate = true;
             $(window).scroll(function () {
-                if (($(document).scrollTop()+300 >= $('.gift-animate').offset().top)&&animate) {
+                if (($(document).scrollTop() + 300 >= $('.gift-animate').offset().top) && animate) {
                     animate = false;
                     $('.gift-animate').animate({
                         height: '0',
@@ -573,4 +572,10 @@ html
         + js("/js/buzzHeaderModule.min.js")
         + js("/js/wechat-share.js")
         script.
-            angular.module('adModule', ['wechatShareModule']);
+            angular.module('adModule', ['wechatShareModule', 'trackingModule', 'angularQueryParserModule'])
+                .run(['$rootScope', 'tracking', 'queryParser', function ($rootScope, tracking, queryParser) {
+                    tracking.sendX('ad', {
+                        trk_tag: queryParser.get('trk_tag')
+                    });
+                }])
+            ;
