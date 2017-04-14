@@ -47,13 +47,12 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
             }
         }, false);
     }])
-    .controller('page2ParentCtrl', ['$scope', 'tracking', function ($scope, tracking) {
+    .controller('page2ParentCtrl', ['$scope', 'tracking', 'queryParser', function ($scope, tracking, queryParser) {
         $scope.$root.tabularIndex = 0;
         //如果是PC端  初始值为1
         if (!navigator.userAgent.match(/(iPhone|iPod|Android|ios|Windows Phone)/i)) {
-            $scope.$root.tabularIndex = 1;
+            $scope.$root.tabularIndex = Number(queryParser.get('tab')) || 1;
         }
-        console.log("gator:" + navigator.userAgent);
 
         $scope.$watch('tabularIndex', function (newVal, oldVal) {
             switch (newVal) {
@@ -473,55 +472,6 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
             $scope.showWeeklyQuiz = true;
         } else {
             $scope.showWeeklyQuiz = false;
-        }
-    }])
-    .controller('weeklyQuizCtrl', ['$scope', 'BuzzCalendar', 'queryParser', 'api', 'clientConfig', 'weeklyQuizParser', '$q', '$window', function ($scope, BuzzCalendar, queryParser, api, clientConfig, weeklyQuizParser, $q, $window) {
-        var query = queryParser.parse();
-        var now = query.today ? new Date(query.today) : new Date();
-        var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-        $scope.weeklyStatus='menu';
-        $scope.turnTo=function(sta){
-            $scope.weeklyStatus=sta;
-        };
-        api.get(clientConfig.serviceUrls.buzz.courses.search.frontEnd, {
-            params: {
-                date: {
-                    start: BuzzCalendar.getFirstDateOfWeek(today).toLocaleDateString(),
-                    end: BuzzCalendar.getFirstDateOfNextWeek(today).toLocaleDateString()
-                }
-            }
-        }).then(function (result) {
-            return result.data.map(function (lesson) {
-                return api.get(lesson.quiz_path);
-            });
-        }).then(function (quizRequests) {
-            return $q.all(quizRequests);
-        }).then(function (quizResponses) {
-            return quizResponses.map(function (r) {
-                return r.data;
-            });
-        }).then(function (jsonArray) {
-            $scope.weeklyQuiz = weeklyQuizParser.parse(jsonArray);
-            console.log($scope.weeklyQuiz);
-            $scope.weeklyTypes=['BQDC','XCTK','YDLJ'];
-            $scope.totalWeekly=$scope.weeklyQuiz.quizzes.BQDC.quizzes.length;
-            $scope.currentIndex=0;
-            if ($window.quizAdapter) {
-                $window.quizAdapter.getResult('weekly-quiz-'+($scope.currentIndex+1), $scope.weeklyQuiz.quizzes.BQDC.quizzes[0].quiz);
-            }
-        });
-        $scope.turnWeekly=function(isNext){
-            // if (isNext) {
-            //     tracking.sendX('');
-            // }
-            console.log("补全单词个数为："+$scope.totalWeekly);
-
-            if(isNext&&$scope.currentIndex<$scope.totalWeekly){
-                if ($window.quizAdapter) {
-                    $window.quizAdapter.getResult('weekly-quiz-'+($scope.currentIndex+1), $scope.weeklyQuiz.quizzes.BQDC.quizzes[1].quiz);
-                    $scope.currentIndex++;
-                }
-            }
         }
     }])
     .controller('loginModalCtrl', ['$scope', 'modalFactory', '$rootScope', function ($scope, modalFactory, $rootScope) {

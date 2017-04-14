@@ -6,6 +6,7 @@ block js
     + js("/js/quizModule.min.js")
     + js("/js/DateModule.min.js")
     + js("/js/buzzModule.min.js")
+    + js("/js/buzzModule/weeklyQuizCtrl.min.js")
     + js("/lib/jwplayer/jwplayer.js")
     script.
         jwplayer.key = 'lG24bAGJCRLF1gi4kajg4EnUKi+ujyUyKMoSNA==';
@@ -21,93 +22,109 @@ block head
             background-size: cover;
             background-attachment: fixed;
         }
-        a{
+
+        a {
             text-decoration: none;
         }
-        .weekly-grade{
-            width:90%;
-            margin:30px auto;
-            border:1px solid #bbb;
-            border-radius:2px;
-            padding:20px 0;
-        }
-        .grade-title{
-            min-height:40px;
-            line-height:40px;
-            text-align:center;
-            width:80%;
-            margin:10px auto;
-        }
-        .grade-body{
-            width:80%;
-            display: flex;
-            margin:25px auto;
-            justify-content:space-between;
-        }
-        .grade-body>div{
-            border:1px solid #bbb;
-            border-radius:2px;
-        }
-        .grade-body .course{
-            padding:1em 5%;
-            width:30%;
-        }
-        .course .title{
-            text-align:left;
-        }
-        .course .span{
-            color:red;
-            font-size:3em;
-            padding:1em 0;
-            font-weight: 100;
-        }
-        .grade-body .content{
-            width:65%;
-        }
-        .grade-body .content>.title{
-            font-weight:bold;
-        }
-        .grade-body .content>div{
-            height:2em;
-            line-height:2em;
-            width:100%;
-            border-bottom:1px solid #bbb;
-            padding:0;
-            margin:0;
+
+        .weekly-grade {
+            width: 90%;
+            margin: 30px auto;
+            border: 1px solid #bbb;
+            border-radius: 2px;
+            padding: 20px 0;
         }
 
-        .progress{
-            margin:20px;
-            width:87%;
+        .grade-title {
+            min-height: 40px;
+            line-height: 40px;
+            text-align: center;
+            width: 80%;
+            margin: 10px auto;
         }
-        .progress>span{
-            width:10%;
+
+        .grade-body {
+            width: 80%;
+            display: flex;
+            margin: 25px auto;
+            justify-content: space-between;
         }
-        .progress>.percent{
-            display:inline-block;
-            width:85%;
-            padding:0;
-            margin:0 0 0 3%;
-            background-color: rgba(249,182,0,.5);
-            height:100%;
+
+        .grade-body > div {
+            border: 1px solid #bbb;
+            border-radius: 2px;
         }
-        .progress>.percent>.tab{
-            width:30%;
-            height:100%;
+
+        .grade-body .course {
+            padding: 1em 5%;
+            width: 30%;
+        }
+
+        .course .title {
+            text-align: left;
+        }
+
+        .course .span {
+            color: red;
+            font-size: 3em;
+            padding: 1em 0;
+            font-weight: 100;
+        }
+
+        .grade-body .content {
+            width: 65%;
+        }
+
+        .grade-body .content > .title {
+            font-weight: bold;
+        }
+
+        .grade-body .content > div {
+            height: 2em;
+            line-height: 2em;
+            width: 100%;
+            border-bottom: 1px solid #bbb;
+            padding: 0;
+            margin: 0;
+        }
+
+        .progress {
+            margin: 20px;
+            width: 87%;
+        }
+
+        .progress > span {
+            width: 10%;
+        }
+
+        .progress > .percent {
+            display: inline-block;
+            width: 85%;
+            padding: 0;
+            margin: 0 0 0 3%;
+            background-color: rgba(249, 182, 0, .5);
+            height: 100%;
+        }
+
+        .progress > .percent > .tab {
+            width: 30%;
+            height: 100%;
             background-color: rgb(249, 182, 0);
         }
 
-        .exercise-container>div{
-            padding:0;
-            margin:0;
-            display:inline-block;
+        .exercise-container > div {
+            padding: 0;
+            margin: 0;
+            display: inline-block;
         }
-        .exercise-container{
-            position:relative;
+
+        .exercise-container {
+            position: relative;
         }
-        .exercise-container>.right.arrow{
-            position:absolute;
-            top:40%;
+
+        .exercise-container > .right.arrow {
+            position: absolute;
+            top: 40%;
         }
 
 block extraMenus
@@ -172,36 +189,7 @@ block content
                                 iframe(id="quiz-2",frameborder="0",style="width: 100%;height: 100%")
                         .right.arrow(ng-click="turnQuiz(true)",ng-class="{'hidden':quizIndex>=quizLimit}")
                             span.icon-circle-right
-                    .item(ng-show="$root.tabularIndex===3", ng-controller="weeklyQuizCtrl")
-                        .weekly-meau(ng-show="weeklyStatus=='menu'")
-                            .img(style='width:30%;margin:30px auto;margin-top:50px;')
-                                img(style='width:50%;',src='/public/images/weeklyquiz.png')
-                            div(style="display: flex; width:40%;margin:0 auto;")
-                                a.button.yellow.exercisebutton(ng-click="turnTo('grade')", style="flex: 1;padding: .5em 0 !important;text-decoration: none;") 查看成绩
-                                span(style='flex:1;width:20%;')
-                                a.button.yellow.exercisebutton(ng-click="turnTo('exercise')", style="flex: 1;padding: .5em 0 !important;text-decoration: none;color: #f6b52a!important;background-color: #fff!important;border:1px solid #f6b52a;") 重新测试
-                        .weekly-grade(ng-show="weeklyStatus=='grade'")
-                             .grade-title 成绩单
-                             .grade-body
-                                 .course
-                                     .title 得分
-                                     .span 90
-                                 .content
-                                     .title 得分详情
-                                     .detail
-                             a.button(ng-click="turnTo('menu')") 返回
-                        .exercise.container.cube(ng-show="weeklyStatus=='exercise'")
-                            .cube-side.side-a
-                                .progress
-                                    span {{currentIndex+1}}/{{totalWeekly}}
-                                    .percent
-                                        .tab &nbsp;
-                                .exercise-container
-                                    .exercise-body(style='width: 80%;height: 350px;',ng-class="{ 'rtom':animateDirection==='rtom'}")
-                                        iframe(id="weekly-quiz-1", frameborder="0", style="width: 100%; height: 100%;")
-                                    .right.arrow(style='width:20%;',ng-click="turnWeekly(true)",ng-class="{'hidden':currentIndex+1>=totalWeekly}")
-                                        span.icon-circle-right
-                                a.button(ng-click="turnTo('menu')",style='margin-top:10px;') 返回
+                    include partials/weekly-quiz
         include ../partial/ask-for-login-modal
         #audit-modal.dark.mask(ng-controller="auditModalCtrl", ng-class="{'hide': hideModal, 'show': showModal}", ng-click=(hcd_user && hcd_user.isAdmin) + ' ? hideTheModal() :""')
             .popup(style="padding: 1em 2em;")

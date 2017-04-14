@@ -140,4 +140,25 @@ angular.module('parserModule', [])
 
         return p;
     }])
+    .factory('arrayWeeklyQuizParser', ['weeklyQuizParser', function (weeklyQuizParser) {
+        return {
+            parse: function (parsedJson) {
+                var res = [];
+
+                for (var type in parsedJson.quizzes) {
+                    parsedJson.quizzes[type].quizzes.map(function (q) {
+                        res.push({
+                            'sub-type': parsedJson.quizzes[type]['sub-type'],
+                            id: parsedJson.quizzes[type].id,
+                            name: parsedJson.quizzes[type].name,
+                            point: q.point,
+                            quiz: q.quiz
+                        });
+                    });
+                }
+
+                return res;
+            }
+        };
+    }])
 ;
