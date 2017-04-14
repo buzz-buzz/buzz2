@@ -554,7 +554,7 @@ body
                     .expand-chart.row
                         .expand-chart.left.font.orange
                             span.font.grey 你已经累计学习了
-                            span.font.black 1200
+                            span.font.black {{totalWord}}
                             span.font.grey 个单词
                         .expand-chart.right(ng-click="expandContent(false)")
                             img.valign-middle(style="width:1.6em",src=`${config.cdn}/public/images/chart_off.png?${config.imageversion}`)
