@@ -151,6 +151,8 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
                        $http.get(clientConfig.serviceUrls.buzz.progress.Statistics.frontEnd+'?level='+result.data+'&top=1')
                            .then(function(response){
                                if(response.data.value.length){
+                                   $scope.$parent.weekPerformance.good=response.data.value[0].num_of_all_correct_question_day;
+                                   $scope.$parent.weekPerformance.bad=response.data.value[0].num_of_incorrect_question_day;
                                    $scope.$parent.rank=response.data.value[0].rank;
                                    $scope.$parent.totalWord=response.data.value[0].num_of_correct_word;
                                }
@@ -168,11 +170,11 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
 
                     if (exerciseDate >= firstDayOfWeek && exerciseDate < firstDayOfNextWeek) {
                         if ($scope.perf[d].goodness === 'bad') {
-                            $scope.$parent.weekPerformance.bad++;
+                            //$scope.$parent.weekPerformance.bad++;
                         }
 
                         if ($scope.perf[d].goodness === 'good') {
-                            $scope.$parent.weekPerformance.good++;
+                            //$scope.$parent.weekPerformance.good++;
                         }
                     }
 

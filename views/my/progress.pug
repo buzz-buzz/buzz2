@@ -95,11 +95,15 @@ block content
                         tbody
                             tr
                                 td
-                                    + goodPerformance(ng-repeat="i in [].constructor(weekPerformance.good) track by $index",ng-show='weekPerformance.good<=7')
-                                    span(ng-show='weekPerformance.good>7') {{weekPerformance.good}}
+                                    + goodPerformance(ng-repeat="i in [].constructor(weekPerformance.good) track by $index",ng-show='weekPerformance.good<=7',ng-cloak)
+                                    .lg(ng-show='weekPerformance.good>7',ng-cloak)
+                                        span {{weekPerformance.good}}
+                                        + goodPerformance
                                 td
-                                    + badPerformance(ng-repeat="i in [].constructor(weekPerformance.bad) track by $index",ng-show='weekPerformance.bad<=7')
-                                    span(ng-show='weekPerformance.bad>7') {{weekPerformance.bad}}
+                                    + badPerformance(ng-repeat="i in [].constructor(weekPerformance.bad) track by $index",ng-show='weekPerformance.bad<=7',ng-cloak)
+                                    .lg(ng-show='weekPerformance.bad>7',ng-cloak)
+                                        span {{weekPerformance.bad}}
+                                        + badPerformance
                                 td  {{rank||12}}
                 .row.content(ng-controller="pcChartCtrl")
                     p &nbsp;

@@ -527,12 +527,16 @@ body
                     .title 练习全对
                     .content(ng-show='weekPerformance.good<=7')
                         img(src=`${config.cdn}/public/images/correct.png?${config.imageversion}`, ng-repeat="i in [].constructor(weekPerformance.good) track by $index")
-                    span(ng-show='weekPerformance.bad>7') {{weekPerformance.good}}
+                    .max-7(ng-show='weekPerformance.bad>7')
+                        span {{weekPerformance.good}}
+                        img(src=`${config.cdn}/public/images/correct.png?${config.imageversion}`)
                 .learn.middle
                     .title 练习有错
                     .content(ng-show='weekPerformance.bad<=7')
                         img(src=`${config.cdn}/public/images/wrong_1.png?${config.imageversion}` ng-repeat="i in [].constructor(weekPerformance.bad) track by $index")
-                    span(ng-show='weekPerformance.bad>7') {{weekPerformance.bad}}
+                    .max-7(ng-show='weekPerformance.bad>7')
+                        span {{weekPerformance.bad}}
+                        img(src=`${config.cdn}/public/images/wrong_1.png?${config.imageversion}`)
                 .learn.right
                     .title 系统排名
                     .text-content {{rank||12}}
