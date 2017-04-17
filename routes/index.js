@@ -91,18 +91,21 @@ function admin(app, router, render) {
 function api(app, router, render) {
 }
 
+function filterConfig(config) {
+    let ret = {};
+    ret.cdn = config.cdn;
+    ret.captcha = config.captcha.public;
+    ret.serviceUrls = config.serviceUrls;
+
+    return ret;
+}
+
+let clientConfig = 'angular.module("clientConfigModule", []).value("clientConfig", ' + JSON.stringify(filterConfig(config)) + ');';
+
 function virtualFile(app, router) {
     router.get('/clientConfig.js', function *(next) {
-        function filterConfig(config) {
-            let ret = {};
-            ret.cdn = config.cdn;
-            ret.captcha = config.captcha.public;
-            ret.serviceUrls = config.serviceUrls;
-
-            return ret;
-        }
-
-        this.body = 'angular.module("clientConfigModule", []).value("clientConfig", ' + JSON.stringify(filterConfig(config)) + ');';
+        this.set('Cache-Control', 'public, max-age=31557600');
+        this.body = clientConfig;
     });
 }
 
@@ -126,8 +129,8 @@ function serviceProxy(app, router) {
     require('../service-proxy/wechatSign')(app, router, coBody);
     require('../service-proxy/progress')(app, router, coBody);
 }
-function staticFiles(app) {
-    require('./static')(app);
+function staticFiles(app, router) {
+    require('./static')(app, router);
 }
 function oauth(app, router, render) {
     require('./wechat')(app, router, render);
@@ -146,7 +149,7 @@ function more(app, router, render) {
 
 module.exports = function (app, router, render) {
     helper(app, router);
-    staticFiles(app);
+    staticFiles(app, router);
     virtualFile(app, router);
     mobileDetectRender(app, router);
     redirectRequest(app, router);

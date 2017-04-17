@@ -9,6 +9,13 @@ include share/common
 + js("http://res.wx.qq.com/open/js/jweixin-1.0.0.js")
 + js("/js/wechat-share.js")
 + js("/clientConfig.js")
+script.
+    applicationCache.addEventListener('updateready', function (e) {
+        if (applicationCache.status == applicationCache.UPDATEREADY) {
+            applicationCache.swapCache();
+            window.location.reload();
+        }
+    }, false);
 
 if !config.mock
     + js(config.tracking)
