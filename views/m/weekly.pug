@@ -1,0 +1,34 @@
+//
+   Created by hank on 2017/4/18.
+.weekly-meau(ng-show="weeklyStatus=='menu'",ng-cloak,style='width:100%;')
+    .img(style='width:60%;margin:10px auto;')
+        img(style='width:60%;display:block;margin:0 auto;',src='http://resource.buzzbuzzenglish.com/image/weeklyquiz.png')
+    div(style="display: flex; width:100%;margin:0 auto;")
+        a.button.yellow.exercisebutton(ng-click="turnTo('grade')", style="flex: 1;text-decoration: none;") 查看成绩
+        span(style='width:10%;')
+        a.button.yellow.exercisebutton(ng-click="turnTo('exercise')", style="flex: 1;text-decoration: none;color: #f6b52a!important;background-color: #fff!important;border:1px solid #f6b52a;") 重新测试
+.weekly-grade(ng-show="weeklyStatus=='grade'",ng-cloak)
+    .grade-title(style='background:#fff url(http://resource.buzzbuzzenglish.com/weekly_grade.png) no-repeat center;color:white;width:50%;') 成绩单
+    .grade-body
+        .course
+            .title 得分
+            .span(ng-cloak) {{grade}}
+        .content
+            .detail(ng-repeat="details in score")
+                .detail-title(style='font-weight:bold;') {{details.type}}
+                .detail-con 共{{details.total_sum}}题
+                .detail-con 答对{{details.correct}}题
+                .detail-con 获得{{details.score}}分
+    a.button(ng-click="turnTo('menu')",ng-cloak) 返回
+.exercise.container.cube(ng-show="weeklyStatus=='exercise'")
+    .cube-side.side-a
+        .progress
+            span {{currentIndex+1}}/{{arrayWeeklyQuiz.length}}
+            .percent
+                .tab(style='width:'+width+'%;') &nbsp;
+        .exercise-container
+            .exercise-body(style='width: 80%;height: 350px;',ng-class="{ 'rtom':animateDirection==='rtom'}")
+                iframe(id="weekly-quiz-frame", frameborder="0", style="width: 100%; height: 100%;", ng-src="{{currentQuiz.quiz}}")
+            .right.arrow(style='width:20%;color:#f7b52a;',ng-click="nextQuiz()",ng-class="{'hidden':currentIndex+1>=arrayWeeklyQuiz.length}")
+                span.icon-circle-right
+        a.button(ng-click="turnTo('menu')",style='margin-top:10px;') 返回

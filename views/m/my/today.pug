@@ -190,6 +190,114 @@ block head
             width: 100% !important;
         }
 
+        .weekly-grade {
+            width: 100%;
+            margin: 10px auto;
+            border: 1px solid #bbb;
+            border-radius: 2px;
+            padding: 1em 0;
+        }
+
+        .grade-title {
+            min-height: 2em;
+            line-height:2em;
+            text-align: center;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .grade-body {
+            width: 80%;
+            margin: 1em auto;
+        }
+
+        .grade-body > div {
+            border: 1px solid #bbb;
+            border-radius: 2px;
+        }
+
+        .grade-body .course {
+            padding:0 5%;
+            width: 100%;
+        }
+
+        .course .title {
+            text-align: left;
+            display:inline-block;
+            width:30%;
+        }
+
+        .course .span {
+            color: red;
+            font-size: 1em;
+            padding: .5em 0;
+            font-weight: 100;
+            display:inline-block;
+            width:70%;
+            text-align: center;
+        }
+
+        .grade-body .content {
+            width: 65%;
+        }
+
+        .grade-body .content > .title {
+            font-weight: bold;
+        }
+
+        .grade-body .content > div {
+            height: 2em;
+            line-height: 2em;
+            width: 100%;
+            border-bottom: 1px solid #bbb;
+            padding: 0;
+            margin: 0;
+        }
+
+        .progress {
+            margin: 20px;
+            width: 87%;
+        }
+
+        .progress > span {
+            width: 10%;
+        }
+
+        .progress > .percent {
+            display: inline-block;
+            width: 85%;
+            padding: 0;
+            margin: 0 0 0 3%;
+            background-color: rgba(249, 182, 0, .5);
+            height: 100%;
+        }
+
+        .progress > .percent > .tab {
+            height: 100%;
+            background-color: rgb(249, 182, 0);
+        }
+
+        .exercise-container > div {
+            padding: 0;
+            margin: 0;
+            display: inline-block;
+        }
+
+        .exercise-container {
+            position: relative;
+        }
+
+        .exercise-container > .right.arrow {
+            position: absolute;
+            top: 40%;
+        }
+
+        .detail > div {
+            display: inline-block;
+            width: 25%;
+            text-align: center;
+        }
+
 mixin itemBar(imageSrc, title, subTitle)
     .item.middle&attributes(attributes)
         div.imagecontainer
@@ -232,7 +340,7 @@ mixin quiz
                     a.fluid.button.yellow(ng-click="turnQuiz(true)",ng-class="{'hidden':quizIndex>=quizLimit}") 下一题
             + itemBar('/public/images/exersise3.png', "Weekly Quiz", "每周测试")(ng-class="{'active': $root.tabularIndex===3}",ng-click="tagToggle(3)")
             .item(ng-show="$root.tabularIndex===3", ng-controller="weeklyQuizCtrl",style='margin-bottom:4em;')
-                p Sorry,正在建设中……
+                p sorry,正在建设中...
 
 block content
     .wechat-share-img
