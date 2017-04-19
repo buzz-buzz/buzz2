@@ -26,11 +26,12 @@ function *proxy(settings) {
         });
     }
 
-    let result = yield request(option);
-
-    result = result.body;
-
-    return result;
+    try {
+        let result = yield request(option);
+        return result.body;
+    } catch (ex) {
+        return ex;
+    }
 }
 
 module.exports = proxy;
