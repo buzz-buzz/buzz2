@@ -1,19 +1,22 @@
 angular.module('buzzModule')
-    .controller('quizCtrl', ['$scope', '$http', 'queryParser', '$sce', '$window', 'clientConfig', '$rootScope', 'tracking', '$timeout', 'quizFactory', 'api', 'quizParser', 'quizStatus', '$rootScope', function ($scope, $http, queryParser, $sce, $window, clientConfig, $rootScope, tracking, $timeout, quizFactory, api, quizParser, quizStatus, $rootScope) {
+    .controller('quizCtrl', ['$scope', '$http', 'queryParser', '$sce', '$window', 'clientConfig', '$rootScope', 'tracking', '$timeout', 'quizFactory', 'api', 'quizParser', 'quizStatus', function ($scope, $http, queryParser, $sce, $window, clientConfig, $rootScope, tracking, $timeout, quizFactory, api, quizParser, quizStatus) {
         var modalId = '#login';
         $scope.$sce = $sce;
         $scope.quizURL = "";
 
         $scope.quizzes = [];
-        $scope.quizIndex = 0;
+        $scope.quizIndex = undefined;
         $scope.STATUS = {
             "U": quizStatus.unchecked,
             "P": quizStatus.pass,
             "F": quizStatus.failed
         };
 
+        $scope.currentExercise={
+        };
+
         function lessonDataGot(event, lessonData) {
-            $scope.currentID = "";
+            $scope.currentID = "quiz-1";
             $scope.initStatus = "";
             $scope.animateDirection = "";
             var getNextId = function () {
@@ -45,6 +48,10 @@ angular.module('buzzModule')
                     ispassed: ret.status.toLowerCase() === quizStatus.pass,
                     score: ret.mark
                 });
+
+                var status = ret.status;
+                $scope.quizzes[$scope.quizIndex].status = status.toLowerCase();
+
             });
 
             var setUrl = function (forcerefresh) {
@@ -53,18 +60,12 @@ angular.module('buzzModule')
                 } else {
                     $scope.initStatus = "false";
                 }
-                if ($window.quizAdapter) {
-                    tracking.sendX('today-quiz', {
-                        index: $scope.quizIndex
-                    });
-                    $window.quizAdapter.getResult(getNextId(), $scope.quizzes[$scope.quizIndex].url, forcerefresh).then(function (ret) {
-                        var status = ret.status;
-                        $scope.quizzes[$scope.quizIndex].status = status.toLowerCase();
 
-                    }, function () {
-                        //Do nothing
-                    });
-                }
+                //hank
+                tracking.sendX('today-quiz', {
+                    index: $scope.quizIndex
+                });
+
             };
             $scope.actionLock = false;
             var doAction = function () {
@@ -85,6 +86,7 @@ angular.module('buzzModule')
                 var data = ret.data;
                 $scope.quizzes = quizParser.parse(data);
                 $scope.quizLimit = $scope.quizzes.length - 1;
+                $scope.quizIndex = 0;
                 api.get(clientConfig.serviceUrls.buzz.quiz.limit).then(function (result) {
                     if (result.data) {
                         $scope.quizLimit = Number(result.data) - 1;
@@ -133,6 +135,20 @@ angular.module('buzzModule')
                     setUrl(true);
                 };
             });
+
+            function updateUrl() {
+                $scope.currentExercise = {
+                    url: $scope.quizzes[$scope.quizIndex].url
+                };
+            }
+
+            $scope.$watch('quizIndex', function (newValue, oldValue) {
+                if (newValue !== oldValue) {
+                    getNextId();
+                    updateUrl();
+                }
+            });
+
         }
 
         if ($rootScope.lessonData) {
