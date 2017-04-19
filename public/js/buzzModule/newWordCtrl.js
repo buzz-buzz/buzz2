@@ -4,7 +4,7 @@ angular.module('buzzModule')
         $scope.$sce = $sce;
         $scope.newWords = [];
         $scope.word = {};
-        var wordIndex = $scope.wordIndex = 0;
+        var wordIndex = $scope.wordIndex = undefined;
 
         $scope.currentVocabulary = {};
 
@@ -24,8 +24,8 @@ angular.module('buzzModule')
             });
         }
 
-        function getCurrentId() {
-            return $scope.currentID != "word-1" ? "word-1" : "word-2";
+        function switchSide() {
+            return $scope.side !== "a" ? "a" : "b";
         }
 
         function lockActionAndUnlockItLater() {
@@ -38,7 +38,7 @@ angular.module('buzzModule')
         }
 
         function lessonDataGot(event, lessonData) {
-            $scope.currentID = "";
+            $scope.side = "";
             $scope.initStatus = "";
             $scope.animateDirection = "";
 
@@ -72,7 +72,7 @@ angular.module('buzzModule')
 
                 var word = $scope.newWords[$scope.wordIndex].word;
                 track(options.isQuiz, word);
-                $scope.currentID = getCurrentId();
+                $scope.side = switchSide();
             };
 
             $scope.actionLock = false;
@@ -103,6 +103,7 @@ angular.module('buzzModule')
                     }
                 });
 
+                wordIndex = $scope.wordIndex = 0;
                 if ($scope.newWords[wordIndex].exercise && $scope.newWords[wordIndex].exercise !== "") {
                     $scope.isWordMode = false;
                     if ($scope.newWords[wordIndex].url && $scope.newWords[wordIndex].url !== "") {
@@ -112,16 +113,14 @@ angular.module('buzzModule')
                     }
                     seturl({
                         url: $scope.newWords[wordIndex].exercise,
-                        isQuiz: true,
-                        forceRefresh: true
+                        isQuiz: true
                     });
                 } else {
                     $scope.isWordMode = true;
                     $scope.hasWordMode = false;
                     seturl({
                         url: $scope.newWords[wordIndex].url,
-                        isQuiz: false,
-                        forceRefresh: true
+                        isQuiz: false
                     });
 
                 }
@@ -150,16 +149,14 @@ angular.module('buzzModule')
                             }
                             seturl({
                                 url: $scope.newWords[wordIndex].exercise,
-                                isQuiz: true,
-                                forceRefresh: true
+                                isQuiz: true
                             });
                         } else {
                             $scope.hasWordMode = false;
                             $scope.isWordMode = true;
                             seturl({
                                 url: $scope.newWords[wordIndex].url,
-                                isQuiz: false,
-                                forceRefresh: true
+                                isQuiz: false
                             });
                         }
                     } else {
@@ -200,16 +197,14 @@ angular.module('buzzModule')
                     }
                     seturl({
                         url: $scope.newWords[wordIndex].exercise,
-                        isQuiz: true,
-                        forceRefresh: true
+                        isQuiz: true
                     });
                 } else {
                     $scope.hasWordMode = false;
                     $scope.isWordMode = true;
                     seturl({
                         url: $scope.newWords[wordIndex].url,
-                        isQuiz: false,
-                        forceRefresh: true
+                        isQuiz: false
                     });
                 }
             };
@@ -221,12 +216,13 @@ angular.module('buzzModule')
 
                 seturl({
                     url: isWordMode ? $scope.newWords[wordIndex].url : $scope.newWords[wordIndex].exercise,
-                    isQuiz: !isWordMode,
-                    forceRefresh: false
+                    isQuiz: !isWordMode
                 });
 
                 $scope.isWordMode = isWordMode;
                 $scope.animateDirection = isWordMode ? "btom" : "ttom";
+
+                updateUrl();
             };
         }
 
@@ -242,11 +238,15 @@ angular.module('buzzModule')
 
         }
 
+        function updateUrl() {
+            $scope.currentVocabulary = {
+                url: getUrl()
+            };
+        }
+
         $scope.$watch('wordIndex', function (newValue, oldValue) {
             if (newValue !== oldValue) {
-                $scope.currentVocabulary = {
-                    url: getUrl()
-                };
+                updateUrl();
             }
         });
     }])
