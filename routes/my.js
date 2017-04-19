@@ -14,6 +14,14 @@ module.exports = function (app, router, render) {
             }
 
             let latestCourse = yield buzz.getLatestCourse(level);
+            console.log('latest course = ', latestCourse);
+
+            if (!latestCourse) {
+                latestCourse = {
+                    date: '',
+                    category: ''
+                };
+            }
 
             if (!this.state.userAgent.isMobile || this.state.userAgent.isTablet) {
                 this.redirect('/my/play?date=' + latestCourse.date + '&cat=' + (latestCourse.category || '').toLowerCase() + '&level=' + level, {
