@@ -6,6 +6,8 @@ angular.module('buzzModule')
         $scope.word = {};
         var wordIndex = $scope.wordIndex = 0;
 
+        $scope.currentVocabulary = {};
+
         function setInitStatus() {
             if ($scope.initStatus === "") {
                 $scope.initStatus = "true";
@@ -60,24 +62,17 @@ angular.module('buzzModule')
                     ispassed: ret.status.toLowerCase() === vocabularyStatus.pass,
                     score: ret.mark
                 });
+
+                var status = ret.status;
+                $scope.newWords[$scope.wordIndex].status = status.toLowerCase();
             });
 
             var seturl = function (options) {
                 setInitStatus();
 
-                if ($window.quizAdapter) {
-                    var word = $scope.newWords[$scope.wordIndex].word;
-                    track(options.isQuiz, word);
-                    $scope.currentID = getCurrentId();
-
-                    $window.quizAdapter
-                        .getResult($scope.currentID, options.url, options.forceRefresh)
-                        .then(function resultGot(ret) {
-                            var status = ret.status;
-                            $scope.newWords[$scope.wordIndex].status = status.toLowerCase();
-
-                        });
-                }
+                var word = $scope.newWords[$scope.wordIndex].word;
+                track(options.isQuiz, word);
+                $scope.currentID = getCurrentId();
             };
 
             $scope.actionLock = false;
@@ -241,5 +236,18 @@ angular.module('buzzModule')
             var unbind = $rootScope.$on('lessonInfo:got', lessonDataGot);
             $scope.$on('$destroy', unbind);
         }
+
+        function getUrl() {
+            return $scope.isWordMode ? $scope.newWords[$scope.wordIndex].url : $scope.newWords[$scope.wordIndex].exercise;
+
+        }
+
+        $scope.$watch('wordIndex', function (newValue, oldValue) {
+            if (newValue !== oldValue) {
+                $scope.currentVocabulary = {
+                    url: getUrl()
+                };
+            }
+        });
     }])
 ;
