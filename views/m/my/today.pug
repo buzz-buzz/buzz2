@@ -6,6 +6,8 @@ block js
     + js("/js/quizModule.min.js")
     + js("/js/DateModule.min.js")
     + js("/js/buzzModule.min.js")
+    + js("/js/quizCtrl.min.js")
+    + js("/js/newWordCtrl.min.js")
     + js("/js/buzzModule/weeklyQuizCtrl.min.js")
     + js("/lib/jwplayer/jwplayer.js")
     script.
@@ -200,7 +202,7 @@ block head
 
         .grade-title {
             min-height: 2em;
-            line-height:2em;
+            line-height: 2em;
             text-align: center;
             width: 100%;
             margin: 0 auto;
@@ -217,14 +219,14 @@ block head
         }
 
         .grade-body .course {
-            padding:0 5%;
+            padding: 0 5%;
             width: 100%;
         }
 
         .course .title {
             text-align: left;
-            display:inline-block;
-            width:30%;
+            display: inline-block;
+            width: 30%;
         }
 
         .course .span {
@@ -232,8 +234,8 @@ block head
             font-size: 1em;
             padding: .5em 0;
             font-weight: 100;
-            display:inline-block;
-            width:70%;
+            display: inline-block;
+            width: 70%;
             text-align: center;
         }
 
