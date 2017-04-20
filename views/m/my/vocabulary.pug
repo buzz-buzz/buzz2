@@ -45,7 +45,7 @@ body
             box-sizing: border-box;
             border-top: 1px solid #dddddd;
             border-bottom: 1px solid #dddddd;
-            height: 5rem;
+            min-height: 5rem;
             padding:.5em 0;
         }
 
@@ -67,7 +67,7 @@ body
 
         .row.word .wordexplain {
             display: block;
-            height: 2rem;
+            height: auto;
             line-height: 2rem;
             padding-left: 1rem;
             color: #333333;
@@ -125,7 +125,7 @@ body
             .reserve-row
                 .row.word(ng-repeat="word in weeklylist.words",ng-show="radioBoxType===RADIO_TYPE.NONE||word.status === radioBoxType")
                     .wordname {{word.name}}
-                        span  {{word.ipc}}
+                        span  {{word.ipc_gb+''+word.ipc_us}}
                     .wordexplain {{word.explanation}}
 
         .row.blank

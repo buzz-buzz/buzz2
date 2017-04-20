@@ -181,7 +181,6 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
 
                     dailyExercisePerf.push(quizFactory.getDailyExercisePerformance(p.quiz_result_group_id));
                 });
-
                 return dailyExercisePerf;
             }).then(function (requests) {
                 return $q.all(requests);

@@ -114,10 +114,11 @@ angular.module('vocabularyModule', ['trackingModule', 'clientConfigModule', 'Dat
 
 
         function queryVocabularyExplanation(v){
-            $http.get('/mock/word/' + v.name + '/index.json').then(function(detail){
-                if(detail.data!=''){
-                    v.ipc = detail.data['phon-en']  + detail.data['phon-us'];
-                    v.explanation = detail.data.explain;
+            $http.get('/dict/' + v.name + '/index.json').then(function(detail){
+                if(detail.data){
+                    v.ipc_gb = '[英]'+detail.data['phon-gb'];
+                    v.ipc_us = '[美]'+detail.data['phon-us'];
+                    v.explanation = detail.data.class+' '+detail.data.explain;
                 }
             });
         }
@@ -147,8 +148,9 @@ angular.module('vocabularyModule', ['trackingModule', 'clientConfigModule', 'Dat
                                 v.words.push({
                                     name: word,
                                     index: res.dictionary[word].id,
-                                    ipc: "",
-                                    explanation:"",
+                                    ipc_gb:"",
+                                    ipc_us:"",
+                                    explanation:'',
                                     soundURL: res.dictionary[word].ipa,
                                     url: res.dictionary[word].url,
                                     exercise: res.dictionary[word].exercise

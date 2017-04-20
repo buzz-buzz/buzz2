@@ -125,9 +125,20 @@ block head
         .sound,
         .explanation,
         .ipa {
-            height: 32px;
+            height: 64px;
         }
-
+        .word,.sound{
+            line-height:64px;
+        }
+        .ipa>span,.explanation>span{
+            line-height:32px;
+        }
+        .mark{
+            padding-top:22%;
+        }
+        .explanation{
+            overflow: hidden;
+        }
         .mark i,
         .sound i {
             color: #f7b52a;
@@ -258,7 +269,9 @@ block content
                         span(style="white-space: nowrap;") {{word.name}}
                 .table-column.part4.left
                     .ipa(ng-repeat="word in weeklylist.words track by $index",ng-show="radioBoxType===RADIO_TYPE.NONE||word.status === radioBoxType")
-                        span() {{word.ipc}}
+                        span {{word.ipc_gb}}
+                        br
+                        span {{word.ipc_us}}
                 .table-column.part5.left
                     .sound(ng-repeat="word in weeklylist.words track by $index",ng-show="radioBoxType===RADIO_TYPE.NONE||word.status === radioBoxType")
                         i.icon-volume-medium
