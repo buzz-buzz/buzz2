@@ -1,5 +1,5 @@
 angular.module('buzzModule')
-    .controller('newWordCtrl', ['$scope', '$http', 'queryParser', '$timeout', '$sce', '$window', 'tracking', 'clientConfig', '$rootScope', 'quizFactory', 'api', 'vocabularyParser', 'vocabularyStatus', function ($scope, $http, queryParser, $timeout, $sce, $window, tracking, clientConfig, $rootScope, quizFactory, api, vocabularyParser, vocabularyStatus) {
+    .controller('newWordCtrl', ['$scope', '$http', 'queryParser', '$timeout', '$sce', '$window', 'trackingX', 'clientConfig', '$rootScope', 'quizFactory', 'api', 'vocabularyParser', 'vocabularyStatus', function ($scope, $http, queryParser, $timeout, $sce, $window, tracking, clientConfig, $rootScope, quizFactory, api, vocabularyParser, vocabularyStatus) {
         var modalId = '#login';
         $scope.$sce = $sce;
         $scope.newWords = [];

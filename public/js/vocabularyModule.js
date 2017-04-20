@@ -1,4 +1,4 @@
-angular.module('vocabularyModule', ['trackingModule', 'clientConfigModule', 'DateModule', 'quizModule', 'angularQueryParserModule', 'servicesModule'])
+angular.module('vocabularyModule', ['trackingModule', 'clientConfigModule', 'DateModule', 'quizModule', 'angularQueryParserModule', 'servicesModule', 'buzzHeaderModule'])
     .controller('vocabularyHeaderCtrl', ['$scope', 'DateFactory', function ($scope, DateFactory) {
         $scope.chineseWeekNumber = {
             1: '一',
@@ -8,8 +8,8 @@ angular.module('vocabularyModule', ['trackingModule', 'clientConfigModule', 'Dat
             5: '五'
         }[DateFactory.getWeekNumberOfMonth(new Date())];
     }])
-    .controller('vocabularyCtrl', ['$scope', '$sce', 'tracking', 'clientConfig', '$http', 'Month', 'DateOfMonth', 'quizFactory', 'queryParser', '$q', 'httpPaginationData', function ($scope, $sce, tracking, clientConfig, $http, Month, DateOfMonth, quizFactory, queryParser, $q, paginationData) {
-        tracking.sendX('myVocabulary');
+    .controller('vocabularyCtrl', ['$scope', '$sce', 'trackingX', 'clientConfig', '$http', 'Month', 'DateOfMonth', 'quizFactory', 'queryParser', '$q', 'httpPaginationData', function ($scope, $sce, trackingX, clientConfig, $http, Month, DateOfMonth, quizFactory, queryParser, $q, paginationData) {
+        trackingX.sendX('myVocabulary');
 
         $scope.printMode = false;
         $scope.printURL = "";
@@ -113,12 +113,12 @@ angular.module('vocabularyModule', ['trackingModule', 'clientConfigModule', 'Dat
         }
 
 
-        function queryVocabularyExplanation(v){
-            $http.get('/dict/' + v.name + '/index.json').then(function(detail){
-                if(detail.data){
-                    v.ipc_gb = '[英]'+detail.data['phon-gb'];
-                    v.ipc_us = '[美]'+detail.data['phon-us'];
-                    v.explanation = detail.data.class+' '+detail.data.explain;
+        function queryVocabularyExplanation(v) {
+            $http.get('/dict/' + v.name + '/index.json').then(function (detail) {
+                if (detail.data) {
+                    v.ipc_gb = '[英]' + detail.data['phon-gb'];
+                    v.ipc_us = '[美]' + detail.data['phon-us'];
+                    v.explanation = detail.data.class + ' ' + detail.data.explain;
                 }
             });
         }
@@ -148,9 +148,9 @@ angular.module('vocabularyModule', ['trackingModule', 'clientConfigModule', 'Dat
                                 v.words.push({
                                     name: word,
                                     index: res.dictionary[word].id,
-                                    ipc_gb:"",
-                                    ipc_us:"",
-                                    explanation:'',
+                                    ipc_gb: "",
+                                    ipc_us: "",
+                                    explanation: '',
                                     soundURL: res.dictionary[word].ipa,
                                     url: res.dictionary[word].url,
                                     exercise: res.dictionary[word].exercise
@@ -168,8 +168,8 @@ angular.module('vocabularyModule', ['trackingModule', 'clientConfigModule', 'Dat
                     ]).then(function (results) {
                         parseVocabularyPerformance(results[0], results[1]);
                         return results;
-                    }).then(function(results){
-                        results[0].map(function(v){
+                    }).then(function (results) {
+                        results[0].map(function (v) {
                             queryVocabularyExplanation(v);
                         });
                     });

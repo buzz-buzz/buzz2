@@ -11,7 +11,6 @@ CACHE:
 /my/account
 /m/my/my
 /m/my/vocabulary
-/m/my/progress
 /m/my/today
 /css/fonts/icomoon.eot
 /css/fonts/icomoon.svg
@@ -55,9 +54,11 @@ CACHE:
 /js/vocabularyModule.min.js
 /js/wechat-share.min.js
 /lib/jwplayer/jwplayer.js
-/service-proxy/buzz/profile/education-all
-/service-proxy/sso/profile/load
 /service-proxy/share/my-link?invite_code=*
+http://resource.buzzbuzzenglish.com/new_buzz_logo.png
+http://source.bridgeplus.cn/buzz/skin1.png
+http://res.wx.qq.com/open/js/jweixin-1.0.0.js?v=2.95.1-1491535163984
+http://10.20.32.51:14444/js/t.min.js?write-key=HjYKeEnEV7QiyFXCKxZXrPmqgsjkaQpb&v=2.95.1-1491535163984
 
 NETWORK:
 *

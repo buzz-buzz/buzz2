@@ -19,7 +19,11 @@ module.exports = {
         this.cookies.set('token', '', clearCookieOption);
     },
     setMID: function setMIDCookie(member_id) {
-        this.cookies.set('mid', member_id, sessionCookieOption);
+        this.cookies.set('mid', member_id, {
+            expires: 0,
+            path: '/',
+            httpOnly: false
+        });
     },
     deleteMID: function () {
         this.cookies.set('mid', '', clearCookieOption);

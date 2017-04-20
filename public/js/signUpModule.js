@@ -15,11 +15,11 @@ angular.module('signUpModule', ['angularQueryParserModule', 'clientConfigModule'
         });
         $translateProvider.preferredLanguage('zh');
     }])
-    .controller('signUpParentCtrl', ['$scope', 'queryParser', 'tracking', function ($scope, queryParser, tracking) {
+    .controller('signUpParentCtrl', ['$scope', 'queryParser', 'tracking', function ($scope, queryParser, trackingX) {
         $scope.step = queryParser.get('step') || 1;
 
-        tracking.sendX('sign-up', {
-            step: $scope.step
+        trackingX.sendX('sign-up', {
+            step: $scope.step,
         });
 
         var query = queryParser.parse();

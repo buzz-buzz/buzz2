@@ -1,14 +1,12 @@
 include share/common
 + js("/node_modules/angular/angular.min.js")
++ js("/clientConfig.js")
 + js("/node_modules/angular-translate/dist/angular-translate.min.js")
 + js("/node_modules/angular-query-parser-module/dist/scripts/all.min.js")
 + js("/node_modules/angular-service/dist/scripts/all.min.js")
 + js("/node_modules/angular-service-error-parser/dist/all.min.js")
 + js("/js/serviceCacheCoreModule.min.js")
 + js("/js/serviceCacheModule.min.js")
-+ js("http://res.wx.qq.com/open/js/jweixin-1.0.0.js")
-+ js("/js/wechat-share.js")
-+ js("/clientConfig.js")
 script.
     applicationCache.addEventListener('updateready', function (e) {
         if (applicationCache.status == applicationCache.UPDATEREADY) {
@@ -16,6 +14,8 @@ script.
             window.location.reload();
         }
     }, false);
++ js("http://res.wx.qq.com/open/js/jweixin-1.0.0.js")
++ js("/js/wechat-share.js")
 
 if !config.mock
     + js(config.tracking)

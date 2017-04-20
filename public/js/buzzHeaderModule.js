@@ -14,6 +14,23 @@ angular.module('buzzHeaderModule', ['angularQueryParserModule', 'servicesModule'
             }
         });
     }])
+    .factory('trackingX', ['tracking', '$rootScope', function (tracking, $rootScope) {
+        return {
+            sendX: function (eventName, data) {
+                $rootScope.$watch('profile', function (newValue, oldValue) {
+                    if (newValue) {
+                        if (!data) {
+                            data = {};
+                        }
+
+                        data.mobile = newValue.mobile;
+                    }
+
+                    tracking.sendX(eventName, data);
+                });
+            }
+        };
+    }])
     .controller('headerCtrl', ['$scope', '$rootScope', function ($scope, $rootScope) {
         $scope.isActive = function (link) {
             return location.pathname === link;

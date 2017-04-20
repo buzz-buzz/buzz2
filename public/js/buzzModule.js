@@ -1,5 +1,5 @@
 angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'clientConfigModule', 'buzzHeaderModule', 'quizModule', 'serviceCacheModule', 'wechatShareModule', 'parserModule', 'DateModule'])
-    .run(['$rootScope', 'tracking', 'queryParser', function ($rootScope, tracking, queryParser) {
+    .run(['$rootScope', 'trackingX', 'queryParser', function ($rootScope, tracking, queryParser) {
         var query = queryParser.parse();
         tracking.sendX('play', {
             date: query.date,
@@ -84,7 +84,7 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
             }
         }, false);
     }])
-    .controller('page2ParentCtrl', ['$scope', 'tracking', 'queryParser', function ($scope, tracking, queryParser) {
+    .controller('page2ParentCtrl', ['$scope', 'trackingX', 'queryParser', function ($scope, tracking, queryParser) {
         $scope.$root.tabularIndex = 0;
         //如果是PC端  初始值为1
         if (!navigator.userAgent.match(/(iPhone|iPod|Android|ios|Windows Phone)/i)) {

@@ -69,7 +69,11 @@ module.exports = function (app, router, render) {
             }
         })
         .get('/my/account', membership.ensureAuthenticated, function *() {
-            this.body = yield render('my/account', {config: config});
+            if (!this.state.userAgent.isMobile || this.state.userAgent.isTablet) {
+                this.body = yield render('my/account', {config: config});
+            } else {
+                this.redirect('/m/my/my', {config: config});
+            }
         })
         .get('/my/password', membership.ensureAuthenticated, function *() {
             this.body = yield render('my/password', {config: config});

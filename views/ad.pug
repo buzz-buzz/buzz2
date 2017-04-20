@@ -571,8 +571,8 @@ html
         + js("/js/buzzHeaderModule.min.js")
         + js("/js/wechat-share.js")
         script.
-            angular.module('adModule', ['wechatShareModule', 'trackingModule', 'angularQueryParserModule'])
-                .run(['$rootScope', 'tracking', 'queryParser', function ($rootScope, tracking, queryParser) {
+            angular.module('adModule', ['wechatShareModule', 'trackingModule', 'angularQueryParserModule', 'buzzHeaderModule'])
+                .run(['$rootScope', 'trackingX', 'queryParser', function ($rootScope, tracking, queryParser) {
                     tracking.sendX('ad', {
                         trk_tag: queryParser.get('trk_tag')
                     });

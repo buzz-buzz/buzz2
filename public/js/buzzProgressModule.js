@@ -1,15 +1,15 @@
 angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModule', 'clientConfigModule', 'buzzHeaderModule', 'chart.js', 'quizModule', 'DateModule', 'serviceCacheModule', 'trackingModule'])
-    .run(['$rootScope', 'tracking', function ($rootScope, tracking) {
+    .run(['$rootScope', 'trackingX', function ($rootScope, tracking) {
         tracking.sendX('Progress');
     }])
-    .controller('calendarCtrl', ['$scope', '$http', 'clientConfig', 'quizFactory', '$filter', 'DateFactory', '$q', 'api', function ($scope, $http, clientConfig, quizFactory, $filter, DateFactory, $q, api) {
+    .controller('calendarCtrl', ['$scope', '$http', 'clientConfig', 'quizFactory', '$filter', 'DateFactory', '$q', 'api', 'trackingX', function ($scope, $http, clientConfig, quizFactory, $filter, DateFactory, $q, api, tracking) {
         $scope.expanded = false;
         $scope.expandContent = function (value) {
             $scope.expanded = value;
             if (value) {
-                tracking.sendX('progress.calanderOn.click');
+                tracking.sendX('progress.calenderOn.click');
             } else {
-                tracking.sendX('Pprogress.calander0ff.click');
+                tracking.sendX('progress.calender0ff.click');
             }
         };
         $scope.today = new Date();
