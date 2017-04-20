@@ -35,7 +35,9 @@ angular.module('buzzModule')
                 date: {
                     start: BuzzCalendar.getFirstDateOfWeek(today).toLocaleDateString(),
                     end: BuzzCalendar.getFirstDateOfNextWeek(today).toLocaleDateString()
-                }
+                },
+                enabled: true,
+                level: query.level || 'B'
             }
         }).then(function (result) {
             var sorted = result.data.sort(function (lesson1, lesson2) {
