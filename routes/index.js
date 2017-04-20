@@ -23,7 +23,7 @@ function mobileDetectRender(app, router, render) {
 }
 
 function mobileRender(app, router, render) {
-    let routes = ['sign-in', 'loading', 'sign-up', 'reset-password', 'my/progress', 'my/vocabulary', 'my/my'];
+    let routes = ['sign-in', 'loading', 'sign-up', 'reset-password', 'my/progress', 'my/my'];
     routes.forEach(function (route) {
         let routename = '/m/' + route;
         router.get(routename, require('./wechatOAuth'), function *(next) {
@@ -31,6 +31,16 @@ function mobileRender(app, router, render) {
                 config: config
             });
         });
+    });
+
+    router.get('/m/my/vocabulary', require('./wechatOAuth'), function *(next) {
+        if (this.state.userAgent.isMobile && !this.state.userAgent.isTablet) {
+            this.body = yield render('/m/my/vocabulary', {
+                config: config
+            });
+        } else {
+            this.redirect('/vocabulary/my', {config: config});
+        }
     });
 }
 

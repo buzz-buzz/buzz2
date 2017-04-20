@@ -79,7 +79,7 @@ module.exports = function (app, router, render) {
             this.body = yield render('my/password', {config: config});
         })
         .get('/my/vocabulary', membership.ensureAuthenticated, function *() {
-            this.body = 'ok';
+            this.body = yield render('vocabulary/vocabulary', {config: config});
         })
     ;
 };
