@@ -80,7 +80,9 @@ angular.module('buzzModule')
             });
         }).then(function (jsonArray) {
             $scope.weeklyQuiz = weeklyQuizParser.parse(jsonArray);
+            console.log('weekly quiz = ', $scope.weeklyQuiz);
             $scope.arrayWeeklyQuiz = arrayWeeklyQuizParser.parse($scope.weeklyQuiz);
+            console.log('array = ', $scope.arrayWeeklyQuiz);
             $scope.currentIndex = 0;
             $scope.currentQuiz = $scope.arrayWeeklyQuiz[$scope.currentIndex];
             $scope.width = parseInt(($scope.currentIndex + 1) * 100 / ($scope.arrayWeeklyQuiz.length));
@@ -126,7 +128,7 @@ angular.module('buzzModule')
                         });
                         score0.total_sum = result.data.group.total;
                         score0.total_correct = result.data.group.correct;
-                        score0.type = '单选题';
+                        score0.type = '';
                         score0.score = parseInt((score0.correct / result.data.group.total) * 100);
                         $scope.score.push(score0);
                         console.log("score");
