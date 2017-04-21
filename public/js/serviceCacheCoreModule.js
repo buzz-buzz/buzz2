@@ -27,12 +27,22 @@
 
                 all: function () {
                     return cache;
+                },
+
+                clear: function (key) {
+                    delete cache[key];
+
+                    return $q.resolve();
                 }
             };
         }])
         .factory('api', ['$http', 'cache', '$q', function ($http, cache, $q) {
+            function getKey(method, url, data) {
+                return method + '$' + url + '$' + (data ? JSON.stringify(data) : '');
+            }
+
             function getApiResult(method, url, data) {
-                var key = method + '$' + url + '$' + (data ? JSON.stringify(data) : '');
+                var key = getKey(method, url, data);
 
                 if (apiStatus[key] === 'fetching') {
                     console.log('fetching');
@@ -91,6 +101,10 @@
                     return getApiResult(m, url, data);
                 };
             });
+
+            api.clearCache = function (method, url, data) {
+                return cache.clear(getKey(method, url, data));
+            };
 
             return api;
         }])

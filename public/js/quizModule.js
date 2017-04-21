@@ -47,6 +47,14 @@ angular.module('quizModule', ['clientConfigModule', 'serviceCacheCoreModule'])
                 ).then(function (result) {
                     return result.data;
                 });
+            },
+
+            clearWeeklyQuizScoreCache: function (lesson_id) {
+                return api.clearCache('get', clientConfig.serviceUrls.buzz.weekly.getScore.frontEnd, {
+                    params: {
+                        lesson_id: lesson_id
+                    }
+                });
             }
         };
     }])

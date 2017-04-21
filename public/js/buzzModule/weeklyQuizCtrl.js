@@ -28,7 +28,8 @@ angular.module('buzzModule')
         var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
         $scope.weeklyStatus = 'menu';
         $scope.turnTo = function (sta) {
-            if (sta == 'grade') {
+            if (sta === 'grade') {
+                quizFactory.clearWeeklyQuizScoreCache($scope.weeklyLessonId);
                 calculateScore();
             }
             $scope.weeklyStatus = sta;
@@ -110,7 +111,7 @@ angular.module('buzzModule')
             quizFactory
                 .getWeeklyQuizScore($scope.weeklyLessonId)
                 .then(function (result) {
-                    console.log(result.data);
+                    result.data = result;
                     $scope.score = [];
                     $scope.grade = 0;
                     if (result.data.group) {

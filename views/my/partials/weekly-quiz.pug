@@ -25,10 +25,11 @@
             .progress
                 span {{currentIndex+1}}/{{arrayWeeklyQuiz.length}}
                 .percent
-                    .tab(style='width:'+width+'%;') &nbsp;
+                    .tab(style='width:' + width + '%;') &nbsp;
             .exercise-container
                 .exercise-body(style='width: 80%;height: 350px;',ng-class="{ 'rtom':animateDirection==='rtom'}")
                     iframe(id="weekly-quiz-frame", frameborder="0", style="width: 100%; height: 100%;", ng-src="{{currentQuiz.quiz}}")
-                .right.arrow(style='width:20%;',ng-click="nextQuiz()",ng-class="{'hidden':currentIndex+1>=arrayWeeklyQuiz.length}")
+                .right.arrow(style='width:20%;', ng-click="nextQuiz()",ng-hide="currentIndex+1>=arrayWeeklyQuiz.length")
                     span.icon-circle-right
-            a.button(ng-click="turnTo('menu')",style='margin-top:10px;') 返回
+            a.button(ng-click="turnTo('menu')", style='margin-top:10px;', ng-show="currentIndex+1 < arrayWeeklyQuiz.length") 返回
+            a.button(ng-click="turnTo('grade')", style='margin-top:10px;', ng-show="currentIndex+1 >= arrayWeeklyQuiz.length") 查看成绩

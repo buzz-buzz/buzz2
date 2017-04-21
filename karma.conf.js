@@ -15,6 +15,7 @@ module.exports = function (config) {
 
         // list of files / patterns to load in the browser
         files: [
+            'node_modules/jasmine-promises/dist/jasmine-promises.js',
             'node_modules/requirejs/require.js',
             'node_modules/angular/angular.js',
             "node_modules/angular-query-parser-module/dist/scripts/all.min.js",
