@@ -1,5 +1,5 @@
-angular.module('quizModule', ['clientConfigModule'])
-    .factory('quizFactory', ['$http', 'clientConfig', '$q', function ($http, clientConfig, $q) {
+angular.module('quizModule', ['clientConfigModule', 'serviceCacheCoreModule'])
+    .factory('quizFactory', ['$http', 'clientConfig', '$q', 'api', function ($http, clientConfig, $q, api) {
         var perfCache = {};
 
         return {
@@ -35,6 +35,17 @@ angular.module('quizModule', ['clientConfigModule'])
                     params: {
                         quiz_result_group_id: groupId
                     }
+                });
+            },
+
+            getWeeklyQuizScore: function (lesson_id) {
+                return api.get(clientConfig.serviceUrls.buzz.weekly.getScore.frontEnd, {
+                        params: {
+                            lesson_id: lesson_id
+                        }
+                    }
+                ).then(function (result) {
+                    return result.data;
                 });
             }
         };
