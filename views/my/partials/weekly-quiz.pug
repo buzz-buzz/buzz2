@@ -3,8 +3,7 @@
         .img(style='width:30%;margin:30px auto;margin-top:50px;')
             img(style='width:50%;',src='http://resource.buzzbuzzenglish.com/image/weeklyquiz.png')
         div(style="display: flex; width:40%;margin:0 auto;")
-            a.button.yellow.exercisebutton(ng-click="turnTo('grade')", style="flex: 1;padding: .5em 0 !important;text-decoration: none;") 查看成绩
-            span(style='flex:1;width:20%;')
+            a.button.yellow.exercisebutton(ng-click="turnTo('grade')", style="padding: .5em 0 !important;text-decoration: none;margin:0 auto;width:35%;") 查看成绩
             a.button.yellow.exercisebutton(ng-hide="true", ng-click="turnTo('exercise')", style="flex: 1;padding: .5em 0 !important;text-decoration: none;color: #f6b52a!important;background-color: #fff!important;border:1px solid #f6b52a;") 重新测试
     .weekly-grade(ng-show="weeklyStatus=='grade'",ng-cloak)
         .grade-title(style='background:#fff url(http://resource.buzzbuzzenglish.com/weekly_grade.png) no-repeat center;color:white;') 成绩单
@@ -25,7 +24,7 @@
             .progress
                 span {{currentIndex+1}}/{{arrayWeeklyQuiz.length}}
                 .percent
-                    .tab(style='width:' + width + '%;') &nbsp;
+                    #progress-bar.tab &nbsp;
             .exercise-container
                 .exercise-body(style='width: 80%;height: 350px;',ng-class="{ 'rtom':animateDirection==='rtom'}")
                     iframe(id="weekly-quiz-frame", frameborder="0", style="width: 100%; height: 100%;", ng-src="{{currentQuiz.quiz}}")

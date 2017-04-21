@@ -39,7 +39,7 @@ angular.module('buzzModule')
         $scope.score = 0;
         $scope.total_sum = 0;
         $scope.total_correct = 0;
-        $scope.width = 0;
+        $scope.progress_width = 0;
 
         api.get(clientConfig.serviceUrls.buzz.courses.search.frontEnd, {
             params: {
@@ -85,12 +85,14 @@ angular.module('buzzModule')
             console.log('array = ', $scope.arrayWeeklyQuiz);
             $scope.currentIndex = 0;
             $scope.currentQuiz = $scope.arrayWeeklyQuiz[$scope.currentIndex];
-            $scope.width = parseInt(($scope.currentIndex + 1) * 100 / ($scope.arrayWeeklyQuiz.length));
+            $scope.progress_width = parseInt(($scope.currentIndex + 1) * 100 / $scope.arrayWeeklyQuiz.length);
+            changeProgressWidth();
         });
 
         $scope.nextQuiz = function () {
             $scope.currentQuiz = $scope.arrayWeeklyQuiz[++$scope.currentIndex];
-            $scope.width = parseInt(($scope.currentIndex + 1) * 100 / ($scope.arrayWeeklyQuiz.length));
+            $scope.progress_width = parseInt(($scope.currentIndex + 1) * 100 / $scope.arrayWeeklyQuiz.length);
+            changeProgressWidth();
         };
 
         $rootScope.$on('answer:weekly-quiz', function (event, d) {
@@ -140,5 +142,10 @@ angular.module('buzzModule')
                     }
                 });
         }
+
+        function changeProgressWidth(){
+            document.getElementById('progress-bar').style.width=$scope.progress_width+'%';
+        }
+
     }])
 ;
