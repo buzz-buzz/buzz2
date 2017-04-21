@@ -183,4 +183,64 @@ angular.module('vocabularyModule', ['trackingModule', 'clientConfigModule', 'Dat
             dataGotCallback: mapToDisplayData
         });
         $scope.vocabularyData.getNextPage();
+
+        //hank
+        function mapToDisplayData_m(result) {
+            result.map(function (course) {
+                var date = new Date(course.date);
+                console.log("hello1");
+                $scope.vocabularyAll.push({
+                    year: date.getFullYear(),
+                    monthDay: Month[date.getMonth()] + '.' + DateOfMonth.getShortString(date.getDate()),
+                    words: [],
+                    lesson_id: course.lesson_id,
+                    date: course.date,
+                    category: course.category,
+                    level: course.level
+                });
+
+                (function (v) {
+                    $q.all([
+                        getNewWords(course.new_words_path).then(function (res) {
+                            for (var word in res.dictionary) {
+                                if (word[0] === '_') {
+                                    continue;
+                                }
+                                v.words.push({
+                                    name: word,
+                                    index: res.dictionary[word].id,
+                                    ipc_gb: "",
+                                    ipc_us: "",
+                                    explanation: '',
+                                    soundURL: res.dictionary[word].ipa,
+                                    url: res.dictionary[word].url,
+                                    exercise: res.dictionary[word].exercise
+                                });
+
+                            }
+                            v.words.sort(sortByIndex);
+
+                            return v.words;
+                        }),
+
+                        quizFactory.getVocabularyPerformance({
+                            lesson_id: course.lesson_id,
+                        })
+                    ]).then(function (results) {
+                        parseVocabularyPerformance(results[0], results[1]);
+                        return results;
+                    }).then(function (results) {
+                        results[0].map(function (v) {
+                            queryVocabularyExplanation(v);
+                        });
+                    });
+                })($scope.vocabularyAll[$scope.vocabularyAll.length - 1]);
+            });
+        }
+
+        $scope.vocabularyData_m = new paginationData(clientConfig.serviceUrls.buzz.courses.findByLevel.frontEnd.replace(':level', queryParser.get('level') || 'B'), {
+            pageSize: 7
+        }, {
+            dataGotCallback: mapToDisplayData_m
+        });
     }]);
