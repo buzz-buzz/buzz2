@@ -54,17 +54,17 @@ angular.module('buzzModule')
                 return api.get(lesson.quiz_path);
             });
         }).then(function (quizRequests) {
-            return $q.all(quizRequests);
-        }).then(function (quizResponses) {
-            return quizResponses.map(function (r) {
-                return r.data;
+            $q.all(quizRequests).then(function (quizResponses) {
+                var jsonArray = quizResponses.map(function (r) {
+                    return r.data;
+                });
+
+                $scope.weeklyQuiz = weeklyQuizParser.parse(jsonArray);
+                $scope.arrayWeeklyQuiz = arrayWeeklyQuizParser.parse($scope.weeklyQuiz);
+                $scope.currentIndex = 0;
+                $scope.currentQuiz = $scope.arrayWeeklyQuiz[$scope.currentIndex];
+                $scope.width = parseInt(($scope.currentIndex + 1) * 100 / ($scope.arrayWeeklyQuiz.length));
             });
-        }).then(function (jsonArray) {
-            $scope.weeklyQuiz = weeklyQuizParser.parse(jsonArray);
-            $scope.arrayWeeklyQuiz = arrayWeeklyQuizParser.parse($scope.weeklyQuiz);
-            $scope.currentIndex = 0;
-            $scope.currentQuiz = $scope.arrayWeeklyQuiz[$scope.currentIndex];
-            $scope.width = parseInt(($scope.currentIndex + 1) * 100 / ($scope.arrayWeeklyQuiz.length));
         });
 
         $scope.nextQuiz = function () {
