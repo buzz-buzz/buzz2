@@ -243,4 +243,43 @@ angular.module('vocabularyModule', ['trackingModule', 'clientConfigModule', 'Dat
         }, {
             dataGotCallback: mapToDisplayData_m
         });
+
+        function bottomUpwardSlidingDo(callback) {
+            var start, end, slideNum, winH, bodyH,
+                bodyEle = document.querySelector("body"),
+                docEle = document.documentElement,
+                UA = navigator.userAgent,
+                isUC = UA.indexOf("UCBrowser") != -1 || UA.indexOf("Baidu") != -1 || UA.indexOf("MQQBrowser") != -1,
+                _h,
+                _hStart;
+            slideNum = isUC ? 6 : 60;
+            document.addEventListener("touchstart", touchStartHandle, false);
+            !isUC && document.addEventListener("touchend", touchEndHandle, false);
+            function touchStartHandle(evt) {
+                clearTimeout(_hStart);
+                _hStart = setTimeout(function () {
+                    start = evt.touches[0].pageY;
+                }, 0);
+            }
+
+            isUC && document.addEventListener("touchmove", function (evt) {
+                clearTimeout(_h);
+                _h = setTimeout(function () {
+                    touchEndHandle(evt)
+                }, 0);
+
+            }, false);
+            function touchEndHandle(evt) {
+                end = evt.changedTouches[0].pageY;
+                if (start - end > slideNum) {
+                    var scrollTop = bodyEle.scrollTop;
+                    winH = docEle.clientHeight;
+                    bodyH = docEle.scrollHeight;
+                    scrollTop + winH + 1 >= bodyH && callback();
+                }
+            }
+        }
+        bottomUpwardSlidingDo(function () {
+            $scope.vocabularyData_m.getNextPage()
+        });
     }]);

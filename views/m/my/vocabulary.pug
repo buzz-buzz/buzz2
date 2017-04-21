@@ -46,7 +46,7 @@ body
             border-top: 1px solid #dddddd;
             border-bottom: 1px solid #dddddd;
             min-height: 5rem;
-            padding:.5em 0;
+            padding: .5em 0;
         }
 
         .row.word .wordname {
@@ -55,13 +55,14 @@ body
             line-height: 2rem;
             padding-left: 1rem;
             color: #333333;
-            font-size:1em;
+            font-size: 1em;
             font-weight: bold;
         }
-        .row.word .wordname>span{
+
+        .row.word .wordname > span {
             font-weight: normal;
             font-size: .8em;
-            color:#666666;
+            color: #666666;
 
         }
 
@@ -73,7 +74,6 @@ body
             color: #333333;
             font-size: .8em;
         }
-
 
         .row.date {
             background-color: #e8e8e8;
@@ -127,7 +127,7 @@ body
                     .wordname {{word.name}}
                         span  {{word.ipc_gb+''+word.ipc_us}}
                     .wordexplain {{word.explanation}}
-        .button(ng-click='vocabularyData_m.getNextPage()',style='background:#e8e8e8;text-align: center;padding:.4em;') 查看更多
+        .button(style='background:#e8e8e8;text-align: center;padding:.4em;') 上滑查看更多
         .row.blank
         .row.blank
         .row.blank
