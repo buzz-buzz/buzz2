@@ -45,11 +45,11 @@ angular.module('buzzModule')
                 if (lesson1.date < lesson2.date) return 1;
                 return 0;
             });
-
+            //clientConfig.serviceUrls.buzz.profile.currentLevel.frontEnd
+            //result.data    sort by id
             if (sorted.length > 0) {
                 $scope.weeklyLessonId = sorted[0].lesson_id;
             }
-
             return result.data.map(function (lesson) {
                 return api.get(lesson.quiz_path);
             });

@@ -21,5 +21,8 @@ module.exports = function (app, router, render) {
                 this.body = yield render('ad', {config: config, trk_tag: this.query.trk_tag});
             }
         })
+        .get('/s/agreement',function*(){
+            this.body = yield render('/agreement/index', {config: config});
+        })
     ;
 };

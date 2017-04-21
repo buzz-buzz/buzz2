@@ -142,8 +142,8 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
                 var firstDayOfWeek = DateFactory.getFirstDayOfWeek($scope.current);
                 var firstDayOfNextWeek = DateFactory.getFirstDayOfNextWeek($scope.current);
                 $scope.$parent.weekPerformance = {
-                    good: 1,
-                    bad: 1
+                    good: 0,
+                    bad: 0
                 };
                 //hank
                 api.get(clientConfig.serviceUrls.buzz.profile.currentLevel.frontEnd)
@@ -214,7 +214,7 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
     }])
     .controller('chartCtrl', ['$scope', '$timeout', 'api', '$http', 'clientConfig', function ($scope, $timeout, api, $http, clientConfig) {
         $scope.expanded = false;
-        $scope.totalWord = 1200;
+        $scope.totalWord = 0;
         $scope.expandContent = function (value) {
             $scope.expanded = value;
             $timeout(function () {
@@ -327,7 +327,7 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
             [28, 48, 40, 19, 86]
         ];
         //hank
-        $scope.totalWord = 1200;
+        $scope.totalWord = 0;
         api.get(clientConfig.serviceUrls.buzz.profile.currentLevel.frontEnd)
             .then(function (result) {
                 $http.get(clientConfig.serviceUrls.buzz.progress.Statistics.frontEnd + '?level=' + result.data + '&top=5')
