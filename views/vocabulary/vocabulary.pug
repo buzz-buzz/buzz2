@@ -190,11 +190,13 @@ block head
             height: 20px;
             line-height: 20px;
             text-align: center;
-            background-color: #f7b52a;
-            color:white !important;
-            border-radius: 3px;
+            color:#ddd;
         }
 
+        .back-day{
+            color:#f7b52a !important;
+            font-size: 20px;
+        }
 
         .line {
             background-color: #bcbcbc;
@@ -270,6 +272,8 @@ block content
                 .table-column.part1
                     div {{weeklylist.year}}
                     a(ng-href="/my/play?date={{weeklylist.date}}&cat={{weeklylist.category}}&level={{weeklylist.level}}").monthday {{weeklylist.monthDay}}
+                    .space
+                    a(ng-href="/my/play?date={{weeklylist.date}}&cat={{weeklylist.category}}&level={{weeklylist.level}}").back-day.icon-play2
                 .table-column.part2
                     .line.head
                     .line.body
