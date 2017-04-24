@@ -115,9 +115,9 @@ module.exports = {
                 frontEnd: '/service-proxy/buzz/quiz/vocabulary',
                 upstream: '/quiz/vocabulary/:member_id/:lesson_id'
             },
-            dailyExercisePerformance: {
+            quizPerformance: {
                 frontEnd: '/service-proxy/buzz/quiz/daily-exercise',
-                upstream: '/quiz/daily-exercise/:quiz_result_group_id'
+                upstream: '/quiz/perf/:quiz_result_group_id'
             },
             lessonCount: {
                 frontEnd: '/service-proxy/buzz/quiz/lesson-count',
@@ -128,16 +128,16 @@ module.exports = {
         share: {
             myLink: '/service-proxy/share/my-link'
         },
-        progress:{
-            Statistics:{
-                frontEnd:'/service-proxy/progress/data',
-                upstream:'/v1/buzz/report/weekly_stat'
+        progress: {
+            Statistics: {
+                frontEnd: '/service-proxy/progress/data',
+                upstream: '/v1/buzz/report/weekly_stat'
             }
         },
-        weekly:{
-            getScore:{
-                frontEnd:'/service-proxy/weekly/score',
-                upstream:'/weekly-quiz'
+        weekly: {
+            getScore: {
+                frontEnd: '/service-proxy/weekly/score',
+                upstream: '/weekly-quiz'
             }
         }
     },

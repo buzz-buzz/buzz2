@@ -30,8 +30,8 @@ angular.module('quizModule', ['clientConfigModule', 'serviceCacheCoreModule'])
                 });
             },
 
-            getDailyExercisePerformance: function (groupId) {
-                return $http.get(clientConfig.serviceUrls.buzz.quiz.dailyExercisePerformance.frontEnd, {
+            getQuizPerformance: function (groupId) {
+                return $http.get(clientConfig.serviceUrls.buzz.quiz.quizPerformance.frontEnd, {
                     params: {
                         quiz_result_group_id: groupId
                     }

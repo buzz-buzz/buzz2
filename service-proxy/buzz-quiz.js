@@ -56,9 +56,9 @@ module.exports = function (app, router, parse) {
                 method: 'GET'
             }, proxyOption));
         })
-        .get(serviceUrls.buzz.quiz.dailyExercisePerformance.frontEnd, function *() {
+        .get(serviceUrls.buzz.quiz.quizPerformance.frontEnd, function *() {
             this.body = yield proxy(Object.assign({
-                path: Router.url(serviceUrls.buzz.quiz.dailyExercisePerformance.upstream, {
+                path: Router.url(serviceUrls.buzz.quiz.quizPerformance.upstream, {
                     quiz_result_group_id: this.query.quiz_result_group_id
                 }),
                 method: 'GET'

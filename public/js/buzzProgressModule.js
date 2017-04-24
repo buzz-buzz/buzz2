@@ -2,7 +2,7 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
     .run(['$rootScope', 'trackingX', function ($rootScope, tracking) {
         tracking.sendX('Progress');
     }])
-    .controller('calendarCtrl', ['$scope', '$http', 'clientConfig', 'quizFactory', '$filter', 'DateFactory', '$q', 'api', 'trackingX', function ($scope, $http, clientConfig, quizFactory, $filter, DateFactory, $q, api, tracking) {
+    .controller('calendarCtrl', ['$scope', '$http', 'clientConfig', 'quizFactory', '$filter', 'DateFactory', '$q', 'api', 'trackingX', 'queryParser', function ($scope, $http, clientConfig, quizFactory, $filter, DateFactory, $q, api, tracking, queryParser) {
         $scope.expanded = false;
         $scope.expandContent = function (value) {
             $scope.expanded = value;
@@ -141,52 +141,37 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
                     $scope.performances[i][j] = getPerformance($scope.weekDays[i][j], i, j);
                 }
             }
-            quizFactory.getResult({
-                type: 'daily-exercise',
-                start_date: DateFactory.toDateISOString(DateFactory.getFirstDayOfMonth($scope.current)),
-                end_date: DateFactory.toDateISOString(DateFactory.getFirstDayOfNextMonth($scope.current))
-            }).then(function (result) {
-                var firstDayOfWeek = DateFactory.getFirstDayOfWeek($scope.current);
-                var firstDayOfNextWeek = DateFactory.getFirstDayOfNextWeek($scope.current);
-                $scope.$parent.weekPerformance = {
-                    good: 0,
-                    bad: 0
-                };
-                //hank
-                api.get(clientConfig.serviceUrls.buzz.profile.currentLevel.frontEnd)
-                    .then(function (result) {
-                        $http.get(clientConfig.serviceUrls.buzz.progress.Statistics.frontEnd + '?level=' + result.data + '&top=1')
-                            .then(function (response) {
-                                if (response.data.value.length) {
-                                    $scope.$parent.weekPerformance.good = response.data.value[0].num_of_all_correct_question_day;
-                                    $scope.$parent.weekPerformance.bad = response.data.value[0].num_of_incorrect_question_day;
-                                    $scope.$parent.rank = response.data.value[0].rank;
-                                }
-                            });
-                    });
 
+            $q.all([
+                quizFactory.getResult({
+                    type: 'daily-exercise',
+                    start_date: DateFactory.toDateISOString(DateFactory.getFirstDayOfMonth($scope.current)),
+                    end_date: DateFactory.toDateISOString(DateFactory.getFirstDayOfNextMonth($scope.current))
+                }),
+                quizFactory.getResult({
+                    type: 'weekly-quiz',
+                    start_date: DateFactory.toDateISOString(DateFactory.getFirstDayOfMonth($scope.current)),
+                    end_date: DateFactory.toDateISOString(DateFactory.getFirstDayOfNextMonth($scope.current))
+                })
+            ]).then(function (results) {
+                return results.map(function (r) {
+                    return r.data;
+                }).reduce(function (current, next) {
+                    return current.concat(next);
+                }, []);
+            }).then(function (results) {
                 var dailyExercisePerf = [];
 
-                result.data.map(function (p) {
+                results.map(function (p) {
                     var exerciseDate = new Date(p.start_date);
 
                     var d = $filter('date')(exerciseDate, 'yyyy-MM-dd');
                     $scope.perf[d].detail = p;
                     $scope.perf[d].goodness = getGoodness(p);
 
-                    if (exerciseDate >= firstDayOfWeek && exerciseDate < firstDayOfNextWeek) {
-                        if ($scope.perf[d].goodness === 'bad') {
-                            //$scope.$parent.weekPerformance.bad++;
-                        }
-
-                        if ($scope.perf[d].goodness === 'good') {
-                            //$scope.$parent.weekPerformance.good++;
-                        }
-                    }
-
                     $scope.performances[$scope.perf[d].week][$scope.perf[d].day] = $scope.perf[d].goodness;
 
-                    dailyExercisePerf.push(quizFactory.getDailyExercisePerformance(p.quiz_result_group_id));
+                    dailyExercisePerf.push(quizFactory.getQuizPerformance(p.quiz_result_group_id));
                 });
                 return dailyExercisePerf;
             }).then(function (requests) {
@@ -210,6 +195,26 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
                     }, 0)
                 ;
             });
+
+            function getThisWeekPerformance() {
+                $scope.$parent.weekPerformance = {
+                    good: 0,
+                    bad: 0
+                };
+                api.get(clientConfig.serviceUrls.buzz.profile.currentLevel.frontEnd)
+                    .then(function (result) {
+                        $http.get(clientConfig.serviceUrls.buzz.progress.Statistics.frontEnd + '?level=' + result.data + '&top=1')
+                            .then(function (response) {
+                                if (response.data.value.length) {
+                                    $scope.$parent.weekPerformance.good = response.data.value[0].num_of_all_correct_question_day;
+                                    $scope.$parent.weekPerformance.bad = response.data.value[0].num_of_incorrect_question_day;
+                                    $scope.$parent.rank = response.data.value[0].rank;
+                                }
+                            });
+                    });
+            }
+
+            getThisWeekPerformance();
         }
 
         $scope.getYYYYMMDDByWeekDay = function (week, day) {
