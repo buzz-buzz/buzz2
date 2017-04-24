@@ -26,12 +26,51 @@ angular.module('buzzModule')
         var query = queryParser.parse();
         var now = query.today ? new Date(query.today) : new Date();
         var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+
         $scope.weeklyStatus = 'menu';
+        function getLastProgress(result) {
+            return result.detail.filter(function (d) {
+                return d.key === 'score';
+            }).map(function (d) {
+                return Number(d.result_id);
+            }).sort(function (d1, d2) {
+                if (d1 < d2) {
+                    return 1;
+                }
+
+                if (d1 > d2) {
+                    return -1;
+                }
+
+                return 0;
+            })[0];
+        }
+
         $scope.turnTo = function (sta) {
             if (sta === 'grade') {
                 quizFactory.clearWeeklyQuizScoreCache($scope.weeklyLessonId);
                 calculateScore();
             }
+
+            if (sta === 'exercise') {
+                quizFactory
+                    .getWeeklyQuizScore($scope.weeklyLessonId)
+                    .then(function (result) {
+                        var lastIndex = getLastProgress(result);
+
+                        generateWeeklyQuiz().then(function (array) {
+                            setCurrentQuiz(lastIndex);
+                            $scope.nextQuiz();
+
+                            if (lastIndex >= (array.length - 1)) {
+                                $scope.weeklyStatus = 'grade';
+                            }
+                        });
+                    })
+                ;
+            }
+
             $scope.weeklyStatus = sta;
         };
 
@@ -41,58 +80,78 @@ angular.module('buzzModule')
         $scope.total_correct = 0;
         $scope.progress_width = 0;
 
-        api.get(clientConfig.serviceUrls.buzz.courses.search.frontEnd, {
-            params: {
-                date: {
-                    start: BuzzCalendar.getFirstDateOfWeek(today).toLocaleDateString(),
-                    end: BuzzCalendar.getFirstDateOfNextWeek(today).toLocaleDateString()
-                },
-                enabled: true,
-                level: query.level || 'B'
-            }
-        }).then(function (result) {
-            var sorted = result.data.sort(function (lesson1, lesson2) {
-                if (lesson1.date > lesson2.date) return -1;
-                if (lesson1.date < lesson2.date) return 1;
-                return 0;
-            });
-            //clientConfig.serviceUrls.buzz.profile.currentLevel.frontEnd
-            //result.data    sort by id
-            if (sorted.length > 0) {
-                $scope.weeklyLessonId = sorted[0].lesson_id;
+        function setCurrentQuiz(index) {
+            $scope.currentIndex = index;
+            $scope.currentQuiz = $scope.arrayWeeklyQuiz[$scope.currentIndex];
+        }
 
-                quizFactory.getWeeklyQuizScore($scope.weeklyLessonId).then(function (json) {
-                    if (!(json && json.detail)) {
-                        $scope.weeklyStatus = 'exercise';
+        function generateWeeklyQuiz() {
+            return api.get(clientConfig.serviceUrls.buzz.courses.search.frontEnd, {
+                params: {
+                    date: {
+                        start: BuzzCalendar.getFirstDateOfWeek(today).toLocaleDateString(),
+                        end: BuzzCalendar.getFirstDateOfNextWeek(today).toLocaleDateString()
+                    },
+                    enabled: true,
+                    level: query.level || 'B'
+                }
+            }).then(function (result) {
+                var sorted = result.data.sort(function (lesson1, lesson2) {
+                    if (lesson1.date > lesson2.date) return -1;
+                    if (lesson1.date < lesson2.date) return 1;
+                    return 0;
+                });
+                if (sorted.length > 0) {
+                    $scope.weeklyLessonId = sorted[0].lesson_id;
+
+                    quizFactory.getWeeklyQuizScore($scope.weeklyLessonId).then(function (json) {
+                        if (!(json && json.detail)) {
+                            $scope.weeklyStatus = 'exercise';
+                        }
+
+                        return json;
+                    });
+                } else {
+                    $rootScope.$emit('weekly-quiz:hide');
+                }
+                return result.data.map(function (lesson) {
+                    return api.get(lesson.quiz_path);
+                });
+            }).then(function (quizRequests) {
+                return $q.all(quizRequests);
+            }).then(function (quizResponses) {
+                return quizResponses.map(function (r) {
+                    return r.data;
+                });
+            }).then(function (jsonArray) {
+                $scope.weeklyQuiz = weeklyQuizParser.parse(jsonArray);
+                $scope.arrayWeeklyQuiz = arrayWeeklyQuizParser.parse($scope.weeklyQuiz);
+
+                quizFactory.getWeeklyQuizScore($scope.weeklyLessonId).then(function (result) {
+                    if (result && result.detail) {
+                        var lastIndex = getLastProgress(result);
+
+                        setCurrentQuiz(lastIndex);
+                        $scope.nextQuiz();
+
+                        if (lastIndex >= ($scope.arrayWeeklyQuiz.length - 1)) {
+                            $scope.done = true;
+                        }
                     }
                 });
-            } else {
-                $rootScope.$emit('weekly-quiz:hide');
-            }
-            return result.data.map(function (lesson) {
-                return api.get(lesson.quiz_path);
+
+                return $scope.arrayWeeklyQuiz;
             });
-        }).then(function (quizRequests) {
-            return $q.all(quizRequests);
-        }).then(function (quizResponses) {
-            return quizResponses.map(function (r) {
-                return r.data;
-            });
-        }).then(function (jsonArray) {
-            $scope.weeklyQuiz = weeklyQuizParser.parse(jsonArray);
-            console.log('weekly quiz = ', $scope.weeklyQuiz);
-            $scope.arrayWeeklyQuiz = arrayWeeklyQuizParser.parse($scope.weeklyQuiz);
-            console.log('array = ', $scope.arrayWeeklyQuiz);
-            $scope.currentIndex = 0;
-            $scope.currentQuiz = $scope.arrayWeeklyQuiz[$scope.currentIndex];
-            $scope.progress_width = parseInt(($scope.currentIndex + 1) * 100 / $scope.arrayWeeklyQuiz.length);
-            changeProgressWidth();
+        }
+
+        generateWeeklyQuiz().then(function (arrayWeeklyQuiz) {
+            setCurrentQuiz(0);
+            updateProgressBar();
         });
 
         $scope.nextQuiz = function () {
-            $scope.currentQuiz = $scope.arrayWeeklyQuiz[++$scope.currentIndex];
-            $scope.progress_width = parseInt(($scope.currentIndex + 1) * 100 / $scope.arrayWeeklyQuiz.length);
-            changeProgressWidth();
+            setCurrentQuiz(++$scope.currentIndex);
+            updateProgressBar();
         };
 
         $rootScope.$on('answer:weekly-quiz', function (event, d) {
@@ -143,7 +202,8 @@ angular.module('buzzModule')
                 });
         }
 
-        function changeProgressWidth() {
+        function updateProgressBar() {
+            $scope.progress_width = parseInt(($scope.currentIndex + 1) * 100 / $scope.arrayWeeklyQuiz.length);
             document.getElementById('progress-bar').style.width = $scope.progress_width + '%';
         }
 
