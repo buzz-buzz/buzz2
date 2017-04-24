@@ -186,7 +186,7 @@ angular.module('vocabularyModule', ['trackingModule', 'clientConfigModule', 'Dat
 
         //hank
         function mapToDisplayData_m(result) {
-            var vocabularyAdd=[];
+            var vocabularyAdd = [];
             result.map(function (course) {
                 var date = new Date(course.date);
                 console.log("hello1");
@@ -280,6 +280,7 @@ angular.module('vocabularyModule', ['trackingModule', 'clientConfigModule', 'Dat
                 }
             }
         }
+
         bottomUpwardSlidingDo(function () {
             $scope.vocabularyData_m.getNextPage()
         });

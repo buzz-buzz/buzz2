@@ -282,11 +282,11 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
                             var score_total_num = [];
                             var score_rank = [];
                             for (var x in response.data.value) {
-                                score_total_num.push(response.data.value[x].num_of_correct_word);
+                                score_total_num.unshift(response.data.value[x].num_of_correct_word);
                                 $scope.totalWord += response.data.value[x].num_of_correct_word;
                             }
                             for (var x in response.data.value) {
-                                score_rank.push(response.data.value[x].rank);
+                                score_rank.unshift(response.data.value[x].rank);
                             }
                             $scope.data[0] = score_total_num;
                             $scope.data[1] = score_rank;
@@ -349,11 +349,11 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
                             var score_total_num = [];
                             var score_rank = [];
                             for (var x in response.data.value) {
-                                score_total_num.push(response.data.value[x].num_of_correct_word);
+                                score_total_num.unshift(response.data.value[x].num_of_correct_word);
                                 $scope.totalWord += response.data.value[x].num_of_correct_word;
                             }
                             for (var x in response.data.value) {
-                                score_rank.push(response.data.value[x].rank);
+                                score_rank.unshift(response.data.value[x].rank);
                             }
                             $scope.data[0] = score_total_num;
                             $scope.data[1] = score_rank;
@@ -366,7 +366,7 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
         $scope.datasetOverride = [{
             yAxisID: 'y-axis-1',
             label: '你累计学习单词量：个/周',
-            borderWidth: 1,
+            borderWidth: .5,
             type: 'bar'
         }, {
             yAxisID: 'y-axis-2',
@@ -387,7 +387,10 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
                         id: 'y-axis-2',
                         type: 'linear',
                         display: true,
-                        position: 'right'
+                        position: 'right',
+                        ticks: {
+                            stepSize: 1
+                        }
                     }
                 ]
             },
