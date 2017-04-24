@@ -143,8 +143,8 @@ angular.module('buzzModule')
                 });
         }
 
-        function changeProgressWidth(){
-            document.getElementById('progress-bar').style.width=$scope.progress_width+'%';
+        function changeProgressWidth() {
+            document.getElementById('progress-bar').style.width = $scope.progress_width + '%';
         }
 
     }])

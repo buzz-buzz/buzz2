@@ -186,10 +186,11 @@ angular.module('vocabularyModule', ['trackingModule', 'clientConfigModule', 'Dat
 
         //hank
         function mapToDisplayData_m(result) {
+            var vocabularyAdd=[];
             result.map(function (course) {
                 var date = new Date(course.date);
                 console.log("hello1");
-                $scope.vocabularyAll.push({
+                vocabularyAdd.push({
                     year: date.getFullYear(),
                     monthDay: Month[date.getMonth()] + '.' + DateOfMonth.getShortString(date.getDate()),
                     words: [],
@@ -198,7 +199,7 @@ angular.module('vocabularyModule', ['trackingModule', 'clientConfigModule', 'Dat
                     category: course.category,
                     level: course.level
                 });
-
+                $scope.vocabularyAll.push(vocabularyAdd);
                 (function (v) {
                     $q.all([
                         getNewWords(course.new_words_path).then(function (res) {
@@ -239,7 +240,7 @@ angular.module('vocabularyModule', ['trackingModule', 'clientConfigModule', 'Dat
         }
 
         $scope.vocabularyData_m = new paginationData(clientConfig.serviceUrls.buzz.courses.findByLevel.frontEnd.replace(':level', queryParser.get('level') || 'B'), {
-            pageSize: 7
+            pageSize: 1
         }, {
             dataGotCallback: mapToDisplayData_m
         });
