@@ -29,22 +29,20 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
         };
         var extendWeekDays = function (weekDays) {
             var ret = [];
-            weekDays.forEach(function (weeks, weekindex) {
+            weekDays.forEach(function (week, weekindex) {
                 var currentweek = ret[weekindex] = [];
                 var firstday = null;
-                var dayIndex = 0;
 
                 if (weekindex === 0) {
-                    var firstDataIndex = weeks.findIndex(function (val) {
+                    var firstDataIndex = week.findIndex(function (val) {
                         return !!val;
                     });
-                    firstday = moment(weeks[firstDataIndex]).add((firstDataIndex * -1) - 1, 'day');
+                    firstday = moment(week[firstDataIndex]).add(-firstDataIndex - 1, 'day');
                 } else if (weekindex === weekDays.length - 1) {
-                    var lastweek = weeks[weekindex];
                     firstday = moment().add(1, 'months').date(0);
                 }
-                ;
-                weeks.forEach(function (day, dayindex) {
+
+                week.forEach(function (day, dayindex) {
                     var currentday = day || firstday.add(1, 'day').toDate();
                     var today = new Date();
                     currentweek.push({
@@ -53,15 +51,14 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
                         istoday: currentday.getMonth() === today.getMonth() && currentday.getDate() === today.getDate()
                     });
                 });
-            })
+            });
+
             return ret;
         };
 
         dateChanged();
-        function dateChanged() {
-            var days = new Date($scope.current.getFullYear(), $scope.current.getMonth() + 1, 0).getDate();
-            var theFirstDayOfCurrentMonth = new Date($scope.current.getFullYear(), $scope.current.getMonth(), 1).getDay();
-            $scope.weekDays = [
+        function getEmptyCalendar() {
+            return [
                 [null, null, null, null, null, null, null],
                 [null, null, null, null, null, null, null],
                 [null, null, null, null, null, null, null],
@@ -69,12 +66,24 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
                 [null, null, null, null, null, null, null],
                 [null, null, null, null, null, null, null]
             ];
+        }
+
+        function trimCalendar(weeks) {
+            if (weeks < $scope.weekDays.length - 1) {
+                $scope.weekDays.splice($scope.weekDays.length - 1, 1);
+            }
+        }
+
+        function dateChanged() {
+            var days = new Date($scope.current.getFullYear(), $scope.current.getMonth() + 1, 0).getDate();
+            var theFirstDayOfCurrentMonth = new Date($scope.current.getFullYear(), $scope.current.getMonth(), 1).getDay();
+            $scope.weekDays = getEmptyCalendar();
             var day = 1;
             for (var i = 0; i < $scope.weekDays.length; i++) {
                 var start = 0;
 
                 if (i === 0) {
-                    start = theFirstDayOfCurrentMonth;
+                    start = {1: 0, 2: 1, 3: 2, 4: 3, 5: 4, 6: 5, 0: 6}[theFirstDayOfCurrentMonth];
                 }
 
                 for (var j = start; j < $scope.weekDays[i].length && day <= days; j++) {
@@ -86,9 +95,7 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
                 }
             }
 
-            if (i < $scope.weekDays.length - 1) {
-                $scope.weekDays.splice($scope.weekDays.length - 1, 1);
-            }
+            trimCalendar(i);
 
             getPerformances();
             $scope.extendedweekdays = extendWeekDays($scope.weekDays);
