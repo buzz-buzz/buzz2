@@ -90,8 +90,6 @@ angular.module('buzzHeaderModule', ['angularQueryParserModule', 'servicesModule'
                         if (result) {
                             return result.data;
                         }
-
-                        throw new Error('no data returned from server');
                     })
                     .catch(function (reason) {
                         return 'B';

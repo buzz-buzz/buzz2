@@ -36,6 +36,8 @@ describe('buzz header module', function () {
 
         levelFactory.getLevel().then(function (result) {
             expect(result).toEqual('B');
+        }).catch(function (reason) {
+            expect(reason).toBe('test');
         }).finally(function () {
             api.clearAllCache();
             done();
