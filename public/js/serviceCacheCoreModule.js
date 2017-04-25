@@ -33,6 +33,14 @@
                     delete cache[key];
 
                     return $q.resolve();
+                },
+
+                clearAll: function () {
+                    for (var p in cache) {
+                        delete cache[p];
+                    }
+
+                    return $q.resolve();
                 }
             };
         }])
@@ -86,6 +94,8 @@
                                     n.reject(ex);
                                 });
                             }
+
+                            return $q.reject(ex);
                         });
                     })
                     .finally(function () {
@@ -104,6 +114,10 @@
 
             api.clearCache = function (method, url, data) {
                 return cache.clear(getKey(method, url, data));
+            };
+
+            api.clearAllCache = function () {
+                return cache.clearAll();
             };
 
             return api;

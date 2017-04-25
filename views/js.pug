@@ -21,20 +21,4 @@ if !config.mock
     + js(config.tracking)
 else
     script.
-        angular.module('trackingModule', [])
-            .factory('tracking', [function () {
-                var tracking = {
-                    send: function () {
-                    },
-                    sendX: function () {
-                    }
-                };
-                window.tracking = {
-                    send: function () {
-                    },
-                    sendX: function () {
-                    }
-                };
-                return tracking;
-            }])
-        ;
+    + js('/js/mock-tracking.js')

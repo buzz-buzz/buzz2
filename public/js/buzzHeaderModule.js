@@ -77,4 +77,26 @@ angular.module('buzzHeaderModule', ['angularQueryParserModule', 'servicesModule'
             }
         };
     }])
+    .factory('levelFactory', ['api', '$q', 'queryParser', 'clientConfig', function (api, $q, queryParser, clientConfig) {
+        return {
+            getLevel: function () {
+                var query = queryParser.parse();
+                if (query.level) {
+                    return $q.resolve(query.level);
+                }
+
+                return api.get(clientConfig.serviceUrls.buzz.profile.currentLevel.frontEnd)
+                    .then(function (result) {
+                        if (result) {
+                            return result.data;
+                        }
+
+                        throw new Error('no data returned from server');
+                    })
+                    .catch(function (reason) {
+                        return 'B';
+                    });
+            }
+        };
+    }])
 ;
