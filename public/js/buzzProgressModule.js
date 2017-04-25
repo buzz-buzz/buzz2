@@ -279,13 +279,13 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
                     .then(function (response) {
                         if (response.data.value.length) {
                             $scope.totalWord = 0;
-                            var score_total_num = [];
-                            var score_rank = [];
-                            for (var x in response.data.value) {
+                            let score_total_num = [];
+                            let score_rank = [];
+                            for (let x in response.data.value) {
                                 score_total_num.unshift(response.data.value[x].num_of_correct_word);
                                 $scope.totalWord += response.data.value[x].num_of_correct_word;
                             }
-                            for (var x in response.data.value) {
+                            for (let x in response.data.value) {
                                 score_rank.unshift(response.data.value[x].rank);
                             }
                             $scope.data[0] = score_total_num;
@@ -346,13 +346,13 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
                     .then(function (response) {
                         if (response.data.value.length) {
                             $scope.totalWord = 0;
-                            var score_total_num = [];
-                            var score_rank = [];
-                            for (var x in response.data.value) {
+                            let score_total_num = [];
+                            let score_rank = [];
+                            for (let x in response.data.value) {
                                 score_total_num.unshift(response.data.value[x].num_of_correct_word);
                                 $scope.totalWord += response.data.value[x].num_of_correct_word;
                             }
-                            for (var x in response.data.value) {
+                            for (let x in response.data.value) {
                                 score_rank.unshift(response.data.value[x].rank);
                             }
                             $scope.data[0] = score_total_num;
