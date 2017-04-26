@@ -385,7 +385,8 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
                         display: true,
                         position: 'right',
                         ticks: {
-                            stepSize: 1
+                            stepSize: 1,
+                            reverse: true
                         }
                     }
                 ]
