@@ -214,8 +214,8 @@ body
 
         .learn img {
             width: 1.2rem;
-            margin-left: 0.1rem;
-            margin-right: 0.1rem;
+            margin-left: 2.1rem;
+            margin-top: 0.1rem;
         }
 
         .learn.left {
@@ -304,7 +304,9 @@ body
         .bold {
             font-weight: bold;
         }
-
+        .content_m {
+            height: 11rem;
+        }
         .chart-box {
             position: absolute;
         }
@@ -456,15 +458,15 @@ body
             width: 3rem;
             text-align: left;
         }
-
         .chart-main .chart-box {
             width: 3.6rem;
         }
 
         .chart-bar {
             width: 1rem;
-            background-color: #f9b600;
+            height: 3rem;
             position: absolute;
+            top: 2.5rem;
             z-index: 5;
         }
     .body(ng-app="buzzProgressModule", ng-controller="calendarParentCtrl").init
@@ -569,31 +571,8 @@ body
                         .expand-chart.small.right
                             img(style="vertical-align:middle;width:1.5rem",src=`${config.cdn}/public/images/mini_chart.png?${config.imageversion}`)
                             span.font.grey 系统整体排名：名/周
-                    .expand-chart.row
-                        .chart-main(style="height: 13rem;")
-                            .chart-element.column(style="left: 1.5rem;height: 11rem;")
-                            .chart-element.row(style="top: 11rem;left: 1.5rem;width: 18rem;")
-                            .chart-element.column(style="left: 19.5rem;height: 11rem;")
-                            - for (var x = 0; x < 5; x++)
-                            .chart-element.row-text.left(style=`top: ${0.7 + x*2.5}rem`)= 200 - 50 * x
-                            - for (var x = 0; x < 5; x++)
-                            .chart-element.row-text.right(style=`top: ${0.7 + x*2.5}rem`)= 100 - 25 * x + '%'
-                            - for (var x = 0; x < 5; x++)
-                            .chart-element.row(style=`top: ${1 + x*2.5}rem;left:1.5rem;width:0.5rem;`)
-                            - for (var x = 0; x < 5; x++)
-                            .chart-element.row(style=`top: ${1 + x*2.5}rem;left:19rem;width:0.5rem;`)
-                            -
-                                var list = ["第一周", "第二周", "第三周", "第四周", "第五周"]
-                            each item, index in list
-                                .chart-element.column-text(style=`top: 11.5rem;left:${2.5 + 3.6*index}rem`)= item
-                            - for (var x = 0; x < 4; x++)
-                            .chart-element.column(style=`top: 10.5rem;left:${5.1+3.6*x}rem;height:0.5rem;`)
-                            .chart-box(ng-repeat="chartdata in m_linedata", ng-class="chartdata.shapeClass", style="left:{{3.6+$index*3.6}}rem;top:{{(100-chartdata.point)/10+1}}rem;height:{{chartdata.height/10}}rem;")
-                                .part.left
-                                    .shape
-                                .part.right
-                                    .shape
-                            .chart-bar(ng-repeat="bardata in data[1] track by $index", style="left: {{3+$index*3.6}}rem;top:{{11-bardata/200*10}}rem;height:{{bardata/200*10}}rem;")
+                        .content_m(ng-controller="pcChartCtrl")
+                            canvas#history-chart.chart.chart-bar(chart-data="data", chart-labels="labels", chart-series="series", chart-options="options" chart-dataset-override="datasetOverride",chart-colors="colors")
         .row.blank
         .row.blank
         .row.blank
