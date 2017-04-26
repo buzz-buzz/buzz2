@@ -7,6 +7,7 @@ block js
     + js("/js/DateModule.min.js")
     + js("/node_modules/moment/min/moment.min.js")
     + js("/js/buzzProgressModule.min.js")
+    + js("/js/level-ctrl.min.js")
 
 block head
     + css("/public/css/progress-table.min.css")
@@ -32,7 +33,7 @@ block head
 
         .separate.title:after {
             content: ' ';
-            width:20%;
+            width: 20%;
             margin-left: 3em;
             display: inline-block;
             border-bottom: solid 1px black;
@@ -45,6 +46,9 @@ block head
         .page {
             min-height: 800px;
         }
+
+block extraMenus
+    include partials/level-switcher
 
 block content
     #full-page.full.height.container(ng-app="buzzProgressModule", ng-controller="calendarParentCtrl")
@@ -110,7 +114,7 @@ block content
                     p &nbsp;
                     p.left.aligned 历史成绩
                     p.separate.title
-                        span 你累计学习多少单词
+                        span 你累计学习{{totalWord}}个单词
                     canvas#history-chart.chart.chart-bar(chart-data="data", chart-labels="labels", chart-series="series", chart-options="options" chart-dataset-override="datasetOverride",chart-colors="colors")
                     p &nbsp;
                     p &nbsp;

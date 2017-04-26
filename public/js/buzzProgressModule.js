@@ -2,7 +2,7 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
     .run(['$rootScope', 'trackingX', function ($rootScope, tracking) {
         tracking.sendX('Progress');
     }])
-    .controller('calendarCtrl', ['$scope', '$http', 'clientConfig', 'quizFactory', '$filter', 'DateFactory', '$q', 'api', 'trackingX', 'queryParser', function ($scope, $http, clientConfig, quizFactory, $filter, DateFactory, $q, api, tracking, queryParser) {
+    .controller('calendarCtrl', ['$scope', '$http', 'clientConfig', 'quizFactory', '$filter', 'DateFactory', '$q', 'api', 'trackingX', 'levelFactory', function ($scope, $http, clientConfig, quizFactory, $filter, DateFactory, $q, api, tracking, levelFactory) {
         $scope.expanded = false;
         $scope.expandContent = function (value) {
             $scope.expanded = value;
@@ -201,17 +201,16 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
                     good: 0,
                     bad: 0
                 };
-                api.get(clientConfig.serviceUrls.buzz.profile.currentLevel.frontEnd)
-                    .then(function (result) {
-                        $http.get(clientConfig.serviceUrls.buzz.progress.Statistics.frontEnd + '?level=' + result.data + '&top=1')
-                            .then(function (response) {
-                                if (response.data.value.length) {
-                                    $scope.$parent.weekPerformance.good = response.data.value[0].num_of_all_correct_question_day;
-                                    $scope.$parent.weekPerformance.bad = response.data.value[0].num_of_incorrect_question_day;
-                                    $scope.$parent.rank = response.data.value[0].rank;
-                                }
-                            });
-                    });
+                levelFactory.getLevel().then(function (level) {
+                    api.get(clientConfig.serviceUrls.buzz.progress.Statistics.frontEnd + '?level=' + level + '&top=1')
+                        .then(function (response) {
+                            if (response.data.value.length) {
+                                $scope.$parent.weekPerformance.good = response.data.value[0].num_of_all_correct_question_day;
+                                $scope.$parent.weekPerformance.bad = response.data.value[0].num_of_incorrect_question_day;
+                                $scope.$parent.rank = response.data.value[0].rank;
+                            }
+                        });
+                });
             }
 
             getThisWeekPerformance();
@@ -224,7 +223,7 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
     .controller('calendarParentCtrl', ['$scope', function ($scope) {
 
     }])
-    .controller('chartCtrl', ['$scope', '$timeout', 'api', '$http', 'clientConfig', function ($scope, $timeout, api, $http, clientConfig) {
+    .controller('chartCtrl', ['$scope', '$timeout', 'api', '$http', 'clientConfig', 'levelFactory', function ($scope, $timeout, api, $http, clientConfig, levelFactory) {
         $scope.expanded = false;
         $scope.totalWord = 0;
         $scope.expandContent = function (value) {
@@ -272,28 +271,26 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
             return retArrary;
         }
 
-        //hank
-        api.get(clientConfig.serviceUrls.buzz.profile.currentLevel.frontEnd)
-            .then(function (result) {
-                $http.get(clientConfig.serviceUrls.buzz.progress.Statistics.frontEnd + '?level=' + result.data + '&top=5')
-                    .then(function (response) {
-                        if (response.data.value.length) {
-                            $scope.totalWord = 0;
-                            var score_total_num = [];
-                            var score_rank = [];
-                            for (var x in response.data.value) {
-                                score_total_num.unshift(response.data.value[x].num_of_correct_word);
-                                $scope.totalWord += response.data.value[x].num_of_correct_word;
-                            }
-                            for (var x in response.data.value) {
-                                score_rank.unshift(response.data.value[x].rank);
-                            }
-                            $scope.data[0] = score_total_num;
-                            $scope.data[1] = score_rank;
-                            $scope.m_linedata = createM_Linedata($scope.data[1]);
+        levelFactory.getLevel().then(function (level) {
+            $http.get(clientConfig.serviceUrls.buzz.progress.Statistics.frontEnd + '?level=' + level + '&top=5')
+                .then(function (response) {
+                    if (response.data.value.length) {
+                        $scope.totalWord = 0;
+                        var score_total_num = [];
+                        var score_rank = [];
+                        for (var x in response.data.value) {
+                            score_total_num.unshift(response.data.value[x].num_of_correct_word);
+                            $scope.totalWord += response.data.value[x].num_of_correct_word;
                         }
-                    });
-            });
+                        for (var x in response.data.value) {
+                            score_rank.unshift(response.data.value[x].rank);
+                        }
+                        $scope.data[0] = score_total_num;
+                        $scope.data[1] = score_rank;
+                        $scope.m_linedata = createM_Linedata($scope.data[1]);
+                    }
+                });
+        });
 
         $scope.datasetOverride = [
             {
@@ -316,7 +313,7 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
             }
         };
     }])
-    .controller('pcChartCtrl', ['$scope', 'api', '$http', 'clientConfig', function ($scope, api, $http, clientConfig) {
+    .controller('pcChartCtrl', ['$scope', 'api', '$http', 'clientConfig', 'levelFactory', function ($scope, api, $http, clientConfig, levelFactory) {
         $scope.labels = ['第一周', '第二周', '第三周', '第四周', '第五周'];
         $scope.colors = [{
             backgroundColor: "rgba(249,182,0,.6)",
@@ -340,26 +337,18 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
         ];
         //hank
         $scope.totalWord = 0;
-        api.get(clientConfig.serviceUrls.buzz.profile.currentLevel.frontEnd)
-            .then(function (result) {
-                $http.get(clientConfig.serviceUrls.buzz.progress.Statistics.frontEnd + '?level=' + result.data + '&top=5')
-                    .then(function (response) {
-                        if (response.data.value.length) {
-                            $scope.totalWord = 0;
-                            var score_total_num = [];
-                            var score_rank = [];
+        levelFactory.getLevel().then(function (level) {
+            api.get(clientConfig.serviceUrls.buzz.progress.Statistics.frontEnd + '?level=' + level + '&top=5')
+                .then(function (response) {
+                    if (response.data.value.length) {
+                            var week_now=parseInt(response.data.value[0].week);
+                            updateLabels(week_now,response.data.value);
                             for (var x in response.data.value) {
-                                score_total_num.unshift(response.data.value[x].num_of_correct_word);
                                 $scope.totalWord += response.data.value[x].num_of_correct_word;
                             }
-                            for (var x in response.data.value) {
-                                score_rank.unshift(response.data.value[x].rank);
-                            }
-                            $scope.data[0] = score_total_num;
-                            $scope.data[1] = score_rank;
-                        }
-                    });
-            });
+                    }
+                });
+        });
         $scope.onClick = function (points, evt) {
             console.log(points, evt);
         };
@@ -389,21 +378,64 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
                         display: true,
                         position: 'right',
                         ticks: {
-                            stepSize: 1
+                            stepSize: 1,
+                            reverse: true
                         }
                     }
                 ]
             },
             responsive: true
         };
+        function updateLabels(_week,data) {
+            var score_total_num = [];
+            var score_rank = [];
+            $scope.labels =[];
+
+            if(_week>=5){
+                for(var i=0;i<=4;i++){
+                    $scope.labels.unshift(getWeekNumber(_week-i));
+                    score_total_num.unshift(getTotal(_week-i));
+                    score_rank.unshift(getRank(_week-i));
+                }
+            }else{
+                for(var i=_week;i>0;i--){
+                    $scope.labels.unshift(getWeekNumber(i));
+                    score_total_num.unshift(getTotal(_week-i));
+                    score_rank.unshift(getRank(_week-i));
+                }
+            }
+            function getWeekNumber(n){
+                return '第'+n+'周';
+            }
+            function getTotal(n){
+                var result = 0;
+                for (var x in data) {
+                    if(parseInt(data[x].week)===n){
+                        result = data[x].num_of_correct_word;
+                    }
+                }
+                return result;
+            }
+            function getRank(n){
+                var result = 0;
+                for (var x in data) {
+                    if(parseInt(data[x].week)===n){
+                        result = data[x].rank;
+                    }
+                }
+                return result;
+            }
+            $scope.data[0] = score_total_num;
+            $scope.data[1] = score_rank;
+
+        }
     }])
-    .controller('myBuzzCtrl', ['$scope', '$rootScope', '$http', 'clientConfig', function ($scope, $rootScope, $http, clientConfig) {
+    .controller('myBuzzCtrl', ['$scope', '$rootScope', function ($scope, $rootScope) {
         $rootScope.$watch('profile', function (newValue, oldValue) {
             if (newValue) {
                 var registerDate = new Date(newValue.regist_date);
                 var now = new Date();
                 var days = (now - registerDate) / (1000 * 60 * 60 * 24);
-
                 $scope.buzzDays = (days + 1);
             }
         });

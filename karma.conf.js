@@ -19,8 +19,10 @@ module.exports = function (config) {
             'node_modules/requirejs/require.js',
             'node_modules/angular/angular.js',
             "node_modules/angular-query-parser-module/dist/scripts/all.min.js",
+            "node_modules/angular-service/dist/scripts/all.min.js",
             'node_modules/angular-mocks/angular-mocks.js',
             'public/js/**.js',
+            'test/client/clientConfig.js',
             'test/client/**/*Test.js'
         ],
 

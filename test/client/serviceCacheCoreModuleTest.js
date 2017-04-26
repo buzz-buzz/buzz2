@@ -12,7 +12,7 @@ describe('service cache core module', function () {
         api = _api_;
     }));
 
-    it('can cache a value', function (done) {
+    it('can cache a value', function () {
         // cache.get('key').then(function (result) {
         //     expect(result).toBe(true);
         //     done();
