@@ -341,18 +341,11 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
             api.get(clientConfig.serviceUrls.buzz.progress.Statistics.frontEnd + '?level=' + level + '&top=5')
                 .then(function (response) {
                     if (response.data.value.length) {
-                        $scope.totalWord = 0;
-                        var score_total_num = [];
-                        var score_rank = [];
-                        for (var x in response.data.value) {
-                            score_total_num.unshift(response.data.value[x].num_of_correct_word);
-                            $scope.totalWord += response.data.value[x].num_of_correct_word;
-                        }
-                        for (var x in response.data.value) {
-                            score_rank.unshift(response.data.value[x].rank);
-                        }
-                        $scope.data[0] = score_total_num;
-                        $scope.data[1] = score_rank;
+                            var week_now=parseInt(response.data.value[0].week);
+                            updateLabels(week_now,response.data.value);
+                            for (var x in response.data.value) {
+                                $scope.totalWord += response.data.value[x].num_of_correct_word;
+                            }
                     }
                 });
         });
@@ -393,14 +386,56 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
             },
             responsive: true
         };
+        function updateLabels(_week,data) {
+            var score_total_num = [];
+            var score_rank = [];
+            $scope.labels =[];
+
+            if(_week>=5){
+                for(var i=0;i<=4;i++){
+                    $scope.labels.unshift(getWeekNumber(_week-i));
+                    score_total_num.unshift(getTotal(_week-i));
+                    score_rank.unshift(getRank(_week-i));
+                }
+            }else{
+                for(var i=_week;i>0;i--){
+                    $scope.labels.unshift(getWeekNumber(i));
+                    score_total_num.unshift(getTotal(_week-i));
+                    score_rank.unshift(getRank(_week-i));
+                }
+            }
+            function getWeekNumber(n){
+                return '第'+n+'周';
+            }
+            function getTotal(n){
+                var result = 0;
+                for (var x in data) {
+                    if(parseInt(data[x].week)===n){
+                        result = data[x].num_of_correct_word;
+                    }
+                }
+                return result;
+            }
+            function getRank(n){
+                var result = 0;
+                for (var x in data) {
+                    if(parseInt(data[x].week)===n){
+                        result = data[x].rank;
+                    }
+                }
+                return result;
+            }
+            $scope.data[0] = score_total_num;
+            $scope.data[1] = score_rank;
+
+        }
     }])
-    .controller('myBuzzCtrl', ['$scope', '$rootScope', '$http', 'clientConfig', function ($scope, $rootScope, $http, clientConfig) {
+    .controller('myBuzzCtrl', ['$scope', '$rootScope', function ($scope, $rootScope) {
         $rootScope.$watch('profile', function (newValue, oldValue) {
             if (newValue) {
                 var registerDate = new Date(newValue.regist_date);
                 var now = new Date();
                 var days = (now - registerDate) / (1000 * 60 * 60 * 24);
-
                 $scope.buzzDays = (days + 1);
             }
         });
