@@ -81,5 +81,8 @@ module.exports = function (app, router, render) {
         .get('/my/vocabulary', membership.ensureAuthenticated, function *() {
             this.body = yield render('vocabulary/vocabulary', {config: config});
         })
+        .get('/my/weekly-quiz', membership.ensureAuthenticated, function *() {
+            this.body = yield render('my/weekly-quiz', {config: config, base: '/my/'});
+        })
     ;
 };

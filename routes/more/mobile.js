@@ -12,7 +12,8 @@ module.exports = function (app, router, render) {
         .get('/m/bind-mobile', function *() {
             this.body = yield render('/m/bind-mobile', {
                 config: config,
-                queryString: qs.stringify(this.query)
+                queryString: qs.stringify(this.query),
+                base: '/m/'
             });
         })
         .get('/m/my/today', membership.setHcdUserIfSignedIn, function *() {
