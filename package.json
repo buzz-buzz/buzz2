@@ -9,7 +9,7 @@
     "angular-chart.js": "^1.0.3",
     "angular-query-parser-module": "^1.0.1",
     "angular-route": "^1.6.4",
-    "angular-service": "^2.2.3",
+    "angular-service": "^3.1.0",
     "angular-service-error-parser": "^0.2.2",
     "angular-translate": "*",
     "bootstrap": "^3.3.7",
