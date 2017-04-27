@@ -53,8 +53,25 @@ html
                 if (queryArray[1]) {
                     queryString = queryArray[1];
                 }
+                $scope.explanations = [];
                 queryString = deepDecode(queryString);
                 $scope.words = queryString.split(",");
+                $scope.words.map(function (word) {
+                    getExplanation(word);
+                });
+                function getExplanation(word) {
+                    var ex = {};
+                    $http.get('/dict/' + word + '/index.json').then(function (detail) {
+                        if (detail.data) {
+                            ex.name = word;
+                            ex.ipc_gb = '[英]' + detail.data['phon-gb'];
+                            ex.ipc_us = '[美]' + detail.data['phon-us'];
+                            ex.explanation = detail.data.class + ' ' + detail.data.explain;
+                            $scope.explanations.push(ex);
+                        }
+                    });
+                }
+
                 $timeout(function () {
                     window.print();
                 })
