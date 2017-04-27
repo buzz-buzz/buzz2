@@ -1,5 +1,8 @@
 angular.module('formModule', ['clientConfigModule', 'servicesModule', 'errorParserModule', 'trackingModule'])
-    .directive('captcha', ['service', 'clientConfig', 'tracking', function (service, clientConfig, tracking) {
+    .config(['$sceProvider', function ($sceProvider) {
+        $sceProvider.enabled(false);
+    }])
+    .directive('captcha', ['service', 'clientConfig', 'tracking', '$sce', '$http', function (service, clientConfig, tracking, $sce, $http) {
         var captchaServiceDomain = '//' + clientConfig.captcha.host + ':' + clientConfig.captcha.port;
 
         return {
@@ -14,7 +17,7 @@ angular.module('formModule', ['clientConfigModule', 'servicesModule', 'errorPars
 
                 var refreshing = false;
 
-                function refreshCaptcha(successCallback, isInit) {
+                function refreshCaptcha(successCallback) {
                     if (refreshing) {
                         return;
                     }
@@ -22,13 +25,21 @@ angular.module('formModule', ['clientConfigModule', 'servicesModule', 'errorPars
                     refreshing = true;
 
                     tracking.sendX('sign-up.changeIdentifyCode');
-                    service.jsonp(captchaServiceDomain + '/captcha/generator/p?callback=JSON_CALLBACK&appid=bplus')
+                    var url = captchaServiceDomain + '/captcha/generator/p?appid=bplus';
+                    $http.jsonp(url)
                         .then(function (result) {
-                            $scope.captchaImageUrl = captchaServiceDomain + result.url;
-                            ngModel.$setViewValue(result.id);
+                            result = result.data;
 
-                            if (typeof successCallback === 'function') {
-                                successCallback();
+                            if (result.isSuccess) {
+                                result = result.result;
+                                $scope.captchaImageUrl = captchaServiceDomain + result.url;
+                                ngModel.$setViewValue(result.id);
+
+                                if (typeof successCallback === 'function') {
+                                    successCallback();
+                                }
+                            } else {
+                                errorHandler(result);
                             }
                         })
                         .catch(errorHandler)
