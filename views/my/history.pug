@@ -88,7 +88,7 @@ block content
                             img(style="width:280px;height:200px",ng-src="{{lesson.image}}")
                         .right(style="display:inline-block;vertical-align:top;height:100%;text-align:left;height:200px;padding:1.4em;position:relative;border:1px solid grey")
                             .content
-                                a.title.clickable(style="color:#f7b52a;margin-bottom:0.4em;font-weight:bold;")(ng-click='aLikeClick("/my/play?date="+lesson.date+"&cat="+ lesson.category.toLowerCase()+"&level="+lesson.level)') {{lesson.title}}
+                                a.title.clickable(style="color:#f7b52a;margin-bottom:0.4em;font-weight:bold;", ng-click='aLikeClick("/my/play?date="+lesson.date+"&cat="+ lesson.category.toLowerCase()+"&level="+lesson.level)') {{lesson.title}}
                                 .time(style="font-size:12px;line-height:1.6em;margin-bottom:0.4em;") {{lesson.date}}
                                 .summery(style="min-width:418px;") {{lesson.description}}
                             .tail(style="position:absolute;bottom:4px;width:435px;border-top: 1px dashed #bcbcbc;padding-top:1em;padding-bottom:1em;font-size:14px;")

@@ -1,10 +1,12 @@
+include ../../share/common
+
 doctype html
 html(manifest="/buzz.appcache")
     meta(charset="utf-8")
     meta(http-equiv="X-UA-Compatible", content="IE=edge, chrome=1")
     meta(name="viewport", content="width=375, user-scalable=no")
     title='Buzzbuzz English'
-    link(href=`${config.cdn}/public/css/style.min.css?${config.version}`, rel="stylesheet")
+    + css("/public/css/style.min.css", true)
 body
     style.
         .init {

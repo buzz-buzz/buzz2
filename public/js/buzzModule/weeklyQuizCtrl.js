@@ -206,7 +206,11 @@ angular.module('buzzModule')
 
         function updateProgressBar() {
             $scope.progress_width = parseInt(($scope.currentIndex + 1) * 100 / $scope.arrayWeeklyQuiz.length);
-            document.getElementById('progress-bar').style.width = $scope.progress_width + '%';
+            var progressBar = document.getElementById('progress-bar');
+
+            if (progressBar) {
+                progressBar.style.width = $scope.progress_width + '%';
+            }
         }
 
     }])

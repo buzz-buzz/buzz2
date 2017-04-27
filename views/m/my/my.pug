@@ -6,8 +6,8 @@ html(manifest="/buzz.appcache")
     meta(http-equiv="X-UA-Compatible", content="IE=edge, chrome=1")
     meta(name="viewport", content="width=375, user-scalable=no")
     title='Buzzbuzz English'
-    + css("/public/css/style.min.css")
-body(ng-app="accountModule",ng-controller="viewAccountCtrl")
+    + css("/public/css/style.min.css", true)
+body(ng-app="accountModule", ng-controller="viewAccountCtrl")
     style.
         .init {
             display: none;

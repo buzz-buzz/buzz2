@@ -12,14 +12,25 @@ module.exports = function (app, router, render) {
         .get('/m/bind-mobile', function *() {
             this.body = yield render('/m/bind-mobile', {
                 config: config,
-                queryString: qs.stringify(this.query)
+                queryString: qs.stringify(this.query),
+                base: '/m/'
             });
         })
         .get('/m/my/today', membership.setHcdUserIfSignedIn, function *() {
-            this.body = yield render('/m/my/today', {
-                config: config,
-                hcd_user: this.state.hcd_user
-            });
+            if (!this.state.userAgent.isMobile || this.state.userAgent.isTablet) {
+                if (this.query.date && this.query.cat && this.query.level) {
+                    this.redirect('/my/play?date=' + this.query.date + '&cat=' + this.query.cat + '&level=' + this.query.level, {
+                        config: config
+                    });
+                } else {
+                    this.redirect('/my/today', {config: config, hcd_user: this.state.hcd_user});
+                }
+            } else {
+                this.body = yield render('/m/my/today', {
+                    config: config,
+                    hcd_user: this.state.hcd_user
+                });
+            }
         })
         .get('/m/my/play', function *() {
             this.body = yield render('/m/my/today', {

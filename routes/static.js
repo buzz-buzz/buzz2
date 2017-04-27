@@ -21,6 +21,7 @@ module.exports = function (app, router) {
         this.body = fs.readFileSync(__dirname + '/../public/buzz.appcache', 'utf-8');
     });
 
+    app.use(require('koa-cors')());
     app.use(serveStatic('public', getStaticSetting()));
     app.use(koaMount('/public', serveStatic('public', getStaticSetting())));
     app.use(koaMount('/mock', serveStatic('mock', getStaticSetting())));

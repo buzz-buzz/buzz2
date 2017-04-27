@@ -1,12 +1,13 @@
 extends mobile-layout
 
 block content
-    .center.aligned.container.borderless(style="font-family: 微软雅黑, 'Microsoft YaHei'; font-size: larger; padding-left: 10px; padding-right: 10px; box-sizing: border-box;")
-        p &nbsp;
-        p
-            img(src=`${config.cdn}/public/images/bind_mobile.png?${config.imageversion}`, style="max-width: 120px;")
-        p 欢迎来到 Buzzbuzz，即将开启精彩内容
-        p
-            a.large.yellow.button(href="/m/sign-in?" + queryString) 已有账号，去登录
-        p
-            a.large.linear.basic.button(href="/m/sign-up?" + queryString) 没有账号，去注册
+    script(type="text/ng-template", id="bind-mobile.html")
+        .center.aligned.container.borderless(style="font-family: 微软雅黑, 'Microsoft YaHei'; font-size: larger; padding-left: 10px; padding-right: 10px; box-sizing: border-box;")
+            p &nbsp;
+            p
+                img(src=`${config.cdn}/public/images/bind-mobile.png?${config.imageversion}`, style="max-width: 120px;")
+            p 欢迎来到 Buzzbuzz，即将开启精彩内容
+            p
+                a.large.yellow.button(href="javascript: location.href='/m/sign-in?" + queryString + "'") 已有账号，去登录
+            p
+                a.large.linear.basic.button(href="javascript: location.href='/m/sign-up?" + queryString + "'") 没有账号，去注册
