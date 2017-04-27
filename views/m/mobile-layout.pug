@@ -43,7 +43,7 @@ body(ng-app="mobileModule")
                 span Buzzbuzz English
             .btn.sidebar-toggle
                 .btn-group.pull-left
-                    a(href='javascript:location.href="/m/my/today"') <
+                    a(href='javascript:location.href="/my/today"') <
         //.navbar.navbar-app.navbar-absolute-bottom
 
         .app-body
@@ -57,10 +57,17 @@ body(ng-app="mobileModule")
     include ../js
     + js("/node_modules/angular-route/angular-route.min.js")
     + js("/node_modules/mobile-angular-ui/dist/js/mobile-angular-ui.min.js")
+    + js('/js/buzzHeaderModule.min.js')
+    + js('/js/parserModule.min.js')
+    + js('/js/DateModule.min.js')
+    + js('/js/quizModule.min.js')
+    + js('/js/buzzModule.min.js')
+    + js('/js/buzzModule/weeklyQuizCtrl.min.js')
     script.
         angular.module('mobileModule', [
             'ngRoute',
-            'mobile-angular-ui'
+            'mobile-angular-ui',
+            'buzzModule'
         ])
             .config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
                 $locationProvider.html5Mode(true);
@@ -68,7 +75,8 @@ body(ng-app="mobileModule")
                 $routeProvider
                     .when('/weekly-quiz', {
                         templateUrl: 'weekly-quiz.html',
-                        controller: 'weeklyQuizCtrl'
+                        controller: 'weeklyQuizCtrl',
+                        controllerAs: 'weeklyQuizCtrl'
                     })
                     .when('/bind-mobile', {
                         templateUrl: 'bind-mobile.html'
@@ -76,8 +84,6 @@ body(ng-app="mobileModule")
                 ;
 
                 $routeProvider.otherwise('/weekly-quiz');
-            }])
-            .controller('weeklyQuizCtrl', [function () {
             }])
         ;
     block js

@@ -114,7 +114,7 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                 $scope.$root.tabularIndex = index;
 
                 if (index === 3) {
-                    location.href = '/my/weekly-quiz';
+                    location.href = '/my/weekly-quiz?today=' + queryParser.get('today');
                 }
             }
         };

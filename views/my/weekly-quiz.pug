@@ -1,7 +1,13 @@
 extends ../m/mobile-layout
 
 block js
+    script.
+        angular.module('mobileModule')
+            .run(['$rootScope', function ($rootScope) {
+                $rootScope.tabularIndex = 3;
+            }])
+        ;
 
 block content
     script(type="text/ng-template", id="weekly-quiz.html")
-        h1 敬请期待
+        include partials/weekly-quiz
