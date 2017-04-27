@@ -332,8 +332,8 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
         }];
         $scope.series = ['Series A', 'Series B'];
         $scope.data = [
-            [65, 59, 84, 81, 56],
-            [28, 48, 40, 19, 86]
+            [0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0]
         ];
         //hank
         $scope.totalWord = 0;
@@ -379,7 +379,8 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
                         position: 'right',
                         ticks: {
                             stepSize: 1,
-                            reverse: true
+                            reverse: true,
+                            min:1
                         }
                     }
                 ]
