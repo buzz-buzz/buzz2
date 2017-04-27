@@ -107,6 +107,8 @@ angular.module('buzzModule')
                     quizFactory.getWeeklyQuizScore($scope.weeklyLessonId).then(function (json) {
                         if (!(json && json.detail)) {
                             $scope.weeklyStatus = 'exercise';
+                        }else {
+                            $scope.weeklyStatus = 'grade';
                         }
 
                         return json;

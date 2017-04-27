@@ -1,10 +1,4 @@
 .item(ng-show="$root.tabularIndex===3", ng-controller="weeklyQuizCtrl")
-    .weekly-meau(ng-show="weeklyStatus=='menu'",ng-cloak)
-        .img(style='width:30%;margin:30px auto;margin-top:50px;')
-            img(style='width:50%;',src='http://resource.buzzbuzzenglish.com/image/weeklyquiz.png')
-        div(style="display: flex; width:40%;margin:0 auto;")
-            a.button.yellow.exercisebutton(ng-click="turnTo('grade')", style="padding: .5em 0 !important;text-decoration: none;margin:0 auto;width:35%;") 查看成绩
-            a.button.yellow.exercisebutton(ng-hide="true", ng-click="turnTo('exercise')", style="flex: 1;padding: .5em 0 !important;text-decoration: none;color: #f6b52a!important;background-color: #fff!important;border:1px solid #f6b52a;") 重新测试
     .weekly-grade(ng-show="weeklyStatus=='grade'",ng-cloak)
         .grade-title(style='background:#fff url(http://resource.buzzbuzzenglish.com/weekly_grade.png) no-repeat center;color:white;') 成绩单
         .grade-body
