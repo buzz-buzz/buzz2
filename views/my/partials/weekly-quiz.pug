@@ -12,8 +12,6 @@
                     .detail-con 共{{details.total_sum}}题
                     .detail-con 答对{{details.correct}}题
                     .detail-con 获得{{details.score}}分
-        a.button(ng-click="turnTo('menu')",ng-cloak) 返回
-        | &nbsp;&nbsp;
         a.button(ng-click="turnTo('exercise')",ng-cloak, ng-hide="done") 继续测试
     .exercise.container.cube(ng-show="weeklyStatus=='exercise'")
         .cube-side.side-a
