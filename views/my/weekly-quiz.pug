@@ -1,5 +1,54 @@
 extends ../m/mobile-layout
 
+block meta
+    style.
+        body{
+            font-family: "微软雅黑", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
+         .grade-title {
+             display: none;
+         }
+
+         .grade-body{
+             width:100%;
+         }
+        .grade-body>div>div{
+            padding: 0 5%;
+        }
+         .grade-body>div>.title{
+             padding: 0 5%;
+             font-size: 1.2em;
+             height:2em;
+             line-height: 2em;
+             font-weight: bold;
+             background-color: #ddd;
+         }
+        .grade-body>div>.span{
+            color:red;
+            font-size:1.5em ;
+            height:1.8em;
+            line-height: 1.8em;
+        }
+        .grade-body>div>.detail>.detail-title{
+
+        }
+        .grade-body>div>.detail>.detail-con{
+            width: 33%;
+            display: inline-block;
+            text-align: center;
+            font-size: 1.2em;
+            height: 2em;
+            line-height: 2em;
+        }
+        .grade-body>div>.detail>.detail-con:nth-child(1){
+            text-align: left;
+        }
+        .button{
+            margin:0 auto !important;
+            width: 50% !important;
+        }
+
+
 block js
     script.
         angular.module('mobileModule')
