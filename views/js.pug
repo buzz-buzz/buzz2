@@ -17,8 +17,7 @@ script.
 + js("http://res.wx.qq.com/open/js/jweixin-1.0.0.js")
 + js("/js/wechat-share.js")
 
-if !config.mock
-    + js(config.tracking)
+if !config.mock && !config.mockTracking
+    + js(config.tracking)(onerror="if(location.pathname.indexOf('/mock-tracking') !== 0) { location.href='/mock-tracking'+location.href.replace(location.origin, ''); }")
 else
-    script.
     + js('/js/mock-tracking.js')

@@ -2,9 +2,9 @@ mixin js(src, disableCdn)
     - var sep = src.indexOf('?') >= 0 ? '&' : '?';
     - var cdn = disableCdn ?  '' : config.cdn;
     if src.indexOf('/node_modules') === 0 || src.indexOf('/js') === 0
-        script(src=cdn + src + sep + 'v=' + config.version)
+        script(src=cdn + src + sep + 'v=' + config.version, type="text/javascript")&attributes(attributes)
     else
-        script(src=src + sep + 'v=' + config.version)
+        script(src=src + sep + 'v=' + config.version, type="text/javascript")&attributes(attributes)
 
 mixin css(src, disableCdn)
     - var cdn = disableCdn ? '' : config.cdn;

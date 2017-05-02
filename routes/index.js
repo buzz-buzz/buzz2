@@ -9,12 +9,11 @@ const fs = require('fs');
 const buzz = require('../service-proxy-for-server/buzz');
 
 function mobileDetectRender(app, router, render) {
-    let routes = ['sign-in', 'sign-up', 'reset-password'];
+    let routes = ['/sign-in', '/sign-up', '/reset-password'];
     routes.forEach(function (route) {
-        let routename = '/' + route;
-        router.get(routename, function *(next) {
+        router.get(route, function *(next){
             if (this.state.userAgent.isMobile && !this.state.userAgent.isTablet) {
-                this.redirect('/m/' + route + this.request.search);
+                this.redirect('/m' + route + this.request.search);
             } else {
                 yield next;
             }
@@ -48,10 +47,11 @@ function simpleRender(app, router, render) {
     let routes = ['sign-in', 'loading', 'agreement', 'reset-password'];
 
     for (let i = 0; i < routes.length; i++) {
-        router.get('/' + routes[i], function *(next) {
-            this.body = yield render(routes[i], {
-                config: config
-            });
+        router.get('/' + routes[i], function *() {
+            this.body = yield render(routes[i], {config: config});
+        });
+        router.get('/mock-tracking/' + routes[i], function*() {
+            this.body = yield render(routes[i], {config: Object.assign(config, {mockTracking: true})});
         });
     }
 }
@@ -96,9 +96,6 @@ function auth(app, router, render) {
 
 function admin(app, router, render) {
     app.use(mount('/admin', membership.ensureAdmin));
-}
-
-function api(app, router, render) {
 }
 
 function filterConfig(config) {
@@ -168,7 +165,6 @@ module.exports = function (app, router, render) {
     simpleRender(app, router, render);
     renderWithServerData(app, router, render);
     auth(app, router, render);
-    api(app, router, render);
     admin(app, router, render);
     oauth(app, router, render);
     more(app, router, render);
