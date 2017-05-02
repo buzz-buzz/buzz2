@@ -208,6 +208,8 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
                                 $scope.$parent.weekPerformance.good = response.data.value[0].num_of_all_correct_question_day;
                                 $scope.$parent.weekPerformance.bad = response.data.value[0].num_of_incorrect_question_day;
                                 $scope.$parent.rank = response.data.value[0].rank;
+                                $scope.$parent.this_date = response.data.value[0].week_start_at.substring(0, 10) + ' / ' + response.data.value[0].week_end_at.substring(0, 10);
+                                console.log("date is :"+$scope.this_date);
                             }
                         });
                 });
