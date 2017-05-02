@@ -198,6 +198,13 @@ body(ng-app="accountModule", ng-controller="viewAccountCtrl")
             background-color: white;
             width: 40%;
         }
+
+        .popup .body {
+            padding: 1rem .5rem !important;
+        }
+        .mask{
+            justify-content: left !important;
+        }
     .header.init
         span 我
         .back(ng-if="expanded", ng-click="expand(false)") <
@@ -249,6 +256,18 @@ body(ng-app="accountModule", ng-controller="viewAccountCtrl")
                     .button(ng-click="updateGrade()") 保存
                     .blank
                     .button(ng-click="cancel()") 取消
+            div(style='margin-bottom:80px;')
+                .row.title 手机号
+                .row.content(ng-click="showModal('#mobile')") {{$root.profile.mobile}}
+        #mobile.mask(ng-controller="mobileModalCtrl", ng-class="{'hide': hideModal, 'show': showModal}", ng-click="hideTheModal()")
+            .popup(ng-click="keepModal($event)")
+                .title
+                    h3(style='width:100%;') 修改手机号码
+                .body(ng-controller="changeMobileCtrl")
+                        include ../../partial/mobile-form
+                        + mobileForm
+                            .field
+                                button.fluid.yellow.button(type="submit", ng-disabled="!signUpForm.$valid") 确定
     include ../tail.pug
     + tailcontent(false, false, false, true)
     include qrcode
