@@ -390,8 +390,19 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
                             display: false
                         }
                     }
-                ]
-            },
+                ],
+                xAxes: [
+                    {
+                        gridLines: {
+                            display: false
+                        }
+                     },
+                    {
+                        gridLines: {
+                            display: false
+                        }
+                    }
+                ]},
             responsive: true
         };
         function updateLabels(_week, data) {
