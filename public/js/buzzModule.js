@@ -115,9 +115,9 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                 // if (index === 1) {
                 //     location.href = '/m/vocabulary' + location.search;
                 // }
-                if (index === 2) {
-                    location.href = '/m/daily-exercise' + location.search;
-                }
+                // if (index === 2) {
+                //     location.href = '/m/daily-exercise' + location.search;
+                // }
                 if (index === 3) {
                     location.href = '/my/weekly-quiz?today=' + queryParser.get('today');
                 }
