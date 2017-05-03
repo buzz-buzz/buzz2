@@ -536,11 +536,11 @@ body
                     .content(ng-show='weekPerformance.bad<=7')
                         img(src=`${config.cdn}/public/images/wrong_1.png?${config.imageversion}` ng-repeat="i in [].constructor(weekPerformance.bad) track by $index")
                     .max-7(ng-show='weekPerformance.bad>7')
-                        span {{weekPerformance.bad}}
+                        span(ng-cloak) {{weekPerformance.bad}}
                         img(src=`${config.cdn}/public/images/wrong_1.png?${config.imageversion}`)
                 .learn.right
                     .title 系统排名
-                    .text-content {{rank||99}}
+                    .text-content(ng-cloak) {{rank||99}}
         .row.blank
         .row.blank
         div()
@@ -551,7 +551,7 @@ body
                 .box.process-content(ng-if="!expanded")
                     .chart.left
                         span.font.grey 你已累计学习了
-                        span.font.black {{totalWord}}个
+                        span.font.black(ng-cloak) {{totalWord}}个
                         span.font.grey 单词
                     .chart.right(ng-click="expandContent(true)")
                         img.valign-middle(src=`${config.cdn}/public/images/chart.png?${config.imageversion}`)
@@ -559,7 +559,7 @@ body
                     .expand-chart.row
                         .expand-chart.left.font.orange
                             span.font.grey 你已经累计学习了
-                            span.font.black {{totalWord}}
+                            span.font.black(ng-cloak) {{totalWord}}
                             span.font.grey 个单词
                         .expand-chart.right(ng-click="expandContent(false)")
                             img.valign-middle(style="width:1.6em",src=`${config.cdn}/public/images/chart_off.png?${config.imageversion}`)

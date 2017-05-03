@@ -8,15 +8,15 @@
             .content
                 .title 得分详情
                 .detail(ng-repeat="details in score")
-                    .detail-title(style='font-weight:bold;') {{details.type}}
-                    .detail-con 共{{details.total_sum}}题
-                    .detail-con 答对{{details.correct}}题
-                    .detail-con 获得{{details.score}}分
+                    .detail-title(style='font-weight:bold;',ng-cloak) {{details.type}}
+                    .detail-con(ng-cloak) 共{{details.total_sum}}题
+                    .detail-con(ng-cloak) 答对{{details.correct}}题
+                    .detail-con(ng-cloak) 获得{{details.score}}分
         a.button(ng-click="turnTo('exercise')",ng-cloak, ng-hide="done") 继续测试
     .exercise.container.cube(ng-show="weeklyStatus=='exercise'")
         .cube-side.side-a
             .progress
-                span {{currentIndex+1}}/{{arrayWeeklyQuiz.length}}
+                span(ng-cloak) {{currentIndex+1}}/{{arrayWeeklyQuiz.length}}
                 .percent
                     #progress-bar.tab &nbsp;
             .exercise-container

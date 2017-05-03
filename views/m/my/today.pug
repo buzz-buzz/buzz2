@@ -315,11 +315,11 @@ mixin videoPlayer
 mixin quiz
     .center.aligned.container.column.white.background.row.content
         .tabular.menu(ng-controller="page2ParentCtrl")
-            + itemBar('/public/images/exersise1.png',"Today's Vocabulary", "今日单词")(ng-class="{'active': $root.tabularIndex===1}",ng-click="switchToTab(1)")
+            + itemBar('/public/images/exersise1.png',"Today's Vocabulary", "今日单词")(ng-class="{'active': $root.tabularIndex===1}",ng-click="switchToTab(1)",ng-cloak)
             include partials/vocabulary
-            + itemBar('/public/images/exersise2.png', "Daily Exercise", "每日练习")(ng-class="{'active': $root.tabularIndex===2}",ng-click="switchToTab(2)")
+            + itemBar('/public/images/exersise2.png', "Daily Exercise", "每日练习")(ng-class="{'active': $root.tabularIndex===2}",ng-click="switchToTab(2)",ng-cloak)
             include partials/daily-exercise
-            + itemBar('/public/images/exersise3.png', "Weekly Quiz", "每周测试")(ng-class="{'active': $root.tabularIndex===3}",ng-click="switchToTab(3)", ng-controller="weeklyQuizTabCtrl", ng-show="showWeeklyQuiz")
+            + itemBar('/public/images/exersise3.png', "Weekly Quiz", "每周测试")(ng-class="{'active': $root.tabularIndex===3}",ng-click="switchToTab(3)", ng-controller="weeklyQuizTabCtrl", ng-show="showWeeklyQuiz",ng-cloak)
 
 block content
     .wechat-share-img
