@@ -521,7 +521,7 @@ body
         .row.blank
         .row
             .box.process-head 本周进度
-        .row.blank
+            .span(style='height:2em;width:100%;color:#666;text-align:left;padding-left:.5em;line-height:2em;',ng-cloak) {{this_date}}
         .row
             .box.process-content
                 .learn.left
@@ -529,7 +529,7 @@ body
                     .content(ng-show='weekPerformance.good<=7')
                         img(src=`${config.cdn}/public/images/correct.png?${config.imageversion}`, ng-repeat="i in [].constructor(weekPerformance.good) track by $index")
                     .max-7(ng-show='weekPerformance.good>7')
-                        span {{weekPerformance.good}}
+                        span(ng-cloak) {{weekPerformance.good}}
                         img(src=`${config.cdn}/public/images/correct.png?${config.imageversion}`)
                 .learn.middle
                     .title 练习有错
