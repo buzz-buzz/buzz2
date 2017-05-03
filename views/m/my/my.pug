@@ -264,7 +264,7 @@ body(ng-app="accountModule", ng-controller="viewAccountCtrl")
                 .title
                     h3(style='width:100%;') 修改手机号码
                 .body(ng-controller="changeMobileCtrl")
-                        include ../../partial/mobile-form
+                        include ./partials/mobile-form
                         + mobileForm
                             .field
                                 button.fluid.yellow.button(type="submit", ng-disabled="!signUpForm.$valid") 确定
