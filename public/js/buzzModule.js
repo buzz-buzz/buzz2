@@ -84,7 +84,7 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
             }
         }, false);
     }])
-    .controller('page2ParentCtrl', ['$scope', 'trackingX', 'queryParser', function ($scope, tracking, queryParser) {
+    .controller( 'page2ParentCtrl', ['$scope', 'trackingX', 'queryParser', function ($scope, tracking, queryParser) {
         $scope.$root.tabularIndex = 0;
         //如果是PC端  初始值为1
         if (!navigator.userAgent.match(/(iPhone|iPod|Android|ios|Windows Phone)/i)) {
@@ -112,14 +112,18 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                 $scope.$root.tabularIndex = 0;
             } else {
                 $scope.$root.tabularIndex = index;
-
+                // if (index === 1) {
+                //     location.href = '/m/vocabulary' + location.search;
+                // }
+                if (index === 2) {
+                    location.href = '/m/daily-exercise' + location.search;
+                }
                 if (index === 3) {
                     location.href = '/my/weekly-quiz?today=' + queryParser.get('today');
                 }
             }
         };
     }])
-
 
     .controller('loginModalCtrl', ['$scope', 'modalFactory', '$rootScope', function ($scope, modalFactory, $rootScope) {
         var modalId = '#login';

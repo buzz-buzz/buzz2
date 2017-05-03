@@ -1,0 +1,11 @@
+extends ../m/mobile-layout
+block js
+    script.
+        angular.module('mobileModule')
+            .run(['$rootScope', function ($rootScope) {
+                $rootScope.tabularIndex = 1;
+            }])
+        ;
+block content
+    script(type="text/ng-template", id="vocabulary.html")
+        include my/partials/vocabulary
