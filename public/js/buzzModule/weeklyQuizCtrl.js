@@ -108,7 +108,7 @@ angular.module('buzzModule')
                         if (!(json && json.detail)) {
                             $scope.weeklyStatus = 'exercise';
                         } else {
-                            $scope.turnTo('grade');
+                            $scope.turnTo('exercise');
                         }
 
                         return json;
