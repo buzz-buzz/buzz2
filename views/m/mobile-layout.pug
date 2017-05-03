@@ -7,6 +7,7 @@ html(manifest="/buzz.appcache")
     meta(name="viewport", content="width=device-width, initial-scale=1.0, maximum-scale=1.0")
     + css("/public/css/player-layout.min.css")
     + css("/public/css/button.min.css")
+    + css("/public/css/player.css")
     <!-- Only required for desktop -->
     + css("/node_modules/mobile-angular-ui/dist/css/mobile-angular-ui-hover.min.css")
 
@@ -63,6 +64,9 @@ body(ng-app="mobileModule")
     + js('/js/quizModule.min.js')
     + js('/js/buzzModule.min.js')
     + js('/js/buzzModule/weeklyQuizCtrl.min.js')
+    + js("/js/buzzModule/newWordCtrl.min.js")
+    + js("/js/buzzModule/quizCtrl.js")
+    + js("/js/level-ctrl.min.js")
     script.
         angular.module('mobileModule', [
             'ngRoute',
@@ -81,7 +85,16 @@ body(ng-app="mobileModule")
                     .when('/bind-mobile', {
                         templateUrl: 'bind-mobile.html'
                     })
-                ;
+                    .when('/daily-exercise', {
+                        templateUrl: 'daily-exercise.html',
+                        controller: 'quizCtrl',
+                        controllerAS: 'quizCtrl'
+                    })
+                    .when('/vocabulary', {
+                        templateUrl: 'vocabulary.html',
+                        controller: 'newWordCtrl',
+                        controllerAS: 'newWordCtrl'
+                    })
 
                 $routeProvider.otherwise('/weekly-quiz');
             }])
