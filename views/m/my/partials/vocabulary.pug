@@ -4,7 +4,7 @@ div(ng-show="$root.tabularIndex===1",ng-controller="newWordCtrl",style="padding:
             iframe(id="word-1",frameborder="0",style="width: 100%; min-height: 400px;", ng-src="{{currentVocabulary.url}}")
         .cube-side.side-b
             iframe(id="word-2",frameborder="0",style="width: 100%;min-height: 400px;", ng-src="{{currentVocabulary.url}}")
-        .exersise-progress(style='height:44px;position:absolute;top:0;width:100%;background-color:#fff;text-align:center;line-height:44px;')  {{wordIndex+1}}/{{WORD_MAX_INDEX+1}}
+        .exersise-progress(style='height:44px;position:absolute;top:0;width:100%;background-color:#fff;text-align:center;line-height:44px;',ng-cloak)  {{wordIndex+1}}/{{WORD_MAX_INDEX+1}}
     div(style="display: flex; margin-top: 5px;")
         a.button.yellow.exercisebutton(ng-show="isWordMode&&hasWordMode",ng-click="changeWordMode(false)", style="flex: 1;") 进入练习
         a.button.yellow.exercisebutton(ng-show="!isWordMode&&hasWordMode",ng-click="changeWordMode(true)", style="flex: 1;") 显示词汇

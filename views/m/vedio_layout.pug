@@ -27,7 +27,7 @@ html(manifest="/buzz.appcache")
                     a(href="/")
                         img.white.background.logo(src="http://resource.buzzbuzzenglish.com/new_buzz_logo.png")
                     span.space
-                    span.top.aligned.welcome.message(style="position: absolute;") Hello {{profile.display_name}}
+                    span.top.aligned.welcome.message(style="position: absolute;",ng-cloak) Hello {{profile.display_name}}
         block content
         include ../js
         + js("/js/buzzHeaderModule.min.js")

@@ -64,6 +64,7 @@ angular.module('buzzModule')
                             $scope.nextQuiz();
 
                             if (lastIndex >= (array.length - 1)) {
+                                console.log('index:max');
                                 $scope.weeklyStatus = 'grade';
                             }
                         });
@@ -106,8 +107,10 @@ angular.module('buzzModule')
 
                     quizFactory.getWeeklyQuizScore($scope.weeklyLessonId).then(function (json) {
                         if (!(json && json.detail)) {
+                            console.log('json:exercise');
                             $scope.weeklyStatus = 'exercise';
                         } else {
+                            console.log('json:grade');
                             $scope.turnTo('exercise');
                         }
 

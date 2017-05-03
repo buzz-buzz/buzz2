@@ -209,7 +209,7 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
                                 $scope.$parent.weekPerformance.bad = response.data.value[0].num_of_incorrect_question_day;
                                 $scope.$parent.rank = response.data.value[0].rank;
                                 $scope.$parent.this_date = response.data.value[0].week_start_at.substring(0, 10) + ' / ' + response.data.value[0].week_end_at.substring(0, 10);
-                                console.log("date is :"+$scope.this_date);
+                                console.log("date is :" + $scope.this_date);
                             }
                         });
                 });
@@ -372,7 +372,10 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
                         id: 'y-axis-1',
                         type: 'linear',
                         display: true,
-                        position: 'left'
+                        position: 'left',
+                        gridLines: {
+                            display: false
+                        }
                     },
                     {
                         id: 'y-axis-2',
@@ -382,6 +385,9 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
                         ticks: {
                             stepSize: 1,
                             reverse: true
+                        },
+                        gridLines: {
+                            display: false
                         }
                     }
                 ]
