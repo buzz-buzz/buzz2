@@ -27,7 +27,6 @@ angular.module('buzzModule')
         var now = query.today ? new Date(query.today) : new Date();
         var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
-
         $scope.weeklyStatus = 'menu';
         function getLastProgress(result) {
             return result.detail.filter(function (d) {
@@ -51,25 +50,6 @@ angular.module('buzzModule')
             if (sta === 'grade') {
                 quizFactory.clearWeeklyQuizScoreCache($scope.weeklyLessonId);
                 calculateScore();
-            }
-
-            if (sta === 'exercise') {
-                quizFactory
-                    .getWeeklyQuizScore($scope.weeklyLessonId)
-                    .then(function (result) {
-                        var lastIndex = getLastProgress(result);
-
-                        generateWeeklyQuiz().then(function (array) {
-                            setCurrentQuiz(lastIndex);
-                            $scope.nextQuiz();
-
-                            if (lastIndex >= (array.length - 1)) {
-                                console.log('index:max');
-                                $scope.weeklyStatus = 'grade';
-                            }
-                        });
-                    })
-                ;
             }
 
             $scope.weeklyStatus = sta;
@@ -107,11 +87,9 @@ angular.module('buzzModule')
 
                     quizFactory.getWeeklyQuizScore($scope.weeklyLessonId).then(function (json) {
                         if (!(json && json.detail)) {
-                            console.log('json:exercise');
                             $scope.weeklyStatus = 'exercise';
                         } else {
-                            console.log('json:grade');
-                            $scope.turnTo('exercise');
+                            $scope.turnTo('grade');
                         }
 
                         return json;
@@ -154,6 +132,7 @@ angular.module('buzzModule')
             updateProgressBar();
         });
 
+        $scope.currentIndex = 0;
         $scope.nextQuiz = function () {
             setCurrentQuiz(++$scope.currentIndex);
             updateProgressBar();
@@ -171,6 +150,10 @@ angular.module('buzzModule')
                     title: String(d.title),
                     score: String(d.mark),
                     status: String(d.status)
+                }
+            }).then(function () {
+                if ($scope.currentIndex >= ($scope.arrayWeeklyQuiz.length - 1)) {
+                    $scope.done = true;
                 }
             });
         });

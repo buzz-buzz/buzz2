@@ -26,7 +26,6 @@ angular.module('buzzModule')
             };
 
             $rootScope.$on('answer:daily-exercise', function (event, ret) {
-                console.log("每日练习")
                 quizFactory.saveResult({
                     lesson_id: lessonData.lesson_id,
                     type: 'daily-exercise',
@@ -154,7 +153,6 @@ angular.module('buzzModule')
         } else {
             var unbind = $rootScope.$on('lessonInfo:got', lessonDataGot);
             $scope.$on('$destroy', unbind);
-            console.log("lesson执行")
         }
     }])
 ;

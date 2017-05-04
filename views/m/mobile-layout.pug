@@ -7,7 +7,7 @@ html(manifest="/buzz.appcache")
     meta(name="viewport", content="width=device-width, initial-scale=1.0, maximum-scale=1.0")
     + css("/public/css/player-layout.min.css")
     + css("/public/css/button.min.css")
-    + css("/public/css/player.css")
+    + css("/public/css/player.min.css")
     <!-- Only required for desktop -->
     + css("/node_modules/mobile-angular-ui/dist/css/mobile-angular-ui-hover.min.css")
 
@@ -30,6 +30,22 @@ html(manifest="/buzz.appcache")
         .navbar-app {
             background-color: #f6b52a;
             color: black;
+        }
+
+        a.exercisebutton {
+            width: 47%;
+            height: 100%;
+            display: inline-block;
+            margin: 0;
+            padding: 0 !important;
+            line-height: 2.5em;
+            text-align: center;
+        }
+        .cube, .cube .cube-side {
+            width: auto;
+            height: auto;
+            min-height: 400px;
+            padding: 0 !important;
         }
     if base
         base(href=base)
@@ -65,7 +81,7 @@ body(ng-app="mobileModule")
     + js('/js/buzzModule.min.js')
     + js('/js/buzzModule/weeklyQuizCtrl.min.js')
     + js("/js/buzzModule/newWordCtrl.min.js")
-    + js("/js/buzzModule/quizCtrl.js")
+    + js("/js/buzzModule/quizCtrl.min.js")
     + js("/js/level-ctrl.min.js")
     script.
         angular.module('mobileModule', [
@@ -90,7 +106,7 @@ body(ng-app="mobileModule")
                         controller: 'quizCtrl',
                         controllerAS: 'quizCtrl'
                     })
-                    .when('/vocabulary', {
+                    .when('/today-vocabulary', {
                         templateUrl: 'vocabulary.html',
                         controller: 'newWordCtrl',
                         controllerAS: 'newWordCtrl'
