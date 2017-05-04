@@ -1,0 +1,143 @@
+style.
+    .calendar .header .grid {
+        display: flex;
+    }
+
+    .calendar .header .grid .column {
+        flex-grow: 2;
+        text-align: center;
+        border-left: solid 1px white;
+        border-right: solid 1px white;
+        color: #f9b600;
+        padding: 8px 0;
+        display: block;
+        cursor: pointer;
+    }
+
+    .calendar .header .grid .column:first-child {
+        flex-grow: 1;
+        border: none;
+    }
+
+    .calendar .header .grid .column:last-child {
+        flex-grow: 1;
+        border: none;
+    }
+
+    .calendar .body .grid {
+        display: block;
+    }
+
+    .calendar .body .grid .row {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .calendar .body .grid .row .column {
+        flex-grow: 1;
+        text-align: center;
+    }
+
+    .calendar .body .grid .row.day .column {
+        background-color: #eee;
+        min-height: 65px;
+        border: solid 1px white;
+    }
+
+    .calendar .body .grid .row.day .column.future {
+        background-color: #ddd;
+    }
+
+    .dayOfWeek {
+        position: absolute;
+        width: 100%;
+    }
+
+    .performance {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        border-top: solid 25px transparent;
+        border-right: solid 25px white;
+        border-bottom: solid 25px white;
+        border-left: solid 25px transparent;
+        background-color: transparent;
+        z-index: 1;
+        cursor: pointer;
+    }
+
+    .performance + a {
+        background: transparent;
+        position: absolute;
+        right: 1px;
+        bottom: 0;
+        z-index: 2;
+        cursor: pointer;
+    }
+
+mixin goodPerformance()
+    img(ng-src="http://source.bridgeplus.cn/image/png/%E5%AD%A6%E4%B9%A0%E8%BF%9B%E5%BA%A6_06.png")&attributes(
+    attributes)
+
+mixin badPerformance()
+    img(ng-src="http://source.bridgeplus.cn/image/png/%E5%AD%A6%E4%B9%A0%E8%BF%9B%E5%BA%A6_10.png")&attributes(
+    attributes)
+
+mixin noPerformance()
+    img(ng-src="http://source.bridgeplus.cn/image/png/%E5%AD%A6%E4%B9%A0%E8%BF%9B%E5%BA%A6_13.png")&attributes(
+    attributes)
+
+mixin noCourse()
+    div
+
+mixin weeks()
+    - var week = 0;
+    while week < 6
+        .row.day(ng-if=week + " < weekDays.length")
+            - var day = 0;
+                while day < 7
+                    - var showPerformance = 'performances[' + week + '][' + day + '] !== ""';
+                    .column(style="position: relative;", ng-class="{'future': today < weekDays[" + week + "][" + day + "]}")
+                        p.dayOfWeek {{weekDays[#{week}][#{day}] | date: 'd'}}
+                        .performance(ng-if=showPerformance)
+                        a
+                            - var good = 'performances[' + week + '][' + day + '] === "good"'
+                            - var bad = 'performances[' + week + '][' + day + '] === "bad"'
+                            - var none = 'performances[' + week + '][' + day + '] === "none"'
+                            - var noCourse = 'performances[' + week + '][' + day + '] === "noCourse"'
+                            + goodPerformance(ng-if=good)
+                            + badPerformance(ng-if=bad)
+                            + noPerformance(ng-if=none)
+                            + noCourse(ng-if=noCourse)
+                    - day++;
+        - week++;
+
+
+.calendar(ng-controller="calendarCtrl")
+    .header(style='width:100%;')
+        .grid
+            a.column(ng-click="gotoMonth(-1)")
+                span.icon-play3(style="transform: rotate(180deg); display: inline-block;")
+            a.column {{current | date: 'MMM, yyyy'}}
+            a.column(ng-click="gotoMonth(+1)")
+                span.icon-play3
+    .body.very.padded.horizontal(style='width:100%;')
+        .grid(ng-cloak)
+            .row.weekday.padded.vertical
+                .column
+                    strong Mo
+                .column
+                    strong Tu
+                .column
+                    strong We
+                .column
+                    strong Th
+                .column
+                    strong Fr
+                .column
+                    strong Sa
+                .column
+                    strong Su
+            + weeks
+
+

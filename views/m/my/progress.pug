@@ -38,7 +38,7 @@ body
         .row {
             display: block;
             position: relative;
-            width: 375px;
+            width: 100%;
         }
 
         .row .box {
@@ -106,7 +106,7 @@ body
         }
 
         .expand-calander.left {
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             line-height: 2.5rem;
             height: 2.5rem;
             width: 85%;
@@ -502,21 +502,10 @@ body
                     img.valign-middle(src=`${config.cdn}/public/images/calander.png?${config.version}`)
             .box.process-content(ng-if="expanded")
                 .expand-calander.row
-                    .expand-calander.left.font.orange {{current | date: 'MMM, yyyy'}}
+                    .expand-calander.left.font.orange(style='text-align:center;')  Buzz calendar
                     .expand-calander.right(ng-click="expandContent(false)")
                         img.valign-middle(style="width:1.86em",src=`${config.cdn}/public/images/calander_off.png?${config.version}`)
-                .expand-calander.row.blank
-                .expand-calander.row.blank
-                .expand-calander.row(style="color: #999999;")
-                    -
-                        var list = [ "一", "二", "三", "四", "五", "六", "日"]
-                    each item in list
-                        .expand-calander.unit.column(style="font-family: '微软雅黑', 'Microsoft YaHei';")= item
-                .expand-calander.row.blank
-                .expand-calander.row(ng-repeat="week in extendedweekdays")
-                    .expand-calander.unit.column(ng-repeat="day in week", ng-class="{'invalid': !day.iscurrentmonth,'now': day.istoday,'good': performances[$parent.$index][$index]=='good','bad': performances[$parent.$index][$index]=='bad','none':performances[$parent.$index][$index]=='none'}") {{day.date.getDate()}}
-                    .expand-calander.row.blank
-                .expand-calander.row.blank
+                include partials/calendar
         .row.blank
         .row.blank
         .row
