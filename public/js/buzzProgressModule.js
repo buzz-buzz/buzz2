@@ -396,12 +396,7 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
                         gridLines: {
                             display: false
                         }
-                     },
-                    {
-                        gridLines: {
-                            display: false
-                        }
-                    }
+                     }
                 ]},
             responsive: true
         };
