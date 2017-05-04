@@ -112,12 +112,12 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                 $scope.$root.tabularIndex = 0;
             } else {
                 $scope.$root.tabularIndex = index;
-                // if (index === 1) {
-                //     location.href = '/m/vocabulary' + location.search;
-                // }
-                // if (index === 2) {
-                //     location.href = '/m/daily-exercise' + location.search;
-                // }
+                if (index === 1) {
+                    location.href = '/my/today-vocabulary' + location.search;
+                }
+                if (index === 2) {
+                    location.href = '/m/daily-exercise' + location.search;
+                }
                 if (index === 3) {
                     location.href = '/my/weekly-quiz?today=' + queryParser.get('today');
                 }
