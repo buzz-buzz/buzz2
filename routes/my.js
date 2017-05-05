@@ -14,7 +14,6 @@ module.exports = function (app, router, render) {
             }
 
             let latestCourse = yield buzz.getLatestCourse(level);
-            console.log('latest course = ', latestCourse);
 
             if (!latestCourse) {
                 latestCourse = {
@@ -79,7 +78,11 @@ module.exports = function (app, router, render) {
             this.body = yield render('my/password', {config: config});
         })
         .get('/my/vocabulary', membership.ensureAuthenticated, function *() {
-            this.body = yield render('vocabulary/vocabulary', {config: config});
+            if (!this.state.userAgent.isMobile || this.state.userAgent.isTablet) {
+                this.body = yield render('vocabulary/vocabulary', {config: config});
+            } else {
+                this.redirect('/m/my/vocabulary', {config: config});
+            }
         })
         .get('/my/weekly-quiz', membership.ensureAuthenticated, function *() {
             this.body = yield render('my/weekly-quiz', {config: config, base: '/my/'});

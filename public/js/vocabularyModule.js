@@ -116,8 +116,8 @@ angular.module('vocabularyModule', ['trackingModule', 'clientConfigModule', 'Dat
         function queryVocabularyExplanation(v) {
             api.get('/dict/' + v.name.replace(' ', '_') + '/index.json').then(function (detail) {
                 if (detail.data) {
-                    v.ipc_gb = '[英]' + detail.data['phon-gb'];
-                    v.ipc_us = '[美]' + detail.data['phon-us'];
+                    v.ipc_gb = detail.data['phon-gb'] ? '[英]' + detail.data['phon-gb'] : '';
+                    v.ipc_us = detail.data['phon-us'] ? '[美]' + detail.data['phon-us'] : '';
                     v.explanation = detail.data.class + ' ' + detail.data.explain;
                 }
             });
