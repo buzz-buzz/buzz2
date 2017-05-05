@@ -96,6 +96,21 @@ angular.module('parserModule', [])
 
         return vocabularyParser;
     }])
+    .factory('highlightParser', ['generateParse', function (generateParse) {
+        var highlightParser = {
+            parseV1: function (json) {
+                return json.array;
+            },
+
+            parseV2: function(json){
+                return [];
+            }
+        };
+
+        highlightParser.parse = generateParse(highlightParser);
+
+        return highlightParser;
+    }])
     .factory('weeklyQuizParser', ['quizStatus', 'generateParse', function (quizStatus, generateParse) {
         var p = {
             parseV1: function (jsonArray) {

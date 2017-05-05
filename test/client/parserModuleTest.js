@@ -3,11 +3,13 @@
 describe('parser module', function () {
     var quizParser;
     var vocabularyParser;
+    let highlightParser;
 
     beforeEach(angular.mock.module('parserModule'));
-    beforeEach(inject(function (_quizParser_, _vocabularyParser_) {
+    beforeEach(inject(function (_quizParser_, _vocabularyParser_, _highlightParser_) {
         quizParser = _quizParser_;
         vocabularyParser = _vocabularyParser_;
+        highlightParser = _highlightParser_;
     }));
 
     let v1QuizJson = {
@@ -101,6 +103,11 @@ describe('parser module', function () {
         "status": "unchecked"
     }];
 
+    let parsedHighlights = [
+            "hero",
+            "travel"
+        ];
+
     it('parses old files', function () {
         expect(typeof quizParser.parse).toBe('function');
 
@@ -120,5 +127,9 @@ describe('parser module', function () {
         expect(vocabularyParser.parseV2(v2VocabularyJson)).toEqual(parsedVocabularyJson);
         expect(vocabularyParser.parse(v2VocabularyJson)).toEqual(parsedVocabularyJson);
         expect(vocabularyParser.parse(v1VocabularyJson)).toEqual(parsedVocabularyJson);
-    })
+    });
+
+    it('parses highlights', function(){
+        expect(highlightParser.parse(v1VocabularyJson)).toEqual(parsedHighlights);
+    });
 });

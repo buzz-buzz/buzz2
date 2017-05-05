@@ -3,7 +3,7 @@ module.exports = {
 
     sso: {
         inner: {
-            "host": "uat.service.hcd.com",
+            "host": "10.20.32.61",
             "port": 10086
         }
     },
@@ -21,7 +21,7 @@ module.exports = {
 
     sms: {
         inner: {
-            "host": "uat.service.hcd.com",
+            "host": "10.20.32.61",
             "port": "10002",
             "code": "BUZZ_S1_cn"
         }
@@ -29,7 +29,7 @@ module.exports = {
 
     buzz: {
         inner: {
-            host: 'uat.service.hcd.com',
+            host: '10.20.32.61',
             // host: 'localhost',
             port: 16160
         }
@@ -37,7 +37,7 @@ module.exports = {
 
     wechat: {
         inner: {
-            host: 'uat.service.hcd.com',
+            host: '10.20.32.61',
             port: 10101,
             app_id: 'buzz'
         },
@@ -46,7 +46,7 @@ module.exports = {
 
     wechatSign: {
         inner: {
-            host: 'uat.service.hcd.com',
+            host: '10.20.32.61',
             port: 10123
         }
     },
