@@ -227,7 +227,6 @@ angular.module('buzzPlayerModule', ['angularQueryParserModule', 'trackingModule'
                         $http.get(query.new_words_path).then(function (result) {
                             var newWords = result.data;
                             var highlights = highlightParser.parse(newWords);
-                            console.log('highlighting ', highlights);
 
                             var rules = new RegExp("(" + highlights.join("|") + ")", "g");
                             for (var j = 0; j < $scope.subtitles.length; j++) {

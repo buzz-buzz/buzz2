@@ -53,7 +53,6 @@
                 var key = getKey(method, url, data);
 
                 if (apiStatus[key] === 'fetching') {
-                    console.log('fetching');
                     if (!apiQueue[key]) {
                         apiQueue[key] = [];
                     }
@@ -61,7 +60,6 @@
                     var notify = $q.defer();
                     notify.notify('fetching ' + key);
                     apiQueue[key].push(notify);
-                    console.log(apiQueue);
                     return notify.promise;
                 }
 

@@ -80,18 +80,12 @@ function redirectRequest(app, router) {
     });
 }
 function auth(app, router, render) {
-    // app.use(mount('/my', membership.ensureAuthenticated));
-
     require('./my')(app, router, render);
-
     app.use(mount('/vocabulary', membership.ensureAuthenticated));
-
     require('./vocabulary')(app, router, render);
-
     app.use(mount('/m/my/progress', membership.ensureAuthenticated));
     app.use(mount('/m/my/my', membership.ensureAuthenticated));
     app.use(mount('/m/my/vocabulary', membership.ensureAuthenticated));
-
 }
 
 function admin(app, router, render) {

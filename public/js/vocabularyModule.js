@@ -8,7 +8,7 @@ angular.module('vocabularyModule', ['trackingModule', 'clientConfigModule', 'Dat
             5: '五'
         }[DateFactory.getWeekNumberOfMonth(new Date())];
     }])
-    .controller('vocabularyCtrl', ['$scope', '$sce', 'trackingX', 'clientConfig', '$http', 'Month', 'DateOfMonth', 'quizFactory', 'queryParser', '$q', 'httpPaginationData', function ($scope, $sce, trackingX, clientConfig, $http, Month, DateOfMonth, quizFactory, queryParser, $q, paginationData) {
+    .controller('vocabularyCtrl', ['$scope', '$sce', 'trackingX', 'clientConfig', '$http', 'Month', 'DateOfMonth', 'quizFactory', 'queryParser', '$q', 'httpPaginationData', 'api', function ($scope, $sce, trackingX, clientConfig, $http, Month, DateOfMonth, quizFactory, queryParser, $q, paginationData, api) {
         trackingX.sendX('myVocabulary');
 
         $scope.printMode = false;
@@ -114,7 +114,7 @@ angular.module('vocabularyModule', ['trackingModule', 'clientConfigModule', 'Dat
 
 
         function queryVocabularyExplanation(v) {
-            $http.get('/dict/' + v.name + '/index.json').then(function (detail) {
+            api.get('/dict/' + v.name.replace(' ', '_') + '/index.json').then(function (detail) {
                 if (detail.data) {
                     v.ipc_gb = '[英]' + detail.data['phon-gb'];
                     v.ipc_us = '[美]' + detail.data['phon-us'];
