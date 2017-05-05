@@ -35,6 +35,7 @@ mixin mobileForm()
         .fluid.field(style="position: relative;")
             label
                 span 短信验证码
+                br
                 input(type="text", placeholder="输入验证码", ng-model="signUpData.verificationCode", ng-required="true", maxlength="6", minlength="6")
             resend-verification
         block

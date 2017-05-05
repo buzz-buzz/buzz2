@@ -156,16 +156,19 @@ body(ng-app="accountModule", ng-controller="viewAccountCtrl")
             line-height: 2.8rem;
             padding-left: 1rem;
         }
-
+        .row.content input {
+            border: none;
+        }
         input {
             text-decoration: none;
-            border: none;
+            width: 144px;
+            height: 19px;
+            border: 1px solid #f0f0f0;
         }
 
         input:focus {
             text-decoration: none;
             border: none;
-            outline: none;
         }
 
         .row.button-row {
@@ -199,6 +202,38 @@ body(ng-app="accountModule", ng-controller="viewAccountCtrl")
             width: 40%;
         }
 
+        .yellow.button.disabled, .yellow.button:disabled {
+            opacity: .5;
+        }
+
+        .yellow.button {
+            background-color: #f6b52a !important;
+            color: #fff;
+        }
+        .fluid.button {
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .button {
+            border: none;
+            border-radius: 3px;
+            font-size: medium;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            display: block;
+        }
+        .verification {
+            margin-left: 10px;
+            white-space: nowrap;
+            position: absolute;
+            right: 0;
+            top: 19px;
+        }
+        .popup {
+            width:76%;
+            margin: 0 auto;
+        }
         .popup .body {
             padding: 1rem .5rem !important;
         }

@@ -116,7 +116,7 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                     location.href = '/my/today-vocabulary' + location.search;
                 }
                 if (index === 2) {
-                    location.href = '/m/daily-exercise' + location.search;
+                    location.href = '/my/daily-exercise' + location.search;
                 }
                 if (index === 3) {
                     location.href = '/my/weekly-quiz?today=' + queryParser.get('today');
