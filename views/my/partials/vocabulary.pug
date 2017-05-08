@@ -1,18 +1,18 @@
 .item(ng-show="$root.tabularIndex===1",ng-controller="newWordCtrl",style="position:relative;")
     .statusbar
-        .status(ng-repeat="word in newWords track by $index",ng-class="{'active': $index==wordIndex, 'pass': $index<wordIndex&&word.status===STATUS.P,'fail': $index<wordIndex&&word.status===STATUS.F}",ng-click="itemClick($index)")
+        .status(ng-repeat="word in newWords track by $index",ng-class="{'active': $index==wordIndex, 'pass': $index<wordIndex&&word.status===STATUS.P,'fail': $index<wordIndex&&word.status===STATUS.F}",ng-click="itemClick($index)",ng-cloak)
             i.icon-checkmark(ng-show="$index<wordIndex&&word.status===STATUS.P")
             i.icon-cross(ng-show="$index<wordIndex&&word.status===STATUS.F")
             span(ng-show="$index>=wordIndex||word.status===STATUS.U") {{$index+1}}
     div(style="position:absolute;top:0px;left:20px;")
         div(style="display:inline-block;height:40px;text-align:left;")
-            .button(ng-show="isWordMode&&hasWordMode",ng-click="changeWordMode(false)",style="background-color:white;padding: 5px 10px 5px 40px;border:2px solid #f7b52a;position:relative;box-shadow:2px 2px 2px #f7b52a;")
+            .button(ng-show="isWordMode&&hasWordMode",ng-click="changeWordMode(false)",ng-cloak ，style="background-color:white;padding: 5px 10px 5px 40px;border:2px solid #f7b52a;position:relative;box-shadow:2px 2px 2px #f7b52a;")
                 img(src="/images/bee.png",style="position:absolute;left:-15px;top:-25px;")
                 span(style="color:black") 进入练习
             .button(ng-show="!isWordMode&&hasWordMode",ng-click="changeWordMode(true)",style="background-color:white;padding: 5px 10px 5px 40px;border:2px solid #f7b52a;position:relative;box-shadow:2px 2px 2px #f7b52a;")
                 img(src="/images/bee.png",style="position:absolute;left:-15px;top:-25px;")
                 span(style="color:black") 显示词汇
-    .left.arrow(ng-click="turnWord(false)",ng-class="{'hidden':wordIndex===0}")
+    .left.arrow(ng-click="turnWord(false)",ng-class="{'hidden':wordIndex===0}",ng-cloak)
         span.icon-circle-left
     .vocabulary.container.cube(ng-class="{'init': initStatus==='true', 'rtom':animateDirection==='rtom','ltom':animateDirection==='ltom','ttom':animateDirection==='ttom','btom':animateDirection==='btom','side-a':side==='a', 'side-b':side==='b', 'lock':!actionLock}")
         .cube-side.side-a
