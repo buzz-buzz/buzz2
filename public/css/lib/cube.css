@@ -32,17 +32,16 @@ cubic-bezier(0.75, 0.0, 0.75, 0.9)*/
     transform: rotateX(0deg) rotateY(0deg);
 }
 .cube.lock.side-b .side-a,
-.cube.lock.side-a .side-b{
-    display: none;
-}
+.cube.lock.side-a .side-b,
 .cube.init .side-b {
     display: none;
 }
+
 .cube .cube-side{
     display: block;
     position: absolute;
     transform-style: preserve-3d; 
-    width: 620px;
+    width: 100%;
     height: 464px;
 }
 

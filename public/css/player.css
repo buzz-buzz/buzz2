@@ -12,13 +12,6 @@
     font-size: 18px;
     overflow: auto;
 }
-
-.subtitle a:link {
-}
-
-.subtitle a:visited {
-}
-
 .subtitle a:hover, .subtitle a:active {
     text-decoration: none !important;
     color: black;
@@ -36,10 +29,6 @@
 .script {
     cursor: pointer;
     display: inline-block;
-}
-
-.script:hover {
-    /*background-color: #edc;*/
 }
 
 .header {
@@ -73,7 +62,7 @@
 }
 
 .tabular.menu .item.middle {
-    width: 20%;
+    width: 25%;
 }
 
 
@@ -102,10 +91,6 @@
     -webkit-user-select: none;
     -ms-user-select: none;
 }
-
-.tabular.content .item {
-}
-
 .tabular.content .statusbar {
     margin-bottom: 1em;
     user-select: none;
@@ -170,20 +155,12 @@
     display: inline-block;
     vertical-align: middle;
     padding-bottom: 1em;
-}
-.tabular.content .item .exercise.container {
-    width: 620px;
+    width: 55%;
     height: 520px;
 }
-.tabular.content .item .vocabulary.container {
-    width: 620px;
-    height: 520px;
-}
-
 .tabular.content .item .vocabulary.container .item {
     background-color: #f5f5f5;
     min-height: 300px;
-    /*padding: 1em;*/
     text-align: left;
 }
 
