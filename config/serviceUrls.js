@@ -143,7 +143,6 @@ module.exports = {
         picture:{
             upload:{
                 frontEnd:'/service-proxy/picture/qiniu',
-                abbr: '/qiniu',
                 bucket:'/buzz-resource'
             }
         }

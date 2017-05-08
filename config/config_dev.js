@@ -60,8 +60,8 @@ module.exports = {
 
     upload_qiniu:{
         inner: {
-            //host: "uat.hcd.com",
-            host:'localhost',
+            host: "uat.hcd.com",
+            // host:'localhost',
             port: 10003
         }
     },

@@ -50,24 +50,26 @@ block head
             font-weight: normal;
             font-size: 1.1rem;
         }
-        .preview>img{
-            width:160px;
-            height:100px;
+
+        .preview > img {
+            width: 160px;
+            height: 100px;
             display: block;
             margin: 0 auto;
         }
-        .choose-img{
+
+        .choose-img {
             display: none;
         }
 
-        .head-img{
-            margin:0 auto;
-            width:100px;
-            height:100px;
-            border-radius:50%;
-            cursor:pointer;
-            overflow:hidden;
-            border:1px solid #f7b52a;
+        .head-img {
+            margin: 0 auto;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            cursor: pointer;
+            overflow: hidden;
+            border: 1px solid #f7b52a;
         }
 
 block content
@@ -137,77 +139,12 @@ block content
                     h3 上传头像
                 form.head-form.body(name="headForm", ng-submit="uploadImg()")(style='min-height:200px;')
                     .center.aligned.container(style="padding-left: 150px; padding-right: 150px;",  ng-cloak)
-                            span 选择图片 : &nbsp;
-                            input(id='choose-image',type="file",name="photo",placeholder="选择图片",accept=".png,.gif,.jpeg,.jpg",style='cursor:pointer;',ng-src='{{files[0].name}}', onchange='angular.element(this).scope().fileChanged(this)')
+                        span 选择图片 : &nbsp;
+                        input(id='choose-image', type="file", name="photo", placeholder="选择图片", accept=".png,.gif,.jpeg,.jpg", style='cursor:pointer;', ng-src='{{files[0].name}}', onchange='angular.element(this).scope().fileChanged(this)')
                     .aligned.container(style="padding-left: 150px; padding-right: 150px;margin-top:20px;",  ng-cloak)
                         span 预览图片 :
                         .choose-img(style='width:50%;margin:0 auto;')
                             img(id="image-cut" src="/public/images/bee.png" alt="Picture")
                         .preview(style='width:100px;height:100px;over-flow:hidden;margin:0 auto;')
                         .field(style='margin-top:20px;')
-                            button.fluid.yellow.button.img-choose-btn(type="submit", disabled='true') 确定
-    script(src='https://code.jquery.com/jquery-3.1.1.slim.min.js')
-    script(src='/node_modules/cropper/dist/cropper.js')
-    script.
-        var cutImage = function (id) {
-            var $image = $(id);
-            var minAspectRatio = 0.5;
-            var maxAspectRatio = 1.5;
-
-            $image.cropper({
-                ready: function () {
-                    var containerData = $image.cropper('getContainerData');
-                    var cropBoxData = $image.cropper('getCropBoxData');
-                    var aspectRatio = cropBoxData.width / cropBoxData.height;
-                    var newCropBoxWidth;
-
-                    if (aspectRatio < minAspectRatio || aspectRatio > maxAspectRatio) {
-                        newCropBoxWidth = cropBoxData.height * ((minAspectRatio + maxAspectRatio) / 2);
-
-                        $image.cropper('setCropBoxData', {
-                            left: (containerData.width - newCropBoxWidth) / 2,
-                            width: newCropBoxWidth
-                        });
-                    }
-                },
-                cropmove: function () {
-                    var cropBoxData = $image.cropper('getCropBoxData');
-                    var aspectRatio = cropBoxData.width / cropBoxData.height;
-
-                    if (aspectRatio < minAspectRatio) {
-                        $image.cropper('setCropBoxData', {
-                            width: cropBoxData.height * minAspectRatio
-                        });
-                    } else if (aspectRatio > maxAspectRatio) {
-                        $image.cropper('setCropBoxData', {
-                            width: cropBoxData.height * maxAspectRatio
-                        });
-                    }
-                }
-            });
-        };
-
-        cutImage('#image-cut');
-
-        function preview1(file) {
-            var img = new Image(), url = img.src = URL.createObjectURL(file);
-            img.width='100px';
-            img.height='100px';
-            var $img = $(img);
-            console.log('进行preview方法');
-            img.onload = function () {
-                URL.revokeObjectURL(url);
-                $('.preview').empty().append($img);
-            }
-        }
-
-        $('#choose-image').change(function (e) {
-                console.log('图片改变');
-                var file = e.target.files[0];
-                preview1(file);
-                $('.img-choose-btn').removeAttr("disabled");
-        });
-
-
-
-
+                            button.fluid.yellow.button.img-choose-btn(type="submit") 确定
