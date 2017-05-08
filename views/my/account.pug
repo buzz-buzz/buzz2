@@ -1,7 +1,7 @@
 extends layout
 
 mixin pair(key, value)
-    div(style="margin: 2em 0;")
+    div(style="margin:0 0 2em 0;")
         div.pair
             span.key #{key}
             span.value #{value}
@@ -11,10 +11,12 @@ block js
     + js("/js/formModule.min.js")
     + js("/js/accountModule.min.js")
     + js("/js/educationModule.min.js")
+    + js("/node_modules/angular-file-reader-module/dist/angular-file-reader.js")
 
 block head
     + css("/public/css/button.min.css")
     + css("/public/css/modal.min.css")
+    + css("/node_modules/cropper/dist/cropper.css")
     style.
         .pair {
             display: flex;
@@ -48,6 +50,25 @@ block head
             font-weight: normal;
             font-size: 1.1rem;
         }
+        .preview>img{
+            width:160px;
+            height:100px;
+            display: block;
+            margin: 0 auto;
+        }
+        .choose-img{
+            display: none;
+        }
+
+        .head-img{
+            margin:0 auto;
+            width:100px;
+            height:100px;
+            border-radius:50%;
+            cursor:pointer;
+            overflow:hidden;
+            border:1px solid #f7b52a;
+        }
 
 block content
     #full-page.full.height.container(ng-app="accountModule", ng-controller="viewAccountCtrl")
@@ -63,6 +84,8 @@ block content
                             button.linear.button.right.floated(ng-click="showModal('')") 编辑
                         br
                         .left.aligned.container
+                            .head-img(ng-click="showModal('#head')")
+                                img(src='http://upload.bridgeplus.cn/FpfgA6nojLQAcoXjEv7sHfrNlOVd-minor',style='width:100%;height:100%;')
                             + pair('姓名', '{{$root.profile.real_name}}')
                             + pair('性别', '{{displayGender}}')
                             + pair('年级', '{{info.displayGrade}}')
@@ -108,3 +131,83 @@ block content
                         + mobileForm
                             .field
                                 button.fluid.yellow.button(type="submit", ng-disabled="!signUpForm.$valid") 确定
+        #head.mask(ng-controller='headImgCtrl',ng-class="{'hide': hideModal, 'show': showModal}", ng-click="hideTheModal()")
+            .popup(ng-click="keepModal($event)")
+                .title
+                    h3 上传头像
+                form.head-form.body(name="headForm", ng-submit="uploadImg()")(style='min-height:200px;')
+                    .center.aligned.container(style="padding-left: 150px; padding-right: 150px;",  ng-cloak)
+                            span 选择图片 : &nbsp;
+                            input(id='choose-image',type="file",name="photo",placeholder="选择图片",accept=".png,.gif,.jpeg,.jpg",style='cursor:pointer;',ng-src='{{files[0].name}}', onchange='angular.element(this).scope().fileChanged(this)')
+                    .aligned.container(style="padding-left: 150px; padding-right: 150px;margin-top:20px;",  ng-cloak)
+                        span 预览图片 :
+                        .choose-img(style='width:50%;margin:0 auto;')
+                            img(id="image-cut" src="/public/images/bee.png" alt="Picture")
+                        .preview(style='width:100px;height:100px;over-flow:hidden;margin:0 auto;')
+                        .field(style='margin-top:20px;')
+                            button.fluid.yellow.button.img-choose-btn(type="submit", disabled='true') 确定
+    script(src='https://code.jquery.com/jquery-3.1.1.slim.min.js')
+    script(src='/node_modules/cropper/dist/cropper.js')
+    script.
+        var cutImage = function (id) {
+            var $image = $(id);
+            var minAspectRatio = 0.5;
+            var maxAspectRatio = 1.5;
+
+            $image.cropper({
+                ready: function () {
+                    var containerData = $image.cropper('getContainerData');
+                    var cropBoxData = $image.cropper('getCropBoxData');
+                    var aspectRatio = cropBoxData.width / cropBoxData.height;
+                    var newCropBoxWidth;
+
+                    if (aspectRatio < minAspectRatio || aspectRatio > maxAspectRatio) {
+                        newCropBoxWidth = cropBoxData.height * ((minAspectRatio + maxAspectRatio) / 2);
+
+                        $image.cropper('setCropBoxData', {
+                            left: (containerData.width - newCropBoxWidth) / 2,
+                            width: newCropBoxWidth
+                        });
+                    }
+                },
+                cropmove: function () {
+                    var cropBoxData = $image.cropper('getCropBoxData');
+                    var aspectRatio = cropBoxData.width / cropBoxData.height;
+
+                    if (aspectRatio < minAspectRatio) {
+                        $image.cropper('setCropBoxData', {
+                            width: cropBoxData.height * minAspectRatio
+                        });
+                    } else if (aspectRatio > maxAspectRatio) {
+                        $image.cropper('setCropBoxData', {
+                            width: cropBoxData.height * maxAspectRatio
+                        });
+                    }
+                }
+            });
+        };
+
+        cutImage('#image-cut');
+
+        function preview1(file) {
+            var img = new Image(), url = img.src = URL.createObjectURL(file);
+            img.width='100px';
+            img.height='100px';
+            var $img = $(img);
+            console.log('进行preview方法');
+            img.onload = function () {
+                URL.revokeObjectURL(url);
+                $('.preview').empty().append($img);
+            }
+        }
+
+        $('#choose-image').change(function (e) {
+                console.log('图片改变');
+                var file = e.target.files[0];
+                preview1(file);
+                $('.img-choose-btn').removeAttr("disabled");
+        });
+
+
+
+

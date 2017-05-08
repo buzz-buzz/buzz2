@@ -1,4 +1,4 @@
-angular.module('accountModule', ['clientConfigModule', 'buzzHeaderModule', 'educationModule', 'servicesModule', 'errorParserModule', 'formModule'])
+angular.module('accountModule', ['clientConfigModule', 'buzzHeaderModule', 'educationModule', 'servicesModule', 'errorParserModule', 'formModule','angular-file-reader'])
     .config(['$translateProvider', function ($translateProvider) {
         $translateProvider.useSanitizeValueStrategy(null);
         $translateProvider.translations('en', {}).translations('zh', {
@@ -243,5 +243,59 @@ angular.module('accountModule', ['clientConfigModule', 'buzzHeaderModule', 'educ
                     $scope.successMessage = null;
                 });
         };
+    }])
+    .controller('headImgCtrl', ['$scope', '$rootScope', 'modalFactory','$http','clientConfig','service','requestTransformers',function ($scope, $rootScope, modalFactory,$http,clientConfig,service,requestTransformers) {
+        modalFactory.bootstrap($scope, $rootScope, '#head');
+
+        $scope.fileChanged = function(ele){
+            $scope.files = ele.files;
+            $scope.board = {};
+            $scope.$apply(); //传播Model的变化。
+        };
+
+        function uploadImageIfAny() {
+            var file = document.querySelector('input[id=choose-image]').files[0];
+            var filename = $scope.files[0].name;
+
+            console.log('进入上传方法---');
+
+            if (filename) {
+                console.log('前端成功put数据---'+file);
+
+                return $http.put(clientConfig.serviceUrls.buzz.picture.upload.frontEnd, {
+                    file: file,
+                    'x:category': 'upload-' + Math.random().toString()
+                }, {
+                    headers: {
+                        'X-Requested-With': undefined,
+                        'Content-Type': undefined
+                    },
+                    transformRequest: requestTransformers.transformToFormData
+                });
+
+            } else {
+                console.log('失败，数据为空');
+                //return $q.resolve({data: null});
+            }
+        }
+
+        $scope.uploadImg = function () {
+            console.log('开始提交。。。');
+            service.executePromiseAvoidDuplicate($scope, 'loading', function () {
+                return uploadImageIfAny()
+                    .then(function (pictureResult) {
+                        console.log('这是上传后七牛返回的数据---'+JSON.stringify(pictureResult));
+                        var result = pictureResult.data;
+
+                        if (result) {
+                            $scope.board.image_url = '//' + result.host + '/' + result.key + '';
+                        }
+
+                        console.log('这是上传后七牛返回的的url---');
+                        console.log($scope.board.image_url);
+                        return $scope.board;
+                    })
+            });
+        }
     }])
 ;

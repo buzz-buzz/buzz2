@@ -139,6 +139,13 @@ module.exports = {
                 frontEnd: '/service-proxy/weekly/score',
                 upstream: '/weekly-quiz'
             }
+        },
+        picture:{
+            upload:{
+                frontEnd:'/service-proxy/picture/qiniu',
+                abbr: '/qiniu',
+                bucket:'/buzz-resource'
+            }
         }
     },
     wechat: {
