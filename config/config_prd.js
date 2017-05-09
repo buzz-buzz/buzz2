@@ -59,6 +59,13 @@ module.exports = {
         }
     },
 
+    upload_qiniu:{
+        inner: {
+            host: "service.hcdlearning.com",
+            port: 10003
+        }
+    },
+
     logger: {
         appName: 'buzz'
     },

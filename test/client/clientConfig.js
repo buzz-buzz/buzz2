@@ -88,7 +88,7 @@ angular.module("clientConfigModule", []).value("clientConfig", {
             },
             "share": {"myLink": "/service-proxy/share/my-link"},
             "progress": {
-                "Statistics": {
+                "statistics": {
                     "frontEnd": "/service-proxy/progress/data",
                     "upstream": "/v1/buzz/report/weekly_stat"
                 }

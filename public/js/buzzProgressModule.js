@@ -202,7 +202,7 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
                     bad: 0
                 };
                 levelFactory.getLevel().then(function (level) {
-                    api.get(clientConfig.serviceUrls.buzz.progress.Statistics.frontEnd + '?level=' + level + '&top=1')
+                    api.get(clientConfig.serviceUrls.buzz.progress.statistics.frontEnd + '?level=' + level + '&top=1')
                         .then(function (response) {
                             if (response.data.value.length) {
                                 $scope.$parent.weekPerformance.good = response.data.value[0].num_of_all_correct_question_day;
@@ -274,7 +274,7 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
         }
 
         levelFactory.getLevel().then(function (level) {
-            $http.get(clientConfig.serviceUrls.buzz.progress.Statistics.frontEnd + '?level=' + level + '&top=5')
+            $http.get(clientConfig.serviceUrls.buzz.progress.statistics.frontEnd + '?level=' + level + '&top=5')
                 .then(function (response) {
                     if (response.data.value.length) {
                         $scope.totalWord = 0;
@@ -340,7 +340,7 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
         //hank
         $scope.totalWord = 0;
         levelFactory.getLevel().then(function (level) {
-            api.get(clientConfig.serviceUrls.buzz.progress.Statistics.frontEnd + '?level=' + level + '&top=5')
+            api.get(clientConfig.serviceUrls.buzz.progress.statistics.frontEnd + '?level=' + level + '&top=5')
                 .then(function (response) {
                     if (response.data.value.length) {
                         var week_now = parseInt(response.data.value[0].week);

@@ -1,4 +1,4 @@
-angular.module('accountModule', ['clientConfigModule', 'buzzHeaderModule', 'educationModule', 'servicesModule', 'errorParserModule', 'formModule','angular-file-reader'])
+angular.module('accountModule', ['clientConfigModule', 'buzzHeaderModule', 'educationModule', 'servicesModule', 'errorParserModule', 'formModule', 'angular-file-reader'])
     .config(['$translateProvider', function ($translateProvider) {
         $translateProvider.useSanitizeValueStrategy(null);
         $translateProvider.translations('en', {}).translations('zh', {
@@ -11,7 +11,7 @@ angular.module('accountModule', ['clientConfigModule', 'buzzHeaderModule', 'educ
         });
         $translateProvider.preferredLanguage('zh');
     }])
-    .controller('viewAccountCtrl', ['$http', 'clientConfig', '$rootScope', '$scope', 'GenderDisplay', 'GradeDisplay', 'LevelDisplay', function ($http, clientConfig, $rootScope, $scope, GenderDisplay, GradeDisplay, LevelDisplay) {
+    .controller('viewAccountCtrl', ['$http', 'clientConfig', '$rootScope', '$scope', 'GenderDisplay', 'GradeDisplay', 'LevelDisplay', 'api', function ($http, clientConfig, $rootScope, $scope, GenderDisplay, GradeDisplay, LevelDisplay, api) {
         $scope.expanded = false;
         $scope.expand = function (val) {
             $scope.expanded = val;
@@ -60,6 +60,10 @@ angular.module('accountModule', ['clientConfigModule', 'buzzHeaderModule', 'educ
 
             if (data.mobile) {
                 $rootScope.profile.mobile = data.mobile;
+            }
+
+            if (data.avatar) {
+                $rootScope.profile.avatar= data.avatar;
             }
         });
     }])
@@ -165,6 +169,7 @@ angular.module('accountModule', ['clientConfigModule', 'buzzHeaderModule', 'educ
                     return gradeObj.key === val || val === gradeObj.name;
                 }) || {name: "", key: ""};
         };
+
         $scope.data = {
             name: $rootScope.profile.real_name,
             gender: $rootScope.profile.gender,
@@ -244,24 +249,14 @@ angular.module('accountModule', ['clientConfigModule', 'buzzHeaderModule', 'educ
                 });
         };
     }])
-    .controller('headImgCtrl', ['$scope', '$rootScope', 'modalFactory','$http','clientConfig','service','requestTransformers',function ($scope, $rootScope, modalFactory,$http,clientConfig,service,requestTransformers) {
+    .controller('headImgCtrl', ['$scope', '$rootScope', 'modalFactory', '$http', 'clientConfig', 'service', 'requestTransformers', 'api','$timeout', function ($scope, $rootScope, modalFactory, $http, clientConfig, service, requestTransformers, api,$timeout) {
         modalFactory.bootstrap($scope, $rootScope, '#head');
-
-        $scope.fileChanged = function(ele){
-            $scope.files = ele.files;
-            $scope.board = {};
-            $scope.$apply(); //传播Model的变化。
-        };
 
         function uploadImageIfAny() {
             var file = document.querySelector('input[id=choose-image]').files[0];
-            var filename = $scope.files[0].name;
-
-            console.log('进入上传方法---');
+            var filename = file.name;
 
             if (filename) {
-                console.log('前端成功put数据---'+file);
-
                 return $http.put(clientConfig.serviceUrls.buzz.picture.upload.frontEnd, {
                     file: file,
                     'x:category': 'upload-' + Math.random().toString()
@@ -275,26 +270,40 @@ angular.module('accountModule', ['clientConfigModule', 'buzzHeaderModule', 'educ
 
             } else {
                 console.log('失败，数据为空');
-                //return $q.resolve({data: null});
             }
         }
 
         $scope.uploadImg = function () {
-            console.log('开始提交。。。');
             service.executePromiseAvoidDuplicate($scope, 'loading', function () {
                 return uploadImageIfAny()
                     .then(function (pictureResult) {
-                        console.log('这是上传后七牛返回的数据---'+JSON.stringify(pictureResult));
                         var result = pictureResult.data;
 
                         if (result) {
-                            $scope.board.image_url = '//' + result.host + '/' + result.key + '';
+                            var infoHeadUrl = '//' + result.host + '/' + result.key + '';
                         }
+                        return infoHeadUrl;
+                    }).then(function (infoHeadUrl) {
+                        var dataToUpdate = {avatar: infoHeadUrl};
 
-                        console.log('这是上传后七牛返回的的url---');
-                        console.log($scope.board.image_url);
-                        return $scope.board;
+                        service.post(clientConfig.serviceUrls.sso.profile.update.frontEnd,
+                                    dataToUpdate).
+                                then(function () {
+                                $scope.infoHeadUrl=infoHeadUrl;
+                                $scope.$emit('info:updated', dataToUpdate);
+                                $scope.$emit("editDone");
+
+                                $timeout(function () {
+                                    $scope.$emit('modal:hide');
+                                    $scope.successMessage = '';
+                                }, 1000);
+                        }).catch(function () {
+                            //todo
+                            $scope.$emit("editDone");
+                        });
                     })
+                    ;
+
             });
         }
     }])
