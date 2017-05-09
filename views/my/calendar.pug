@@ -115,7 +115,7 @@ mixin weeks()
 
 .calendar(ng-controller="calendarCtrl")
     .header
-        .grid
+        .grid(ng-cloak)
             a.column(ng-click="gotoMonth(-1)")
                 span.icon-play3(style="transform: rotate(180deg); display: inline-block;")
             a.column {{current | date: 'MMM, yyyy'}}

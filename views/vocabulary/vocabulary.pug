@@ -271,7 +271,7 @@ block content
                         i.icon-checkbox-checked(ng-show="radioBoxType===RADIO_TYPE.NOTTEST")
                         i.icon-checkbox-unchecked(ng-show="radioBoxType!==RADIO_TYPE.NOTTEST")
                         span &#x672A;&#x7EC3;&#x4E60;
-            .table-row.center.body(ng-repeat="weeklylist in vocabularyAll")
+            .table-row.center.body(ng-repeat="weeklylist in vocabularyAll",ng-cloak)
                 .table-column.part1
                     div {{weeklylist.year}}
                     a(ng-href="/my/play?date={{weeklylist.date}}&cat={{weeklylist.category}}&level={{weeklylist.level}}").monthday {{weeklylist.monthDay}}
@@ -307,7 +307,7 @@ block content
         include ../../node_modules/angular-service/views/pagination.pug
         + pagination('vocabularyData')
         .popup-mask(style="position:fixed;height:100%;width:100%;background-color:rgba(0,0,0,0.4);top:0;left:0",ng-show="printMode")
-        .popup(style="position:fixed;top: 5em;margin:auto;left:0;right:0",ng-show="printMode",ng-click="hidePopup()")
+        .popup(style="position:fixed;top: 5em;margin:auto;left:0;right:0",ng-show="printMode",ng-click="hidePopup()",ng-cloak)
             iframe(width=800,height=600,frameborder="no",border="0",ng-show="printMode",ng-src="{{$sce.trustAsResourceUrl(printURL)}}")
 
 block js

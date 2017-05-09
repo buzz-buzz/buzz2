@@ -85,7 +85,7 @@ block content
                         div.clear
                             button.linear.button.right.floated(ng-click="showModal('')") 编辑
                         br
-                        .left.aligned.container
+                        .left.aligned.container(ng-cloak)
                             .head-img(ng-click="showModal('#head')")
                                 img(src='http://upload.bridgeplus.cn/FpfgA6nojLQAcoXjEv7sHfrNlOVd-minor',style='width:100%;height:100%;')
                             + pair('姓名', '{{$root.profile.real_name}}')
