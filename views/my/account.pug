@@ -9,7 +9,7 @@ mixin pair(key, value)
 
 block js
     + js("/js/formModule.min.js")
-    + js("/js/accountModule.js")
+    + js("/js/accountModule.min.js")
     + js("/js/educationModule.min.js")
     + js("/node_modules/angular-file-reader-module/dist/angular-file-reader.js")
 
@@ -161,7 +161,7 @@ block content
                     .aligned.container(style="padding-left: 150px; padding-right: 150px;margin-top:20px;",  ng-cloak)
                         span 预览头像 :
                         .preview(id='preview')
-                            img(ng-src='{{infoHeadUrl}}',id='preview-img' ,ng-cloak)
+                            img(ng-src='{{$root.profile.avatar}}',id='preview-img' ,ng-cloak)
                         .field(style='margin-top:20px;')
                             button.fluid.yellow.button.img-choose-btn(type="submit",disabled, id='submitHeadUrl') 确定
     script.

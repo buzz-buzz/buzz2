@@ -11,7 +11,7 @@ angular.module('accountModule', ['clientConfigModule', 'buzzHeaderModule', 'educ
         });
         $translateProvider.preferredLanguage('zh');
     }])
-    .controller('viewAccountCtrl', ['$http', 'clientConfig', '$rootScope', '$scope', 'GenderDisplay', 'GradeDisplay', 'LevelDisplay', 'api', function ($http, clientConfig, $rootScope, $scope, GenderDisplay, GradeDisplay, LevelDisplay, api) {
+    .controller('viewAccountCtrl', ['$http', 'clientConfig', '$rootScope', '$scope', 'GenderDisplay', 'GradeDisplay', 'LevelDisplay',  function ($http, clientConfig, $rootScope, $scope, GenderDisplay, GradeDisplay, LevelDisplay) {
         $scope.expanded = false;
         $scope.expand = function (val) {
             $scope.expanded = val;
@@ -67,7 +67,7 @@ angular.module('accountModule', ['clientConfigModule', 'buzzHeaderModule', 'educ
             }
         });
     }])
-    .controller('qrCodeCtrl', ['$scope', '$rootScope', 'buzzApi', 'clientConfig', function ($scope, $rootScope, buzzApi, clientConfig) {
+    .controller('qrCodeCtrl', ['$scope', '$rootScope', 'buzzApi', function ($scope, $rootScope, buzzApi) {
         var modalId = '#qr-code';
         $scope.showDetail = function () {
             $rootScope.$emit('modal:show' + modalId);

@@ -7,14 +7,13 @@ html(manifest="/buzz.appcache")
     meta(name="viewport", content="width=375, user-scalable=no")
     title='Buzzbuzz English'
     + css("/public/css/style.min.css", true)
-body(ng-app="accountModule", ng-controller="viewAccountCtrl")
     style.
         .init {
             display: none;
         }
 
         body {
-            margin: 0px;
+            margin: 0;
             font-family: "微软雅黑", "Helvetica Neue", Helvetica, Arial, sans-serif;
             color: #333;
         }
@@ -156,9 +155,11 @@ body(ng-app="accountModule", ng-controller="viewAccountCtrl")
             line-height: 2.8rem;
             padding-left: 1rem;
         }
+
         .row.content input {
             border: none;
         }
+
         input {
             text-decoration: none;
             width: 144px;
@@ -210,6 +211,7 @@ body(ng-app="accountModule", ng-controller="viewAccountCtrl")
             background-color: #f6b52a !important;
             color: #fff;
         }
+
         .fluid.button {
             width: 100%;
             margin-top: 10px;
@@ -223,6 +225,7 @@ body(ng-app="accountModule", ng-controller="viewAccountCtrl")
             padding-bottom: 5px;
             display: block;
         }
+
         .verification {
             margin-left: 10px;
             white-space: nowrap;
@@ -230,75 +233,79 @@ body(ng-app="accountModule", ng-controller="viewAccountCtrl")
             right: 0;
             top: 19px;
         }
+
         .popup {
-            width:76%;
+            width: 76%;
             margin: 0 auto;
         }
+
         .popup .body {
             padding: 1rem .5rem !important;
         }
-        .mask{
+
+        .mask {
             justify-content: left !important;
         }
-    .header.init
-        span 我
-        .back(ng-if="expanded", ng-click="expand(false)") <
-    .body.init
-        .menu(ng-if="!expanded")
-            .row.bar.person(ng-click="expand(true)")
-                img(ng-src=`{{$root.profile.avatar || '${config.cdn}/public/images/default_avatar.png?${config.imageversion}'}}`)
-                .name {{$root.profile.real_name}}
-                span.more.icon-chevron-thin-right
-            .row.bar.narrow.stackable.notch(ng-click="showDetail()", ng-controller="qrCodeCtrl")
-                span(style="flex: 4;") 我要分享
-                span.more(style="flex:1; text-align: right;")
-                    i.icon-qrcode
-                    span &nbsp;&nbsp;&nbsp;
-                    span.icon-chevron-thin-right(style="text-align: right;")
-            a.row.bar.quit(href="/sign-out", style="text-align: center; display: block;") 退出当前登陆
-        .account(ng-if="expanded",ng-controller="mobileInfoCtrl")
-            div(ng-controller="mobileWidgetCtrl")
-                .row.title 姓名
-                .row.content(ng-click="changeMode(true)")
-                    input(type="text", ng-model="data.name")
-                .row.button-row(ng-if="editMode")
-                    .button(ng-click="updateName()") 保存
-                    .blank
-                    .button(ng-click="cancel()") 取消
-            div(ng-controller="mobileWidgetCtrl")
-                .row.title 性别
-                .row.content(ng-click="changeMode(true)", ng-if="!editMode")
-                    div(ng-if="data.gender=='M'") 金童
-                    div(ng-if="data.gender=='F'") 玉女
-                    div(ng-if="!data.gender || data.gender == 'U'") 未知
-                .row.button-row(ng-if="editMode")
-                    .radio
-                        input(type="radio", ng-model="data.gender", value="M", id="male")
-                        label(for="male") 金童
-                    .radio
-                        input(type="radio", ng-model="data.gender", value="F", id="female")
-                        label(for="female") 玉女
-                .row.button-row(ng-if="editMode")
-                    .button(ng-click="updateGender()") 保存
-                    .blank
-                    .button(ng-click="cancel()") 取消
-            div(ng-controller="mobileWidgetCtrl")
-                .row.title 年级
-                .row.content(ng-click="changeMode(true)", ng-if="!editMode") {{data.displayGrade || "未选择"}}
-                .row.content(ng-if="editMode")
-                    select(ng-model="data.grade", ng-options="i.name for i in grades")
-                .row.button-row(ng-if="editMode")
-                    .button(ng-click="updateGrade()") 保存
-                    .blank
-                    .button(ng-click="cancel()") 取消
-            div(style='margin-bottom:80px;')
-                .row.title 手机号
-                .row.content(ng-click="showModal('#mobile')") {{$root.profile.mobile}}
-        #mobile.mask(ng-controller="mobileModalCtrl", ng-class="{'hide': hideModal, 'show': showModal}", ng-click="hideTheModal()")
-            .popup(ng-click="keepModal($event)")
-                .title
-                    h3(style='width:100%;') 修改手机号码
-                .body(ng-controller="changeMobileCtrl")
+    body(ng-app="accountModule", ng-controller="viewAccountCtrl")
+        .header.init
+            span 我
+            .back(ng-if="expanded", ng-click="expand(false)") <
+        .body.init
+            .menu(ng-if="!expanded")
+                .row.bar.person(ng-click="expand(true)")
+                    img(ng-src=`{{$root.profile.avatar || '${config.cdn}/public/images/default_avatar.png?${config.imageversion}'}}`)
+                    .name {{$root.profile.real_name}}
+                    span.more.icon-chevron-thin-right
+                .row.bar.narrow.stackable.notch(ng-click="showDetail()", ng-controller="qrCodeCtrl")
+                    span(style="flex: 4;") 我要分享
+                    span.more(style="flex:1; text-align: right;")
+                        i.icon-qrcode
+                        span &nbsp;&nbsp;&nbsp;
+                        span.icon-chevron-thin-right(style="text-align: right;")
+                a.row.bar.quit(href="/sign-out", style="text-align: center; display: block;") 退出当前登陆
+            .account(ng-if="expanded",ng-controller="mobileInfoCtrl")
+                div(ng-controller="mobileWidgetCtrl")
+                    .row.title 姓名
+                    .row.content(ng-click="changeMode(true)")
+                        input(type="text", ng-model="data.name")
+                    .row.button-row(ng-if="editMode")
+                        .button(ng-click="updateName()") 保存
+                        .blank
+                        .button(ng-click="cancel()") 取消
+                div(ng-controller="mobileWidgetCtrl")
+                    .row.title 性别
+                    .row.content(ng-click="changeMode(true)", ng-if="!editMode")
+                        div(ng-if="data.gender=='M'") 金童
+                        div(ng-if="data.gender=='F'") 玉女
+                        div(ng-if="!data.gender || data.gender == 'U'") 未知
+                    .row.button-row(ng-if="editMode")
+                        .radio
+                            input(type="radio", ng-model="data.gender", value="M", id="male")
+                            label(for="male") 金童
+                        .radio
+                            input(type="radio", ng-model="data.gender", value="F", id="female")
+                            label(for="female") 玉女
+                    .row.button-row(ng-if="editMode")
+                        .button(ng-click="updateGender()") 保存
+                        .blank
+                        .button(ng-click="cancel()") 取消
+                div(ng-controller="mobileWidgetCtrl")
+                    .row.title 年级
+                    .row.content(ng-click="changeMode(true)", ng-if="!editMode") {{data.displayGrade || "未选择"}}
+                    .row.content(ng-if="editMode")
+                        select(ng-model="data.grade", ng-options="i.name for i in grades")
+                    .row.button-row(ng-if="editMode")
+                        .button(ng-click="updateGrade()") 保存
+                        .blank
+                        .button(ng-click="cancel()") 取消
+                div(style='margin-bottom:80px;')
+                    .row.title 手机号
+                    .row.content(ng-click="showModal('#mobile')") {{$root.profile.mobile}}
+            #mobile.mask(ng-controller="mobileModalCtrl", ng-class="{'hide': hideModal, 'show': showModal}", ng-click="hideTheModal()")
+                .popup(ng-click="keepModal($event)")
+                    .title
+                        h3(style='width:100%;') 修改手机号码
+                    .body(ng-controller="changeMobileCtrl")
                         include ./partials/mobile-form
                         + mobileForm
                             .field
@@ -317,6 +324,7 @@ body(ng-app="accountModule", ng-controller="viewAccountCtrl")
     + js("/node_modules/moment/min/moment.min.js")
     + js("/js/buzzProgressModule.min.js")
     + js("/js/buzzHeaderModule.min.js")
+    + js("/node_modules/angular-file-reader-module/dist/angular-file-reader.js")
     script.
         Array.from(document.getElementsByClassName("init")).forEach(function (ele) {
             ele.className = ele.className.replace(/(^|\s)init($|\s)/, ' ')
