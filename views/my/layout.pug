@@ -37,9 +37,6 @@ html(manifest="/buzz.appcache")
                         img.white.background.logo(src="http://resource.buzzbuzzenglish.com/new_buzz_logo.png")
                     span.space
                     span.top.aligned.welcome.message(style="position: absolute;",ng-cloak) Hello {{profile.display_name}}, welcome to Buzzbuzz English.
-        .sidebar.sidebar-right
-            .scrollable
-                h1.scrollable-header.app-name  打赏
         block content
         include ../js
         + js("/js/buzzHeaderModule.min.js")

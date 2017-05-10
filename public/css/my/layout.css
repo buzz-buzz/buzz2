@@ -41,3 +41,30 @@
 a {
     cursor: pointer;
 }
+.sidebar.sidebar-right {
+    position: fixed;
+    right: 9%;
+    top: 40px;
+    background-color: #f7b52a;
+    height: 46px;
+    line-height: 46px;
+    border-radius: 50%;
+    margin: 0;
+    padding: 0;
+}
+.sidebar.sidebar-right .scrollable {
+    width: 46px;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+.sidebar.sidebar-right .scrollable button {
+    background-color: transparent;
+    border:none;
+    outline: none;
+    cursor: pointer;
+}
+.scrollable-header.app-name {
+    font-size: 15px;
+    color: #fff;
+}
