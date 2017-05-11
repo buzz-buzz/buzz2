@@ -11,7 +11,7 @@ angular.module('accountModule', ['clientConfigModule', 'buzzHeaderModule', 'educ
         });
         $translateProvider.preferredLanguage('zh');
     }])
-    .controller('viewAccountCtrl', ['$http', 'clientConfig', '$rootScope', '$scope', 'GenderDisplay', 'GradeDisplay', 'LevelDisplay',  function ($http, clientConfig, $rootScope, $scope, GenderDisplay, GradeDisplay, LevelDisplay) {
+    .controller('viewAccountCtrl', ['$http', 'clientConfig', '$rootScope', '$scope', 'GenderDisplay', 'GradeDisplay', 'LevelDisplay', function ($http, clientConfig, $rootScope, $scope, GenderDisplay, GradeDisplay, LevelDisplay) {
         $scope.expanded = false;
         $scope.expand = function (val) {
             $scope.expanded = val;
@@ -34,6 +34,11 @@ angular.module('accountModule', ['clientConfigModule', 'buzzHeaderModule', 'educ
 
         $scope.showModal = function (id) {
             $rootScope.$emit('modal:show' + id);
+        };
+
+        $scope.mobileChangeAvatar = function () {
+            location.href = '/my/avatar';
+            event.stopPropagation();
         };
 
         $rootScope.$on('info:updated', function (event, data) {
@@ -63,7 +68,7 @@ angular.module('accountModule', ['clientConfigModule', 'buzzHeaderModule', 'educ
             }
 
             if (data.avatar) {
-                $rootScope.profile.avatar= data.avatar;
+                $rootScope.profile.avatar = data.avatar;
             }
         });
     }])
@@ -249,7 +254,7 @@ angular.module('accountModule', ['clientConfigModule', 'buzzHeaderModule', 'educ
                 });
         };
     }])
-    .controller('headImgCtrl', ['$scope', '$rootScope', 'modalFactory', '$http', 'clientConfig', 'service', 'requestTransformers', 'api','$timeout', function ($scope, $rootScope, modalFactory, $http, clientConfig, service, requestTransformers, api,$timeout) {
+    .controller('headImgCtrl', ['$scope', '$rootScope', 'modalFactory', '$http', 'clientConfig', 'service', 'requestTransformers', 'api', '$timeout', function ($scope, $rootScope, modalFactory, $http, clientConfig, service, requestTransformers, api, $timeout) {
         modalFactory.bootstrap($scope, $rootScope, '#head');
 
         function uploadImageIfAny() {
@@ -273,7 +278,10 @@ angular.module('accountModule', ['clientConfigModule', 'buzzHeaderModule', 'educ
             }
         }
 
-        $scope.uploadImg = function () {
+        $scope.uploadImg = function (resource) {
+            if(resource==='mobile'){
+                $rootScope.profile.errorMessage='上传中...';
+            }
             service.executePromiseAvoidDuplicate($scope, 'loading', function () {
                 return uploadImageIfAny()
                     .then(function (pictureResult) {
@@ -287,16 +295,26 @@ angular.module('accountModule', ['clientConfigModule', 'buzzHeaderModule', 'educ
                         var dataToUpdate = {avatar: infoHeadUrl};
 
                         service.post(clientConfig.serviceUrls.sso.profile.update.frontEnd,
-                                    dataToUpdate).
-                                then(function () {
-                                $scope.infoHeadUrl=infoHeadUrl;
-                                $scope.$emit('info:updated', dataToUpdate);
-                                $scope.$emit("editDone");
+                            dataToUpdate).then(function () {
+                            $scope.infoHeadUrl = infoHeadUrl;
+                            $scope.$emit('info:updated', dataToUpdate);
+                            $scope.$emit("editDone");
 
+                            if(resource==='pc'){
                                 $timeout(function () {
                                     $scope.$emit('modal:hide');
                                     $scope.successMessage = '';
                                 }, 1000);
+                            }
+
+                            if(resource==='mobile'){
+                                $timeout(function () {
+                                    $rootScope.profile.errorMessage='';
+                                    document.getElementById('submitHeadUrl').style.display='none';
+                                    document.getElementById('preview').style.display='none';
+                                }, 1500);
+                            }
+
                         }).catch(function () {
                             //todo
                             $scope.$emit("editDone");

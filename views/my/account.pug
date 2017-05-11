@@ -154,14 +154,14 @@ block content
             .popup(ng-click="keepModal($event)")
                 .title
                     h3 上传头像
-                form.head-form.body(name="headForm", ng-submit="uploadImg()")(style='min-height:200px;')
+                form.head-form.body(name="headForm", ng-submit="uploadImg('pc')")(style='min-height:200px;')
                     .center.aligned.container(style="padding-left: 150px; padding-right: 150px;display:flex;",  ng-cloak)
                         span(style='width:30%;flex:1;line-height:40px;') 选择图片 : &nbsp;
                         input(id='choose-image', type="file", name="photo", placeholder="选择图片", accept=".png,.gif,.jpeg,.jpg", style='cursor:pointer;', ng-src='{{files[0].name}}', onchange='preview(this)')
                     .aligned.container(style="padding-left: 150px; padding-right: 150px;margin-top:20px;",  ng-cloak)
                         span 预览头像 :
                         .preview(id='preview')
-                            img(ng-src='{{$root.profile.avatar}}',id='preview-img' ,ng-cloak)
+                            img(ng-src='{{$root.profile.avatar}}',id='preview-img' ,ng-cloak,style='width:100px;')
                         .field(style='margin-top:20px;')
                             button.fluid.yellow.button.img-choose-btn(type="submit",disabled, id='submitHeadUrl') 确定
     script.

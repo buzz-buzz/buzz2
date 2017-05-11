@@ -96,6 +96,7 @@ html(manifest="/buzz.appcache")
             height: 4rem;
             vertical-align: middle;
             border-radius: 50%;
+            width: 4em;
         }
 
         .row.person .name {
@@ -162,9 +163,10 @@ html(manifest="/buzz.appcache")
 
         input {
             text-decoration: none;
-            width: 144px;
+            width: 80%;
             height: 19px;
             border: 1px solid #f0f0f0;
+            outline: #f9b600;
         }
 
         input:focus {
@@ -185,7 +187,7 @@ html(manifest="/buzz.appcache")
 
         .row.button-row .button {
             display: inline-block;
-            width: 187px;
+            width: 48%;
             text-align: center;
             background-color: #f9b600;
             color: white;
@@ -253,7 +255,7 @@ html(manifest="/buzz.appcache")
         .body.init
             .menu(ng-if="!expanded")
                 .row.bar.person(ng-click="expand(true)")
-                    img(ng-src=`{{$root.profile.avatar || '${config.cdn}/public/images/default_avatar.png?${config.imageversion}'}}`)
+                    img(ng-src='{{$root.profile.avatar}}',ng-click="mobileChangeAvatar()")
                     .name {{$root.profile.real_name}}
                     span.more.icon-chevron-thin-right
                 .row.bar.narrow.stackable.notch(ng-click="showDetail()", ng-controller="qrCodeCtrl")
@@ -303,8 +305,8 @@ html(manifest="/buzz.appcache")
                     .row.content(ng-click="showModal('#mobile')") {{$root.profile.mobile}}
             #mobile.mask(ng-controller="mobileModalCtrl", ng-class="{'hide': hideModal, 'show': showModal}", ng-click="hideTheModal()")
                 .popup(ng-click="keepModal($event)")
-                    .title
-                        h3(style='width:100%;') 修改手机号码
+                    .title(style='padding: 0.8rem 1rem;')
+                        h3(style='width:100%;text-align: center;') 修改手机号码
                     .body(ng-controller="changeMobileCtrl")
                         include ./partials/mobile-form
                         + mobileForm

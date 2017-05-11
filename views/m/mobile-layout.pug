@@ -27,6 +27,10 @@ html(manifest="/buzz.appcache")
             background: white;
         }
 
+        .sidebar-toggle{
+            width:100%;
+        }
+
         .navbar-app {
             background-color: #f6b52a;
             color: black;
@@ -57,10 +61,11 @@ body(ng-app="mobileModule")
     .app
         .navbar.navbar-app.navbar-absolute-top
             .navbar-brand.navbar-brand-center
-                span Buzzbuzz English
+                span=title || 'Buzzbuzz English'
             .btn.sidebar-toggle
                 .btn-group.pull-left
-                    a(href='javascript:location.href="/my/today"') <
+                    a(href=backUrl ||'javascript:location.href="/my/today"') <
+                block rightTopMenu
 
         .app-body
             .app-content
@@ -82,11 +87,16 @@ body(ng-app="mobileModule")
     + js("/js/buzzModule/newWordCtrl.min.js")
     + js("/js/buzzModule/quizCtrl.min.js")
     + js("/js/level-ctrl.min.js")
+    + js("/js/formModule.min.js")
+    + js("/js/accountModule.min.js")
+    + js("/js/educationModule.min.js")
+    + js("/node_modules/angular-file-reader-module/dist/angular-file-reader.js")
     script.
         angular.module('mobileModule', [
             'ngRoute',
             'mobile-angular-ui',
-            'buzzModule'
+            'buzzModule',
+            'accountModule'
         ])
             .config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
                 $locationProvider.html5Mode(true);
@@ -109,6 +119,11 @@ body(ng-app="mobileModule")
                         templateUrl: 'vocabulary.html',
                         controller: 'newWordCtrl',
                         controllerAS: 'newWordCtrl'
+                    })
+                    .when('/avatar', {
+                        templateUrl: 'avatar.html',
+                        controller: 'viewAccountCtrl',
+                        controllerAS: 'viewAccountCtrl'
                     })
 
                 $routeProvider.otherwise('/weekly-quiz');

@@ -93,5 +93,8 @@ module.exports = function (app, router, render) {
         .get('/my/today-vocabulary', membership.ensureAuthenticated, function *() {
             this.body = yield render('m/vocabulary', {config: config, base: '/my/'});
         })
+        .get('/my/avatar', membership.ensureAuthenticated, function *() {
+            this.body = yield render('m/my/avatar-mobile', {config: config, base: '/my/', title: '头像', backUrl:'javascript:location.href="/m/my/my"'});
+        })
     ;
 };
