@@ -384,7 +384,9 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
                         position: 'right',
                         ticks: {
                             stepSize: 1,
-                            reverse: true
+                            reverse: true,
+                            suggestedMin: 1,
+                            suggestedMax: 10
                         },
                         gridLines: {
                             display: false
