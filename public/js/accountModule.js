@@ -103,6 +103,7 @@ angular.module('accountModule', ['clientConfigModule', 'buzzHeaderModule', 'educ
         $scope.step = 2;
 
         modalFactory.bootstrap($scope, $rootScope, '');
+
     }])
     .controller('mobileModalCtrl', ['$scope', '$rootScope', 'modalFactory', function ($scope, $rootScope, modalFactory) {
         modalFactory.bootstrap($scope, $rootScope, '#mobile');
@@ -128,6 +129,20 @@ angular.module('accountModule', ['clientConfigModule', 'buzzHeaderModule', 'educ
         $http.get(clientConfig.serviceUrls.buzz.profile.latestAllEducation.frontEnd).then(function (result) {
             if (result.data.fav_topics && result.data.fav_topics.length) {
                 $scope.infoData.topics = result.data.fav_topics[0];
+                Array.prototype.contains = function ( needle ) {
+                    for (i in this) {
+                        if (this[i] == needle) return true;
+                    }
+                    return false;
+                };
+
+                $scope.topicSelect=function(op){
+                   if($scope.infoData.topics.contains(op)){
+                       $scope.infoData.topics.remove(op);
+                   }else{
+                       $scope.infoData.topics.push(op);
+                   }
+                }
             }
 
             $scope.infoData.level = result.data.fav_level;

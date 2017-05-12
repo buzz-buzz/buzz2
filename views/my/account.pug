@@ -87,6 +87,11 @@ block head
             height:100%;
         }
 
+        select.topic option:checked{
+            background-color: #36e4fc;
+            color:white;
+        }
+
 block content
     #full-page.full.height.container(ng-app="accountModule", ng-controller="viewAccountCtrl")
         a.page-pos(name="page-1")
@@ -111,7 +116,7 @@ block content
                             + pair('绑定手机', '{{$root.profile.mobile}}')
                                 div
                                     button.linear.button(type="button", ng-click="showModal('#mobile')") 修改
-                            + pair('喜欢主题', '{{info.topics[0]}}')
+                            + pair('喜欢主题', '{{info.topics[0].join(",")}}')
                             + pair('难度版本', '{{info.level}}')
         #my-info.mask(ng-controller="infoFormParentCtrl", ng-class="{'hide': hideModal, 'show': showModal}", ng-click="hideTheModal()")
             .popup(ng-click="keepModal($event)")
@@ -123,8 +128,8 @@ block content
                         + infoForm
                             .fluid.field
                                 label.padded.select
-                                    span 喜欢的主题
-                                    select(ng-model="infoData.topics", placeholder="请选择你喜欢的主题", ng-required="false")
+                                    span 主题
+                                    select.topic(ng-model="infoData.topics", placeholder="请选择你喜欢的主题", ng-required="false", multiple='multiple', size=3)
                                         option(ng-repeat="topic in topics", value="{{topic.key}}" ,ng-cloak) {{topic.name}}
                             .fluid.field
                                 label(style="border: none;")
