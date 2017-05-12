@@ -8,7 +8,7 @@ angular.module('vocabularyModule', ['trackingModule', 'clientConfigModule', 'Dat
             5: '五'
         }[DateFactory.getWeekNumberOfMonth(new Date())];
     }])
-    .controller('vocabularyCtrl', ['$scope', '$sce', 'trackingX', 'clientConfig', '$http', 'Month', 'DateOfMonth', 'quizFactory', 'queryParser', '$q', 'httpPaginationData', 'api', function ($scope, $sce, trackingX, clientConfig, $http, Month, DateOfMonth, quizFactory, queryParser, $q, paginationData, api) {
+    .controller('vocabularyCtrl', ['$scope', '$sce', 'trackingX', 'clientConfig', '$http', 'Month', 'DateOfMonth', 'quizFactory', 'queryParser', '$q', 'httpPaginationData', 'api', '$httpParamSerializer', function ($scope, $sce, trackingX, clientConfig, $http, Month, DateOfMonth, quizFactory, queryParser, $q, paginationData, api, $httpParamSerializer) {
         trackingX.sendX('myVocabulary');
 
         $scope.printMode = false;
@@ -27,7 +27,7 @@ angular.module('vocabularyModule', ['trackingModule', 'clientConfigModule', 'Dat
             wordsToPrint[RADIO_TYPE[key]] = [];
         }
         $scope.vocabularyPrint = function () {
-            tracking.sendX('myVocabulary.printBtn.click');
+            trackingX.sendX('myVocabulary.printBtn.click');
             $scope.printMode = true;
             var content = encodeURIComponent(wordsToPrint[$scope.radioBoxType].slice(","));
             $scope.printURL = PRINT_URL_PREFIX + content;
@@ -55,12 +55,12 @@ angular.module('vocabularyModule', ['trackingModule', 'clientConfigModule', 'Dat
 
             if (type === $scope.radioBoxType) {
                 $scope.radioBoxType = RADIO_TYPE.NONE;
-                tracking.sendX(event, {
+                trackingX.sendX(event, {
                     checked: false
                 });
             } else {
                 $scope.radioBoxType = type;
-                tracking.sendX(event, {
+                trackingX.sendX(event, {
                     checked: true
                 });
             }
@@ -127,7 +127,6 @@ angular.module('vocabularyModule', ['trackingModule', 'clientConfigModule', 'Dat
             $scope.vocabularyAll = [];
             result.map(function (course) {
                 var date = new Date(course.date);
-                console.log("hello1");
                 $scope.vocabularyAll.push({
                     year: date.getFullYear(),
                     monthDay: Month[date.getMonth()] + '.' + DateOfMonth.getShortString(date.getDate()),
@@ -177,11 +176,22 @@ angular.module('vocabularyModule', ['trackingModule', 'clientConfigModule', 'Dat
             });
         }
 
-        $scope.vocabularyData = new paginationData(clientConfig.serviceUrls.buzz.courses.findByLevel.frontEnd.replace(':level', queryParser.get('level') || 'B'), {
-            pageSize: 7
-        }, {
-            dataGotCallback: mapToDisplayData
+        var query = queryParser.parse();
+        if (!query.level) {
+            query.level = 'B';
+        }
+
+        var url = clientConfig.serviceUrls.buzz.courses.search.frontEnd + '?' + $httpParamSerializer(query);
+
+        $scope.vocabularyData = new paginationData({
+            sourceUrl: url,
+            queryData: {
+                pageSize: 7
+            },
+            dataGotCallback: mapToDisplayData,
+            dataField: 'rows'
         });
+        $scope.vocabularyData.pageSize = 7;
         $scope.vocabularyData.getNextPage();
 
         //hank
