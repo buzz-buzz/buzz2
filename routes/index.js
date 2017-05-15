@@ -129,7 +129,7 @@ function serviceProxy(app, router) {
     require('../service-proxy/share')(app, router, coBody);
     require('../service-proxy/wechatSign')(app, router, coBody);
     require('../service-proxy/progress')(app, router, coBody);
-    require('../service-proxy/qiniu-pictrue')(app, router, coBody);
+    require('../service-proxy/qiniu-picture')(app, router, coBody);
 }
 function staticFiles(app, router) {
     require('./static')(app, router);
