@@ -34,7 +34,7 @@ html
     + js("/js/vocabularyModule.min.js")
     script.
         angular.module('vocabularyPrintableModule', [])
-            .controller('mainCtrl', ['$scope', '$timeout', function ($scope, $timeout) {
+            .controller('mainCtrl', ['$scope', '$timeout', '$http', function ($scope, $timeout, $http) {
                 var deepDecode = function (url) {
                     var originURL = "";
                     var targetURL = url
