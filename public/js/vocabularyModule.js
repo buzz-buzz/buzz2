@@ -181,6 +181,14 @@ angular.module('vocabularyModule', ['trackingModule', 'clientConfigModule', 'Dat
             query.level = 'B';
         }
 
+        if (!query.enabled) {
+            query.enabled = true;
+        }
+
+        if (!query.date) {
+            query.date = { end: new Date(2022, 1, 1).toISOString() };
+        }
+
         var url = clientConfig.serviceUrls.buzz.courses.search.frontEnd + '?' + $httpParamSerializer(query);
 
         $scope.vocabularyData = new paginationData({
