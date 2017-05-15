@@ -463,7 +463,7 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
                 var registerDate = new Date(newValue.regist_date);
                 var now = new Date();
                 var days = (now - registerDate) / (1000 * 60 * 60 * 24);
-                $scope.buzzDays = (days + 1);
+                $scope.buzzDays = Math.floor(days + 1);
             }
         });
     }])
