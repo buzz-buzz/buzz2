@@ -3,14 +3,14 @@ body {
     background-color: white;
 }
 .vocabulary-printable-container {
-    padding: 2em 4em;
-    width: 660px;
+    padding: 2em;
+    width: 648px;
     display: inline-block;
     text-align: left;
 }
 .vp-signature {
     display: inline-block;
-    margin-left: 5em;
+    margin-left: 9%;
     margin-right: 1em;
 }
 .vp-signature-printable-after {
