@@ -160,7 +160,7 @@ block content
                     include partials/vocabulary
                     include partials/daily-exercise
                     include partials/weekly-quiz
-        .sidebar.sidebar-right(ng-show="$scope.award === false")
+        .sidebar.sidebar-right(ng-show="$scope.award === false", ng-cloak)
             .scrollable
                 button.scrollable-header.app-name  打赏
         include ../partial/ask-for-login-modal
