@@ -118,7 +118,7 @@ angular.module('vocabularyModule', ['trackingModule', 'clientConfigModule', 'Dat
                 if (detail.data) {
                     v.ipc_gb = detail.data['phon-gb'] ? '[英]' + detail.data['phon-gb'] : '';
                     v.ipc_us = detail.data['phon-us'] ? '[美]' + detail.data['phon-us'] : '';
-                    v.explanation = detail.data.class + ' ' + detail.data.explain;
+                    v.explanation = (detail.data.class ? detail.data.class + ' ' : '') + detail.data.explain;
                 }
             });
         }
