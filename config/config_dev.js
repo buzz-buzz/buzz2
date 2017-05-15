@@ -58,6 +58,13 @@ module.exports = {
         }
     },
 
+    upload_qiniu:{
+        inner: {
+            host: "uat.hcd.com",
+            port: 10003
+        }
+    },
+
     applicationId: "4f6b3929-38c3-4828-88a7-11da836cae34",
 
     logger: {
