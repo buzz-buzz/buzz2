@@ -1,17 +1,22 @@
 angular.module('buzzHistoryModule', ['angularQueryParserModule', 'servicesModule', 'clientConfigModule'])
-    .controller('historyCtrl', ['$scope', '$http', 'queryParser', 'service', 'clientConfig', 'httpPaginationData', function ($scope, $http, queryParser, service, clientConfig, httpPaginationData) {
+    .controller('historyCtrl', ['$scope', '$http', 'queryParser', 'service', 'clientConfig', 'httpPaginationData', '$httpParamSerializer', function ($scope, $http, queryParser, service, clientConfig, httpPaginationData, $httpParamSerializer) {
         var query = queryParser.parse();
-        var level = query.level || 'B';
-
-        $scope.level = level;
-        var url = clientConfig.serviceUrls.buzz.courses.find.frontEnd;
-
+        if (!query.level) {
+            query.level = 'B';
+        }
+        if (!query.enabled) {
+            query.enabled = true;
+        }
+        if (!query.date) {
+            query.date = { end: new Date(2022, 1, 1).toISOString() };
+        }
         if (query.category) {
             $scope.category = query.category;
         } else {
             $scope.category = '';
             url = clientConfig.serviceUrls.buzz.courses.findByLevel.frontEnd;
         }
+        var url = clientConfig.serviceUrls.buzz.courses.search.frontEnd + '?' + $httpParamSerializer(query);
 
         function sortByDate(a, b) {
             if (a.date > b.date) {
@@ -26,9 +31,9 @@ angular.module('buzzHistoryModule', ['angularQueryParserModule', 'servicesModule
         }
 
         $scope.courseData = new httpPaginationData({
-            sourceUrl: url.replace(':category', $scope.category).replace(':level', level).replace(':enabled', 'true'),
-            pageSize: 7,
-            dataField: !$scope.category ? 'data' : 'rows',
+            sourceUrl: url, 
+            pageSize: 7,    
+            dataField: 'rows', 
             dataGotCallback: function (result) {
                 if (typeof result.length === 'undefined') {
                     result = result.data;
@@ -63,4 +68,4 @@ angular.module('buzzHistoryModule', ['angularQueryParserModule', 'servicesModule
 
         $scope.currentCategory = queryParser.get('category');
     }])
-;
+    ;
