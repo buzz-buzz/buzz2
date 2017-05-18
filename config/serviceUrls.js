@@ -59,7 +59,11 @@ module.exports = {
             currentLevel: {
                 frontEnd: '/service-proxy/buzz/profile/current-level',
                 upstream: '/users/:member_id/educations/current-level'
-            }
+            },
+            memberTag: {
+                frontEnd: '/service-proxy/buzz/membertag',
+                upstream: '/user-tag/:member_id'
+            },
         },
 
         courses: {
@@ -79,10 +83,14 @@ module.exports = {
                 frontEnd: '/service-proxy/buzz/courses/:level/latest',
                 upstream: '/courses/:level/latest'
             },
+            latestFor: {
+                frontEnd: '/service-proxy/buzz/courses/:level/:member_id/latest',
+                upstream: '/courses/:level/:member_id/latest'
+            },
             search: {
                 frontEnd: '/service-proxy/buzz/search-courses',
                 upstream: '/courses'
-            }
+            },
         },
 
         categories: {
@@ -148,6 +156,6 @@ module.exports = {
         }
     },
     wechat: {
-        sign: {frontEnd: '/service-proxy/wechat/sign', upstream: '/sign/buzz'}
+        sign: { frontEnd: '/service-proxy/wechat/sign', upstream: '/sign/buzz' }
     }
 };

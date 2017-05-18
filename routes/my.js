@@ -7,14 +7,14 @@ const membership = require('../membership');
 
 module.exports = function (app, router, render) {
     router
-        .get('/my/today', membership.ensureAuthenticated, function *(next) {
+        .get('/my/today', membership.ensureAuthenticated, function* (next) {
             let level = config.mock ? 'A' : yield buzz.getMemberCurrentLevel(this.state.hcd_user.member_id);
             if (!level || level === 'U') {
                 level = 'B';
             }
 
             let latestCourse = yield buzz.getLatestCourse(level);
-
+            let latestForCourse = yield buzz.getLatestCourseFor(member_id, level);
             if (!latestCourse) {
                 latestCourse = {
                     date: '',
@@ -26,7 +26,6 @@ module.exports = function (app, router, render) {
                 this.redirect('/my/play?date=' + latestCourse.date + '&cat=' + (latestCourse.category || '').toLowerCase() + '&level=' + level, {
                     config: config
                 });
-
                 return;
             }
 
@@ -34,13 +33,13 @@ module.exports = function (app, router, render) {
                 config: config
             });
         })
-        .get('/my/history', membership.ensureAuthenticated, function *(next) {
+        .get('/my/history', membership.ensureAuthenticated, function* (next) {
             this.body = yield render('my/history', {
                 config: config,
                 hcd_user: this.state.hcd_user
             });
         })
-        .get('/my/play', membership.setHcdUserIfSignedIn, function *(next) {
+        .get('/my/play', membership.setHcdUserIfSignedIn, function* (next) {
             if (!this.state.userAgent.isMobile || this.state.userAgent.isTablet) {
                 return this.body = yield render('my/play', {
                     config: config,
@@ -53,49 +52,49 @@ module.exports = function (app, router, render) {
                 hcd_user: this.state.hcd_user
             });
         })
-        .get('/my/player', function *(next) {
+        .get('/my/player', function* (next) {
             if (this.state.userAgent.isMobile && !this.state.userAgent.isTablet) {
-                this.body = yield render('m/player', {config: config});
+                this.body = yield render('m/player', { config: config });
             } else {
-                this.body = yield render('my/player', {config: config});
+                this.body = yield render('my/player', { config: config });
             }
         })
-        .get('/my/progress', membership.ensureAuthenticated, function *(next) {
+        .get('/my/progress', membership.ensureAuthenticated, function* (next) {
             if (!this.state.userAgent.isMobile || this.state.userAgent.isTablet) {
-                this.body = yield render('my/progress', {config: config});
+                this.body = yield render('my/progress', { config: config });
             } else {
-                this.redirect('/m/my/progress', {config: config});
+                this.redirect('/m/my/progress', { config: config });
             }
         })
-        .get('/my/account', membership.ensureAuthenticated, function *() {
+        .get('/my/account', membership.ensureAuthenticated, function* () {
             if (!this.state.userAgent.isMobile || this.state.userAgent.isTablet) {
-                this.body = yield render('my/account', {config: config});
+                this.body = yield render('my/account', { config: config });
             } else {
-                this.redirect('/m/my/my', {config: config});
+                this.redirect('/m/my/my', { config: config });
             }
         })
-        .get('/my/password', membership.ensureAuthenticated, function *() {
-            this.body = yield render('my/password', {config: config});
+        .get('/my/password', membership.ensureAuthenticated, function* () {
+            this.body = yield render('my/password', { config: config });
         })
-        .get('/my/vocabulary', membership.ensureAuthenticated, function *() {
+        .get('/my/vocabulary', membership.ensureAuthenticated, function* () {
             if (!this.state.userAgent.isMobile || this.state.userAgent.isTablet) {
-                this.body = yield render('vocabulary/vocabulary', {config: config});
+                this.body = yield render('vocabulary/vocabulary', { config: config });
             } else {
-                this.redirect('/m/my/vocabulary', {config: config});
+                this.redirect('/m/my/vocabulary', { config: config });
             }
         })
-        .get('/my/weekly-quiz', membership.ensureAuthenticated, function *() {
-            this.body = yield render('my/weekly-quiz', {config: config, base: '/my/'});
+        .get('/my/weekly-quiz', membership.ensureAuthenticated, function* () {
+            this.body = yield render('my/weekly-quiz', { config: config, base: '/my/' });
         })
-        .get('/my/daily-exercise', membership.ensureAuthenticated, function *() {
-            this.body = yield render('m/daily-exercise', {config: config, base: '/my/'});
+        .get('/my/daily-exercise', membership.ensureAuthenticated, function* () {
+            this.body = yield render('m/daily-exercise', { config: config, base: '/my/' });
         })
-        .get('/my/today-vocabulary', membership.ensureAuthenticated, function *() {
-            this.body = yield render('m/vocabulary', {config: config, base: '/my/'});
+        .get('/my/today-vocabulary', membership.ensureAuthenticated, function* () {
+            this.body = yield render('m/vocabulary', { config: config, base: '/my/' });
         })
 
-        .get('/my/avatar', membership.ensureAuthenticated, function *() {
-            this.body = yield render('m/my/avatar-mobile', {config: config, base: '/my/', title: '头像', backUrl:'javascript:location.href="/m/my/my"'});
+        .get('/my/avatar', membership.ensureAuthenticated, function* () {
+            this.body = yield render('m/my/avatar-mobile', { config: config, base: '/my/', title: '头像', backUrl: 'javascript:location.href="/m/my/my"' });
         })
-    ;
+        ;
 };

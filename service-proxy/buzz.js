@@ -14,7 +14,7 @@ const proxyOption = {
 
 module.exports = function (app, router, parse) {
     router
-        .put(serviceUrls.buzz.profile.education.frontEnd, membership.ensureAuthenticated, function *(next) {
+        .put(serviceUrls.buzz.profile.education.frontEnd, membership.ensureAuthenticated, function* (next) {
             let data = yield parse(this.request);
 
             this.body = yield proxy.call(this, {
@@ -25,19 +25,33 @@ module.exports = function (app, router, parse) {
                 data: data
             });
         })
-        .get(serviceUrls.buzz.profile.latestEducation.frontEnd, membership.ensureAuthenticated, function*() {
+        .get(serviceUrls.buzz.profile.latestEducation.frontEnd, membership.ensureAuthenticated, function* () {
             this.body = yield proxy(Object.assign({
                 path: serviceUrls.buzz.profile.latestEducation.upstream.replace(':member_id', this.state.hcd_user.member_id),
                 method: 'GET'
             }, proxyOption));
         })
-        .get(serviceUrls.buzz.profile.latestAllEducation.frontEnd, membership.ensureAuthenticated, function*() {
+        .get(serviceUrls.buzz.profile.memberTag.frontEnd, membership.ensureAuthenticated, function* () {
+            this.body = yield proxy(Object.assign({
+                path:
+                serviceUrls.buzz.profile.memberTag.upstream.replace(':member_id', this.state.hcd_user.member_id),
+                method: 'GET'
+            }, proxyOption));
+        })
+        .get(serviceUrls.buzz.profile.lessonTag.frontEnd,membership.ensureAuthenicated,function*(){
+            this.body=yield proxy(Object.assign({
+                path:
+                serviceUrls.buzz.profile.lessonTag.upstream.replace(':lesson_id',this.state.hcd_user.lesson_id),
+                method: 'GET'
+            },proxyOption));
+        })
+        .get(serviceUrls.buzz.profile.latestAllEducation.frontEnd, membership.ensureAuthenticated, function* () {
             this.body = yield proxy(Object.assign({
                 path: serviceUrls.buzz.profile.latestAllEducation.upstream.replace(':member_id', this.state.hcd_user.member_id),
                 method: 'GET'
             }, proxyOption));
         })
-        .get(serviceUrls.buzz.courses.find.frontEnd, membership.ensureAuthenticated, function*(next) {
+        .get(serviceUrls.buzz.courses.find.frontEnd, membership.ensureAuthenticated, function* (next) {
             let category = this.params.category;
             let level = this.params.level;
             let enabled = this.params.enabled;
@@ -49,7 +63,7 @@ module.exports = function (app, router, parse) {
                 method: 'GET'
             });
         })
-        .get(serviceUrls.buzz.courses.findByLevel.frontEnd, membership.ensureAuthenticated, function*(next) {
+        .get(serviceUrls.buzz.courses.findByLevel.frontEnd, membership.ensureAuthenticated, function* (next) {
             let self = this;
 
             this.body = yield proxy.call(this, {
@@ -61,7 +75,7 @@ module.exports = function (app, router, parse) {
                 method: 'GET'
             });
         })
-        .get(serviceUrls.buzz.courses.findByDate.frontEnd, function*(next) {
+        .get(serviceUrls.buzz.courses.findByDate.frontEnd, function* (next) {
             this.body = yield proxy.call(this, {
                 host: config.buzz.inner.host,
                 port: config.buzz.inner.port,
@@ -74,7 +88,7 @@ module.exports = function (app, router, parse) {
             });
         })
 
-        .post(serviceUrls.buzz.courseViews.frontEnd, function *(next) {
+        .post(serviceUrls.buzz.courseViews.frontEnd, function* (next) {
             this.body = yield proxy({
                 host: config.buzz.inner.host,
                 port: config.buzz.inner.port,
@@ -86,7 +100,7 @@ module.exports = function (app, router, parse) {
                 method: 'POST'
             });
         })
-        .get(serviceUrls.buzz.courseViews.frontEnd, function *(next) {
+        .get(serviceUrls.buzz.courseViews.frontEnd, function* (next) {
             this.body = yield proxy(Object.assign({
                 path: Router.url(serviceUrls.buzz.courseViews.upstream, {
                     category: this.params.category.toUpperCase(),
@@ -97,13 +111,13 @@ module.exports = function (app, router, parse) {
             }, proxyOption));
         })
 
-        .get(serviceUrls.buzz.categories.list.frontEnd, function *(next) {
+        .get(serviceUrls.buzz.categories.list.frontEnd, function* (next) {
             this.body = yield proxy(Object.assign({
                 path: serviceUrls.buzz.categories.list.upstream,
                 method: 'GET'
             }, proxyOption));
         })
-        .get(serviceUrls.buzz.profile.currentLevel.frontEnd, membership.ensureAuthenticated, function *(next) {
+        .get(serviceUrls.buzz.profile.currentLevel.frontEnd, membership.ensureAuthenticated, function* (next) {
             let memberId = this.state.hcd_user.member_id;
 
             this.body = yield proxy(Object.assign({
@@ -111,20 +125,20 @@ module.exports = function (app, router, parse) {
                 method: 'GET'
             }, proxyOption));
         })
-        .get(serviceUrls.buzz.courses.search.frontEnd, function *() {
+        .get(serviceUrls.buzz.courses.search.frontEnd, function* () {
             this.body = yield proxy(Object.assign({
                 path: serviceUrls.buzz.courses.search.upstream + '?' + qs.stringify(this.query),
                 data: this.query,
                 method: 'GET'
             }, proxyOption))
         })
-        .get(serviceUrls.buzz.weekly.getScore.frontEnd, membership.ensureAuthenticated, function *() {
+        .get(serviceUrls.buzz.weekly.getScore.frontEnd, membership.ensureAuthenticated, function* () {
             this.body = yield proxy(Object.assign({
-                path: '/weekly-quiz/'+this.state.hcd_user.member_id+'/'+this.query.lesson_id,
+                path: '/weekly-quiz/' + this.state.hcd_user.member_id + '/' + this.query.lesson_id,
                 method: 'GET'
             }, proxyOption))
         })
-    ;
+        ;
 
     require('./buzz-quiz')(app, router, parse);
 };

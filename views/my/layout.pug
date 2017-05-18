@@ -22,8 +22,9 @@ html(manifest="/buzz.appcache")
                         a.middle.aligned.icon-stats-bars(title="学习进度", href="/my/progress")
                     li(ng-class="{'active': isActive('/vocabulary/my')}")
                         a.middle.aligned.icon-file-text(title="生词本",href="/vocabulary/my")
-                    li
+                    li#headportrait
                         img.middle.aligned.avatar(ng-src="{{profile.avatar}}", ng-if="profile.avatar")
+                        a.payingmember(ng-show="payingMember") v
                         a.middle.aligned(ng-if="!profile.avatar") 欢迎你
                         ul.sub.vertical.menu
                             li

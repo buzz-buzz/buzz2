@@ -77,7 +77,16 @@ html, body {
     border-radius: 50%;
     max-height: 30px;
 }
-
+#headportrait {
+    position: relative;
+}
+.payingmember {
+    color: #f7b52a;
+    position: absolute;
+    left: -6px;
+    top: 2px;
+    font-size:13px;
+}
 .fixed.header {
     position: fixed;
     z-index: 9999;

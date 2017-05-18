@@ -4,8 +4,8 @@ angular.module('buzzHeaderModule', ['angularQueryParserModule', 'servicesModule'
             if (result.data.isSuccess) {
                 $rootScope.profile = result.data.result;
 
-                if(!$rootScope.profile.avatar){
-                    $rootScope.profile.avatar='/public/images/default_avatar.png';
+                if (!$rootScope.profile.avatar) {
+                    $rootScope.profile.avatar = '/public/images/default_avatar.png';
                 }
 
                 if ($rootScope.profile.avatar && $rootScope.profile.avatar.indexOf('//upload.bridgeplus.cn') === 0 && !$rootScope.profile.avatar.match(/-minor$/)) {
@@ -35,10 +35,15 @@ angular.module('buzzHeaderModule', ['angularQueryParserModule', 'servicesModule'
             }
         };
     }])
-    .controller('headerCtrl', ['$scope', '$rootScope', function ($scope, $rootScope) {
+    .controller('headerCtrl', ['$scope', '$rootScope', 'api', 'clientConfig', function ($scope, $rootScope, api, clientConfig) {
         $scope.isActive = function (link) {
             return location.pathname === link;
-        };
+        }
+        api.get(clientConfig.serviceUrls.buzz.profile.memberTag.frontEnd).then(function (result) {
+            if (result.data.length > 0) {
+                $scope.payingMember = true;
+            }
+        })
     }])
     .value('GenderDisplay', {
         U: '未知',
@@ -101,4 +106,4 @@ angular.module('buzzHeaderModule', ['angularQueryParserModule', 'servicesModule'
             }
         };
     }])
-;
+    ;
