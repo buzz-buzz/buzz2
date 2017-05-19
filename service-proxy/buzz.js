@@ -38,13 +38,6 @@ module.exports = function (app, router, parse) {
                 method: 'GET'
             }, proxyOption));
         })
-        .get(serviceUrls.buzz.profile.lessonTag.frontEnd,membership.ensureAuthenicated,function*(){
-            this.body=yield proxy(Object.assign({
-                path:
-                serviceUrls.buzz.profile.lessonTag.upstream.replace(':lesson_id',this.state.hcd_user.lesson_id),
-                method: 'GET'
-            },proxyOption));
-        })
         .get(serviceUrls.buzz.profile.latestAllEducation.frontEnd, membership.ensureAuthenticated, function* () {
             this.body = yield proxy(Object.assign({
                 path: serviceUrls.buzz.profile.latestAllEducation.upstream.replace(':member_id', this.state.hcd_user.member_id),
