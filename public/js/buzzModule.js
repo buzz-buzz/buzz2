@@ -62,12 +62,13 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                     quiz_path: result.data.quiz_path,
                     new_words_path: result.data.new_words_path,
                     lesson_id: result.data.lesson_id,
-                    enabled: result.data.enabled
+                    enabled: result.data.enabled,
+                    tags: result.data.tags
                 };
 
                 $scope.$emit('lessonInfo:got', $rootScope.lessonInfo);
             })
-        ;
+            ;
         $scope.$sce = $sce;
     }])
     .controller('UpdateHitsCtrl', ['$scope', 'clientConfig', '$http', function ($scope, clientConfig, $http) {
@@ -77,14 +78,14 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                     var data = JSON.parse(event.data.substr(14));
                     $http
                         .post(clientConfig.serviceUrls.buzz.courseViews.frontEnd.replace(':category', data.category).replace(':level', data.level).replace(':lesson_id', data.lesson_id), {})
-                    ;
+                        ;
                 } catch (ex) {
                     console.error(ex);
                 }
             }
         }, false);
     }])
-    .controller( 'page2ParentCtrl', ['$scope', 'trackingX', 'queryParser', function ($scope, tracking, queryParser) {
+    .controller('page2ParentCtrl', ['$scope', 'trackingX', 'queryParser', function ($scope, tracking, queryParser) {
         $scope.$root.tabularIndex = 0;
         //如果是PC端  初始值为1
         if (!navigator.userAgent.match(/(iPhone|iPod|Android|ios|Windows Phone)/i)) {
@@ -147,4 +148,37 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
             }
         });
     }])
-;
+    .controller('payingModalCtrl', ['$scope', '$rootScope', 'modalFactory', '$q', function ($scope, $rootScope, modalFactory, $q) {
+        modalFactory.bootstrap($scope, $rootScope, '#paying-modal');
+
+        var lessonInfoDfd = $q.defer();
+        var profileDfd = $q.defer();
+        $rootScope.$watch('lessonInfo', function (newValue, oldValue) {
+            if (newValue) {
+                lessonInfoDfd.resolve(newValue);
+            }
+        });
+
+        $rootScope.$watch('profile.tags', function (newValue, oldValue) {
+            if (newValue) {
+                profileDfd.resolve(newValue);
+            }
+        });
+
+        $q.all([lessonInfoDfd.promise.then(), profileDfd.promise.then()]).then(function (results) {
+            var lessonInfo = results[0];
+            var profileTags = results[1];
+
+            if (lessonInfo.tags && (!profileTags || !profileTags.length || (
+                lessonInfo.tags.filter(function (lt) {
+                    return profileTags.indexOf(lt) >= 0;
+                }).length <= 0 &&
+                profileTags.filter(function (pt) {
+                    return lessonInfo.tags.indexOf(pt) >= 0;
+                }).length <= 0
+            ))) {
+                $scope.showTheModal();
+            }
+        });
+    }])
+    ;

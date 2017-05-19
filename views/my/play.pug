@@ -167,3 +167,6 @@ block content
         #audit-modal.dark.mask(ng-controller="auditModalCtrl", ng-class="{'hide': hideModal, 'show': showModal}", ng-click=(hcd_user && hcd_user.isAdmin) + ' ? hideTheModal() :""')
             .popup(style="padding: 1em 2em;")
                 h1 当前课程正在审核中，请稍后再来哦……
+        #paying-modal.dark.mask(ng-controller="payingModalCtrl", ng-class="{'hide': hideModal, 'show': showModal}", ng-click=(hcd_user && hcd_user.isAdmin) + ' ? hideTheModal() : ""')
+            .popup(style="padding: 1em 2em;")
+                h1 你无权查看本课程……

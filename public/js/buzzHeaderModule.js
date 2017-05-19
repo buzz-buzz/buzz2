@@ -1,22 +1,35 @@
 angular.module('buzzHeaderModule', ['angularQueryParserModule', 'servicesModule', 'clientConfigModule', 'trackingModule', 'serviceCacheModule'])
     .run(['$rootScope', 'service', 'clientConfig', 'api', function ($rootScope, service, clientConfig, api) {
-        api.get(clientConfig.serviceUrls.sso.profile.load.frontEnd).then(function (result) {
-            if (result.data.isSuccess) {
-                $rootScope.profile = result.data.result;
+        api.get(clientConfig.serviceUrls.sso.profile.load.frontEnd)
+            .then(function (result) {
+                if (result.data.isSuccess) {
+                    $rootScope.profile = result.data.result;
 
-                if (!$rootScope.profile.avatar) {
-                    $rootScope.profile.avatar = '/public/images/default_avatar.png';
+                    if (!$rootScope.profile.avatar) {
+                        $rootScope.profile.avatar = '/public/images/default_avatar.png';
+                    }
+
+                    if ($rootScope.profile.avatar && $rootScope.profile.avatar.indexOf('//upload.bridgeplus.cn') === 0 && !$rootScope.profile.avatar.match(/-minor$/)) {
+                        $rootScope.profile.avatar += '-minor';
+                    }
+
+                    $rootScope.profile.displayName = $rootScope.profile.display_name || $rootScope.profile.name || $rootScope.profile.nick_name || $rootScope.profile.real_name;
+
+                    api.get(clientConfig.serviceUrls.buzz.profile.memberTag.frontEnd)
+                        .then(function (result) {
+                            if (result.data && result.data.length > 0) {
+                                $rootScope.profile.tags = result.data.map(function (t) {
+                                    return t.tag_id;
+                                }) || [];
+                                $rootScope.payingMember = true;
+                            } else {
+                                $rootScope.profile.tags = [];
+                            }
+                        });
+                } else {
+                    throw result.data;
                 }
-
-                if ($rootScope.profile.avatar && $rootScope.profile.avatar.indexOf('//upload.bridgeplus.cn') === 0 && !$rootScope.profile.avatar.match(/-minor$/)) {
-                    $rootScope.profile.avatar += '-minor';
-                }
-
-                $rootScope.profile.displayName = $rootScope.profile.display_name || $rootScope.profile.name || $rootScope.profile.nick_name || $rootScope.profile.real_name;
-            } else {
-                throw result.data;
-            }
-        });
+            });
     }])
     .factory('trackingX', ['tracking', '$rootScope', function (tracking, $rootScope) {
         return {
@@ -38,12 +51,7 @@ angular.module('buzzHeaderModule', ['angularQueryParserModule', 'servicesModule'
     .controller('headerCtrl', ['$scope', '$rootScope', 'api', 'clientConfig', function ($scope, $rootScope, api, clientConfig) {
         $scope.isActive = function (link) {
             return location.pathname === link;
-        }
-        api.get(clientConfig.serviceUrls.buzz.profile.memberTag.frontEnd).then(function (result) {
-            if (result.data.length > 0) {
-                $scope.payingMember = true;
-            }
-        })
+        };
     }])
     .value('GenderDisplay', {
         U: '未知',
