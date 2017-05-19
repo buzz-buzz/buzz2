@@ -4,6 +4,7 @@ const serviceUrls = require('../config/serviceUrls');
 const config = require('../config');
 const membership = require('../membership');
 const proxy = require('../service-proxy/proxy');
+const Router = require('koa-router');
 
 module.exports = {
     getMemberCurrentLevel: function* (member_id) {
@@ -20,7 +21,7 @@ module.exports = {
         return (yield proxy({
             host: config.buzz.inner.host,
             port: config.buzz.inner.port,
-            path: require('koa-router').url(serviceUrls.buzz.courses.latest.upstream, {
+            path: Router.url(serviceUrls.buzz.courses.latest.upstream, {
                 level: level
             }),
             method: 'GET',
@@ -28,13 +29,15 @@ module.exports = {
         }));
     },
     getLatestCourseFor: function* (member_id, level) {
+        let path = Router.url(serviceUrls.buzz.courses.latestFor.upstream, {
+            level: level,
+            member_id: member_id,
+        });
+
         return (yield proxy({
             host: config.buzz.inner.host,
             port: config.buzz.inner.port,
-            path: require('koa-router').url(serviceUrls.buzz.coueses.latestFor.upstream, {
-                level: level,
-                member_id: member_id,
-            }),
+            path: path,
             method: 'GET',
             data: {}
         }));

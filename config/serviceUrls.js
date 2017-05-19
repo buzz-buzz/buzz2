@@ -85,7 +85,7 @@ module.exports = {
             },
             latestFor: {
                 frontEnd: '/service-proxy/buzz/courses/:level/:member_id/latest',
-                upstream: '/courses/:level/:member_id/latest'
+                upstream: '/courses/:level/latestFor/:member_id'
             },
             search: {
                 frontEnd: '/service-proxy/buzz/search-courses',

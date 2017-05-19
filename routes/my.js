@@ -13,13 +13,10 @@ module.exports = function (app, router, render) {
                 level = 'B';
             }
 
-            let latestCourse = yield buzz.getLatestCourse(level);
-            let latestForCourse = yield buzz.getLatestCourseFor(member_id, level);
+            let latestCourse = yield buzz.getLatestCourseFor(this.state.hcd_user.member_id, level);
+
             if (!latestCourse) {
-                latestCourse = {
-                    date: '',
-                    category: ''
-                };
+                this.throw(500, 'failed to fetch latest course');
             }
 
             if (!this.state.userAgent.isMobile || this.state.userAgent.isTablet) {

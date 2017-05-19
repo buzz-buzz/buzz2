@@ -30,7 +30,7 @@ function *proxy(settings) {
         let result = yield request(option);
         return result.body;
     } catch (ex) {
-        return ex;
+        throw ex;
     }
 }
 
