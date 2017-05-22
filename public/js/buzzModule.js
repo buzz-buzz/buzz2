@@ -169,7 +169,7 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
             var lessonInfo = results[0];
             var profileTags = results[1];
 
-            if (lessonInfo.tags && (!profileTags || !profileTags.length || (
+            if ((lessonInfo.tags && lessonInfo.tags.length) && (!profileTags || !profileTags.length || (
                 lessonInfo.tags.filter(function (lt) {
                     return profileTags.indexOf(lt) >= 0;
                 }).length <= 0 &&
