@@ -18,7 +18,7 @@ body
         }
 
         .body {
-            width: 375px;
+            width: 100%;
             position: relative;
             margin: 0 auto;
         }
@@ -203,6 +203,12 @@ body
             width: 1.56rem;
         }
 
+        .img-father{
+            margin: 0 auto;
+            width: auto;
+            min-height: 1em;
+        }
+
         .learn .content {
             text-align: left;
         }
@@ -214,8 +220,7 @@ body
 
         .learn img {
             width: 1.2rem;
-            margin-left: 2.1rem;
-            margin-top: 0.1rem;
+            margin-top: 0.3rem;
         }
 
         .learn.left {
@@ -515,18 +520,13 @@ body
             .box.process-content
                 .learn.left
                     .title 练习全对
-                    .content(ng-show='weekPerformance.good<=7')
+                    .content
                         img(src=`${config.cdn}/public/images/correct.png?${config.imageversion}`, ng-repeat="i in [].constructor(weekPerformance.good) track by $index")
-                    .max-7(ng-show='weekPerformance.good>7')
-                        span(ng-cloak) {{weekPerformance.good}}
-                        img(src=`${config.cdn}/public/images/correct.png?${config.imageversion}`)
                 .learn.middle
                     .title 练习有错
-                    .content(ng-show='weekPerformance.bad<=7')
+                    .content
                         img(src=`${config.cdn}/public/images/wrong_1.png?${config.imageversion}` ng-repeat="i in [].constructor(weekPerformance.bad) track by $index")
-                    .max-7(ng-show='weekPerformance.bad>7')
-                        span(ng-cloak) {{weekPerformance.bad}}
-                        img(src=`${config.cdn}/public/images/wrong_1.png?${config.imageversion}`)
+
                 .learn.right
                     .title 系统排名
                     .text-content(ng-cloak) {{rank||99}}
