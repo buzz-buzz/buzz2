@@ -13,15 +13,20 @@
                     .detail-con(ng-cloak) 答对{{details.correct}}题
                     .detail-con(ng-cloak) 获得{{details.score}}分
         a.button(ng-click="turnTo('exercise')",ng-cloak, ng-hide="done") 继续测试
-    .exercise.container.cube(ng-show="weeklyStatus=='exercise'")
-        .cube-side.side-a
-            .progress
-                span(ng-cloak) {{currentIndex+1}}/{{arrayWeeklyQuiz.length}}
-                .percent
-                    #progress-bar.tab &nbsp;
-            .exercise-container
-                .exercise-body(style='width: 80%;height: 350px;',ng-class="{ 'rtom':animateDirection==='rtom'}")
-                    iframe(id="weekly-quiz-frame", frameborder="0", style="width: 100%; height: 100%;", ng-src="{{currentQuiz.quiz}}")
-                .right.arrow(style='width:20%;', ng-click="nextQuiz()",ng-hide="currentIndex+1>=arrayWeeklyQuiz.length")
-                    span.icon-circle-right
-            a.button(ng-click="turnTo('grade')", style='margin-top:10px;', ng-show="done") 查看成绩
+    .ui.container(ng-show="weeklyStatus=='exercise'")
+        .progress
+            span(ng-cloak) {{currentIndex+1}}/{{arrayWeeklyQuiz.length}}
+            .percent
+                #progress-bar.tab &nbsp;
+        .ui.grid.middle.aligned
+            .row
+                .two.wide.column
+                .twelve.wide.column
+                    .ui.container.four-three
+                        .content
+                            iframe(id="weekly-quiz-frame", frameborder="0", style="width: 100%; height: 100%;", ng-src="{{currentQuiz.quiz}}")
+                .left.aligned.one.wide.column
+                    .right.arrow(ng-click="nextQuiz()", ng-hide="currentIndex+1>=arrayWeeklyQuiz.length", style="padding: 0;") 
+                        span.icon-circle-right                        
+                .one.wide.column
+        a.button(ng-click="turnTo('grade')", style='margin-top:10px;', ng-show="done") 查看成绩

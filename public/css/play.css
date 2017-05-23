@@ -1,0 +1,137 @@
+body {
+    background: url('http://source.bridgeplus.cn/buzz/skin2.png') repeat 0 0;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+a {
+    text-decoration: none;
+}
+
+.weekly-grade {
+    width: 90%;
+    margin: 30px auto;
+    border: 1px solid #bbb;
+    border-radius: 2px;
+    padding: 20px 0;
+}
+
+.grade-title {
+    min-height: 40px;
+    line-height: 40px;
+    text-align: center;
+    width: 80%;
+    margin: 10px auto;
+}
+
+.grade-body {
+    width: 80%;
+    display: flex;
+    margin: 25px auto;
+    justify-content: space-between;
+}
+
+.grade-body > div {
+    border: 1px solid #bbb;
+    border-radius: 2px;
+}
+
+.grade-body .course {
+    padding: 1em 5%;
+    width: 30%;
+}
+
+.course .title {
+    text-align: left;
+}
+
+.course .span {
+    color: red;
+    font-size: 3em;
+    padding: 1em 0;
+    font-weight: 100;
+}
+
+.grade-body .content {
+    width: 65%;
+}
+
+.grade-body .content > .title {
+    font-weight: bold;
+}
+
+.grade-body .content > div {
+    height: 2em;
+    line-height: 2em;
+    width: 100%;
+    border-bottom: 1px solid #bbb;
+    padding: 0;
+    margin: 0;
+}
+
+.progress {
+    margin: 20px;
+    width: 87%;
+}
+
+.progress > span {
+    width: 10%;
+}
+
+.progress > .percent {
+    display: inline-block;
+    width: 85%;
+    padding: 0;
+    margin: 0 0 0 3%;
+    background-color: rgba(249, 182, 0, .5);
+    height: 100%;
+}
+
+.progress > .percent > .tab {
+    height: 100%;
+    background-color: rgb(249, 182, 0);
+}
+
+.exercise-container > div {
+    padding: 0;
+    margin: 0;
+    display: inline-block;
+}
+
+.exercise-container {
+    position: relative;
+}
+
+.exercise-container > .right.arrow {
+    position: absolute;
+    top: 40%;
+}
+
+.detail > div {
+    display: inline-block;
+    width: 25%;
+    text-align: center;
+}
+
+.four-three {
+  position: relative;
+}
+
+.four-three:before {
+  display: block;
+  content: " ";
+  width: 100%;
+  padding-top: 75%;
+}
+
+.four-three > * {
+    position: relative;
+}
+
+.four-three > .content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
