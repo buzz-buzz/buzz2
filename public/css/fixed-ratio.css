@@ -1,0 +1,36 @@
+
+.four-three, 
+.fixed-ratio {
+  position: relative;
+}
+
+.fixed-ratio:before {
+  display: block;
+  content: " ";
+  width: 100%;
+}
+
+.four-three:before {
+  display: block;
+  content: " ";
+  width: 100%;
+  padding-top: 75%;
+}
+
+.eight-seven:before {
+    padding-top: 87.5%;
+}
+
+.four-three > *,
+.fixed-ratio > * {
+    position: relative;
+}
+
+.four-three > .content,
+.fixed-ratio > .content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
