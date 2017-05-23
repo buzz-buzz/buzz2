@@ -189,7 +189,7 @@ angular.module('vocabularyModule', ['trackingModule', 'clientConfigModule', 'Dat
             query.date = { end: new Date(2022, 1, 1).toISOString() };
         }
 
-        var url = clientConfig.serviceUrls.buzz.courses.search.frontEnd + '?' + $httpParamSerializer(query);
+        var url = clientConfig.serviceUrls.buzz.courses.searchFor.frontEnd + '?' + $httpParamSerializer(query);
 
         $scope.vocabularyData = new paginationData({
             sourceUrl: url,

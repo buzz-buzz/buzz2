@@ -109,7 +109,7 @@ block content
                                     .lg(ng-show='weekPerformance.bad>7',ng-cloak)
                                         span {{weekPerformance.bad}}
                                         + badPerformance
-                                td  {{rank||99}}
+                                td(ng-cloak) {{rank||99}}
                 .row.content(ng-controller="pcChartCtrl")
                     p &nbsp;
                     p &nbsp;
