@@ -120,7 +120,7 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                     location.href = '/my/daily-exercise' + location.search;
                 }
                 if (index === 3) {
-                    location.href = '/my/weekly-quiz?today=' + queryParser.get('today');
+                    location.href = '/my/weekly-quiz' + location.search;
                 }
             }
         };
