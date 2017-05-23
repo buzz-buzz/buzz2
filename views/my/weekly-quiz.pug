@@ -1,6 +1,7 @@
 extends ../m/mobile-layout
 
 block meta
+    + css("/public/css/play.min.css")
     style.
         body{
             font-family: "微软雅黑", "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -44,10 +45,6 @@ block meta
         .grade-body>div>.detail>.detail-con:nth-child(1){
             text-align: left;
         }
-        .button{
-            margin:0 auto !important;
-            width: 50% !important;
-        }
         .progress{
             position:fixed;
             z-index: 10;
@@ -74,23 +71,6 @@ block meta
         .exercise-container>.exercise-body{
             width:100% !important;
         }
-        .right.arrow,.button{
-            width: 90% !important;
-            background-color: #f6b52a !important;
-            display: block;
-            padding: .5em 1em !important;
-            border-radius: 3px;
-            text-align: center;
-            color: white;
-            font-weight: bold;
-            font-size: 1.2em;
-            margin:5px auto;
-        }
-        .right.arrow:before{
-            content: "下一题";
-            background-color: #f6b52a;
-            text-align: center;
-        }
         .button{
             display: block !important;
         }
@@ -101,10 +81,34 @@ block js
         angular.module('mobileModule')
             .run(['$rootScope', function ($rootScope) {
                 $rootScope.tabularIndex = 3;
-                console.log('hello');
             }])
         ;
 
 block content
     script(type="text/ng-template", id="weekly-quiz.html")
-        include partials/weekly-quiz
+        .item(ng-show="$root.tabularIndex===3", ng-controller="weeklyQuizCtrl")
+            .weekly-grade(ng-show="weeklyStatus=='grade'",ng-cloak)
+                .grade-title(style='background:#fff url(http://resource.buzzbuzzenglish.com/weekly_grade.png) no-repeat center;color:white;') 成绩单
+                .grade-body
+                    .course
+                        .title 得分
+                        .span(ng-cloak) {{grade}}
+                    .content
+                        .title 得分详情
+                        .detail(ng-repeat="details in score")
+                            .detail-title(style='font-weight:bold;',ng-cloak) {{details.type}}
+                            .detail-con(ng-cloak) 共{{details.total_sum}}题
+                            .detail-con(ng-cloak) 答对{{details.correct}}题
+                            .detail-con(ng-cloak) 获得{{details.score}}分
+                a.button(ng-click="turnTo('exercise')",ng-cloak, ng-hide="done") 继续测试
+            div(ng-show="weeklyStatus=='exercise'")
+                .progress
+                    span(ng-cloak) {{currentIndex+1}}/{{arrayWeeklyQuiz.length}}
+                .ui.container.fixed-ratio.eight-seven
+                    .content
+                        iframe(id="weekly-quiz-frame", frameborder="0", style="width: 100%; height: 100%;", ng-src="{{currentQuiz.quiz}}")
+
+                .ui.horizontal.divider
+                .ui.fluid.container
+                    button.ui.yellow.fluid.huge.button(ng-click="nextQuiz()", ng-hide="currentIndex+1>=arrayWeeklyQuiz.length") 下一题 
+                    button.ui.yellow.fluid.huge.button(ng-click="turnTo('grade')", ng-show="done") 查看成绩

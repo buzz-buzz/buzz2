@@ -69,29 +69,6 @@ a {
     margin: 0;
 }
 
-.progress {
-    margin: 20px;
-    width: 87%;
-}
-
-.progress > span {
-    width: 10%;
-}
-
-.progress > .percent {
-    display: inline-block;
-    width: 85%;
-    padding: 0;
-    margin: 0 0 0 3%;
-    background-color: rgba(249, 182, 0, .5);
-    height: 100%;
-}
-
-.progress > .percent > .tab {
-    height: 100%;
-    background-color: rgb(249, 182, 0);
-}
-
 .exercise-container > div {
     padding: 0;
     margin: 0;
@@ -113,8 +90,15 @@ a {
     text-align: center;
 }
 
-.four-three {
+.four-three, 
+.fixed-ratio {
   position: relative;
+}
+
+.fixed-ratio:before {
+  display: block;
+  content: " ";
+  width: 100%;
 }
 
 .four-three:before {
@@ -124,11 +108,17 @@ a {
   padding-top: 75%;
 }
 
-.four-three > * {
+.eight-seven:before {
+    padding-top: 87.5%;
+}
+
+.four-three > *,
+.fixed-ratio > * {
     position: relative;
 }
 
-.four-three > .content {
+.four-three > .content,
+.fixed-ratio > .content {
   position: absolute;
   top: 0;
   left: 0;
