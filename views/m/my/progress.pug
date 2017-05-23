@@ -220,7 +220,6 @@ body
 
         .learn img {
             width: 1.2rem;
-            margin-top: 0.3rem;
         }
 
         .learn.left {
@@ -520,11 +519,11 @@ body
             .box.process-content
                 .learn.left
                     .title 练习全对
-                    .content
+                    .content(style='display: table-cell;text-align: center;width: inherit;padding-top: .5em;')
                         img(src=`${config.cdn}/public/images/correct.png?${config.imageversion}`, ng-repeat="i in [].constructor(weekPerformance.good) track by $index")
                 .learn.middle
                     .title 练习有错
-                    .content
+                    .content(style='display: table-cell;text-align: center;width: inherit;padding-top: .5em;')
                         img(src=`${config.cdn}/public/images/wrong_1.png?${config.imageversion}` ng-repeat="i in [].constructor(weekPerformance.bad) track by $index")
 
                 .learn.right
