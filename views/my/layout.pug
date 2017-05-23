@@ -24,7 +24,8 @@ html(manifest="/buzz.appcache")
                         a.middle.aligned.icon-file-text(title="生词本",href="/vocabulary/my")
                     li#headportrait
                         img.middle.aligned.avatar(ng-src="{{profile.avatar}}", ng-if="profile.avatar")
-                        a.payingmember(ng-show="payingMember") v
+                        a.payingmember(ng-show="payingMember" ng-cloak) 
+                            img(src='/images/v.png')
                         a.middle.aligned(ng-if="!profile.avatar") 欢迎你
                         ul.sub.vertical.menu
                             li

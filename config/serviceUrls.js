@@ -91,8 +91,12 @@ module.exports = {
                 frontEnd: '/service-proxy/buzz/search-courses',
                 upstream: '/courses'
             },
+            searchFor: {
+                frontEnd: '/service-proxy/buzz/search-courses-for',
+                upstream: '/member-courses/:member_id'
+            }
         },
-
+        
         categories: {
             list: {
                 frontEnd: '/service-proxy/buzz/categories',
@@ -102,7 +106,7 @@ module.exports = {
 
         courseViews: {
             frontEnd: '/service-proxy/buzz/course-views/:category/:level/:lesson_id',
-            upstream: '/course-views/:category/:level/:lesson_id'
+            upstream: '/course-views/:category/:level/:lesson_id'       
         },
 
         quiz: {

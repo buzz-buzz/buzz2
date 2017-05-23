@@ -1,6 +1,7 @@
 angular.module('buzzHistoryModule', ['angularQueryParserModule', 'servicesModule', 'clientConfigModule'])
     .controller('historyCtrl', ['$scope', '$http', 'queryParser', 'service', 'clientConfig', 'httpPaginationData', '$httpParamSerializer', function ($scope, $http, queryParser, service, clientConfig, httpPaginationData, $httpParamSerializer) {
         var query = queryParser.parse();
+        
         if (!query.level) {
             query.level = 'B';
         }
@@ -16,8 +17,9 @@ angular.module('buzzHistoryModule', ['angularQueryParserModule', 'servicesModule
             $scope.category = '';
             url = clientConfig.serviceUrls.buzz.courses.findByLevel.frontEnd;
         }
-        var url = clientConfig.serviceUrls.buzz.courses.search.frontEnd + '?' + $httpParamSerializer(query);
-
+         var level = query.level;
+        $scope.level = level;
+        var url = clientConfig.serviceUrls.buzz.courses.searchFor.frontEnd + '?' + $httpParamSerializer(query);
         function sortByDate(a, b) {
             if (a.date > b.date) {
                 return -1;

@@ -6,7 +6,6 @@
 html, body {
     height: 100%;
 }
-
 .fluid {
     width: 100%;
 }
@@ -81,11 +80,10 @@ html, body {
     position: relative;
 }
 .payingmember {
-    color: #f7b52a;
     position: absolute;
-    left: -6px;
-    top: 2px;
-    font-size:13px;
+    right: 0px;
+    top: 7px;
+    font-size: 13px;
 }
 .fixed.header {
     position: fixed;

@@ -125,6 +125,14 @@ module.exports = function (app, router, parse) {
                 method: 'GET'
             }, proxyOption))
         })
+        .get(serviceUrls.buzz.courses.searchFor.frontEnd, membership.ensureAuthenticated, function* () {
+            let memberId = this.state.hcd_user.member_id;
+            this.body = yield proxy(Object.assign({
+                path: serviceUrls.buzz.courses.searchFor.upstream.replace(':member_id', memberId) + '?' + qs.stringify(this.query),
+                data: this.query,
+                method: 'GET'
+            }, proxyOption))
+        })
         .get(serviceUrls.buzz.weekly.getScore.frontEnd, membership.ensureAuthenticated, function* () {
             this.body = yield proxy(Object.assign({
                 path: '/weekly-quiz/' + this.state.hcd_user.member_id + '/' + this.query.lesson_id,
