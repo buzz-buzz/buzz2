@@ -43,10 +43,11 @@ angular.module('buzzModule')
             $scope.animateDirection = "";
 
             $rootScope.$on('answer:vocabulary', function (event, ret) {
+                console.log("saveResult vocabulary: index is " + ($scope.wordIndex+1));
                 quizFactory.saveResult({
                     lesson_id: lessonData.lesson_id,
                     type: 'vocabulary',
-                    result_id: $scope.wordIndex.toString(),
+                    result_id: ($scope.wordIndex+1).toString(),
                     total: $scope.newWords.length,
                     wrong: ret.status === 'Failed' ? 1 : 0,
                     correct: ret.status === 'Passed' ? 1 : 0,

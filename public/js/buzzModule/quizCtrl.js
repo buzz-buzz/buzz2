@@ -26,11 +26,11 @@ angular.module('buzzModule')
             };
 
             $rootScope.$on('answer:daily-exercise', function (event, ret) {
-                console.log("每日练习")
+                console.log("saveResult daily-exercise: index is " + ($scope.quizIndex+1));
                 quizFactory.saveResult({
                     lesson_id: lessonData.lesson_id,
                     type: 'daily-exercise',
-                    result_id: $scope.quizIndex.toString(),
+                    result_id: ($scope.quizIndex+1).toString(),
                     total: $scope.quizzes.length,
                     wrong: ret.status === 'Failed' ? 1 : 0,
                     correct: ret.status === 'Passed' ? 1 : 0,
@@ -52,7 +52,6 @@ angular.module('buzzModule')
             });
 
             var setUrl = function (forcerefresh) {
-                console.log("seturl")
                 if ($scope.initStatus === "") {
                     $scope.initStatus = "true";
                 } else {
