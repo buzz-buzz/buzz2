@@ -11,6 +11,8 @@ angular.module('buzzModule')
             "F": quizStatus.failed
         };
         $scope.currentExercise = {};
+        $scope.firstExercise = false;
+
         console.log("开始获取数据");
         function lessonDataGot(event, lessonData) {
             $scope.currentID = "quiz-1";
@@ -26,7 +28,12 @@ angular.module('buzzModule')
             };
 
             $rootScope.$on('answer:daily-exercise', function (event, ret) {
-                console.log("saveResult daily-exercise: index is " + ($scope.quizIndex+1));
+                if(($scope.wordIndex + 1) == 1 && !$scope.firstExercise){
+                    $scope.firstExercise = true;
+                }else if(($scope.wordIndex + 1) == 1){
+                    return
+                }
+
                 quizFactory.saveResult({
                     lesson_id: lessonData.lesson_id,
                     type: 'daily-exercise',
