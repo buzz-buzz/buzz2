@@ -9,7 +9,7 @@ mixin infoForm
             label.borderless
                 span 性别
                 div(style="border-left: none; text-align: right;")
-                    input(type="radio", name="gender", ng-model="infoData.gender", value="M", id="boy", ng-required="true")
+                    input(type="radio", name="gender", ng-model="infoData.gender", `value="M", id="boy", ng-required="true")
                     label(for="boy") 金童
                     span.space
                     input(type="radio", name="gender", ng-model="infoData.gender", value="F", id="girl", ng-required="true")
