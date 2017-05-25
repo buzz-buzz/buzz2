@@ -34,7 +34,7 @@ angular.module('signUpModule', ['angularQueryParserModule', 'clientConfigModule'
             captchaId: '',
             captcha: '',
             agreed: false,
-            invite_code: queryParser.get('trk_tag'),
+            invite_code: queryParser.get('trk_tag') || sessionStorage.getItem('trk_tag'),
             app_name: 'buzz'
         };
 

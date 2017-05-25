@@ -1,4 +1,9 @@
 angular.module('vocabularyModule', ['trackingModule', 'clientConfigModule', 'DateModule', 'quizModule', 'angularQueryParserModule', 'servicesModule', 'buzzHeaderModule', 'wechatShareModule'])
+    .run(['queryParser', function (queryParser) {
+        if(queryParser.get('trk_tag')){
+            sessionStorage.setItem('trk_tag', queryParser.get('trk_tag'));
+        }
+    }])
     .controller('vocabularyHeaderCtrl', ['$scope', 'DateFactory', function ($scope, DateFactory) {
         $scope.chineseWeekNumber = {
             1: '一',

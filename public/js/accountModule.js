@@ -1,4 +1,9 @@
 angular.module('accountModule', ['clientConfigModule', 'buzzHeaderModule', 'educationModule', 'servicesModule', 'errorParserModule', 'formModule', 'angular-file-reader', 'wechatShareModule'])
+    .run(['queryParser', function (queryParser) {
+        if(queryParser.get('trk_tag')){
+            sessionStorage.setItem('trk_tag', queryParser.get('trk_tag'));
+        }
+    }])
     .config(['$translateProvider', function ($translateProvider) {
         $translateProvider.useSanitizeValueStrategy(null);
         $translateProvider.translations('en', {}).translations('zh', {

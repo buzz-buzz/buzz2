@@ -1,6 +1,9 @@
 angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModule', 'clientConfigModule', 'buzzHeaderModule', 'chart.js', 'quizModule', 'DateModule', 'serviceCacheModule', 'trackingModule', 'wechatShareModule'])
-    .run(['$rootScope', 'trackingX', function ($rootScope, tracking) {
+    .run(['$rootScope', 'trackingX', 'queryParser', function ($rootScope, tracking, queryParser) {
         tracking.sendX('Progress');
+        if(queryParser.get('trk_tag')){
+            sessionStorage.setItem('trk_tag', queryParser.get('trk_tag'));
+        }
     }])
     .controller('calendarCtrl', ['$scope', '$http', 'clientConfig', 'quizFactory', '$filter', 'DateFactory', '$q', 'api', 'trackingX', 'levelFactory', function ($scope, $http, clientConfig, quizFactory, $filter, DateFactory, $q, api, tracking, levelFactory) {
         $scope.expanded = false;

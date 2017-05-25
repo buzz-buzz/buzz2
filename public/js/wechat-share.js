@@ -17,8 +17,10 @@ angular.module('wechatShareModule', ['clientConfigModule', 'buzzHeaderModule'])
                 if(sharable.link.indexOf('trk_tag=') < 0){
                     if(sharable.link.indexOf('?') < 0){
                         sharable.link =  sharable.link + '?trk_tag=' + newValue.invite_code;
+                        console.log("share link:" + sharable.link);
                     }else{
                         sharable.link =  sharable.link + '&trk_tag=' + newValue.invite_code;
+                        console.log("share link:" + sharable.link);
                     }
                 }
             }

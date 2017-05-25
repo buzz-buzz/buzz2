@@ -43,6 +43,11 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                 $rootScope.$emit('answer:' + type, parse(event.data));
             }
         });
+
+        if(query.trk_tag){
+            sessionStorage.setItem('trk_tag', query.trk_tag);
+        }
+
     }])
     .controller('VideoPlayerCtrl', ['$scope', '$sce', 'clientConfig', '$http', 'queryParser', '$rootScope', function ($scope, $sce, clientConfig, $http, queryParser, $rootScope) {
         function getLesson() {
