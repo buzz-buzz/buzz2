@@ -1,4 +1,4 @@
-angular.module('vocabularyModule', ['trackingModule', 'clientConfigModule', 'DateModule', 'quizModule', 'angularQueryParserModule', 'servicesModule', 'buzzHeaderModule'])
+angular.module('vocabularyModule', ['trackingModule', 'clientConfigModule', 'DateModule', 'quizModule', 'angularQueryParserModule', 'servicesModule', 'buzzHeaderModule', 'wechatShareModule'])
     .controller('vocabularyHeaderCtrl', ['$scope', 'DateFactory', function ($scope, DateFactory) {
         $scope.chineseWeekNumber = {
             1: '一',

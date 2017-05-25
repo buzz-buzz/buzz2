@@ -1,4 +1,4 @@
-angular.module('accountModule', ['clientConfigModule', 'buzzHeaderModule', 'educationModule', 'servicesModule', 'errorParserModule', 'formModule', 'angular-file-reader'])
+angular.module('accountModule', ['clientConfigModule', 'buzzHeaderModule', 'educationModule', 'servicesModule', 'errorParserModule', 'formModule', 'angular-file-reader', 'wechatShareModule'])
     .config(['$translateProvider', function ($translateProvider) {
         $translateProvider.useSanitizeValueStrategy(null);
         $translateProvider.translations('en', {}).translations('zh', {

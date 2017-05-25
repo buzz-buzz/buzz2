@@ -1,4 +1,4 @@
-angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModule', 'clientConfigModule', 'buzzHeaderModule', 'chart.js', 'quizModule', 'DateModule', 'serviceCacheModule', 'trackingModule'])
+angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModule', 'clientConfigModule', 'buzzHeaderModule', 'chart.js', 'quizModule', 'DateModule', 'serviceCacheModule', 'trackingModule', 'wechatShareModule'])
     .run(['$rootScope', 'trackingX', function ($rootScope, tracking) {
         tracking.sendX('Progress');
     }])

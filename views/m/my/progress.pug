@@ -308,7 +308,7 @@ body
             font-weight: bold;
         }
         .content_m {
-            height: 11rem;
+            height: 13rem;
         }
         .chart-box {
             position: absolute;
@@ -493,7 +493,7 @@ body
                         img(ng-src=`${config.cdn}/public/images/medal.png?${config.imageversion}`)
                     .text.content.font.black.bold 5
         .row
-            .box.process-head &nbsp;&nbsp;练习打卡日历
+            .box.process-head &nbsp;练习打卡日历
         .row.blank
         .row(ng-controller="calendarCtrl")
             .box.process-content(ng-if="!expanded")
@@ -511,7 +511,7 @@ body
         .row.blank
         .row.blank
         .row
-            .box.process-head &nbsp;&nbsp;周进度
+            .box.process-head &nbsp;周进度
             .span(style='height:2em;width:100%;color:#666;text-align:left;padding-left:.5em;line-height:2em;font-size: .85rem;box-sizing: border-box;',ng-cloak) {{this_date}}
         .row
             .box.process-content
@@ -531,7 +531,7 @@ body
         .row.blank
         div()
             .row
-                .box.process-head &nbsp;&nbsp;历史曲线
+                .box.process-head &nbsp;历史曲线
             .row.blank
             .row(ng-controller="chartCtrl")
                 .box.process-content(ng-if="!expanded")
@@ -566,8 +566,10 @@ body
     include ../tail.pug
     + tailcontent(false, true, false, false)
     include ../../js
+    + js("/js/wechat-share.js")
     + js("/node_modules/chart.js/dist/Chart.js")
     + js("/node_modules/angular-chart.js/dist/angular-chart.min.js")
+    + js("/js/buzzModule.min.js")
     + js("/js/quizModule.min.js")
     + js("/js/DateModule.min.js")
     + js("/node_modules/moment/min/moment.min.js")
