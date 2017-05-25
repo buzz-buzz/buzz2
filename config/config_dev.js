@@ -51,14 +51,14 @@ module.exports = {
         }
     },
 
-    progress:{
-        inner:{
+    progress: {
+        inner: {
             host: '10.20.32.61',
             port: 15000
         }
     },
 
-    upload_qiniu:{
+    upload_qiniu: {
         inner: {
             host: "uat.hcd.com",
             port: 10003

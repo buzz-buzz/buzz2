@@ -80,10 +80,10 @@ html, body {
     position: relative;
 }
 .payingmember {
+    width:40%;
     position: absolute;
     right: 0px;
     top: 7px;
-    font-size: 13px;
 }
 .fixed.header {
     position: fixed;
@@ -372,7 +372,7 @@ form label.select:after {
     -moz-transform: rotate(90deg);
     -ms-transform: rotate(90deg);
     transform: rotate(90deg);
-    right: 8px;
+    right: -1px;
     top: 5px;
     padding: 0 0 2px 0;
     border-bottom: 1px solid #ddd;
