@@ -28,7 +28,7 @@ angular.module('wechatShareModule', ['clientConfigModule', 'buzzHeaderModule'])
 
         var sharable = {
             title: 'Buzzbuzz English',
-            desc: '每天更新的，青少年英语新闻分级阅读！精彩内容，不容错过......',
+            desc: '每天更新的，青少年英语新闻分级阅读！精彩内容，不容错过...',
             link: location.href,
             imgUrl: 'http://resource.buzzbuzzenglish.com/image2.jpg'
         };

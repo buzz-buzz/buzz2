@@ -68,8 +68,12 @@ function renderWithServerData(app, router, render) {
     });
 }
 function redirectRequest(app, router) {
-    router.get('/', function *home(next) {
-        this.redirect('/my/today');
+    router.get('/', membership.setHcdUserIfSignedIn, function *home(next) {
+        if(this.state.hcd_user){
+            this.redirect('/my/today');
+        }else{
+            this.redirect('/my/history');
+        }
     });
 
     router.get('/sign-out', function *deleteCookie(next) {

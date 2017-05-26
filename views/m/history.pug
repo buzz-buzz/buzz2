@@ -1,0 +1,20 @@
+extends ../m/mobile-layout
+
+block meta
+    style.
+        html{
+            height:auto !important;
+            overflow: auto;
+        }
+
+block js
+    script.
+        angular.module('mobileModule')
+            .run(['$rootScope', function ($rootScope) {
+                console.log("ssaa");
+            }])
+        ;
+block content
+    script(type="text/ng-template", id="history.html")
+        div(style='background-color: #eee;', ng-controller="historyCtrl")
+            include my/partials/history-list

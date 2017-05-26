@@ -19,6 +19,11 @@ module.exports = function (app, router, render) {
                 this.throw(500, 'failed to fetch latest course');
             }
 
+            if(!this.state.hcd_user.member_id){
+                this.redirect('/my/history',{config: config});
+                return;
+            }
+
             if (!this.state.userAgent.isMobile || this.state.userAgent.isTablet) {
                 this.redirect('/my/play?date=' + latestCourse.date + '&cat=' + (latestCourse.category || '').toLowerCase() + '&level=' + level, {
                     config: config
@@ -30,11 +35,15 @@ module.exports = function (app, router, render) {
                 config: config
             });
         })
-        .get('/my/history', membership.ensureAuthenticated, function* (next) {
-            this.body = yield render('my/history', {
-                config: config,
-                hcd_user: this.state.hcd_user
-            });
+        .get('/my/history', function* (next) {
+            if (!this.state.userAgent.isMobile || this.state.userAgent.isTablet) {
+                this.body = yield render('my/history', {
+                    config: config,
+                    hcd_user: this.state.hcd_user
+                });
+            } else {
+                this.redirect('/my/mobile-history', { config: config });
+            }
         })
         .get('/my/play', membership.setHcdUserIfSignedIn, function* (next) {
             if (!this.state.userAgent.isMobile || this.state.userAgent.isTablet) {
@@ -60,7 +69,7 @@ module.exports = function (app, router, render) {
             if (!this.state.userAgent.isMobile || this.state.userAgent.isTablet) {
                 this.body = yield render('my/progress', { config: config });
             } else {
-                this.redirect('/m/my/progress', { config: config });
+                this.redirect('/my/mobile-history', { config: config });
             }
         })
         .get('/my/account', membership.ensureAuthenticated, function* () {
@@ -92,6 +101,13 @@ module.exports = function (app, router, render) {
 
         .get('/my/avatar', membership.ensureAuthenticated, function* () {
             this.body = yield render('m/my/avatar-mobile', { config: config, base: '/my/', title: '头像', backUrl: 'javascript:location.href="/m/my/my"' });
+        })
+        .get('/my/mobile-history',function* () {
+            if (!this.state.userAgent.isMobile || this.state.userAgent.isTablet) {
+                this.redirect('/my/history', { config: config });
+            } else {
+                this.body = yield render('m/history', { config: config, base: '/my/', title: 'history'});
+            }
         })
         ;
 };

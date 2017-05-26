@@ -1,0 +1,13 @@
+.history-list(style='margin-bottom:2em;', ng-repeat="lesson in courseList track by $index")
+    .ui.card(style='width:100%;')
+        .image
+            img(ng-src="{{lesson.image}}", ng-click='aLikeClick("/m/my/today?date="+lesson.date+"&cat="+ lesson.category.toLowerCase()+"&level="+lesson.level)')
+        .content(style='font-size:1.5em;')
+            .meta
+                span.date(ng-cloak) {{lesson.date}}
+            .description(style='color: #f7b52a;', ng-click='aLikeClick("/m/my/today?date="+lesson.date+"&cat="+ lesson.category.toLowerCase()+"&level="+lesson.level)', ng-cloak) {{lesson.title}}
+        .extra.content
+            a
+                i.icon-heart(style='color:red;')
+                span(ng-cloak) &nbsp;&nbsp;&nbsp;{{lesson.baseNumber}}人参加了本节课程
+

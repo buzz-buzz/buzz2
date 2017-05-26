@@ -98,6 +98,7 @@ body(ng-app="mobileModule")
     + js('/js/buzzModule/weeklyQuizCtrl.min.js')
     + js("/js/buzzModule/newWordCtrl.min.js")
     + js("/js/buzzModule/quizCtrl.min.js")
+    + js("/js/buzzHistoryModule.min.js")
     + js("/js/level-ctrl.min.js")
     + js("/js/formModule.min.js")
     + js("/js/accountModule.min.js")
@@ -108,7 +109,8 @@ body(ng-app="mobileModule")
             'ngRoute',
             'mobile-angular-ui',
             'buzzModule',
-            'accountModule'
+            'accountModule',
+            'buzzHistoryModule'
         ])
             .config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
                 $locationProvider.html5Mode(true);
@@ -136,6 +138,11 @@ body(ng-app="mobileModule")
                         templateUrl: 'avatar.html',
                         controller: 'viewAccountCtrl',
                         controllerAS: 'viewAccountCtrl'
+                    })
+                    .when('/mobile-history',{
+                        templateUrl: 'history.html',
+                        controller: 'historyCtrl',
+                        controllerAS: 'historyCtrl'
                     })
 
                 $routeProvider.otherwise('/weekly-quiz');
