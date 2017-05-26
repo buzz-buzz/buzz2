@@ -43,7 +43,7 @@ block content
                 .left-row.password.input-container
                     .label 密码
                     input(type="password", placeholder="请输入6-20位密码", ng-model="signUpData.password", ng-required="true", minlength="6", maxlength="20")
-                button.next(type="submit", ng-disabled="!signUpForm.$valid") 下一步
+                button.next(type="submit", ng-disabled="!signUpForm.$valid",ng-cloak) 下一步
                 .center-row.agreement
                     input(type="checkbox", id="agree", ng-model="signUpData.agreed", ng-required="true")
                     label(for="agree") 您已阅读并同意
@@ -51,7 +51,9 @@ block content
                     div(ng-if="bindMobileMode")
                         br
                         br
-                        a.yellow.button(ng-href="/m/sign-in{{queryString}}", style="font-size: larger;") 绑定已注册手机号
+                        a.yellow.button(ng-href="/m/sign-in{{queryString}}", style="font-size: larger;",ng-cloak) 绑定已注册手机号
+                    div.enquire 已有账号？
+                        a.yellow.registered(href="/sign-in") 点此登录
                 include ../partial/errMsg_m.pug
 
 block js
