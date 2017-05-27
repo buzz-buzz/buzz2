@@ -61,8 +61,8 @@ module.exports = {
                 upstream: '/users/:member_id/educations/current-level'
             },
             memberTag: {
-                frontEnd: '/service-proxy/buzz/membertag',
-                upstream: '/user-tag/:member_id'
+                frontEnd: '/service-proxy/buzz/member-tags',
+                upstream: '/user-tags/:member_id'
             },
         },
 
@@ -96,7 +96,7 @@ module.exports = {
                 upstream: '/member-courses/:member_id'
             }
         },
-        
+
         categories: {
             list: {
                 frontEnd: '/service-proxy/buzz/categories',
@@ -106,7 +106,7 @@ module.exports = {
 
         courseViews: {
             frontEnd: '/service-proxy/buzz/course-views/:category/:level/:lesson_id',
-            upstream: '/course-views/:category/:level/:lesson_id'       
+            upstream: '/course-views/:category/:level/:lesson_id'
         },
 
         quiz: {
