@@ -15,14 +15,16 @@ style.
         margin-left: 1.5em;
         margin-right: 1.5em;
     }
-
+    a {
+        text-decoration:none
+    }
 #qr-code.mask(ng-controller="qrCodeModalCtrl", ng-class="{'hide': hideModal, 'show': showModal}", ng-click="hideTheModal()")
     .popup(ng-click="keepModal($event)")
         .body(style="text-align: center; max-width: 250px;")
             p &nbsp;
             p 扫描二维码，加入 Buzzbuzz
             p
-                img(ng-src="{{qrCodeLink}}", style="max-width: 100%;")
+                img(ng-src="{{qrCodeLink}}", style="max-width: 50%;")
         p(style="text-align: center;")
-            a(ng-href="{{myShareLink}}" target="_blank") {{myShareLink}}
+            a(ng-href="{{myShareLink}}" target="_blank") 点我分享
         p &nbsp;
