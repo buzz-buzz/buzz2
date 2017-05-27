@@ -25,8 +25,8 @@ html(manifest="/buzz.appcache")
                     li#headportrait
                         img.middle.aligned.avatar(ng-src="{{profile.avatar}}", ng-if="profile.avatar")
                         img.payingmember(src='/images/v.png',ng-show="payingMember" ng-cloak) 
-                        a.middle.aligned(ng-if="!profile.avatar") 欢迎你
-                        ul.sub.vertical.menu
+                        a.middle.aligned(ng-if="!profile.avatar",href="/sign-in", ng-cloak) 请登录
+                        ul.sub.vertical.menu(ng-if="profile.avatar")
                             li
                                 a(href="/my/account") 账号信息
                             li
