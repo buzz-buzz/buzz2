@@ -77,7 +77,8 @@ function redirectRequest(app, router) {
         cookie.deleteToken.apply(this);
         yield next;
     }, function* home(next) {
-        this.redirect('/sign-in');
+        let returnUrl = this.query.return_url;
+        this.redirect(returnUrl || '/sign-in');
     });
 }
 function auth(app, router, render) {
