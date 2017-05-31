@@ -4,7 +4,7 @@ angular.module('wechatShareModule', ['clientConfigModule', 'buzzHeaderModule'])
         if (index < 0) {
             index = undefined;
         }
-        console.log("url：" + location.href.substr(0, index));
+
         function getDesc(who) {
             return who + ' 邀请您一起看今日Buzzbuzz青少年英语新闻';
         }
@@ -14,13 +14,11 @@ angular.module('wechatShareModule', ['clientConfigModule', 'buzzHeaderModule'])
             if (newValue) {
                 who = newValue.displayName;
                 sharable.desc = getDesc(who);
-                if(sharable.link.indexOf('trk_tag=') < 0){
-                    if(sharable.link.indexOf('?') < 0){
-                        sharable.link =  sharable.link + '?trk_tag=' + newValue.invite_code;
-                        console.log("share link:" + sharable.link);
-                    }else{
-                        sharable.link =  sharable.link + '&trk_tag=' + newValue.invite_code;
-                        console.log("share link:" + sharable.link);
+                if (sharable.link.indexOf('trk_tag=') < 0) {
+                    if (sharable.link.indexOf('?') < 0) {
+                        sharable.link = sharable.link + '?trk_tag=' + newValue.invite_code;
+                    } else {
+                        sharable.link = sharable.link + '&trk_tag=' + newValue.invite_code;
                     }
                 }
             }
@@ -32,6 +30,8 @@ angular.module('wechatShareModule', ['clientConfigModule', 'buzzHeaderModule'])
             link: location.href,
             imgUrl: 'http://resource.buzzbuzzenglish.com/image2.jpg'
         };
+
+        $rootScope.wechatSharable = sharable;
 
         $http.get(clientConfig.serviceUrls.wechat.sign.frontEnd, {
             params: {
@@ -89,12 +89,13 @@ angular.module('wechatShareModule', ['clientConfigModule', 'buzzHeaderModule'])
                     success: shareToFriendSuccess,
                     cancel: shareToFriendCancel
                 }));
+
+                $rootScope.$emit('wx:ready', sharable);
             });
 
             wx.error(function (res) {
                 console.error(res);
-            })
+            });
         });
-
     }])
-;
+    ;

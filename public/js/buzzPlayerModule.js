@@ -80,6 +80,11 @@ angular.module('buzzPlayerModule', ['angularQueryParserModule', 'trackingModule'
             mainVideo.onVolume(function (event) {
                 tracking.sendX('play.video.volumnBtn', getData(event, videoInfo, $scope));
             });
+
+            mainVideo.onComplete(function (event) {
+                tracking.sendX('play.video.end', getData(event, videoInfo, $scope));
+                window.parent.postMessage('video:end//' + JSON.stringify(getData(event, videoInfo, $scope)), window.parent.location.href);
+            });
         }
 
         function updateVideoTime(mainVideo, $scope) {
@@ -240,4 +245,4 @@ angular.module('buzzPlayerModule', ['angularQueryParserModule', 'trackingModule'
             }
         });
     }])
-;
+    ;
