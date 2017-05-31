@@ -22,11 +22,16 @@ angular.module('buzzModule')
             }
         }
     }])
-    .controller('weeklyQuizCtrl', ['$scope', 'BuzzCalendar', 'queryParser', 'api', 'clientConfig', 'weeklyQuizParser', 'arrayWeeklyQuizParser', '$q', 'quizFactory', '$rootScope', function ($scope, BuzzCalendar, queryParser, api, clientConfig, weeklyQuizParser, arrayWeeklyQuizParser, $q, quizFactory, $rootScope) {
+    .controller('weeklyQuizCtrl', ['$scope', 'BuzzCalendar', 'queryParser', 'api', 'clientConfig', 'weeklyQuizParser', 'arrayWeeklyQuizParser', '$q', 'quizFactory', '$rootScope', 'trackingX', 'weeklyQuizStatus', function ($scope, BuzzCalendar, queryParser, api, clientConfig, weeklyQuizParser, arrayWeeklyQuizParser, $q, quizFactory, $rootScope, tracking, weeklyQuizStatus) {
         var query = queryParser.parse();
         var now = query.today ? new Date(query.today) : new Date();
         var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
+        $scope.STATUS = {
+            "unchecked": weeklyQuizStatus.unchecked,
+            "pass": weeklyQuizStatus.pass,
+            "failed": weeklyQuizStatus.failed
+        };
         $scope.weeklyStatus = 'menu';
         function getLastProgress(result) {
             return result.detail.filter(function (d) {
@@ -65,7 +70,11 @@ angular.module('buzzModule')
             $scope.currentIndex = index;
             $scope.currentQuiz = $scope.arrayWeeklyQuiz[$scope.currentIndex];
         }
-
+        function track() {
+            tracking.sendX('week-quiz', {
+                word: word
+            })
+        }
         function generateWeeklyQuiz() {
             return api.get(clientConfig.serviceUrls.buzz.courses.search.frontEnd, {
                 params: {
@@ -136,6 +145,7 @@ angular.module('buzzModule')
         $scope.nextQuiz = function () {
             setCurrentQuiz(++$scope.currentIndex);
             updateProgressBar();
+            tracking.sendX('play.quizTab.slideNextBtn.clicked');
         };
 
         $rootScope.$on('answer:weekly-quiz', function (event, d) {
@@ -156,6 +166,13 @@ angular.module('buzzModule')
                     $scope.done = true;
                 }
             });
+            tracking.sendX('weekly-quiz.submit', {
+                index: $scope.currentIndex,
+                ispassed: d.status.toLowerCase() === weeklyQuizStatus.pass,
+                score: d.mark
+            });
+            var status = d.status;
+            $scope.arrayWeeklyQuiz[$scope.currentIndex].status = status.toLowerCase();
         });
 
         function calculateScore() {
@@ -200,4 +217,4 @@ angular.module('buzzModule')
         }
 
     }])
-;
+    ;

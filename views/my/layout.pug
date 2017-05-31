@@ -23,7 +23,7 @@ html(manifest="/buzz.appcache")
                     li(ng-class="{'active': isActive('/vocabulary/my')}")
                         a.middle.aligned.icon-file-text(title="生词本",href="/vocabulary/my")
                     li#headportrait
-                        img.middle.aligned.avatar(ng-src="{{profile.avatar}}", ng-if="profile.avatar")
+                        img.middle.aligned.avatar(ng-src="{{profile.avatar}}", ng-if="profile.avatar", ng-cloak)
                         img.payingmember(src='/images/v.png',ng-show="payingMember" ng-cloak) 
                         a.middle.aligned(ng-if="!profile.avatar",href="/sign-in", ng-cloak) 请登录
                         ul.sub.vertical.menu(ng-if="profile.avatar")

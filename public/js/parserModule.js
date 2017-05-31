@@ -9,6 +9,11 @@ angular.module('parserModule', [])
         "pass": "passed",
         "failed": "failed"
     })
+    .value('weeklyQuizStatus', {
+        "unchecked": "unchecked",
+        "pass": "passed",
+        "failed": "failed"
+    })
     .value('generateParse', function (parser) {
         return function (json) {
             if (!json.version) {
@@ -102,7 +107,7 @@ angular.module('parserModule', [])
                 return json.array;
             },
 
-            parseV2: function(json){
+            parseV2: function (json) {
                 return [];
             }
         };
@@ -111,7 +116,7 @@ angular.module('parserModule', [])
 
         return highlightParser;
     }])
-    .factory('weeklyQuizParser', ['quizStatus', 'generateParse', function (quizStatus, generateParse) {
+    .factory('weeklyQuizParser', ['weeklyQuizStatus', 'generateParse', function (weeklyQuizStatus, generateParse) {
         var p = {
             parseV1: function (jsonArray) {
                 return [];
@@ -176,4 +181,4 @@ angular.module('parserModule', [])
             }
         };
     }])
-;
+    ;
