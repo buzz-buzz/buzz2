@@ -1,7 +1,7 @@
 angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModule', 'clientConfigModule', 'buzzHeaderModule', 'chart.js', 'quizModule', 'DateModule', 'serviceCacheModule', 'trackingModule', 'wechatShareModule'])
     .run(['$rootScope', 'trackingX', 'queryParser', function ($rootScope, tracking, queryParser) {
         tracking.sendX('Progress');
-        if(queryParser.get('trk_tag')){
+        if (queryParser.get('trk_tag')) {
             sessionStorage.setItem('trk_tag', queryParser.get('trk_tag'));
         }
     }])
@@ -217,10 +217,10 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
                         });
                 });
 
-                function dateToYesterday(Day){
+                function dateToYesterday(Day) {
                     var date = new Date(Day);
-                    date.setTime(date.getTime()+24*60*60*1000);
-                    var yesterday = date.getFullYear()+"-" + (date.getMonth()+1) + "-" + date.getDate();
+                    date.setTime(date.getTime() + 24 * 60 * 60 * 1000);
+                    var yesterday = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
                     return yesterday;
                 }
 
@@ -288,12 +288,10 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
             $http.get(clientConfig.serviceUrls.buzz.progress.statistics.frontEnd + '?level=' + level + '&top=5')
                 .then(function (response) {
                     if (response.data.value.length) {
-                        $scope.totalWord = 0;
                         var score_total_num = [];
                         var score_rank = [];
                         for (var x in response.data.value) {
                             score_total_num.unshift(response.data.value[x].num_of_correct_word);
-                            $scope.totalWord += response.data.value[x].num_of_correct_word;
                         }
                         for (var x in response.data.value) {
                             score_rank.unshift(response.data.value[x].rank);
@@ -356,9 +354,6 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
                     if (response.data.value.length) {
                         var week_now = parseInt(response.data.value[0].week);
                         updateLabels(week_now, response.data.value);
-                        for (var x in response.data.value) {
-                            $scope.totalWord += response.data.value[x].num_of_correct_word;
-                        }
                     }
                 });
         });
@@ -409,8 +404,9 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
                         gridLines: {
                             display: false
                         }
-                     }
-                ]},
+                    }
+                ]
+            },
             responsive: true
         };
         function updateLabels(_week, data) {
@@ -459,6 +455,14 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
             $scope.data[1] = score_rank;
 
         }
+
+        api.get(clientConfig.serviceUrls.buzz.profile.getMemberVocabularyList.frontEnd)
+            .then(function (result) {
+                if(result.data.data && result.data.data.correct_list){
+                    $scope.totalWord = result.data.data.correct_list.length;
+                }
+            });
+
     }])
     .controller('myBuzzCtrl', ['$scope', '$rootScope', function ($scope, $rootScope) {
         $rootScope.$watch('profile', function (newValue, oldValue) {

@@ -141,6 +141,18 @@ module.exports = function (app, router, parse) {
                 method: 'GET'
             }, proxyOption))
         })
+        .get(serviceUrls.buzz.profile.memberVocabularies.frontEnd, membership.ensureAuthenticated, function*() {
+            this.body = yield proxy(Object.assign({
+                path: serviceUrls.buzz.profile.memberVocabularies.upstream.replace(':member_id/:answer/:word', this.state.hcd_user.member_id + '/' + this.query.answer + '/' + this.query.word),
+                method: 'POST'
+            }, proxyOption))
+        })
+        .get(serviceUrls.buzz.profile.getMemberVocabularyList.frontEnd, membership.ensureAuthenticated, function*() {
+            this.body = yield proxy(Object.assign({
+                path: serviceUrls.buzz.profile.getMemberVocabularyList.upstream.replace(':member_id', this.state.hcd_user.member_id),
+                method: 'GET'
+            }, proxyOption))
+        })
     ;
 
     require('./buzz-quiz')(app, router, parse);

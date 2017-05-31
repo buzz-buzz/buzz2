@@ -64,6 +64,14 @@ module.exports = {
                 frontEnd: '/service-proxy/buzz/member-tags',
                 upstream: '/user-tags/:member_id'
             },
+            memberVocabularies: {
+                frontEnd: '/service-proxy/buzz/member-vocabularies',
+                upstream: '/member-vocabularies/:member_id/:answer/:word'
+            },
+            getMemberVocabularyList: {
+                frontEnd: '/service-proxy/buzz/member-vocabulary-list',
+                upstream: '/member-vocabularies/:member_id'
+            }
         },
 
         courses: {

@@ -64,6 +64,11 @@ angular.module('buzzModule')
                         status: String(ret.status)
                     }
                 });
+
+                api.get(clientConfig.serviceUrls.buzz.profile.memberVocabularies.frontEnd+'?word='+ $scope.newWords[$scope.wordIndex].word + '&answer=' +ret.status).then(function(data){
+                     console.log(data);
+                });
+
                 tracking.sendX('today-vocabulary-quiz.submit', {
                     word: $scope.newWords[$scope.wordIndex].word,
                     ispassed: ret.status.toLowerCase() === vocabularyStatus.pass,
