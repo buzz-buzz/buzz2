@@ -11,7 +11,7 @@ const buzz = require('../service-proxy-for-server/buzz');
 function mobileDetectRender(app, router, render) {
     let routes = ['/sign-in', '/sign-up', '/reset-password'];
     routes.forEach(function (route) {
-        router.get(route, function *(next){
+        router.get(route, function* (next) {
             if (this.state.userAgent.isMobile && !this.state.userAgent.isTablet) {
                 this.redirect('/m' + route + this.request.search);
             } else {
@@ -25,20 +25,20 @@ function mobileRender(app, router, render) {
     let routes = ['sign-in', 'loading', 'sign-up', 'reset-password'];
     routes.forEach(function (route) {
         let routename = '/m/' + route;
-        router.get(routename, require('./wechatOAuth'), function *(next) {
+        router.get(routename, require('./wechatOAuth'), function* (next) {
             this.body = yield render(routename, {
                 config: config
             });
         });
     });
 
-    router.get('/m/my/vocabulary', require('./wechatOAuth'), function *(next) {
+    router.get('/m/my/vocabulary', require('./wechatOAuth'), function* (next) {
         if (this.state.userAgent.isMobile && !this.state.userAgent.isTablet) {
             this.body = yield render('/m/my/vocabulary', {
                 config: config
             });
         } else {
-            this.redirect('/vocabulary/my', {config: config});
+            this.redirect('/vocabulary/my', { config: config });
         }
     });
 }
@@ -47,16 +47,13 @@ function simpleRender(app, router, render) {
     let routes = ['sign-in', 'loading', 'agreement', 'reset-password'];
 
     for (let i = 0; i < routes.length; i++) {
-        router.get('/' + routes[i], function *() {
-            this.body = yield render(routes[i], {config: config});
-        });
-        router.get('/mock-tracking/' + routes[i], function*() {
-            this.body = yield render(routes[i], {config: Object.assign(config, {mockTracking: true})});
+        router.get('/' + routes[i], function* () {
+            this.body = yield render(routes[i], { config: config });
         });
     }
 }
 function renderWithServerData(app, router, render) {
-    router.get('/sign-up', membership.setHcdUserByToken, function *(next) {
+    router.get('/sign-up', membership.setHcdUserByToken, function* (next) {
         if (this.query.step && this.query.step == 2 && !this.state.hcd_user) {
             this.redirect('/sign-up?step=1');
         } else {
@@ -68,18 +65,18 @@ function renderWithServerData(app, router, render) {
     });
 }
 function redirectRequest(app, router) {
-    router.get('/', membership.setHcdUserIfSignedIn, function *home(next) {
-        if(this.state.hcd_user){
+    router.get('/', membership.setHcdUserIfSignedIn, function* home(next) {
+        if (this.state.hcd_user) {
             this.redirect('/my/today');
-        }else{
+        } else {
             this.redirect('/my/history');
         }
     });
 
-    router.get('/sign-out', function *deleteCookie(next) {
+    router.get('/sign-out', function* deleteCookie(next) {
         cookie.deleteToken.apply(this);
         yield next;
-    }, function *home(next) {
+    }, function* home(next) {
         this.redirect('/sign-in');
     });
 }
@@ -108,7 +105,7 @@ function filterConfig(config) {
 let clientConfig = 'angular.module("clientConfigModule", []).value("clientConfig", ' + JSON.stringify(filterConfig(config)) + ');';
 
 function virtualFile(app, router) {
-    router.get('/clientConfig.js', function *(next) {
+    router.get('/clientConfig.js', function* (next) {
         this.set('Cache-Control', 'public, max-age=31557600');
         this.body = clientConfig;
     });
@@ -116,13 +113,13 @@ function virtualFile(app, router) {
 
 function helper(app, router) {
     router
-        .get('/healthcheck', function*(next) {
-            this.body = {every: 'is ok', time: new Date(), env: process.env.NODE_ENV};
+        .get('/healthcheck', function* (next) {
+            this.body = { every: 'is ok', time: new Date(), env: process.env.NODE_ENV };
         })
-        .get('/whoami', membership.setHcdUserByToken, function *(next) {
+        .get('/whoami', membership.setHcdUserByToken, function* (next) {
             this.body = this.state.hcd_user;
         })
-    ;
+        ;
 }
 function serviceProxy(app, router) {
     require('../service-proxy/sso')(app, router, coBody);

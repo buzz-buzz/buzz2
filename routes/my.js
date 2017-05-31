@@ -19,8 +19,8 @@ module.exports = function (app, router, render) {
                 this.throw(500, 'failed to fetch latest course');
             }
 
-            if(!this.state.hcd_user.member_id){
-                this.redirect('/my/history',{config: config});
+            if (!this.state.hcd_user.member_id) {
+                this.redirect('/my/history', { config: config });
                 return;
             }
 
@@ -102,11 +102,11 @@ module.exports = function (app, router, render) {
         .get('/my/avatar', membership.ensureAuthenticated, function* () {
             this.body = yield render('m/my/avatar-mobile', { config: config, base: '/my/', title: '头像', backUrl: 'javascript:location.href="/m/my/my"' });
         })
-        .get('/my/mobile-history',function* () {
+        .get('/my/mobile-history', function* () {
             if (!this.state.userAgent.isMobile || this.state.userAgent.isTablet) {
                 this.redirect('/my/history', { config: config });
             } else {
-                this.body = yield render('m/history', { config: config, base: '/my/', title: 'history'});
+                this.body = yield render('m/history', { config: config, base: '/my/', title: 'history' });
             }
         })
         ;

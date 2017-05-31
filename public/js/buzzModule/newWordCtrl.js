@@ -45,12 +45,10 @@ angular.module('buzzModule')
             $scope.animateDirection = "";
 
             $rootScope.$on('answer:vocabulary', function (event, ret) {
-                console.log(($scope.wordIndex + 1) + ',,,,' +(wordIndex + 1));
-
                 if(($scope.wordIndex + 1) == 1 && !$scope.firstExercise){
                     $scope.firstExercise = true;
                 }else if(($scope.wordIndex + 1) == 1){
-                    return
+                    return;
                 }
 
                 quizFactory.saveResult({
