@@ -130,7 +130,7 @@ block content
                                     span 主题
                                     select.topic(ng-model="infoData.topics", placeholder="请选择你喜欢的主题", ng-required="false", multiple='multiple', size=3)
                                         option(ng-repeat="topic in topics", value="{{topic.key}}" ,ng-cloak) {{topic.name}}
-                            .fluid.fieldq
+                            .fluid.field
                                 label(style="border: none;")
                                     span 选择难度版本
                                     div(style="border-left: none;")
