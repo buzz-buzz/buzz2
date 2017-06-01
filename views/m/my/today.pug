@@ -1,4 +1,4 @@
-extends ../vedio_layout
+extends ../video_layout
 
 block js
     + js('/js/parserModule.min.js')
@@ -34,6 +34,15 @@ block js
 block head
     + css("/public/css/modal.min.css")
     + css("/public/css/button.min.css")
+    
+    <!-- Only required for desktop -->
+    + css("/node_modules/mobile-angular-ui/dist/css/mobile-angular-ui-hover.min.css")
+
+    <!-- Always required -->
+    + css("/node_modules/mobile-angular-ui/dist/css/mobile-angular-ui-base.min.css")
+
+    <!-- Only required for desktop -->
+    + css("/node_modules/mobile-angular-ui/dist/css/mobile-angular-ui-desktop.min.css")
     style.
         @media screen and (max-width: 720px) {
             .tabular.menu {
@@ -304,7 +313,7 @@ mixin itemBar(imageSrc, title, subTitle)
         span.tag >
 
 mixin videoPlayer
-    .center.aligned.container.transparent
+    .center.aligned.transparent
         iframe.white.background(ng-src="{{src}}" ng-controller="VideoPlayerCtrl", style="border:none; width: 100%; display: block;", allowfullscreen)
 
 mixin quiz
@@ -317,20 +326,36 @@ mixin quiz
 block content
     .wechat-share-img
         img(src="http://resource.buzzbuzzenglish.com/image2.jpg")
-    .container(ng-app="buzzModule", ng-controller="UpdateHitsCtrl")
+    div(ng-app="buzzModule", ng-controller="UpdateHitsCtrl")
         sharing
-        if hcd_user
-            .page.with-header.section.transparent
-                + videoPlayer
-            .with-footer.page.section.flex-box.scrolly(ng-controller="page2ParentCtrl")
-                + quiz
-        else
-            .page.with-header.section.transparent
-                + videoPlayer
-            .page.section.flex-box.scrolly(ng-controller="page2ParentCtrl")
-                + quiz
+        .scrollable
+            .scrollable-content
+                if hcd_user
+                    .page.with-header.transparent
+                        + videoPlayer
+                    .with-footer.page.flex-box.scrolly(ng-controller="page2ParentCtrl")
+                        + quiz
+                else
+                    .page.with-header.transparent
+                        + videoPlayer
+                    .page.flex-box.scrolly(ng-controller="page2ParentCtrl")
+                        + quiz
         include ../../partial/ask-for-login-modal
     if hcd_user
-        include ../tail.pug
-        + tailcontent(true,  false, false, false)
+        nav.navbar.navbar-app.navbar-absolute-bottom
+            .btn-group.justified
+                a.active.btn.btn-navbar(href="/my/today")
+                    i.icon-play2
+                    | 学习
+                a.btn.btn-navbar(href="/m/my/progress")
+                    i.icon-stats-bars
+                    | 成绩
+                a.btn.btn-navbar(href="/m/my/vocabulary")
+                    i.icon-book
+                    | 生词
+                a.btn.btn-navbar(href="/m/my/my")
+                    i.icon-user
+                    | 我的
+        //- include ../tail.pug
+        //- + tailcontent(true,  false, false, false)
     include ../../js

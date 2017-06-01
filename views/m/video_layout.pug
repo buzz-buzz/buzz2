@@ -16,9 +16,9 @@ html(manifest="/buzz.appcache")
         + css("/public/css/lib/cube.min.css")
         title=title || 'Buzzbuzz English'
         block head
-    body.full.screen.container
-        #buzz-header.fluid.container.header.fixed(ng-controller="headerCtrl")
-            .center.aligned.container.column.borderless
+    body.full.screen
+        #buzz-header.fluid.header.fixed(ng-controller="headerCtrl")
+            .center.aligned.column.borderless
                 ul.large.right.floated.white.horizontal.menu
                     block extraMenus
                     li
