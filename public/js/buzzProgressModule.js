@@ -323,6 +323,14 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
                 ]
             }
         };
+
+        api.get(clientConfig.serviceUrls.buzz.profile.getMemberVocabularyList.frontEnd)
+            .then(function (result) {
+                if(result.data.data && result.data.data.correct_list){
+                    $scope.totalWord = result.data.data.correct_list.length;
+                }
+            });
+
     }])
     .controller('pcChartCtrl', ['$scope', 'api', '$http', 'clientConfig', 'levelFactory', function ($scope, api, $http, clientConfig, levelFactory) {
         $scope.labels = ['第一周', '第二周', '第三周', '第四周', '第五周'];
