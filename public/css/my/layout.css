@@ -68,3 +68,7 @@ a {
     font-size: 15px;
     color: #fff;
 }
+
+#buzz-footer .active.btn.btn-navbar {
+    color: #f7b52a!important;
+}

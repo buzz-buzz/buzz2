@@ -16,3 +16,19 @@
 .flex-box .row.content {
     flex: 1 1 auto;
 }
+.vertical.middle.aligned{
+    display: inline-block;
+    vertical-align: middle;
+}
+.list-group-item {
+    display: flex!important;
+    align-items: center;
+}
+
+.list-group-item > * {
+    flex: 1;
+}
+
+.list-group-item > *:last-child {
+    text-align: right;
+}
