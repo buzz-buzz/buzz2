@@ -120,12 +120,13 @@ angular.module('buzzPlayerModule', ['angularQueryParserModule', 'trackingModule'
         }
 
         return {
-            listenVideo: function ($scope, mainVideo, tracking, query) {
+            listenVideo: function ($scope, mainVideo, tracking, query, smil) {
                 var videoInfo = {
                     date: query.date,
                     category: query.cat,
                     level: query.level,
-                    lesson_id: query.lesson_id
+                    lesson_id: query.lesson_id,
+                    smil: smil
                 };
 
                 trackVideo($scope, mainVideo, tracking, videoInfo);
@@ -194,7 +195,7 @@ angular.module('buzzPlayerModule', ['angularQueryParserModule', 'trackingModule'
                 }]
             });
 
-            videoFactory.listenVideo($scope, mainVideo, tracking, query);
+            videoFactory.listenVideo($scope, mainVideo, tracking, query, smil);
 
             $scope.videoTitle = smil.title;
 
