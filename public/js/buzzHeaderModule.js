@@ -114,6 +114,16 @@ angular.module('buzzHeaderModule', ['angularQueryParserModule', 'servicesModule'
             }
         };
     }])
+    .controller('myBuzzCtrl', ['$scope', '$rootScope', function ($scope, $rootScope) {
+        $rootScope.$watch('profile', function (newValue, oldValue) {
+            if (newValue) {
+                var registerDate = new Date(newValue.regist_date);
+                var now = new Date();
+                var days = (now - registerDate) / (1000 * 60 * 60 * 24);
+                $scope.buzzDays = Math.floor(days + 1);
+            }
+        });
+    }])
     // .filter('percentage', ['$window', function ($window) {
     //     return function (input, decimals, suffix) {
     //         decimals = angular.isNumber(decimals) ? decimals : 3;
@@ -124,4 +134,4 @@ angular.module('buzzHeaderModule', ['angularQueryParserModule', 'servicesModule'
     //         return Math.round(input * Math.pow(10, decimals + 2)) / Math.pow(10, decimals) + suffix
     //     };
     // }]);
-;
+    ;

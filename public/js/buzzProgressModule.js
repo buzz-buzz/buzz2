@@ -472,16 +472,6 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
             });
 
     }])
-    .controller('myBuzzCtrl', ['$scope', '$rootScope', function ($scope, $rootScope) {
-        $rootScope.$watch('profile', function (newValue, oldValue) {
-            if (newValue) {
-                var registerDate = new Date(newValue.regist_date);
-                var now = new Date();
-                var days = (now - registerDate) / (1000 * 60 * 60 * 24);
-                $scope.buzzDays = Math.floor(days + 1);
-            }
-        });
-    }])
     .controller('myPerformanceCtrl', ['$scope', '$http', 'clientConfig', 'api', '$q', function ($scope, $http, clientConfig, api, $q) {
         api.get(clientConfig.serviceUrls.buzz.profile.currentLevel.frontEnd).then(function (result) {
             $scope.currentLevel = result.data;

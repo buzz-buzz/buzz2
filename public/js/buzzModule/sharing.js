@@ -5,14 +5,16 @@ angular.module('buzzModule')
                 var data = JSON.parse(event.data.substr(11));
                 $rootScope.wechatSharable.desc = '每天15分钟，学英语读世界！';
 
+                wx.ready(function () {
+                    wx.onMenuShareTimeline(angular.extend({}, $rootScope.wechatSharable, {
+                        title: $rootScope.wechatSharable
+                    }));
+
+                    wx.onMenuShareAppMessage(angular.extend({}, $rootScope.wechatSharable));
+                });
+
                 $scope.showModal = true;
                 $scope.videoData = data;
-
-                try {
-                    $scope.$apply();
-                }catch(err){
-
-                }
             } catch (ex) {
                 console.error(ex);
             }
@@ -50,4 +52,4 @@ angular.module('buzzModule')
         templateUrl: '/js/buzzModule/sharing.html',
         bindings: {}
     })
-;
+    ;
