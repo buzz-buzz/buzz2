@@ -1,10 +1,12 @@
-div(ng-show="$root.tabularIndex===1",ng-controller="newWordCtrl",style="padding: 5px 10px; background-color: white;")
-    .vocabulary.container.cube(ng-class="{'init': initStatus==='true', 'rtom':animateDirection==='rtom','ltom':animateDirection==='ltom','ttom':animateDirection==='ttom','btom':animateDirection==='btom','side-a':side==='a', 'side-b':side==='b', 'lock':!actionLock}")
-        .cube-side.side-a
-            iframe(id="word-1",frameborder="0",style="width: 100%; min-height: 400px;", ng-src="{{currentVocabulary.url}}")
-        .exersise-progress(style='height:44px;position:absolute;top:0;width:100%;background-color:#fff;text-align:center;line-height:44px;',ng-cloak)  {{wordIndex+1}}/{{WORD_MAX_INDEX+1}}
+div(ng-show="$root.tabularIndex===1",ng-controller="newWordCtrl")
+    .ui.container.fixed-ratio.eight-seven
+        .content
+            iframe(id="word-1",frameborder="0",style="width: 100%; height: 140%", ng-src="{{currentVocabulary.url}}")
+    .exersise-progress(style='height:44px;position:absolute;top:0;width:100%;background-color:#fff;text-align:center;line-height:44px;',ng-cloak)  {{wordIndex+1}}/{{WORD_MAX_INDEX+1}}
     div(style="display: flex; margin-top: 5px; flex-direction:row; justify-content:space-between;")
-        a.button.yellow.exercisebutton(ng-show="isWordMode&&hasWordMode",ng-click="changeWordMode(false)", ) 进入练习
-        a.button.yellow.exercisebutton(ng-show="!isWordMode&&hasWordMode",ng-click="changeWordMode(true)",) 显示词汇
-        div#space
-        a.button.yellow.exercisebutton(ng-click="turnWord(true)",ng-class="{'hidden':wordIndex===WORD_MAX_INDEX}") 下一题
+    .ui.horizontal.divider(style='margin-top: 30%;')
+        .ui.fluid.container
+            a.button.yellow.exercisebutton(ng-show="isWordMode&&hasWordMode",ng-click="changeWordMode(false)", ) 进入练习
+            a.button.yellow.exercisebutton(ng-show="!isWordMode&&hasWordMode",ng-click="changeWordMode(true)",) 显示词汇
+            div#space
+            a.button.yellow.exercisebutton(ng-click="turnWord(true)",ng-class="{'hidden':wordIndex===WORD_MAX_INDEX}") 下一题

@@ -1,4 +1,6 @@
 extends ../m/mobile-layout
+block meta
+    + css("/public/css/fixed-ratio.min.css")
 block js
     script.
         angular.module('mobileModule')
@@ -9,4 +11,12 @@ block js
 block content
     script(type="text/ng-template", id="daily-exercise.html")
         div(ng-controller="VideoPlayerCtrl")
-            include my/partials/daily-exercise
+            .item(ng-show="$root.tabularIndex===2",ng-controller="quizCtrl")
+                .ui.container.fixed-ratio.eight-seven
+                    .content
+                        iframe(id="quiz-1",frameborder="0",style="width: 100%; height: 140%",ng-src="{{currentExercise.url}}")
+                .exersise-progress(style='height:44px;position:absolute;top:0;width:100%;background-color:#fff;text-align:center;line-height:44px;',ng-cloak)  {{quizIndex+1}}/{{quizLimit+1}}
+                div(style="display: flex; margin-top: 5px; flex-direction:row; justify-content:space-between;")
+                .ui.horizontal.divider(style='margin-top: 30%;')
+                .ui.fluid.container
+                    button.ui.yellow.fluid.huge.button(ng-click="turnQuiz(true)",ng-class="{'hidden':quizIndex>=quizLimit}", style='display: block; width: 80%;margin:0 auto;') 下一题

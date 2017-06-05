@@ -1,4 +1,6 @@
 extends ../m/mobile-layout
+block meta
+    + css("/public/css/fixed-ratio.min.css")
 block js
     script.
         angular.module('mobileModule')
@@ -9,4 +11,14 @@ block js
 block content
     script(type="text/ng-template", id="vocabulary.html")
         div(ng-controller="VideoPlayerCtrl")
-            include my/partials/vocabulary
+            .item(ng-show="$root.tabularIndex===1",ng-controller="newWordCtrl")
+                .ui.container.fixed-ratio.eight-seven
+                    .content
+                        iframe(id="word-1",frameborder="0",style="width: 100%; height: 140%", ng-src="{{currentVocabulary.url}}")
+                .exersise-progress(style='height:44px;position:absolute;top:0;width:100%;background-color:#fff;text-align:center;line-height:44px;',ng-cloak)  {{wordIndex+1}}/{{WORD_MAX_INDEX+1}}
+                div(style="display: flex; margin-top: 5px; flex-direction:row; justify-content:space-between;")
+                .ui.horizontal.divider(style='margin-top: 30%;')
+                .ui.fluid.container
+                        button.ui.yellow.fluid.huge.button(ng-show="isWordMode&&hasWordMode",ng-click="changeWordMode(false)", style='display:inline-block;width:48%;') 进入练习
+                        button.ui.yellow.fluid.huge.button(ng-show="!isWordMode&&hasWordMode",ng-click="changeWordMode(true)", style='display:inline-block;width:48%;') 显示词汇
+                        button.ui.yellow.fluid.huge.button(ng-click="turnWord(true)",ng-class="{'hidden':wordIndex===WORD_MAX_INDEX}", style='display:inline-block;width:48%;') 下一题
