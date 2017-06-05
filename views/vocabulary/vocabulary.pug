@@ -3,83 +3,65 @@ extends ../my/layout
 block head
     + css('/public/css/vocabulary.min.css')
     + css('/public/css/pagination.min.css')
-    style.
-        .table-cell {
-            display: flex;
-            flex-direction: row;
-            width: 100%;
-            flex-wrap: wrap;
-        }
+    + css("/public/css/semantic-ui/semantic.min.css")
 
+    style.
+        .ui.grid {
+            margin:0!important;
+        }
+        .ui.grid>* {
+            padding-left:0!important;
+            padding-right:0!important;
+        }
         .table-row {
             display: flex;
             flex-direction: row;
             width: 100%;
             flex-wrap: wrap;
         }
-
-        .table-row.head {
-            margin-bottom: 0.6em;
-            border-bottom: #f7b52a 4px solid;
-        }
-
-        .button {
-            padding: 0.4em;
-            background-color: #f7b52a;
-            border-radius: 4px;
-            color: white;
-            width: 80%;
+         body {
             text-align: center;
+            background: url('http://source.bridgeplus.cn/buzz/skin2.png') repeat 0 0;
+            line-height:1.6em;
         }
-
-        .button.small {
-            display: inline-block;
-            padding: 0;
-            width: 80%;
-        }
-
-        .table-column {
-            display: inline-block;
-            word-wrap: break-word;
-            position: relative;
-        }
-
         .table-column.part1 {
             width: 10%
         }
 
         .table-column.part2 {
-            width: 1%;
+            width: 68%;
         }
 
         .table-column.part3 {
-            width: 15%;
+            width: 7%;
         }
 
         .table-column.part4 {
-            width: 15%
+            width: 6%;
         }
-
         .table-column.part5 {
-            width: 4%;
+            width: 7%;
         }
-
-        .table-column.part6 {
-            width: 25%;
+        .body-container {
+            width: 900px;
+            padding-top: 60px;
+            padding-bottom: 14px;
+            display: inline-block;
+            text-align: center;
+            background-color: white;
         }
-
-        .table-column.part7 {
-            width: 10%;
+        .button {
+            padding: 0.4em;
+            background-color: #f7b52a;
+            border-radius: 4px;
+            color: white;
+            width: 80%; 
+            text-align: center;
         }
-
-        .table-column.part8 {
-            width: 10%;
+       .table-row.head {
+            margin-bottom: 0.6em;
+            border-bottom: #f7b52a 4px solid;
         }
-
-        .table-column.part9 {
-            width: 10%;
-        }
-
         .head .part1 {
             padding-top: 0.4em;
             padding-bottom: 0.4em;
@@ -88,104 +70,35 @@ block head
             padding-left: 0.5em;
         }
 
-        .head .part7,
-        .head .part8,
-        .head .part9 {
+        .head .part3,
+        .head .part4,
+        .head .part5 {
             padding-top: 1em;
             padding-bottom: 0.4em;
             font-weight: bold;
-            font-size: 14px;
+            font-size: 11px;
         }
-
-        .body {
-            line-height: 1.6em;
+        .part1 {
+            text-align:center!important;
         }
-
-        .body .part1 {
-            padding-top: 0.6em;
-        }
-
-        .body .part3,
-        .body .part4,
-        .body .part5,
-        .body .part6,
-        .body .part7,
-        .body .part8,
-        .body .part9 {
-            padding-top: 1em;
-            padding-bottom: 0.6em;
-        }
-
-        .table-column.part3 .word {
-            padding-left: 0.4em;
-        }
-
-        .word,
-        .mark,
-        .sound,
-        .explanation,
-        .ipa {
-            height: 64px;
-        }
-        .word,.sound{
-            line-height:64px;
-        }
-        .ipa>span,.explanation>span{
-            line-height:32px;
-        }
-        .ipa {
-            overflow:hidden;
-        }
-        .mark{
-            padding-top:22%;
-        }
-        .explanation{
-            overflow: hidden;
-        }
-        .mark i,
-        .sound i {
-            color: #f7b52a;
-            font-size: 16px;
-            line-height: 1.6em;
-        }
-
-        .body .part3:after,
-        .body .part4:after,
-        .body .part5:after,
-        .body .part6:after,
-        .body .part7:after,
-        .body .part8:after,
-        .body .part9:after {
-            content: "";
-            background-color: #cdcdcd;
-            width: 100%;
-            height: 3px;
-            display: block;
+        .line {
+            background-color: #bcbcbc;
             position: absolute;
-            bottom: 0;
+        }
+        .line.head {
+            width: 0.6em;
+            height: 0.6em;
+            border-radius: 50%;
+            left: 6.7em;
+            top: 0.2em;
         }
 
-        .body .part3.last:after,
-        .body .part4.last:after,
-        .body .part5.last:after,
-        .body .part6.last:after,
-        .body .part7.last:after,
-        .body .part8.last:after,
-        .body .part9.last:after {
-            display: none;
+        .line.body {
+            height: 100%;
+            width: 2px;
+            left: 98px;
+            top:1px;
         }
-
-        .center {
-            text-align: center;
-        }
-
-        .left {
-            text-align: left;
-        }
-
-        .year {
-        }
-
         .monthday {
             font-size: 10px;
             width:80%;
@@ -195,114 +108,87 @@ block head
             text-align: center;
             color:#ddd;
         }
-
+        a:active, a:hover {
+            text-decoration: underline;
+            color: #f7b52a!important;
+        }
         .back-day{
             color:#f7b52a !important;
             font-size: 20px;
         }
-
-        .line {
-            background-color: #bcbcbc;
+        .body .fourteen.wide.column {
+            padding:0;
+        }
+        .body .fourteen.wide.column:after{
+            content: "";
+            background-color: #cdcdcd;
+            width: 100%;
+            height: 3px;
+            display: block;
             position: absolute;
+            bottom: 0;
         }
-
-        .line.head {
-            width: 0.6em;
-            height: 0.6em;
-            border-radius: 50%;
-            left: -0.3em;
-            top: 0.2em;
-        }
-
-        .line.body {
-            height: 100%;
-            width: 2px;
-            left: -1px;
-        }
-
-        .body-container {
-            width: 900px;
-            padding-top: 60px;
-            padding-bottom: 14px;
-            display: inline-block;
-            text-align: center;
-            background-color: white;
-        }
-
-        .text-with-radio {
+         .text-with-radio {
             cursor: pointer;
         }
 
         .text-with-radio i {
-            margin-right: 1em;
-        }
-
-        body {
-            text-align: center;
-            background: url('http://source.bridgeplus.cn/buzz/skin2.png') repeat 0 0;
+            margin-right: 6px;
         }
 
 block content
     include ../partial/svg
     .body-container(ng-app="vocabularyModule", ng-controller="vocabularyCtrl")
-        .table-cell
+        .ui.grid
             .table-row.center.head(ng-controller="vocabularyHeaderCtrl")
                 .table-column.part1
                     .button(ng-click="vocabularyPrint()") &#x6253;&#x5370;
                 .table-column.part2
                 .table-column.part3
-                .table-column.part4
-                .table-column.part5
-                .table-column.part6
-                .table-column.part7
                     div(ng-click="checkboxClick(RADIO_TYPE.PASS)" class="text-with-radio")
                         i.icon-checkbox-checked(ng-show="radioBoxType===RADIO_TYPE.PASS")
                         i.icon-checkbox-unchecked(ng-show="radioBoxType!==RADIO_TYPE.PASS")
                         span &#x7406;&#x89E3;
                     //- .button.small(onClick="vocabularyPrint()") &#x6253;&#x5370;
-                .table-column.part8
+                .table-column.part4
                     div(ng-click="checkboxClick(RADIO_TYPE.FAIL)" class="text-with-radio")
                         i.icon-checkbox-checked(ng-show="radioBoxType===RADIO_TYPE.FAIL")
                         i.icon-checkbox-unchecked(ng-show="radioBoxType!==RADIO_TYPE.FAIL")
                         span &#x4E0D;&#x7406;&#x89E3;
                     //- .button.small(onClick="vocabularyPrint()") &#x6253;&#x5370;
-                .table-column.part9
+                .table-column.part5
                     div(ng-click="checkboxClick(RADIO_TYPE.NOTTEST)" class="text-with-radio")
                         i.icon-checkbox-checked(ng-show="radioBoxType===RADIO_TYPE.NOTTEST")
                         i.icon-checkbox-unchecked(ng-show="radioBoxType!==RADIO_TYPE.NOTTEST")
                         span &#x672A;&#x7EC3;&#x4E60;
-            .table-row.center.body(ng-repeat="weeklylist in vocabularyAll",ng-cloak)
-                .table-column.part1
+        .ui.two.column.grid.body(ng-repeat="weeklylist in vocabularyAll",ng-cloak)
+                .two.wide.column.part1
                     div {{weeklylist.year}}
                     a(ng-href="/my/play?date={{weeklylist.date}}&cat={{weeklylist.category}}&level={{weeklylist.level}}").monthday {{weeklylist.monthDay}}
                     .space
                     a(ng-href="/my/play?date={{weeklylist.date}}&cat={{weeklylist.category}}&level={{weeklylist.level}}").back-day.icon-play2
-                .table-column.part2
                     .line.head
                     .line.body
-                .table-column.part3.left
-                    .word(ng-repeat="word in weeklylist.words track by $index",ng-show="radioBoxType===RADIO_TYPE.NONE||word.status === radioBoxType")
-                        span(style="white-space: nowrap;") {{word.name}}
-                .table-column.part4.left
-                    .ipa(ng-repeat="word in weeklylist.words track by $index",ng-show="radioBoxType===RADIO_TYPE.NONE||word.status === radioBoxType")
-                        span {{word.ipc_gb}}
-                        br
-                        span {{word.ipc_us}}
-                .table-column.part5.left
-                    .sound(ng-repeat="word in weeklylist.words track by $index",ng-show="radioBoxType===RADIO_TYPE.NONE||word.status === radioBoxType")
-                        i.icon-volume-medium
-                .table-column.part6.left
-                    .explanation(ng-repeat="word in weeklylist.words track by $index",ng-show="radioBoxType===RADIO_TYPE.NONE||word.status === radioBoxType")
-                        span {{word.explanation}}
-                .table-column.part7
-                    .mark(ng-repeat="word in weeklylist.words track by $index",ng-show="radioBoxType===RADIO_TYPE.NONE||word.status === radioBoxType")
-                        + pass_pic(ng-show="word.status === RADIO_TYPE.PASS")
-                .table-column.part8
-                    .mark(ng-repeat="word in weeklylist.words track by $index",ng-show="radioBoxType===RADIO_TYPE.NONE||word.status === radioBoxType")
-                        + fail_pic(ng-show="word.status === RADIO_TYPE.FAIL")
-                .table-column.part9
-                    .mark(ng-repeat="word in weeklylist.words track by $index",ng-show="radioBoxType===RADIO_TYPE.NONE||word.status === radioBoxType")
-                        i.icon-question(ng-show="word.status === RADIO_TYPE.NOTTEST")
+                .fourteen.wide.column(style="padding: 1.5em 0;")
+                    table.ui.compact.table(ng-repeat="word in weeklylist.words track by $index",ng-show="radioBoxType===RADIO_TYPE.NONE||word.status === radioBoxType")
+                        tbody
+                            tr
+                                td(style="width:18%;")
+                                    span(style="white-space: nowrap;") {{word.name}}
+                                td(style="width:18%;")
+                                    span {{word.ipc_gb}}
+                                    br
+                                    span {{word.ipc_us}}
+                                td(style="width:5%; color: #f7b52a; font-size: 16px;line-height: 1.6em;")
+                                    i.icon-volume-medium
+                                td(style="width:35%;")
+                                    span {{word.explanation}}
+                                td(style="width:8%;")
+                                    + pass_pic(ng-show="word.status === RADIO_TYPE.PASS")
+                                td(style="width:8%;")
+                                    + fail_pic(ng-show="word.status === RADIO_TYPE.FAIL")
+                                td(style="width:8%; color: #f7b52a;font-size: 16px; line-height: 1.6em;")
+                                    i.icon-question(ng-show="word.status === RADIO_TYPE.NOTTEST")
         br
         include ../../node_modules/angular-service/views/pagination.pug
         + pagination('vocabularyData')
