@@ -41,6 +41,26 @@ angular.module('vocabularyModule', ['trackingModule', 'clientConfigModule', 'Dat
             $scope.printMode = false;
             $scope.printURL = "";
         };
+        var filtered = function (vocabularyAll) {
+            var copy = angular.copy(vocabularyAll);
+            if ($scope.radioBoxType === RADIO_TYPE.NONE) {
+                return copy;
+            }
+
+            for (var i = copy.length - 1; i >= 0; i--) {
+                for (var j = copy[i].words.length - 1; j >= 0; j--) {
+                    if (copy[i].words[j].status !== $scope.radioBoxType) {
+                        copy[i].words.splice(j, 1);
+                    }
+                }
+
+                if (copy[i].words.length <= 0) {
+                    copy.splice(i, 1);
+                }
+            }
+
+            return copy;
+        };
         $scope.checkboxClick = function (type) {
             var event;
 
@@ -69,6 +89,8 @@ angular.module('vocabularyModule', ['trackingModule', 'clientConfigModule', 'Dat
                     checked: true
                 });
             }
+
+            $scope.filteredVocabulary = filtered($scope.vocabularyAll);
         };
         $scope.vocabularyAll = [];
 
@@ -180,6 +202,12 @@ angular.module('vocabularyModule', ['trackingModule', 'clientConfigModule', 'Dat
                 })($scope.vocabularyAll[$scope.vocabularyAll.length - 1]);
             });
         }
+
+        $scope.$watch('vocabularyAll', function (newValue, oldValue) {
+            console.log(newValue);
+            $scope.filteredVocabulary = filtered($scope.vocabularyAll);
+            console.log('filtered = ', $scope.filteredVocabulary);
+        }, true);
 
         var query = queryParser.parse();
         if (!query.level) {

@@ -328,11 +328,11 @@ a:link, a:visited{
 }
 a:hover, a:active {
     text-decoration: underline;
-    color: #f7b52a;
+    color: #f7b52a!important;
 }
 
 a.active {
-    color: #f7b52a;
+    color: #f7b52a!important;
 }
 
 form input {
