@@ -13,7 +13,6 @@ angular.module('buzzModule')
                     wx.onMenuShareAppMessage(angular.extend({}, $rootScope.wechatSharable));
                 });
 
-                $scope.showModal = true;
                 $scope.videoData = data;
             } catch (ex) {
                 console.error(ex);
@@ -60,8 +59,12 @@ angular.module('buzzModule')
                 ;
         }
 
-        $q.all([videoEnd(), getProfile(), getLessonCount(), getVocabularyCount()]).then(function (results) {
+        $q.all([getProfile(), getLessonCount(), getVocabularyCount()]).then(function (results) {
             wechatSharable(results[0], results[2], results[3]);
+        });
+
+        $q.all([videoEnd()]).then(function (results) {
+            $scope.showModal = true;
         });
     }])
     .component('sharing', {
