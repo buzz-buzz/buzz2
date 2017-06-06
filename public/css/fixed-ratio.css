@@ -14,19 +14,11 @@
   display: block;
   content: " ";
   width: 100%;
-  padding-top: 75%;
+  padding-top: 68%;
 }
 
 .eight-seven:before {
     padding-top: 87.5%;
-}
-
-.five-four:before {
-   padding-top: 80%;
-}
-
-.five-three:before {
-  padding-top: 68%;
 }
 
 .four-three > *,
