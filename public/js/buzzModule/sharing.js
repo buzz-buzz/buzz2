@@ -1,13 +1,13 @@
 angular.module('buzzModule')
-    .controller('sharingCtrl', ['$scope', '$rootScope', '$q', function ($scope, $rootScope, $q) {
-        function wechatSharable(event) {
+    .controller('sharingCtrl', ['$scope', '$rootScope', '$q', 'api', 'clientConfig', function ($scope, $rootScope, $q, api, clientConfig) {
+        function wechatSharable(event, lessonCount, vocabularyCount) {
             try {
                 var data = JSON.parse(event.data.substr(11));
-                $rootScope.wechatSharable.desc = '每天15分钟，学英语读世界！';
+                $rootScope.wechatSharable.desc = '每天15分钟，学英语读世界！第 ' + $scope.buzzDays + ' 天，看 ' + lessonCount + ' 条新闻，学 ' + vocabularyCount + ' 个单词。';
 
                 wx.ready(function () {
                     wx.onMenuShareTimeline(angular.extend({}, $rootScope.wechatSharable, {
-                        title: $rootScope.wechatSharable
+                        title: $rootScope.wechatSharable.desc
                     }));
 
                     wx.onMenuShareAppMessage(angular.extend({}, $rootScope.wechatSharable));
@@ -44,8 +44,24 @@ angular.module('buzzModule')
             return dfd.promise;
         }
 
-        $q.all([videoEnd(), getProfile()]).then(function (results) {
-            wechatSharable(results[0]);
+        function getLessonCount() {
+            return api.get(clientConfig.serviceUrls.buzz.memberCourse.count.frontEnd)
+                .then(function (result) {
+                    return result.data;
+                })
+                ;
+        }
+
+        function getVocabularyCount() {
+            return api.get(clientConfig.serviceUrls.buzz.profile.memberVocabulary.correct.frontEnd)
+                .then(function (result) {
+                    return result.data;
+                })
+                ;
+        }
+
+        $q.all([videoEnd(), getProfile(), getLessonCount(), getVocabularyCount()]).then(function (results) {
+            wechatSharable(results[0], results[2], results[3]);
         });
     }])
     .component('sharing', {

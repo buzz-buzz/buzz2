@@ -86,7 +86,7 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
                 var start = 0;
 
                 if (i === 0) {
-                    start = {1: 0, 2: 1, 3: 2, 4: 3, 5: 4, 6: 5, 0: 6}[theFirstDayOfCurrentMonth];
+                    start = { 1: 0, 2: 1, 3: 2, 4: 3, 5: 4, 6: 5, 0: 6 }[theFirstDayOfCurrentMonth];
                 }
 
                 for (var j = start; j < $scope.weekDays[i].length && day <= days; j++) {
@@ -196,7 +196,7 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
                     .reduce(function (prev, next) {
                         return prev + next;
                     }, 0)
-                ;
+                    ;
             });
 
             function getThisWeekPerformance() {
@@ -236,7 +236,7 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
     .controller('calendarParentCtrl', ['$scope', function ($scope) {
 
     }])
-    .controller('chartCtrl', ['$scope', '$timeout', 'api', '$http', 'clientConfig', 'levelFactory', function ($scope, $timeout, api, $http, clientConfig, levelFactory) {
+    .controller('chartCtrl', ['$scope', '$timeout', 'api', '$http', 'clientConfig', 'levelFactory', 'trackingX', function ($scope, $timeout, api, $http, clientConfig, levelFactory, tracking) {
         $scope.expanded = false;
         $scope.totalWord = 0;
         $scope.expandContent = function (value) {
@@ -256,33 +256,6 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
             [65, 59, 84, 81, 56],
             [28, 48, 40, 19, 86]
         ];
-        function createM_Linedata(originDataArray) {
-            var retArrary = [];
-            originDataArray.reduce(function (previous, next, originPrevious) {
-                var result = {};
-                var adjustNext = next;
-                var absHeight = Math.abs(previous - next);
-                if (absHeight > 5) {
-                    if (next > previous) {
-                        result.shapeClass = "up";
-                        result.point = next;
-                    } else {
-                        result.shapeClass = "down";
-                        result.point = previous;
-                    }
-                    result.height = absHeight;
-                    adjustNext = next;
-                } else {
-                    adjustNext = previous;
-                    result.shapeClass = "eval";
-                    result.point = previous;
-                    result.height = 0;
-                }
-                retArrary.push(result);
-                return adjustNext;
-            });
-            return retArrary;
-        }
 
         levelFactory.getLevel().then(function (level) {
             $http.get(clientConfig.serviceUrls.buzz.progress.statistics.frontEnd + '?level=' + level + '&top=5')
@@ -298,7 +271,6 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
                         }
                         $scope.data[0] = score_total_num;
                         $scope.data[1] = score_rank;
-                        $scope.m_linedata = createM_Linedata($scope.data[1]);
                     }
                 });
         });
@@ -318,15 +290,15 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
         $scope.options = {
             scales: {
                 yAxes: [
-                    {id: '你累计学习单词量：个/周', type: 'linear', display: true, position: 'left'},
-                    {id: '系统整体排名：名/周', type: 'bar', display: true, position: 'right'}
+                    { id: '你累计学习单词量：个/周', type: 'linear', display: true, position: 'left' },
+                    { id: '系统整体排名：名/周', type: 'bar', display: true, position: 'right' }
                 ]
             }
         };
 
         api.get(clientConfig.serviceUrls.buzz.profile.getMemberVocabularyList.frontEnd)
             .then(function (result) {
-                if(result.data.data && result.data.data.correct_list){
+                if (result.data.data && result.data.data.correct_list) {
                     $scope.totalWord = result.data.data.correct_list.length;
                 }
             });
@@ -466,7 +438,7 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
 
         api.get(clientConfig.serviceUrls.buzz.profile.getMemberVocabularyList.frontEnd)
             .then(function (result) {
-                if(result.data.data && result.data.data.correct_list){
+                if (result.data.data && result.data.data.correct_list) {
                     $scope.totalWord = result.data.data.correct_list.length;
                 }
             });
@@ -489,4 +461,4 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
             }, 0)
         });
     }])
-;
+    ;

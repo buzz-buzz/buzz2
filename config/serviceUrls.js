@@ -71,6 +71,12 @@ module.exports = {
             getMemberVocabularyList: {
                 frontEnd: '/service-proxy/buzz/member-vocabulary-list',
                 upstream: '/member-vocabularies/:member_id'
+            },
+            memberVocabulary: {
+                correct: {
+                    frontEnd: '/service-proxy/buzz/profile/member-vocabularies/correct/count',
+                    upstream: '/member-vocabularies/correct/count/:member_id'
+                }
             }
         },
 
@@ -164,6 +170,12 @@ module.exports = {
             upload: {
                 frontEnd: '/service-proxy/picture/qiniu',
                 bucket: '/buzz-resource'
+            }
+        },
+        memberCourse: {
+            count: {
+                frontEnd: '/service-proxy/member-courses/count',
+                upstream: '/member-lessons/count/:member_id'
             }
         }
     },
