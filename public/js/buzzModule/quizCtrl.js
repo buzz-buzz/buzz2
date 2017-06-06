@@ -13,7 +13,6 @@ angular.module('buzzModule')
         $scope.currentExercise = {};
         $scope.firstExercise = false;
 
-        console.log("开始获取数据");
         function lessonDataGot(event, lessonData) {
             $scope.currentID = "quiz-1";
             $scope.initStatus = "";
@@ -28,16 +27,16 @@ angular.module('buzzModule')
             };
 
             $rootScope.$on('answer:daily-exercise', function (event, ret) {
-                if(($scope.wordIndex + 1) == 1 && !$scope.firstExercise){
+                if (($scope.wordIndex + 1) == 1 && !$scope.firstExercise) {
                     $scope.firstExercise = true;
-                }else if(($scope.wordIndex + 1) == 1){
+                } else if (($scope.wordIndex + 1) == 1) {
                     return
                 }
 
                 quizFactory.saveResult({
                     lesson_id: lessonData.lesson_id,
                     type: 'daily-exercise',
-                    result_id: ($scope.quizIndex+1).toString(),
+                    result_id: ($scope.quizIndex + 1).toString(),
                     total: $scope.quizzes.length,
                     wrong: ret.status === 'Failed' ? 1 : 0,
                     correct: ret.status === 'Passed' ? 1 : 0,
@@ -160,7 +159,6 @@ angular.module('buzzModule')
         } else {
             var unbind = $rootScope.$on('lessonInfo:got', lessonDataGot);
             $scope.$on('$destroy', unbind);
-            console.log("lesson执行")
         }
     }])
-;
+    ;

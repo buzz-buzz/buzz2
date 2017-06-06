@@ -1,8 +1,7 @@
 angular.module('buzzModule')
     .controller('sharingCtrl', ['$scope', '$rootScope', '$q', 'api', 'clientConfig', function ($scope, $rootScope, $q, api, clientConfig) {
-        function wechatSharable(event, lessonCount, vocabularyCount) {
+        function wechatSharable(videoData, lessonCount, vocabularyCount) {
             try {
-                var data = JSON.parse(event.data.substr(11));
                 $rootScope.wechatSharable.desc = '每天15分钟，学英语读世界！第 ' + $scope.buzzDays + ' 天，看 ' + lessonCount + ' 条新闻，学 ' + vocabularyCount + ' 个单词。';
 
                 wx.ready(function () {
@@ -13,10 +12,22 @@ angular.module('buzzModule')
                     wx.onMenuShareAppMessage(angular.extend({}, $rootScope.wechatSharable));
                 });
 
-                $scope.videoData = data;
+                $scope.videoData = videoData;
             } catch (ex) {
                 console.error(ex);
             }
+        }
+
+        function getVideoData() {
+            var dfd = $q.defer();
+
+            window.addEventListener('message', function (event) {
+                if (event.origin === location.origin && (typeof event.data === 'string') && event.data.indexOf('videoData:got//') === 0) {
+                    dfd.resolve(JSON.parse(event.data.substr(15)));
+                }
+            }, false);
+
+            return dfd.promise;
         }
 
         function videoEnd() {
@@ -59,7 +70,7 @@ angular.module('buzzModule')
                 ;
         }
 
-        $q.all([getProfile(), getLessonCount(), getVocabularyCount()]).then(function (results) {
+        $q.all([getVideoData(), getProfile(), getLessonCount(), getVocabularyCount()]).then(function (results) {
             wechatSharable(results[0], results[2], results[3]);
         });
 

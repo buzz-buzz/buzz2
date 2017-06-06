@@ -173,77 +173,81 @@ angular.module('buzzPlayerModule', ['angularQueryParserModule', 'trackingModule'
 
         var query = queryParser.parse();
 
-        $http.get(query.video_path).then(function (result) {
-            var smil = result.data;
+        $http.get(query.video_path)
+            .then(function (result) {
+                window.parent.postMessage('videoData:got//' + JSON.stringify(result.data), window.parent.location.href);
 
-            var mainVideo = jwplayer('main-video').setup({
-                height: document.querySelector('.video-wrapper').offsetHeight,
-                width: '100%',
-                playlist: [{
-                    // title: smil.title,
-                    description: smil.description,
-                    image: smil.image || 'http://source.bridgeplus.cn/image/png/buzz-poster.png',
-                    stretching: "none",
-                    sources: smil.switch.map(function (s) {
-                        return {
-                            file: s.src,
-                            label: s.title,
-                            default: s.default,
-                            image: s.image || 'http://source.bridgeplus.cn/image/png/buzz-poster.png'
-                        };
-                    })
-                }]
-            });
-
-            videoFactory.listenVideo($scope, mainVideo, tracking, query, smil);
-
-            $scope.videoTitle = smil.title;
-
-            if (smil.subtitle) {
-                api.get(smil.subtitle).then(function (result) {
-                    var subtitles = result.data;
-                    var events = subtitles.split('[Events]');
-                    if (events.length < 2) {
-                        throw new Error('subtitle not found!');
-                    }
-
-                    var dialogues = events[1].split(/[\r\n]/).filter(function (d) {
-                        return d && d.indexOf('Format') < 0;
-                    });
-
-                    $scope.subtitles = [];
-                    for (var i = 0; i < dialogues.length; i++) {
-                        var dialogue = dialogues[i];
-                        var structure = dialogue.replace(/^Dialogue:\s*/, '').split(',');
-                        $scope.subtitles.push({
-                            layer: structure[0],
-                            startTime: structure[1],
-                            endTime: structure[2],
-                            style: structure[3],
-                            name: structure[4],
-                            marginL: structure[5],
-                            marginR: structure[6],
-                            marginV: structure[7],
-                            effect: structure[8],
-                            text: structure.slice(9).join(', ')
-                        });
-                    }
-                }).then(function () {
-                    if (query.new_words_path) {
-                        $http.get(query.new_words_path).then(function (result) {
-                            var newWords = result.data;
-                            var highlights = highlightParser.parse(newWords);
-
-                            var rules = new RegExp("(" + highlights.join("|") + ")", "g");
-                            for (var j = 0; j < $scope.subtitles.length; j++) {
-                                $scope.subtitles[j].text = $scope.subtitles[j].text.replace(rules, function (newWord) {
-                                    return '<strong class="newWord">' + newWord + '</strong>';
-                                });
-                            }
-                        });
-                    }
+                return result.data;
+            })
+            .then(function (smil) {
+                var mainVideo = jwplayer('main-video').setup({
+                    height: document.querySelector('.video-wrapper').offsetHeight,
+                    width: '100%',
+                    playlist: [{
+                        // title: smil.title,
+                        description: smil.description,
+                        image: smil.image || 'http://source.bridgeplus.cn/image/png/buzz-poster.png',
+                        stretching: "none",
+                        sources: smil.switch.map(function (s) {
+                            return {
+                                file: s.src,
+                                label: s.title,
+                                default: s.default,
+                                image: s.image || 'http://source.bridgeplus.cn/image/png/buzz-poster.png'
+                            };
+                        })
+                    }]
                 });
-            }
-        });
+
+                videoFactory.listenVideo($scope, mainVideo, tracking, query, smil);
+
+                $scope.videoTitle = smil.title;
+
+                if (smil.subtitle) {
+                    api.get(smil.subtitle).then(function (result) {
+                        var subtitles = result.data;
+                        var events = subtitles.split('[Events]');
+                        if (events.length < 2) {
+                            throw new Error('subtitle not found!');
+                        }
+
+                        var dialogues = events[1].split(/[\r\n]/).filter(function (d) {
+                            return d && d.indexOf('Format') < 0;
+                        });
+
+                        $scope.subtitles = [];
+                        for (var i = 0; i < dialogues.length; i++) {
+                            var dialogue = dialogues[i];
+                            var structure = dialogue.replace(/^Dialogue:\s*/, '').split(',');
+                            $scope.subtitles.push({
+                                layer: structure[0],
+                                startTime: structure[1],
+                                endTime: structure[2],
+                                style: structure[3],
+                                name: structure[4],
+                                marginL: structure[5],
+                                marginR: structure[6],
+                                marginV: structure[7],
+                                effect: structure[8],
+                                text: structure.slice(9).join(', ')
+                            });
+                        }
+                    }).then(function () {
+                        if (query.new_words_path) {
+                            $http.get(query.new_words_path).then(function (result) {
+                                var newWords = result.data;
+                                var highlights = highlightParser.parse(newWords);
+
+                                var rules = new RegExp("(" + highlights.join("|") + ")", "g");
+                                for (var j = 0; j < $scope.subtitles.length; j++) {
+                                    $scope.subtitles[j].text = $scope.subtitles[j].text.replace(rules, function (newWord) {
+                                        return '<strong class="newWord">' + newWord + '</strong>';
+                                    });
+                                }
+                            });
+                        }
+                    });
+                }
+            });
     }])
     ;
