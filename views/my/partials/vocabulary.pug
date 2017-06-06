@@ -21,10 +21,10 @@
                 .left.aligned.one.wide.column
                     .left.arrow(ng-click="turnWord(false)",ng-class="{'hidden':wordIndex===0}", ng-cloak, style='padding:0;')
                         span.icon-circle-left
-                .twelve.wide.column(style='overflow-y: visible;')
-                    .ui.container.fixed-ratio.four-three
+                .twelve.wide.column
+                    .ui.container.fixed-ratio.five-three
                         .content
-                            iframe(frameborder="0",style="width: 100%;height: 98%", ng-src="{{currentVocabulary.url}}")
+                            iframe(frameborder="0",style="width: 100%;height: 100%", ng-src="{{currentVocabulary.url}}")
                 .left.aligned.two.wide.column
                     .right.arrow(ng-click="turnWord(true)",ng-class="{'hidden':wordIndex>=WORD_MAX_INDEX}", ng-cloak, style='padding:0;')
                         span.icon-circle-right

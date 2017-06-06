@@ -21,6 +21,14 @@
     padding-top: 87.5%;
 }
 
+.five-four:before {
+   padding-top: 80%;
+}
+
+.five-three:before {
+  padding-top: 68%;
+}
+
 .four-three > *,
 .fixed-ratio > * {
     position: relative;

@@ -22,9 +22,9 @@
             .row
                 .two.wide.column
                 .twelve.wide.column
-                    .ui.container.fixed-ratio.four-three
+                    .ui.container.fixed-ratio.five-three
                         .content
-                            iframe(id="weekly-quiz-frame", frameborder="0", style="width: 100%; height: 98%;", ng-src="{{currentQuiz.quiz}}")
+                            iframe(id="weekly-quiz-frame", frameborder="0", style="width: 100%; height: 100%;", ng-src="{{currentQuiz.quiz}}")
                 .left.aligned.one.wide.column
                     .right.arrow(ng-click="nextQuiz()", ng-hide="currentIndex+1>=arrayWeeklyQuiz.length", style="padding: 0;") 
                         span.icon-circle-right                        
