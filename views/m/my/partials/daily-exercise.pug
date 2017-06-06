@@ -1,7 +1,9 @@
-.div(ng-show="$root.tabularIndex===2",ng-controller="quizCtrl",style="padding: 5px 10px; background-color: white;")
-    .exercise.container.cube(ng-class="{'init': initStatus==='true', 'rtom':animateDirection==='rtom','ltom':animateDirection==='ltom','side-a':currentID==='quiz-1', 'side-b':currentID==='quiz-2', 'lock':!actionLock}")
-        .cube-side.side-a
-            iframe(id="quiz-1",frameborder="0",style="width: 100%;min-height: 400px;",ng-src="{{currentExercise.url}}")
-        .exersise-progress(style='height:44px;position:absolute;top:0;width:100%;background-color:#fff;text-align:center;line-height:44px;',ng-cloak)  {{quizIndex+1}}/{{quizLimit+1}}
-    div(style="display: flex; margin-top: 5px; text-align: center;")
-        a.fluid.button.yellow(ng-click="turnQuiz(true)",ng-class="{'hidden':quizIndex>=quizLimit}") 下一题
+.item(ng-show="$root.tabularIndex===2",ng-controller="quizCtrl")
+    .ui.container.fixed-ratio.eight-seven
+        .content
+            iframe(id="quiz-1",frameborder="0",style="width: 100%; height: 140%",ng-src="{{currentExercise.url}}")
+    .exersise-progress(style='height:44px;position:absolute;top:0;width:100%;background-color:#fff;text-align:center;line-height:44px;',ng-cloak)  {{quizIndex+1}}/{{quizLimit+1}}
+    div(style="display: flex; margin-top: 5px; flex-direction:row; justify-content:space-between;")
+    .ui.horizontal.divider(style='margin-top: 30%;')
+    .ui.fluid.container
+        button.ui.yellow.fluid.huge.button(ng-click="turnQuiz(true)",ng-class="{'hidden':quizIndex>=quizLimit}", style='display: block; width: 80%;margin:0 auto;') 下一题
