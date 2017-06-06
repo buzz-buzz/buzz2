@@ -4,7 +4,8 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
         tracking.sendX('play', {
             date: query.date,
             category: query.cat,
-            level: query.level
+            level: query.level,
+            trk_tag: query.trk_tag
         });
 
         var parse = function (originData) {
