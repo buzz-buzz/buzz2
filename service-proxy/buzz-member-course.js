@@ -20,7 +20,16 @@ module.exports = function (app, router, parse) {
                     member_id: this.state.hcd_user.member_id
                 }),
                 method: 'GET'
-            }, proxyOption))
+            }, proxyOption));
+        })
+        .post(serviceUrls.buzz.memberCourse.save.frontEnd, membership.ensureAuthenticated, function* () {
+            this.body = yield proxy(Object.assign({
+                path: serviceUrls.buzz.memberCourse.save.upstream,
+                method: 'POST',
+                data: Object.assign(yield parse(this.request), {
+                    member_id: this.state.hcd_user.member_id
+                })
+            }, proxyOption));
         })
         ;
 };

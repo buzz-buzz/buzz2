@@ -44,7 +44,7 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
             }
         });
 
-        if(query.trk_tag){
+        if (query.trk_tag) {
             sessionStorage.setItem('trk_tag', query.trk_tag);
         }
 
@@ -84,6 +84,9 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                     $http
                         .post(clientConfig.serviceUrls.buzz.courseViews.frontEnd.replace(':category', data.category).replace(':level', data.level).replace(':lesson_id', data.lesson_id), {})
                         ;
+                    $http.post(clientConfig.serviceUrls.buzz.memberCourse.save.frontEnd, {
+                        lesson_id: data.lesson_id
+                    });
                 } catch (ex) {
                     console.error(ex);
                 }

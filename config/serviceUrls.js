@@ -176,6 +176,10 @@ module.exports = {
             count: {
                 frontEnd: '/service-proxy/member-courses/count',
                 upstream: '/member-lessons/count/:member_id'
+            },
+            save: {
+                frontEnd: '/service-proxy/member-courses',
+                upstream: '/member-lessons'
             }
         }
     },
