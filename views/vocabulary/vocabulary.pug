@@ -41,26 +41,26 @@ block content
                 col
                 col
                 col
-                col(width="80")
-                col(width="100")
-                col(width="100")
+                col(width="70")
+                col(width="90")
+                col(width="90")
             thead
                 tr
                     th
                         button.ui.yellow.button(ng-click="vocabularyPrint()", style="white-space: nowrap;") 打印
                     th(colspan="3")
                     th(style="padding:0;") 
-                        div(ng-click="checkboxClick(RADIO_TYPE.PASS)" class="text-with-radio")
+                        label(ng-click="checkboxClick(RADIO_TYPE.PASS)" class="text-with-radio", style="cursor: pointer;")
                             i.icon-checkbox-checked(ng-show="radioBoxType===RADIO_TYPE.PASS")
                             i.icon-checkbox-unchecked(ng-show="radioBoxType!==RADIO_TYPE.PASS")
-                            span &#x7406;&#x89E3;
+                            span &#x7406;&#x89E3;&nbsp;
                     th(style="padding:0;")
-                        div(ng-click="checkboxClick(RADIO_TYPE.FAIL)" class="text-with-radio")
+                        label(ng-click="checkboxClick(RADIO_TYPE.FAIL)" class="text-with-radio", style="cursor: pointer;")
                             i.icon-checkbox-checked(ng-show="radioBoxType===RADIO_TYPE.FAIL")
                             i.icon-checkbox-unchecked(ng-show="radioBoxType!==RADIO_TYPE.FAIL")
-                            span &#x4E0D;&#x7406;&#x89E3;
+                            span &#x4E0D;&#x7406;&#x89E3;&nbsp;
                     th(style="padding:0;")
-                        div(ng-click="checkboxClick(RADIO_TYPE.NOTTEST)" class="text-with-radio")
+                        label(ng-click="checkboxClick(RADIO_TYPE.NOTTEST)" class="text-with-radio", style="cursor: pointer;")
                             i.icon-checkbox-checked(ng-show="radioBoxType===RADIO_TYPE.NOTTEST")
                             i.icon-checkbox-unchecked(ng-show="radioBoxType!==RADIO_TYPE.NOTTEST")
                             span &#x672A;&#x7EC3;&#x4E60;
@@ -74,9 +74,9 @@ block content
                     td
                         span(style="white-space: nowrap;") {{word.name}}
                     td
-                        span {{word.ipc_gb}}
+                        span(style="white-space: nowrap;") {{word.ipc_gb}}
                         br
-                        span {{word.ipc_us}}
+                        span(style="white-space: nowrap;") {{word.ipc_us}}
                     td {{word.explanation}}
                     td(style="text-align: center;") 
                         + pass_pic(ng-show="word.status === RADIO_TYPE.PASS")
