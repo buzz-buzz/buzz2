@@ -71,6 +71,11 @@ html, body {
 .right.floated {
     float: right;
 }
+
+.avatar {
+    border-radius: 50%;
+    max-height: 30px;
+}
 #headportrait {
     position: relative;
 }
@@ -244,8 +249,7 @@ span.space {
 
 .avatar {
     border-radius: 50%;
-    height: 2em;
-    width: 2em;
+    max-height: 30px;
 }
 
 .with-header {
