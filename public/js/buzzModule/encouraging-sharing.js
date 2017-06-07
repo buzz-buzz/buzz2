@@ -1,13 +1,17 @@
 angular.module('buzzModule')
     .controller('sharingCtrl', ['$scope', '$rootScope', '$q', 'api', 'clientConfig', function ($scope, $rootScope, $q, api, clientConfig) {
         function wxReady() {
+            var dfd = $q.defer();
+
             if (wx.isReady) {
-                return $q.resolve();
+                dfd.resolve();
             }
 
             wx.ready(function () {
-                return $q.resolve();
+                dfd.resolve();
             });
+
+            return $q.promise;
         }
 
         function wechatSharable(videoData, lessonCount, vocabularyCount) {
