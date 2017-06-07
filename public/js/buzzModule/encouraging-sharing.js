@@ -11,7 +11,7 @@ angular.module('buzzModule')
                 dfd.resolve();
             });
 
-            return $q.promise;
+            return dfd.promise;
         }
 
         function wechatSharable(videoData, lessonCount, vocabularyCount) {
