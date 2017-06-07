@@ -14,8 +14,8 @@ let getPackageJson = function () {
 
 gulp.task('bump-minor-patch', function () {
     return gulp.src(['./package.json'])
-        .pipe(bump({key: 'version', type: 'minor'}))
-        .pipe(bump({key: 'version', type: 'patch'}))
+        .pipe(bump({ key: 'version', type: 'minor' }))
+        .pipe(bump({ key: 'version', type: 'patch' }))
         .pipe(gulp.dest('./'))
         ;
 });
@@ -24,13 +24,20 @@ gulp.task('patch-time', function () {
     let json = getPackageJson();
 
     return gulp.src(['./package.json'])
-        .pipe(bump({version: json.version + '-' + new Date().getTime()}))
+        .pipe(bump({ version: json.version + '-' + new Date().getTime() }))
         .pipe(gulp.dest('./'))
         ;
 });
 
 gulp.task('bump', function () {
     runSequence('bump-minor-patch', 'patch-time');
+});
+
+gulp.task('bumpup', function () {
+    return gulp.src(['./package.json'])
+        .pipe(bump({ key: 'version', type: 'major' }))
+        .pipe(gulp.dest('./'))
+        ;
 });
 
 gulp.task('uglify-js', function (done) {

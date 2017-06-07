@@ -570,7 +570,6 @@ html
             });
         include js.pug
         + js("/js/buzzHeaderModule.min.js")
-        + js("/js/wechat-share.js")
         script.
             angular.module('adModule', ['wechatShareModule', 'trackingModule', 'angularQueryParserModule', 'buzzHeaderModule'])
                 .run(['$rootScope', 'trackingX', 'queryParser', function ($rootScope, tracking, queryParser) {
