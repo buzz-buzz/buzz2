@@ -6,6 +6,7 @@ block js
 
 block head
     + css('/public/css/pagination.min.css')
+    + css('/public/css/semantic-ui/semantic.min.css')
     style.
         body {
             background: url('http://source.bridgeplus.cn/buzz/skin2.png') repeat-x 0 0;
@@ -83,21 +84,21 @@ block content
                             | &nbsp;
                             a.tag(ng-href="?category={{c.category}}") {{c.category}}
                         div.clear.float
-                    .container(style="height:200px;margin-top:2em;margin-bottom:2em;",ng-repeat="lesson in courseList track by $index")
-                        .left.clickable(style="display:inline-block;vertical-align:top;height:200px;",ng-click='aLikeClick("/my/play?date="+lesson.date+"&cat="+ lesson.category.toLowerCase()+"&level="+lesson.level)')
-                            img(style="width:280px;height:200px",ng-src="{{lesson.image}}")
-                        .right(style="display:inline-block;vertical-align:top;height:100%;text-align:left;height:200px;padding:1.4em;position:relative;border:1px solid grey")
-                            .content
-                                a.title.clickable(style="color:#f7b52a;margin-bottom:0.4em;font-weight:bold;", ng-click='aLikeClick("/my/play?date="+lesson.date+"&cat="+ lesson.category.toLowerCase()+"&level="+lesson.level)') {{lesson.title}}
-                                .time(style="font-size:12px;line-height:1.6em;margin-bottom:0.4em;") {{lesson.date}}
-                                .summery(style="min-width:418px;") {{lesson.description}}
-                            .tail(style="position:absolute;bottom:4px;width:435px;border-top: 1px dashed #bcbcbc;padding-top:1em;padding-bottom:1em;font-size:14px;")
-                                .likeit(style="display:inline-block;")
-                                    i.icon-heart(style="color:red;margin-right:0.4em;")
-                                    span(style="color:red;margin-right:0.4em;") {{lesson.baseNumber}}
-                                    span 人参加了本节课程
-                                .reviewbtn.clickable(style="display:inline-block;position:absolute;right:0px;padding-top:0.4em;padding-bottom:0.4em;padding-left:0.8em;padding-right:0.8em;background-color:#f7b52a;color:white;font-size:14px;",ng-click='aLikeClick("/my/play?date="+lesson.date+"&cat="+ lesson.category.toLowerCase()+"&level="+lesson.level)')
-                                    | 课程回顾
+                    .ui.container
+                        .ui.grid(style='margin:0 !important;')
+                             .row(ng-repeat="lesson in courseList track by $index")
+                                 .six.wide.column(ng-click='aLikeClick("/my/play?date="+lesson.date+"&cat="+ lesson.category.toLowerCase()+"&level="+lesson.level)', ng-cloak)
+                                     img(style="width:100%; cursor:pointer;",ng-src="{{lesson.image}}")
+                                 .ten.wide.column
+                                     .ui.card(style='height:95%;width:100%;')
+                                         .content(style='font-size:1em;')
+                                             .meta
+                                                 span.date(ng-cloak) {{lesson.date}}
+                                             .description(style='color: #f7b52a; font-weight:bold; cursor:pointer;', ng-click='aLikeClick("/my/play?date="+lesson.date+"&cat="+ lesson.category.toLowerCase()+"&level="+lesson.level)', ng-cloak) {{lesson.title}}
+                                         .extra.content
+                                             a
+                                                 i.icon-heart(style='color:red;')
+                                                 span(ng-click='aLikeClick("/my/play?date="+lesson.date+"&cat="+ lesson.category.toLowerCase()+"&level="+lesson.level)', ng-cloak) &nbsp;&nbsp;&nbsp;{{lesson.baseNumber}}人参加了本节课程
                     br
                     include ../../node_modules/angular-service/views/pagination
                     + pagination('courseData')
