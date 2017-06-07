@@ -71,11 +71,6 @@ html, body {
 .right.floated {
     float: right;
 }
-
-.avatar {
-    border-radius: 50%;
-    max-height: 30px;
-}
 #headportrait {
     position: relative;
 }
