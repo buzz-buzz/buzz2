@@ -91,6 +91,7 @@ angular.module('wechatShareModule', ['clientConfigModule', 'buzzHeaderModule'])
                 }));
 
                 $rootScope.$emit('wx:ready', sharable);
+                wx.isReady = true;
             });
 
             wx.error(function (res) {

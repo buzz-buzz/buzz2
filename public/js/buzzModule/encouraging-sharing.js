@@ -1,10 +1,20 @@
 angular.module('buzzModule')
     .controller('sharingCtrl', ['$scope', '$rootScope', '$q', 'api', 'clientConfig', function ($scope, $rootScope, $q, api, clientConfig) {
+        function wxReady() {
+            if (wx.isReady) {
+                return $q.resolve();
+            }
+
+            wx.ready(function () {
+                return $q.resolve();
+            });
+        }
+
         function wechatSharable(videoData, lessonCount, vocabularyCount) {
             try {
                 $rootScope.wechatSharable.desc = '每天15分钟，学英语读世界！第 ' + $scope.buzzDays + ' 天，看 ' + lessonCount + ' 条新闻，学 ' + vocabularyCount + ' 个单词。';
 
-                wx.ready(function () {
+                wxReady().then(function () {
                     wx.onMenuShareTimeline(angular.extend({}, $rootScope.wechatSharable, {
                         title: $rootScope.wechatSharable.desc
                     }));
