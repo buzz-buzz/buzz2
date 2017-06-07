@@ -5,7 +5,8 @@ html
         meta(charset='utf-8')
         meta(http-equiv='X-UA-Compatible', content='IE=edge, chrome=1')
         meta(name='viewport', content='width=device-width, initial-scale=1.0, maximum-scale=1.0')
-        title Buzz Buzz English
+        include ../partial/seo.pug
+        title Buzzbuzz English
         + css('/public/css/player.min.css', true)
         + css('/public/css/vocabulary-printable.min.css')
     body.full.screen.container(ng-app="vocabularyPrintableModule",ng-controller="mainCtrl")
