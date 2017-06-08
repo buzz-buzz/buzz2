@@ -100,7 +100,7 @@ block content
                             .detail-con(ng-cloak) 共{{details.total_sum}}题
                             .detail-con(ng-cloak) 答对{{details.correct}}题
                             .detail-con(ng-cloak) 获得{{details.score}}分
-                a.button(ng-click="turnTo('exercise')",ng-cloak, ng-hide="done") 继续测试
+                a.ui.yellow.button(ng-click="turnTo('exercise')",ng-cloak, ng-hide="done") 继续测试
             div(ng-show="weeklyStatus=='exercise'")
                 .progress
                     span(ng-cloak) {{currentIndex+1}}/{{arrayWeeklyQuiz.length}}
