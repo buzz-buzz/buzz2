@@ -8,6 +8,7 @@ html(manifest="/buzz.appcache")
         meta(name="viewport", content="width=device-width, initial-scale=1.0, maximum-scale=1.0")
         include meta
         + css("/public/css/sign-header.css")
+        + css("/public/css/semantic-ui/semantic.min.css")
         title=title || 'Sign in to Buzz English'
     body.full.screen.container(style="background-color:#fef6e7;")
         include sign-in-header

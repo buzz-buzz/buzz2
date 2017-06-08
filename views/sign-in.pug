@@ -1,37 +1,37 @@
 extends sign-in-layout
 
 block content
-    .center.aligned.middle.aligned.grid
-        .seven.wide.column
-            img.special(src="http://source.bridgeplus.cn/buzz/skin1.png")
-        .one.wide.column
-        .one.wide.column
-        .seven.wide.column
-            form.sign-in-form(name="signInForm", ng-controller="signInCtrl", ng-app="signInModule", ng-submit="signIn()")
-                .header.light.yellow.background
-                    span 立即注册，即可获得
-                    strong.red 两周免费使用
-                    span ，每天15分钟，轻松体会英语进步的惊喜吧！
-                .body
-                    .error.message(ng-if="errorMessage", ng-cloak) {{errorMessage}}
-                    .field.fluid
-                        label
-                            span.icon-user
-                            input(type="text", placeholder="请输入登录账号", ng-model="signInData.account")
-                    .field.fluid
-                        label
-                            span.icon-lock
-                            input(type="password", placeholder="请输入登录密码", ng-model="signInData.password")
+    .ui.two.column.centered.center.aligned.middle.aligned.grid
+       .four.column.centered.row    
+            .seven.wide.column
+                img.special(src="http://source.bridgeplus.cn/buzz/skin1.png")
+            .one.wide.column
+            .seven.wide.column
+                form.sign-in-form(name="signInForm", ng-controller="signInCtrl", ng-app="signInModule", ng-submit="signIn()")
+                    .header.light.yellow.background
+                        span 立即注册，即可获得
+                        strong.red 两周免费使用
+                        span ，每天15分钟，轻松体会英语进步的惊喜吧！
+                    .body
+                        .error.message(ng-if="errorMessage", ng-cloak) {{errorMessage}}
+                        .field.fluid
+                            label
+                                span.icon-user
+                                input(type="text", placeholder="请输入登录账号", ng-model="signInData.account")
+                        .field.fluid
+                            label
+                                span.icon-lock
+                                input(type="password", placeholder="请输入登录密码", ng-model="signInData.password")
 
-                    .field
-                        .right.floated
-                            a.active(href="/sign-up")
-                                | 立即注册
-                                span.space
-                                span.icon-circle-right
-                        a(href="/reset-password") 忘记密码？
-                    .field
-                        button.fluid.yellow.button(type="submit") 登录
+                        .field
+                            .right.floated
+                                a.active(href="/sign-up")
+                                    | 立即注册
+                                    span.space
+                                    span.icon-circle-right
+                            a(href="/reset-password") 忘记密码？
+                        .field
+                            button.fluid.yellow.button(type="submit") 登录
 
 block js
     + js("/public/js/signInModule.min.js")
