@@ -160,5 +160,13 @@ angular.module('buzzModule')
             var unbind = $rootScope.$on('lessonInfo:got', lessonDataGot);
             $scope.$on('$destroy', unbind);
         }
+
+        $scope.$watch('currentExercise.url', function (newValue, oldValue) {
+            if (newValue) {
+                $timeout(function () {
+                    $('#exercise-frame.ui.embed').embed();
+                });
+            }
+        });
     }])
     ;

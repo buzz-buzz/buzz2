@@ -22,7 +22,7 @@ angular.module('buzzModule')
             }
         }
     }])
-    .controller('weeklyQuizCtrl', ['$scope', 'BuzzCalendar', 'queryParser', 'api', 'clientConfig', 'weeklyQuizParser', 'arrayWeeklyQuizParser', '$q', 'quizFactory', '$rootScope', 'trackingX', 'weeklyQuizStatus', function ($scope, BuzzCalendar, queryParser, api, clientConfig, weeklyQuizParser, arrayWeeklyQuizParser, $q, quizFactory, $rootScope, tracking, weeklyQuizStatus) {
+    .controller('weeklyQuizCtrl', ['$scope', 'BuzzCalendar', 'queryParser', 'api', 'clientConfig', 'weeklyQuizParser', 'arrayWeeklyQuizParser', '$q', 'quizFactory', '$rootScope', 'trackingX', 'weeklyQuizStatus', '$timeout', function ($scope, BuzzCalendar, queryParser, api, clientConfig, weeklyQuizParser, arrayWeeklyQuizParser, $q, quizFactory, $rootScope, tracking, weeklyQuizStatus, $timeout) {
         var query = queryParser.parse();
         var now = query.today ? new Date(query.today) : new Date();
         var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
@@ -216,5 +216,12 @@ angular.module('buzzModule')
             }
         }
 
+        $scope.$watch('currentQuiz.quiz', function (newValue, oldValue) {
+            if (newValue) {
+                $timeout(function () {
+                    $('#weekly-quiz-frame.ui.embed').embed();
+                });
+            }
+        });
     }])
     ;

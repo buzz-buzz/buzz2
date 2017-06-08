@@ -12,7 +12,7 @@
                     .detail-con(ng-cloak) 共{{details.total_sum}}题
                     .detail-con(ng-cloak) 答对{{details.correct}}题
                     .detail-con(ng-cloak) 获得{{details.score}}分
-        a.button(ng-click="turnTo('exercise')",ng-cloak, ng-hide="done") 继续测试
+        button.ui.yellow.button(ng-click="turnTo('exercise')",ng-cloak, ng-hide="done") 继续测试
     .ui.container(ng-show="weeklyStatus=='exercise'")
         .ui.text.container
             .ui.active.yellow.progress
@@ -22,9 +22,8 @@
             .row
                 .two.wide.column
                 .twelve.wide.column
-                    .ui.container.fixed-ratio.four-three
-                        .content
-                            iframe(id="weekly-quiz-frame", frameborder="0", style="width: 100%; height: 100%;", ng-src="{{currentQuiz.quiz}}")
+                    .ui.container
+                        div#weekly-quiz-frame(class="ui 4:3 embed", data-url="{{currentQuiz.quiz}}")
                 .left.aligned.one.wide.column
                     .right.arrow(ng-click="nextQuiz()", ng-hide="currentIndex+1>=arrayWeeklyQuiz.length", style="padding: 0;") 
                         span.icon-circle-right                        

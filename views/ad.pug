@@ -1,3 +1,5 @@
+include ./share/common
+
 doctype html
 html
     head
@@ -525,7 +527,7 @@ html
                         img(src='http://resource.buzzbuzzenglish.com/ad-bottom.png',style='width:100%;')
             .border-outside-left
             .border-outside-right
-        script(src='//cdn.bootcss.com/jquery/3.1.0/jquery.min.js')
+        + js("/node_modules/jquery/dist/jquery.min.js")
         script.
             var animate = true;
             $(window).scroll(function () {

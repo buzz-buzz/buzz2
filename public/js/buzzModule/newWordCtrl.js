@@ -45,9 +45,9 @@ angular.module('buzzModule')
             $scope.animateDirection = "";
 
             $rootScope.$on('answer:vocabulary', function (event, ret) {
-                if(($scope.wordIndex + 1) == 1 && !$scope.firstExercise){
+                if (($scope.wordIndex + 1) == 1 && !$scope.firstExercise) {
                     $scope.firstExercise = true;
-                }else if(($scope.wordIndex + 1) == 1){
+                } else if (($scope.wordIndex + 1) == 1) {
                     return;
                 }
 
@@ -65,8 +65,8 @@ angular.module('buzzModule')
                     }
                 });
 
-                api.get(clientConfig.serviceUrls.buzz.profile.memberVocabularies.frontEnd+'?word='+ $scope.newWords[$scope.wordIndex].word + '&answer=' +ret.status).then(function(data){
-                     console.log(data);
+                api.get(clientConfig.serviceUrls.buzz.profile.memberVocabularies.frontEnd + '?word=' + $scope.newWords[$scope.wordIndex].word + '&answer=' + ret.status).then(function (data) {
+                    console.log(data);
                 });
 
                 tracking.sendX('today-vocabulary-quiz.submit', {
@@ -261,5 +261,13 @@ angular.module('buzzModule')
                 updateUrl();
             }
         });
+
+        $scope.$watch('currentVocabulary.url', function (newValue, oldValue) {
+            if (newValue) {
+                $timeout(function () {
+                    $('#vocabulary-frame.ui.embed').embed();
+                });
+            }
+        });
     }])
-;
+    ;

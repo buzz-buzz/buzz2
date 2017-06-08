@@ -1,5 +1,3 @@
-
-.four-three, 
 .fixed-ratio {
   position: relative;
 }
@@ -10,23 +8,14 @@
   width: 100%;
 }
 
-.four-three:before {
-  display: block;
-  content: " ";
-  width: 100%;
-  padding-top: 68%;
-}
-
 .eight-seven:before {
     padding-top: 87.5%;
 }
 
-.four-three > *,
 .fixed-ratio > * {
     position: relative;
 }
 
-.four-three > .content,
 .fixed-ratio > .content {
   position: absolute;
   top: 0;
