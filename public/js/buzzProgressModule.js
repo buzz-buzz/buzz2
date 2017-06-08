@@ -234,7 +234,11 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
         };
     }])
     .controller('calendarParentCtrl', ['$scope', function ($scope) {
-
+        $scope.totalScoreUrl='http://source.bridgeplus.cn/image/png/%E5%AD%A6%E4%B9%A0%E8%BF%9B%E5%BA%A6_19.png';
+        $scope.totalTowardsUrl='http://source.bridgeplus.cn/image/png/%E5%AD%A6%E4%B9%A0%E8%BF%9B%E5%BA%A6_16.png';
+        $scope.allCorrectUrl='http://source.bridgeplus.cn/image/png/%E5%AD%A6%E4%B9%A0%E8%BF%9B%E5%BA%A6_06.png';
+        $scope.allIncorrectUrl='http://source.bridgeplus.cn/image/png/%E5%AD%A6%E4%B9%A0%E8%BF%9B%E5%BA%A6_10.png';
+        $scope.unExerciseUrl='http://source.bridgeplus.cn/image/png/%E5%AD%A6%E4%B9%A0%E8%BF%9B%E5%BA%A6_13.png';
     }])
     .controller('chartCtrl', ['$scope', '$timeout', 'api', '$http', 'clientConfig', 'levelFactory', 'trackingX', function ($scope, $timeout, api, $http, clientConfig, levelFactory, tracking) {
         $scope.expanded = false;

@@ -11,111 +11,92 @@ block js
 
 block head
     + css("/public/css/progress-table.min.css")
+    + css("/public/css/semantic-ui/semantic.min.css")
     style.
         body {
             background: url('http://source.bridgeplus.cn/buzz/skin2.png') repeat-x 0 0;
             background-size: contain;
             background-attachment: fixed;
+            font-family: "微软雅黑", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
+        .ui.grid{
+            margin:0;
         }
 
-        .separate.title {
-            color: #666;
+        .fix-head {
+            padding-left: 1em;
+            padding-bottom: 1em;
+            font-weight: bold;
         }
 
-        .separate.title:before {
-            content: ' ';
-            display: inline-block;
-            border-bottom: solid 1px black;
-            width: 20%;
-            margin-right: 3em;
-            vertical-align: middle;
+        .white-center {
+            background-color: white;
         }
 
-        .separate.title:after {
-            content: ' ';
-            width: 20%;
-            margin-left: 3em;
-            display: inline-block;
-            border-bottom: solid 1px black;
-            vertical-align: middle;
+        .table-center {
+            display: table;
+            margin: 0 auto;
         }
 
-        #history-chart {
+        .fix-middle {
+            padding: 1em;
+            margin: 2em auto 0 auto !important;
         }
-
-        .page {
-            min-height: 800px;
+        .top-with-header{
+            padding-top: 55px;
         }
 
 block extraMenus
     include partials/level-switcher
 
 block content
-    #full-page.full.height.container(ng-app="buzzProgressModule", ng-controller="calendarParentCtrl")
-        a.page-pos(name="page-1")
-        .page.with-header.section.transparent
-            .center.aligned.container.column.flex-box.white.background(style="padding-left: 50px; padding-right: 50px;")
-                .row.dynamic
-                    p.left.aligned 每月打卡
-                    ul.right.floated.horizontal.menu.non-interactive
-                        li
-                            img.middle.aligned(ng-src="http://source.bridgeplus.cn/image/png/%E5%AD%A6%E4%B9%A0%E8%BF%9B%E5%BA%A6_06.png")
-                            span.middle.aligned
-                            div 好棒！练习全对&nbsp;&nbsp;
-                        li(style="margin-left: 1.5em; margin-right: 1.5em;")
-                            img.middle.aligned(ng-src="http://source.bridgeplus.cn/image/png/%E5%AD%A6%E4%B9%A0%E8%BF%9B%E5%BA%A6_10.png")
-                            span.middle.aligned
-                            div 有错误，继续努力&nbsp;&nbsp;
-                        li
-                            img.middle.aligned(ng-src="http://source.bridgeplus.cn/image/png/%E5%AD%A6%E4%B9%A0%E8%BF%9B%E5%BA%A6_13.png")
-                            div 练习未做
-                    ul.left.floated.horizontal.menu.non-interactive
-                        li.middle.aligned.all(ng-cloak)
-                            div &nbsp;
-                            img(ng-src="http://source.bridgeplus.cn/image/png/%E5%AD%A6%E4%B9%A0%E8%BF%9B%E5%BA%A6_19.png")
-                            span.space
-                            span {{totalScore}}分
-                            span.space
-                            span.space
-                        li.middle.aligned.all
-                            div &nbsp;
-                            img(ng-src="http://source.bridgeplus.cn/image/png/%E5%AD%A6%E4%B9%A0%E8%BF%9B%E5%BA%A6_16.png")
-                            span.space
-                            span 16个
-                    div.clear.float
+    .container.center.column(style='margin: 0 auto;', ng-app="buzzProgressModule", ng-controller="calendarParentCtrl")
+        .left.aligned.fix-head.white-center.top-with-header 每月打卡
+        .ui.grid.white-center
+            .row
+                .two.wide.column
+                    img.middle.aligned(ng-src="{{totalScoreUrl}}")
+                    span.space
+                    span(ng-cloak) {{totalScore}}分
+                .two.wide.column
+                    img.middle.aligned(ng-src="{{totalTowardsUrl}}")
+                    span.space
+                    span(ng-cloak) 16个
+                .three.wide.column
+                .three.wide.column
+                    img.middle.aligned(ng-src="{{allCorrectUrl}}")
+                    span.middle.aligned  &nbsp;练习全对
+                .three.wide.column
+                    img.middle.aligned(ng-src="{{allIncorrectUrl}}")
+                    span.middle.aligned  &nbsp;练习有错
+                .three.wide.column
+                    img.middle.aligned(ng-src="{{unExerciseUrl}}")
+                    span.middle.aligned  &nbsp;练习未做
+            .row
+                .column
                     include calendar
-
-        a.page-pos(name="page-2")
-        .page.with-header.section.transparent
-            .center.aligned.container.column.flex-box.white.background(style="padding-left: 50px; padding-right: 50px;")
-                .row.dynamic
-                    p.left.aligned  周进度
-                    .span(style='height:2em;width:100%;color:#666;text-align:left;',ng-cloak) {{this_date}}
-                    table.progress.table
-                        thead
-                            tr
-                                th 练习全对
-                                th 练习有错
-                                th 系统排名
-                        tbody
-                            tr
-                                td
-                                    + goodPerformance(ng-repeat="i in [].constructor(weekPerformance.good) track by $index",ng-show='weekPerformance.good<=7',ng-cloak)
-                                    .lg(ng-show='weekPerformance.good>7',ng-cloak)
-                                        span {{weekPerformance.good}}
-                                        + goodPerformance
-                                td
-                                    + badPerformance(ng-repeat="i in [].constructor(weekPerformance.bad) track by $index",ng-show='weekPerformance.bad<=7',ng-cloak)
-                                    .lg(ng-show='weekPerformance.bad>7',ng-cloak)
-                                        span {{weekPerformance.bad}}
-                                        + badPerformance
-                                td(ng-cloak) {{rank}}
-                .row.content(ng-controller="pcChartCtrl")
-                    p &nbsp;
-                    p &nbsp;
-                    p.left.aligned 历史成绩
-                    p.separate.title
-                        span(ng-cloak) 你累计学习{{totalWord}}个单词
-                    canvas#history-chart.chart.chart-bar(chart-data="data", chart-labels="labels", chart-series="series", chart-options="options" chart-dataset-override="datasetOverride",chart-colors="colors")
-                    p &nbsp;
-                    p &nbsp;
+        .left.aligned.fix-head.fix-middle.white-center 本周进度
+            .span(style='height:2em;width:100%;color:#666;text-align:left;font-weight:normal;margin-top:.5em;',ng-cloak) {{this_date}}
+            table.progress.table
+                thead
+                    tr
+                        th 练习全对
+                        th 练习有错
+                        th 系统排名
+                tbody
+                    tr
+                        td
+                            + goodPerformance(ng-repeat="i in [].constructor(weekPerformance.good) track by $index",ng-show='weekPerformance.good<=7',ng-cloak)
+                        td
+                            + badPerformance(ng-repeat="i in [].constructor(weekPerformance.bad) track by $index",ng-show='weekPerformance.bad<=7',ng-cloak)
+                        td(ng-cloak) {{rank}}
+        .left.aligned.fix-head.fix-middle.white-center 历史成绩
+            .table-center(ng-controller="pcChartCtrl")
+                span(style='font-weight: normal;', ng-cloak) 你已累计学习了{{totalWord}}个单词
+        .ui.grid.white-center(style='padding-bottom:5em;')
+            .row(ng-controller="pcChartCtrl")
+                p &nbsp;
+                p &nbsp;
+                canvas#history-chart.chart.chart-bar(chart-data="data", chart-labels="labels", chart-series="series", chart-options="options" chart-dataset-override="datasetOverride",chart-colors="colors")
+                p &nbsp;
+                p &nbsp;
