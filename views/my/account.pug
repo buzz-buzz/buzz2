@@ -90,6 +90,10 @@ block head
             background-color: #36e4fc;
             color:white;
         }
+        .fluid.field{
+            margin: 1em auto !important;
+        }
+
 
 block content
     #full-page.full.height.container(ng-app="accountModule", ng-controller="viewAccountCtrl")
@@ -118,7 +122,7 @@ block content
                             + pair('喜欢主题', '{{info.topics[0].join(",")}}')
                             + pair('难度版本', '{{info.level}}')
         #my-info.mask(ng-controller="infoFormParentCtrl", ng-class="{'hide': hideModal, 'show': showModal}", ng-click="hideTheModal()")
-            .popup(ng-click="keepModal($event)")
+            .popup(ng-click="keepModal($event)", style='height: 80%;')
                 .title
                     h3 我的信息
                 .body
@@ -140,8 +144,6 @@ block content
                                         input(type="radio", name="level", ng-model="infoData.level", value="A", id="advanced", ng-required="true")
                                         label(for="advanced") 进阶（推荐5~9年级）
                             .field
-                                br
-                            .field
                                 button.fluid.yellow.button(type="submit", ng-disabled="!infoForm.$valid") 保存我的信息
 
         #mobile.mask(ng-controller="mobileModalCtrl", ng-class="{'hide': hideModal, 'show': showModal}", ng-click="hideTheModal()")
@@ -160,7 +162,7 @@ block content
                     h3 上传头像
                 form.head-form.body(name="headForm", ng-submit="uploadImg('pc')")(style='min-height:200px;')
                     .center.aligned.container(style="padding-left: 150px; padding-right: 150px;display:flex;",  ng-cloak)
-                        span(style='width:30%;flex:1;line-height:40px;') 选择图片 : &nbsp;
+                        span(style='line-height:40px;') 选择图片 : &nbsp;
                         input(id='choose-image', type="file", name="photo", placeholder="选择图片", accept=".png,.gif,.jpeg,.jpg", style='cursor:pointer;', ng-src='{{files[0].name}}', onchange='preview(this)')
                     .aligned.container(style="padding-left: 150px; padding-right: 150px;margin-top:20px;",  ng-cloak)
                         span 预览头像 :

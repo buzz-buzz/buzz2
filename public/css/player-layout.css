@@ -324,7 +324,6 @@ a.active {
 form input {
     border: none;
     padding: 8px 10px;
-    width: 70%;
 }
 
 form select {
