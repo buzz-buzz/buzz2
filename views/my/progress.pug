@@ -15,7 +15,7 @@ block head
     style.
         body {
             background: url('http://source.bridgeplus.cn/buzz/skin2.png') repeat-x 0 0;
-            background-size: contain;
+            background-size: cover;
             background-attachment: fixed;
             font-family: "微软雅黑", "Helvetica Neue", Helvetica, Arial, sans-serif;
         }
@@ -54,11 +54,11 @@ block content
         .left.aligned.fix-head.white-center.top-with-header 每月打卡
         .ui.grid.white-center
             .row
-                .two.wide.column
+                .two.wide.column(style="white-space: nowrap")
                     img.middle.aligned(ng-src="{{totalScoreUrl}}")
                     span.space
                     span(ng-cloak) {{totalScore}}分
-                .two.wide.column
+                .two.wide.column(style="white-space: nowrap")
                     img.middle.aligned(ng-src="{{totalTowardsUrl}}")
                     span.space
                     span(ng-cloak) 16个
