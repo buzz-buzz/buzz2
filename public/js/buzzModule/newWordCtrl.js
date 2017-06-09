@@ -265,7 +265,7 @@ angular.module('buzzModule')
         $scope.$watch('currentVocabulary.url', function (newValue, oldValue) {
             if (newValue) {
                 $timeout(function () {
-                    $('#vocabulary-frame.ui.embed').embed();
+                    $('#vocabulary-frame.ui.embed').embed('change', 'vocabulary-frame', newValue);
                 });
             }
         });

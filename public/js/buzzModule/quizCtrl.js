@@ -164,7 +164,7 @@ angular.module('buzzModule')
         $scope.$watch('currentExercise.url', function (newValue, oldValue) {
             if (newValue) {
                 $timeout(function () {
-                    $('#exercise-frame.ui.embed').embed();
+                    $('#exercise-frame.ui.embed').embed('change', 'exercise-frame', newValue);
                 });
             }
         });

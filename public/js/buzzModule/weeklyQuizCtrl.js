@@ -219,7 +219,7 @@ angular.module('buzzModule')
         $scope.$watch('currentQuiz.quiz', function (newValue, oldValue) {
             if (newValue) {
                 $timeout(function () {
-                    $('#weekly-quiz-frame.ui.embed').embed();
+                    $('#weekly-quiz-frame.ui.embed').embed('change', 'weekly-quiz-frame', newValue);
                 });
             }
         });
