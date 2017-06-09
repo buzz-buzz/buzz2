@@ -96,8 +96,8 @@ block head
 
 
 block content
-    #full-page.full.height.container(ng-app="accountModule", ng-controller="viewAccountCtrl")
-        a.page-pos(name="page-1")
+    .container(ng-app="accountModule", ng-controller="viewAccountCtrl")
+        a.page-pos
         .page.with-header.section.transparent
             .center.aligned.container.column.flex-box.white.background(style="padding-left: 50px; padding-right: 50px;")
                 .row.dynamic
@@ -108,7 +108,7 @@ block content
                         div.clear
                             button.linear.button.right.floated(ng-click="showModal('')") 编辑
                         br
-                        .left.aligned.container(ng-cloak)
+                        .left.aligned.container(ng-cloak, style='padding-bottom: 10em;')
                             .head-img(ng-click="showModal('#head')")
                                 img(ng-src='{{$root.profile.avatar}}',style='width:100%;height:100%;' ,ng-cloak)
                                 #hover-head-img
