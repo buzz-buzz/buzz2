@@ -17,6 +17,8 @@ html(manifest="/buzz.appcache")
         + css("/public/css/lib/cube.min.css")
         title=title || 'Buzzbuzz English'
         block head
+        if base
+            base(href=saasBase)
     body.full.screen
         #buzz-header.fluid.header.fixed(ng-controller="headerCtrl")
             .center.aligned.column.borderless

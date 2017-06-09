@@ -1,6 +1,8 @@
 html
     head
         include player-head.html
+        if saas
+            base(href=saasBase)
     body(ng-app="buzzPlayerModule", ng-controller="videoCtrl", class="full screen container")
         .center.aligned.container
             .video(style="width: 100%;")

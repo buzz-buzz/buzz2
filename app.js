@@ -21,10 +21,10 @@ const render = views(path.join(__dirname, 'views'), {
 app.use(userAgent());
 app.use(logger());
 
-app.use(function*(next) {
+app.use(function* (next) {
     yield next;
     if (this.response.status === 404) {
-        this.body = yield render('404', {config: config});
+        this.body = yield render('404', { config: config });
         this.response.status = 404;
     }
 });

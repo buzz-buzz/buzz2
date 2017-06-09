@@ -5,8 +5,10 @@ html(manifest="/buzz.appcache")
         meta(http-equiv="X-UA-Compatible", content="IE=edge, chrome=1")
         meta(name="viewport", content="width=375, initial-scale=1.0, maximum-scale=1.0")
         include meta
-        title=title || 'Buzz Buzz English'
+        title=title || 'Buzzbuzz English'
         block head
+        if saas
+            base(href=saasBase)
     body.full.screen.container
         include header
         .full.height.center.aligned.container.borderless.column

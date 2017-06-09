@@ -7,13 +7,15 @@ const cookie = require('../helpers/cookie');
 const coBody = require('co-body');
 const fs = require('fs');
 const buzz = require('../service-proxy-for-server/buzz');
+const Koa = require('koa');
+const saas = require('../bll/saas');
 
 function mobileDetectRender(app, router, render) {
     let routes = ['/sign-in', '/sign-up', '/reset-password'];
     routes.forEach(function (route) {
-        router.get(route, function* (next) {
+        router.get(route, saas.checkSaasReferer, function* (next) {
             if (this.state.userAgent.isMobile && !this.state.userAgent.isTablet) {
-                this.redirect('/m' + route + this.request.search);
+                this.redirect(saas.generateUrl(this, '/m' + route + this.request.search));
             } else {
                 yield next;
             }
@@ -22,40 +24,40 @@ function mobileDetectRender(app, router, render) {
 }
 
 function mobileRender(app, router, render) {
-    let routes = ['sign-in', 'loading', 'sign-up', 'reset-password'];
+    let routes = ['sign-in', 'sign-up', 'reset-password'];
     routes.forEach(function (route) {
         let routename = '/m/' + route;
-        router.get(routename, require('./wechatOAuth'), function* (next) {
+        router.get(routename, saas.checkSaasReferer, require('./wechatOAuth'), function* (next) {
             this.body = yield render(routename, {
                 config: config
             });
         });
     });
 
-    router.get('/m/my/vocabulary', require('./wechatOAuth'), function* (next) {
+    router.get('/m/my/vocabulary', saas.checkSaasReferer, require('./wechatOAuth'), function* (next) {
         if (this.state.userAgent.isMobile && !this.state.userAgent.isTablet) {
             this.body = yield render('/m/my/vocabulary', {
                 config: config
             });
         } else {
-            this.redirect('/vocabulary/my', { config: config });
+            this.redirect(saas.generateUrl(this, '/vocabulary/my'), { config: config });
         }
     });
 }
 
 function simpleRender(app, router, render) {
-    let routes = ['sign-in', 'loading', 'agreement', 'reset-password'];
+    let routes = ['sign-in', 'agreement', 'reset-password'];
 
     for (let i = 0; i < routes.length; i++) {
-        router.get('/' + routes[i], function* () {
+        router.get('/' + routes[i], saas.checkSaasReferer, function* () {
             this.body = yield render(routes[i], { config: config });
         });
     }
 }
 function renderWithServerData(app, router, render) {
-    router.get('/sign-up', membership.setHcdUserByToken, function* (next) {
+    router.get('/sign-up', saas.checkSaasReferer, membership.setHcdUserByToken, function* (next) {
         if (this.query.step && this.query.step == 2 && !this.state.hcd_user) {
-            this.redirect('/sign-up?step=1');
+            this.redirect(saas.generateUrl(this, '/sign-up?step=1'));
         } else {
             this.body = yield render('sign-up', {
                 hcd_user: this.state.hcd_user,
@@ -65,11 +67,11 @@ function renderWithServerData(app, router, render) {
     });
 }
 function redirectRequest(app, router) {
-    router.get('/', membership.setHcdUserIfSignedIn, function* home(next) {
+    router.get('/', saas.checkSaasReferer, membership.setHcdUserIfSignedIn, function* home(next) {
         if (this.state.hcd_user) {
-            this.redirect('/my/today');
+            this.redirect(saas.generateUrl(this, '/my/today'));
         } else {
-            this.redirect('/my/history');
+            this.redirect(saas.generateUrl(this, '/my/history'));
         }
     });
 
@@ -78,7 +80,7 @@ function redirectRequest(app, router) {
         yield next;
     }, function* home(next) {
         let returnUrl = this.query.return_url;
-        this.redirect(returnUrl || '/sign-in');
+        this.redirect(saas.generateUrl(this, returnUrl || '/sign-in'));
     });
 }
 function auth(app, router, render) {
@@ -151,6 +153,16 @@ function more(app, router, render) {
     });
 }
 
+function routerSaas(app, router, render) {
+    router.get('/testsaas', function* (next) {
+        if (this.state.saas) {
+            this.body = 'saas';
+        } else {
+            this.body = 'buzz';
+        }
+    });
+}
+
 module.exports = function (app, router, render) {
     helper(app, router);
     staticFiles(app, router);
@@ -165,8 +177,21 @@ module.exports = function (app, router, render) {
     admin(app, router, render);
     oauth(app, router, render);
     more(app, router, render);
+    routerSaas(app, router, render);
 
     app
         .use(router.routes())
         .use(router.allowedMethods());
+
+    const saasKoa = new Koa();
+    saasKoa
+        .use(function* (next) {
+            this.state.saas = true;
+            this.state.sassBase = '/saas';
+            yield next;
+        })
+        .use(router.routes())
+        .use(router.allowedMethods());
+
+    app.use(mount('/saas', saasKoa));
 };

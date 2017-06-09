@@ -6,6 +6,7 @@ const membership = require('../membership');
 const proxy = require('./proxy');
 const cookie = require('../helpers/cookie');
 const url = require('url');
+const saas = require('../bll/saas');
 
 function resetCookies(result) {
     cookie.deleteToken.call(this);
@@ -22,7 +23,7 @@ function redirectToReturnUrl(result, returnUrl) {
 
         this.body = result;
     } else {
-        this.redirect(returnUrl || '/');
+        this.redirect(saas.generateUrl(this, returnUrl || '/'));
     }
 }
 
@@ -31,10 +32,10 @@ let proxyOption = {
     port: config.sso.inner.port
 };
 
-function *validateSms(next) {
+function* validateSms(next) {
     const referer = url.parse(this.headers.referer);
 
-    if ((referer.pathname === '/sign-up' || referer.pathname === '/reset-password' ) && referer.query && referer.query.indexOf('skipvalidation=true') >= 0) {
+    if ((referer.pathname === '/sign-up' || referer.pathname === '/reset-password') && referer.query && referer.query.indexOf('skipvalidation=true') >= 0) {
         return yield next;
     }
 
@@ -58,7 +59,7 @@ function *validateSms(next) {
     yield next;
 }
 
-function * bindWechatAccount(token, member_id) {
+function* bindWechatAccount(token, member_id) {
     if (token) {
         let bindResult = yield proxy({
             host: config.sso.inner.host,
@@ -76,7 +77,7 @@ function * bindWechatAccount(token, member_id) {
 }
 
 module.exports = function (app, router, parse) {
-    function *updateProfile(next) {
+    function* updateProfile(next) {
         let data = this.upstreamData;
 
         if (!data) {
@@ -96,14 +97,14 @@ module.exports = function (app, router, parse) {
         });
     }
 
-    function *parseData(next) {
+    function* parseData(next) {
         this.upstreamData = yield parse(this.request);
 
         yield next;
     }
 
     router
-        .post(serviceUrls.sso.signIn.frontEnd, function *(next) {
+        .post(serviceUrls.sso.signIn.frontEnd, function* (next) {
             let data = yield parse(this.request);
 
             let result = {};
@@ -134,7 +135,7 @@ module.exports = function (app, router, parse) {
 
             this.body = result;
         })
-        .get(serviceUrls.sso.profile.load.frontEnd, membership.ensureAuthenticated, function *(next) {
+        .get(serviceUrls.sso.profile.load.frontEnd, membership.ensureAuthenticated, function* (next) {
             if (config.mock) {
                 return this.body = {
                     isSuccess: true,
@@ -149,7 +150,7 @@ module.exports = function (app, router, parse) {
                 method: 'GET'
             });
         })
-        .put(serviceUrls.sso.signUp.frontEnd, parseData, function *validateForm(next) {
+        .put(serviceUrls.sso.signUp.frontEnd, parseData, function* validateForm(next) {
             let data = this.upstreamData;
 
             if (!data.agreed) {
@@ -160,7 +161,7 @@ module.exports = function (app, router, parse) {
             }
 
             yield next;
-        }, validateSms, function *(next) {
+        }, validateSms, function* (next) {
             let data = this.upstreamData;
 
             this.body = yield proxy.call(this, {
@@ -173,7 +174,7 @@ module.exports = function (app, router, parse) {
         })
         .post(serviceUrls.sso.profile.update.frontEnd, membership.ensureAuthenticated, updateProfile)
         .post(serviceUrls.sso.profile.changeMobile.frontEnd, parseData, membership.ensureAuthenticated, validateSms, updateProfile)
-        .post(serviceUrls.sso.profile.changePassword.frontEnd, membership.ensureAuthenticated, function *() {
+        .post(serviceUrls.sso.profile.changePassword.frontEnd, membership.ensureAuthenticated, function* () {
             let data = yield parse(this.request);
             data.member_id = this.state.hcd_user.member_id;
 
@@ -183,7 +184,7 @@ module.exports = function (app, router, parse) {
                 data: data
             }, proxyOption));
         })
-        .post(serviceUrls.sso.resetPassword.frontEnd, parseData, validateSms, function *() {
+        .post(serviceUrls.sso.resetPassword.frontEnd, parseData, validateSms, function* () {
             let data = this.upstreamData;
 
             this.body = yield proxy(Object.assign({
@@ -192,5 +193,5 @@ module.exports = function (app, router, parse) {
                 data: data
             }, proxyOption));
         })
-    ;
+        ;
 };

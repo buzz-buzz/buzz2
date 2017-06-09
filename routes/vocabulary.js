@@ -1,12 +1,13 @@
 const config = require('../config');
+const saas = require('../bll/saas');
 
 module.exports = function (app, router, render) {
     router
-        .get('/vocabulary/my', function *(next) {
-            this.redirect('/my/vocabulary', {config: config});
+        .get('/vocabulary/my', saas.checkSaasReferer, function* (next) {
+            this.redirect(saas.generateUrl(this, '/my/vocabulary'), { config: config });
         })
-        .get('/vocabulary/print', function *(next) {
-            this.body = yield render('vocabulary/vocabulary-printable', {config: config});
+        .get('/vocabulary/print', saas.checkSaasReferer, function* (next) {
+            this.body = yield render('vocabulary/vocabulary-printable', { config: config });
         })
-    ;
+        ;
 };

@@ -5,6 +5,7 @@ const config = require('../config');
 const request = require('co-request');
 const url = require('url');
 const cookie = require('../helpers/cookie');
+const saas = require('../bll/saas.js');
 
 function setHcdUser(context, data) {
     context.state.hcd_user = {
@@ -15,7 +16,7 @@ function setHcdUser(context, data) {
     };
 }
 
-function *parseToken(context, token) {
+function* parseToken(context, token) {
     let result = {
         result: {}
     };
@@ -30,7 +31,7 @@ function *parseToken(context, token) {
     } else {
         result = yield request({
             uri: 'http://' + config.sso.inner.host + ':' + config.sso.inner.port + '/token/parse',
-            json: {token: token},
+            json: { token: token },
             method: 'POST'
         });
 
@@ -49,7 +50,7 @@ function *parseToken(context, token) {
         delete context.state.hcd_user;
     }
 }
-function * setHcdUserByToken(context) {
+function* setHcdUserByToken(context) {
     let token = context.cookies.get('token');
 
     if (token) {
@@ -59,7 +60,7 @@ function * setHcdUserByToken(context) {
     }
 }
 let membership = {
-    setHcdUserByToken: function *(next) {
+    setHcdUserByToken: function* (next) {
         let context = this;
         yield setHcdUserByToken(context);
 
@@ -71,7 +72,7 @@ let membership = {
     parseToken: parseToken
 };
 
-membership.setHcdUserIfSignedIn = function *(next) {
+membership.setHcdUserIfSignedIn = function* (next) {
     let context = this;
 
     yield setHcdUserByToken(context);
@@ -79,7 +80,7 @@ membership.setHcdUserIfSignedIn = function *(next) {
     yield next;
 };
 
-membership.ensureAuthenticated = function *(next) {
+membership.ensureAuthenticated = function* (next) {
     let context = this;
 
     yield setHcdUserByToken(context);
@@ -94,19 +95,21 @@ membership.ensureAuthenticated = function *(next) {
 
             return this.body = result;
         } else {
-            return context.redirect('/sign-in?return_url=' + encodeURIComponent(context.request.originalUrl));
+            let url = saas.generateUrl(this, '/sign-in?return_url=' + encodeURIComponent(context.request.originalUrl));
+
+            return context.redirect(url);
         }
     }
 
     yield next;
 };
 
-membership.ensureAdmin = function *(next) {
+membership.ensureAdmin = function* (next) {
     yield setHcdUserByToken(this);
 
     if (!this.state.hcd_user || !this.state.hcd_user.isAdmin) {
         require('../helpers/cookie').deleteToken.apply(this);
-        return this.redirect('/sign-in?return_url=' + encodeURIComponent(this.request.originalUrl));
+        return this.redirect(saas.generateUrl(this, '/sign-in?return_url=' + encodeURIComponent(this.request.originalUrl)));
     }
 
     yield next;

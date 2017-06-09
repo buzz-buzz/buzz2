@@ -7,6 +7,8 @@ html(manifest="/buzz.appcache")
         include meta
         title=title || 'Buzz English'
         block head
+        if saas
+            base(href=saasBase)
     body.full.screen.container
         include mock-header
         .full.height.center.aligned.container.borderless.column

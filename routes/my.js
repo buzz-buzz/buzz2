@@ -4,10 +4,11 @@ const config = require('../config');
 const buzz = require('../service-proxy-for-server/buzz');
 const course = require('../bll/course');
 const membership = require('../membership');
+const saas = require('../bll/saas');
 
 module.exports = function (app, router, render) {
     router
-        .get('/my/today', membership.ensureAuthenticated, function* (next) {
+        .get('/my/today', saas.checkSaasReferer, membership.ensureAuthenticated, function* (next) {
             let level = config.mock ? 'A' : yield buzz.getMemberCurrentLevel(this.state.hcd_user.member_id);
             if (!level || level === 'U') {
                 level = 'B';
@@ -20,32 +21,32 @@ module.exports = function (app, router, render) {
             }
 
             if (!this.state.hcd_user.member_id) {
-                this.redirect('/my/history', { config: config });
+                this.redirect(saas.generateUrl(this, '/my/history'), { config: config });
                 return;
             }
 
             if (!this.state.userAgent.isMobile || this.state.userAgent.isTablet) {
-                this.redirect('/my/play?date=' + latestCourse.date + '&cat=' + (latestCourse.category || '').toLowerCase() + '&level=' + level, {
+                this.redirect(saas.generateUrl(this, '/my/play?date=' + latestCourse.date + '&cat=' + (latestCourse.category || '').toLowerCase() + '&level=' + level), {
                     config: config
                 });
                 return;
             }
 
-            this.redirect('/m/my/today?date=' + latestCourse.date + '&cat=' + latestCourse.category.toLowerCase() + '&level=' + level, {
+            this.redirect(saas.generateUrl(this, '/m/my/today?date=' + latestCourse.date + '&cat=' + latestCourse.category.toLowerCase() + '&level=' + level), {
                 config: config
             });
         })
-        .get('/my/history', function* (next) {
+        .get('/my/history', saas.checkSaasReferer, function* (next) {
             if (!this.state.userAgent.isMobile || this.state.userAgent.isTablet) {
                 this.body = yield render('my/history', {
                     config: config,
                     hcd_user: this.state.hcd_user
                 });
             } else {
-                this.redirect('/my/mobile-history', { config: config });
+                this.redirect(saas.generateUrl(this, '/my/mobile-history'), { config: config });
             }
         })
-        .get('/my/play', membership.setHcdUserIfSignedIn, function* (next) {
+        .get('/my/play', saas.checkSaasReferer, membership.setHcdUserIfSignedIn, function* (next) {
             if (!this.state.userAgent.isMobile || this.state.userAgent.isTablet) {
                 return this.body = yield render('my/play', {
                     config: config,
@@ -58,53 +59,53 @@ module.exports = function (app, router, render) {
                 hcd_user: this.state.hcd_user
             });
         })
-        .get('/my/player', function* (next) {
+        .get('/my/player', saas.checkSaasReferer, function* (next) {
             if (this.state.userAgent.isMobile && !this.state.userAgent.isTablet) {
                 this.body = yield render('m/player', { config: config });
             } else {
                 this.body = yield render('my/player', { config: config });
             }
         })
-        .get('/my/progress', membership.ensureAuthenticated, function* (next) {
+        .get('/my/progress', saas.checkSaasReferer, membership.ensureAuthenticated, function* (next) {
             if (!this.state.userAgent.isMobile || this.state.userAgent.isTablet) {
                 this.body = yield render('my/progress', { config: config });
             } else {
-                this.redirect('/my/mobile-history', { config: config });
+                this.redirect(saas.generateUrl(this, '/my/mobile-history'), { config: config });
             }
         })
-        .get('/my/account', membership.ensureAuthenticated, function* () {
+        .get('/my/account', saas.checkSaasReferer, membership.ensureAuthenticated, function* () {
             if (!this.state.userAgent.isMobile || this.state.userAgent.isTablet) {
                 this.body = yield render('my/account', { config: config });
             } else {
-                this.redirect('/m/my/my', { config: config });
+                this.redirect(saas.generateUrl(this, '/m/my/my'), { config: config });
             }
         })
-        .get('/my/password', membership.ensureAuthenticated, function* () {
+        .get('/my/password', saas.checkSaasReferer, membership.ensureAuthenticated, function* () {
             this.body = yield render('my/password', { config: config });
         })
-        .get('/my/vocabulary', membership.ensureAuthenticated, function* () {
+        .get('/my/vocabulary', saas.checkSaasReferer, membership.ensureAuthenticated, function* () {
             if (!this.state.userAgent.isMobile || this.state.userAgent.isTablet) {
                 this.body = yield render('vocabulary/vocabulary', { config: config });
             } else {
-                this.redirect('/m/my/vocabulary', { config: config });
+                this.redirect(saas.generateUrl(this, '/m/my/vocabulary'), { config: config });
             }
         })
-        .get('/my/weekly-quiz', membership.ensureAuthenticated, function* () {
+        .get('/my/weekly-quiz', saas.checkSaasReferer, membership.ensureAuthenticated, function* () {
             this.body = yield render('my/weekly-quiz', { config: config, base: '/my/' });
         })
-        .get('/my/daily-exercise', membership.ensureAuthenticated, function* () {
+        .get('/my/daily-exercise', saas.checkSaasReferer, membership.ensureAuthenticated, function* () {
             this.body = yield render('m/daily-exercise', { config: config, base: '/my/' });
         })
-        .get('/my/today-vocabulary', membership.ensureAuthenticated, function* () {
+        .get('/my/today-vocabulary', saas.checkSaasReferer, membership.ensureAuthenticated, function* () {
             this.body = yield render('m/vocabulary', { config: config, base: '/my/' });
         })
 
-        .get('/my/avatar', membership.ensureAuthenticated, function* () {
+        .get('/my/avatar', saas.checkSaasReferer, membership.ensureAuthenticated, function* () {
             this.body = yield render('m/my/avatar-mobile', { config: config, base: '/my/', title: '头像', backUrl: 'javascript:location.href="/m/my/my"' });
         })
-        .get('/my/mobile-history', function* () {
+        .get('/my/mobile-history', saas.checkSaasReferer, function* () {
             if (!this.state.userAgent.isMobile || this.state.userAgent.isTablet) {
-                this.redirect('/my/history', { config: config });
+                this.redirect(saas.generateUrl(this, '/my/history'), { config: config });
             } else {
                 this.body = yield render('m/history', { config: config, base: '/my/', title: 'history' });
             }

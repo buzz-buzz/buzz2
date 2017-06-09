@@ -1,8 +1,9 @@
 'use strict';
 
 const wechat = require('../service-proxy-for-server/wechat');
+const saas = require('../bll/saas');
 
-module.exports = function * wechatOAuth(next) {
+module.exports = function* wechatOAuth(next) {
     if (!/MicroMessenger/i.test(this.state.userAgent.source)) {
         return yield next;
     }
@@ -25,5 +26,5 @@ module.exports = function * wechatOAuth(next) {
         return yield next;
     }
 
-    this.redirect(res.result);
+    this.redirect(saas.generateUrl(this, res.result));
 };
