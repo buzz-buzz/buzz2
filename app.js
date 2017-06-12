@@ -18,18 +18,22 @@ const render = views(path.join(__dirname, 'views'), {
     }
 });
 
+function* enhancedRender(view, locals) {
+    return yield render(view, Object.assign({}, this.state, locals));
+}
+
 app.use(userAgent());
 app.use(logger());
 
-app.use(function*(next) {
+app.use(function* (next) {
     yield next;
     if (this.response.status === 404) {
-        this.body = yield render('404', {config: config});
+        this.body = yield render.call(this, '404', { config: config });
         this.response.status = 404;
     }
 });
 
-require('./routes')(app, router, render);
+require('./routes')(app, router, enhancedRender);
 
 if (!module.parent) {
     var port = process.env.PORT || config.port || 16000;

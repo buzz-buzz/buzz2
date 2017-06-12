@@ -6,6 +6,8 @@ html(manifest="/buzz.appcache")
     include ../partial/seo.pug
     link(rel="stylesheet", href=`${config.cdn}/public/css/player-layout.min.css?${config.version}`)
     title='Buzzbuzz English'
+    if saas
+        base(href=saasBase)
     style.
         .valign-middle {
             vertical-align: middle;

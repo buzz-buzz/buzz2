@@ -10,6 +10,8 @@ html(manifest="/buzz.appcache")
         + css("/public/css/sign-header.css")
         + css("/public/css/semantic-ui/semantic.min.css")
         title=title || 'Sign in to Buzz English'
+        if saas
+            base(href=saasBase)
     body.full.screen.container(style="background-color:#fef6e7;")
         include sign-in-header
         .full.height.center.aligned.container.borderless.column
