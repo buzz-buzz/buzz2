@@ -1,5 +1,5 @@
 .mask {
-    display: flex;
+    display: flex!important;
     flex-direction: row;
     justify-content: center;
     align-items: center;
@@ -12,6 +12,10 @@
     overflow: hidden;
     height: 0;
     position: absolute;
+}
+
+.mask.show {
+    display: flex!important;
 }
 
 .mask:before {
