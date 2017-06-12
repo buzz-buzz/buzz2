@@ -119,6 +119,37 @@ angular.module('buzzPlayerModule', ['angularQueryParserModule', 'trackingModule'
             }
         }
 
+        function emitVideoEightyPlayedMessage(videoInfo, $scope) {
+            var playedList = JSON.parse(sessionStorage.getItem('playedList'));
+
+            if (playedList && playedList.value.contains(videoInfo.lesson_id)) {
+                return;
+            }
+
+            if (playedList) {
+                playedList.value.push(videoInfo.lesson_id);
+            } else {
+                playedList = {
+                    value: [videoInfo.lesson_id]
+                };
+            }
+
+            sessionStorage.setItem('playedList', JSON.stringify(playedList));
+            window.parent.postMessage('video:eightyPercentPlayed//' + JSON.stringify(getData(event, videoInfo, $scope)), window.parent.location.href);
+
+
+            Array.prototype.contains = function (item) {
+                var result = false;
+                for (var i in this) {
+                    if (this[i] === item) {
+                        result = true;
+                    }
+                }
+                return result;
+            }
+
+        }
+
         return {
             listenVideo: function ($scope, mainVideo, tracking, query, smil) {
                 var videoInfo = {
@@ -132,6 +163,13 @@ angular.module('buzzPlayerModule', ['angularQueryParserModule', 'trackingModule'
                 trackVideo($scope, mainVideo, tracking, videoInfo);
                 updateVideoTime(mainVideo, $scope);
                 emitVideoPlayedMessage(mainVideo, videoInfo, $scope);
+
+                mainVideo.onTime(function (event) {
+                    if (event.type === 'time' && Number(event.position) > 180) {
+                        emitVideoEightyPlayedMessage(videoInfo, $scope);
+                    }
+                });
+
 
                 $scope.playTo = function (subtitle) {
                     var startSeconds = convertHHMMSSToSeconds(subtitle.startTime);
@@ -250,4 +288,4 @@ angular.module('buzzPlayerModule', ['angularQueryParserModule', 'trackingModule'
                 }
             });
     }])
-    ;
+;

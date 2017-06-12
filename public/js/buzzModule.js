@@ -74,7 +74,7 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
 
                 $scope.$emit('lessonInfo:got', $rootScope.lessonInfo);
             })
-            ;
+        ;
         $scope.$sce = $sce;
     }])
     .controller('UpdateHitsCtrl', ['$scope', 'clientConfig', '$http', function ($scope, clientConfig, $http) {
@@ -84,10 +84,21 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                     var data = JSON.parse(event.data.substr(14));
                     $http
                         .post(clientConfig.serviceUrls.buzz.courseViews.frontEnd.replace(':category', data.category).replace(':level', data.level).replace(':lesson_id', data.lesson_id), {})
-                        ;
+                    ;
                     $http.post(clientConfig.serviceUrls.buzz.memberCourse.save.frontEnd, {
                         lesson_id: data.lesson_id
                     });
+                } catch (ex) {
+                    console.error(ex);
+                }
+            }
+
+            if (event.origin === location.origin && (typeof event.data === 'string') && event.data.indexOf('video:eightyPercentPlayed//') === 0) {
+                try {
+                    var data = JSON.parse(event.data.substr(27));
+                    console.log("send 80% to :"+ data.lesson_id);
+                    $http.post(clientConfig.serviceUrls.buzz.lessonVisited.save.frontEnd + '?lesson_id=' + data.lesson_id, {})
+                    ;
                 } catch (ex) {
                     console.error(ex);
                 }
@@ -179,15 +190,15 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
             var profileTags = results[1];
 
             if ((lessonInfo.tags && lessonInfo.tags.length) && (!profileTags || !profileTags.length || (
-                lessonInfo.tags.filter(function (lt) {
-                    return profileTags.indexOf(lt) >= 0;
-                }).length <= 0 &&
-                profileTags.filter(function (pt) {
-                    return lessonInfo.tags.indexOf(pt) >= 0;
-                }).length <= 0
-            ))) {
+                    lessonInfo.tags.filter(function (lt) {
+                        return profileTags.indexOf(lt) >= 0;
+                    }).length <= 0 &&
+                    profileTags.filter(function (pt) {
+                        return lessonInfo.tags.indexOf(pt) >= 0;
+                    }).length <= 0
+                ))) {
                 $scope.showTheModal();
             }
         });
     }])
-    ;
+;
