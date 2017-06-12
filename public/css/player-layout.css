@@ -421,7 +421,7 @@ form .fluid.field > * > *:first-child.right.aligned {
 form.text-label .fluid.field > * > *:first-child {
     font-size: small;
     color: black;
-    padding: 0 1em;
+    padding: 0 0.4rem 0 0.8rem;
 }
 
 form .fluid.field > * > *:nth-child(2) {

@@ -19,6 +19,7 @@
     "co-monk": "^1.0.0",
     "co-request": "^1.0.0",
     "co-views": "^2.1.0",
+    "greenShared": "git+ssh://git@bitbucket.org/hcdlearning/greenshared.git#master",
     "gulp-bump": "^2.7.0",
     "jquery": "^3.2.1",
     "koa": "^1.2.4",

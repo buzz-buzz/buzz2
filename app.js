@@ -9,6 +9,7 @@ const router = require('koa-router')();
 const logger = require('koa-logger');
 const views = require('co-views');
 const userAgent = require('koa-useragent');
+const greenSharedLogger = require('./common/logger')('app.js');
 
 const render = views(path.join(__dirname, 'views'), {
     default: "pug",
@@ -24,6 +25,11 @@ function* enhancedRender(view, locals) {
 
 app.use(userAgent());
 app.use(logger());
+
+app.on('error', function (err, ctx) {
+    greenSharedLogger.error(err);
+});
+
 
 app.use(function* (next) {
     yield next;
