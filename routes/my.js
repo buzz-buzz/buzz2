@@ -91,23 +91,23 @@ module.exports = function (app, router, render) {
             }
         })
         .get('/my/weekly-quiz', saas.checkSaasReferer, membership.ensureAuthenticated, function* () {
-            this.body = yield render.call(this, 'my/weekly-quiz', { config: config, base: '/my/' });
+            this.body = yield render.call(this, 'my/weekly-quiz', { config: config, base: saas.getBaseFor(this, '/my/') });
         })
         .get('/my/daily-exercise', saas.checkSaasReferer, membership.ensureAuthenticated, function* () {
-            this.body = yield render.call(this, 'm/daily-exercise', { config: config, base: '/my/' });
+            this.body = yield render.call(this, 'm/daily-exercise', { config: config, base: saas.getBaseFor(this, '/my/') });
         })
         .get('/my/today-vocabulary', saas.checkSaasReferer, membership.ensureAuthenticated, function* () {
-            this.body = yield render.call(this, 'm/vocabulary', { config: config, base: '/my/' });
+            this.body = yield render.call(this, 'm/vocabulary', { config: config, base: saas.getBaseFor(this, '/my/') });
         })
 
         .get('/my/avatar', saas.checkSaasReferer, membership.ensureAuthenticated, function* () {
-            this.body = yield render.call(this, 'm/my/avatar-mobile', { config: config, base: '/my/', title: '头像', backUrl: 'javascript:location.href="/m/my/my"' });
+            this.body = yield render.call(this, 'm/my/avatar-mobile', { config: config, base: saas.getBaseFor(this, '/my/'), title: '头像', backUrl: 'javascript:location.href="/m/my/my"' });
         })
         .get('/my/mobile-history', saas.checkSaasReferer, function* () {
             if (!this.state.userAgent.isMobile || this.state.userAgent.isTablet) {
                 this.redirect(saas.generateUrl(this, '/my/history'), { config: config });
             } else {
-                this.body = yield render.call(this, 'm/history', { config: config, base: '/my/', title: 'history' });
+                this.body = yield render.call(this, 'm/history', { config: config, base: saas.getBaseFor(this, '/my/'), title: 'history' });
             }
         })
         ;

@@ -14,5 +14,13 @@ module.exports = {
         }
 
         yield next;
+    },
+
+    getBaseFor: function (context, path) {
+        if (context.state.saas) {
+            return `/saas${path}`;
+        }
+
+        return path;
     }
 };

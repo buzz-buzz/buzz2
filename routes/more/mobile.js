@@ -14,7 +14,7 @@ module.exports = function (app, router, render) {
             this.body = yield render.call(this, '/m/bind-mobile', {
                 config: config,
                 queryString: qs.stringify(this.query),
-                base: '/m/'
+                base: saas.getBaseFor(this, '/m/')
             });
         })
         .get('/m/my/today', saas.checkSaasReferer, membership.setHcdUserIfSignedIn, function* () {
