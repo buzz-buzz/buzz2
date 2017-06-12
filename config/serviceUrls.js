@@ -181,9 +181,15 @@ module.exports = {
                 frontEnd: '/service-proxy/member-courses',
                 upstream: '/member-lessons'
             }
+        },
+        lessonVisited: {
+            save: {
+                frontEnd: '/service-proxy/lesson-visited/api',
+                upstream: '/lesson-visited/:lesson_id'
+            }
         }
     },
     wechat: {
-        sign: { frontEnd: '/service-proxy/wechat/sign', upstream: '/sign/buzz' }
+        sign: {frontEnd: '/service-proxy/wechat/sign', upstream: '/sign/buzz'}
     }
 };
