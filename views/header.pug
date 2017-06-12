@@ -8,7 +8,8 @@
                     a(href="/sign-in")  已有账号？ 请登录
 
         .left.aligned.container.title
-            img.white.background.logo(src="http://resource.buzzbuzzenglish.com/new_buzz_logo.png")
+            if !saas
+                img.white.background.logo(src="http://resource.buzzbuzzenglish.com/new_buzz_logo.png")
             span.space
             span.welcome.message
                 strong.black 注册即送

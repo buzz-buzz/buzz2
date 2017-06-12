@@ -34,8 +34,9 @@ html(manifest="/buzz.appcache")
                             li
                                 a(href="/sign-out") 退出
                 .white.title
-                    a(href="/")
-                        img.white.background.logo(src="http://resource.buzzbuzzenglish.com/new_buzz_logo.png")
+                    if !saas
+                        a(href="/")
+                            img.white.background.logo(src="http://resource.buzzbuzzenglish.com/new_buzz_logo.png")
                     span.space
                     span.top.aligned.welcome.message(style="position: absolute;",ng-cloak) Hello {{profile.display_name}}, welcome to Buzzbuzz English.
         block content

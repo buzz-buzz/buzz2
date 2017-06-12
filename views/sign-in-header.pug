@@ -1,5 +1,6 @@
 .fluid.container.header.fixed.light.yellow.background(style="border-bottom: none;")
     .center.aligned.container.column
         .left.aligned.container.title
-            a(href="/my/history")
-                img.logo( src="http://resource.buzzbuzzenglish.com/new_buzz_logo.png")
+            if !saas
+                a(href="/my/history")
+                    img.logo( src="http://resource.buzzbuzzenglish.com/new_buzz_logo.png")

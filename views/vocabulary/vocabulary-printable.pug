@@ -12,7 +12,8 @@ html
     body.full.screen.container(ng-app="vocabularyPrintableModule",ng-controller="mainCtrl")
         .vocabulary-printable-container
             .vp-header
-                img(src="http://resource.buzzbuzzenglish.com/new_buzz_logo.png", alt='', style="width: 132px;")
+                if !saas
+                    img(src="http://resource.buzzbuzzenglish.com/new_buzz_logo.png", alt='', style="width: 132px;")
                 .vp-signature
                     span &#x59D3;&#x540D;
                     .vp-signature-printable-after
