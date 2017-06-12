@@ -1,6 +1,6 @@
 module.exports = {
     generateUrl: function (context, url) {
-        if (context.state.saas) {
+        if (context.state.saas && url.indexOf('/') === 0) {
             return `/saas${url}`;
         }
 
