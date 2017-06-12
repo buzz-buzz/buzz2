@@ -25,7 +25,7 @@
                     .ui.container
                         div#weekly-quiz-frame(class="ui 4:3 embed", data-url="{{currentQuiz.quiz}}")
                 .left.aligned.one.wide.column
-                    .right.arrow(ng-click="nextQuiz()", ng-hide="currentIndex+1>=arrayWeeklyQuiz.length", style="padding: 0;") 
+                    .right.arrow(ng-click="nextQuiz()", ng-class="{'hidden':currentIndex >= weeklyQuizLimit}", style="padding: 0;") 
                         span.icon-circle-right                        
                 .one.wide.column
         a.button(ng-click="turnTo('grade')", style='margin-top:10px;', ng-show="done") 查看成绩

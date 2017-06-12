@@ -110,5 +110,5 @@ block content
 
                 .ui.horizontal.divider
                 .ui.fluid.container
-                    button.ui.yellow.fluid.huge.button(ng-click="nextQuiz()", ng-hide="currentIndex+1>=arrayWeeklyQuiz.length") 下一题 
+                    button.ui.yellow.fluid.huge.button(ng-click="nextQuiz()",  ng-class="{'hidden':currentIndex >= weeklyQuizLimit}") 下一题 
                     button.ui.yellow.fluid.huge.button(ng-click="turnTo('grade')", ng-show="done") 查看成绩

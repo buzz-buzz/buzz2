@@ -118,11 +118,15 @@ angular.module('buzzModule')
             }).then(function (jsonArray) {
                 $scope.weeklyQuiz = weeklyQuizParser.parse(jsonArray);
                 $scope.arrayWeeklyQuiz = arrayWeeklyQuizParser.parse($scope.weeklyQuiz);
-
+                $scope.weeklyQuizLimit = $scope.arrayWeeklyQuiz.length - 1;
+                api.get(clientConfig.serviceUrls.buzz.quiz.limit).then(function (result) {
+                    if (result.data) {
+                        $scope.weeklyQuizLimit = Number(result.data) - 1;
+                    }
+                })
                 quizFactory.getWeeklyQuizScore($scope.weeklyLessonId).then(function (result) {
                     if (result && result.detail) {
                         var lastIndex = getLastProgress(result);
-
                         setCurrentQuiz(lastIndex);
                         $scope.nextQuiz();
 
