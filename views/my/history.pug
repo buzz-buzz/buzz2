@@ -106,8 +106,8 @@ block content
                                                      .eight.wide.column
                                                          a(ng-click='aLikeClick("/my/play?date="+lesson.date+"&cat="+ lesson.category.toLowerCase()+"&level="+lesson.level)', ng-cloak)
                                                              i.student.icon
-                                                             span(ng-cloak, style='color: #f7b52a;') {{lesson.visited_time || 0}}次
-                                                             span 浏览学习
+                                                             span(ng-cloak, style='color: #f7b52a;') {{lesson.visited_time || 0}}人
+                                                             span 学习完成
                     br
                     include ../../node_modules/angular-service/views/pagination
                     + pagination('courseData')

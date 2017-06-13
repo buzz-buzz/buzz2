@@ -55,10 +55,10 @@ angular.module('buzzHistoryModule', ['angularQueryParserModule', 'servicesModule
                         return $http.get(clientConfig.serviceUrls.buzz.courseViews.frontEnd.replace(':category', c.category).replace(':level', c.level).replace(':lesson_id', c.lesson_id));
                     }).then(function (result) {
                         c.baseNumber = parseInt(c.baseNumber) + (parseInt(result.data.hits) || 0);
-                        return $http.get(clientConfig.serviceUrls.buzz.lessonVisited.save.frontEnd + '?lesson_id=' + c.lesson_id);
+                        return $http.get(clientConfig.serviceUrls.buzz.lessonVisited.count.frontEnd + '?lesson_id=' + c.lesson_id);
                     }).then(function(result){
-                        if(result && result.data && result.data.visited_time){
-                            c.visited_time = result.data.visited_time;
+                        if(result && result.data && parseInt(result.data)){
+                            c.visited_time = result.data;
                         }
                     });
                 });

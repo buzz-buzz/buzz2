@@ -183,9 +183,13 @@ module.exports = {
             }
         },
         lessonVisited: {
+            count: {
+                frontEnd: '/service-proxy/lesson-members/count',
+                upstream: '/lesson-members/:lesson_id'
+            },
             save: {
-                frontEnd: '/service-proxy/lesson-visited/api',
-                upstream: '/lesson-visited/:lesson_id'
+                frontEnd: '/service-proxy/lesson-members',
+                upstream: '/lesson-members/:lesson_id/:member_id'
             }
         }
     },

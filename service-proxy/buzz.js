@@ -158,5 +158,5 @@ module.exports = function (app, router, parse) {
     require('./buzz-quiz')(app, router, parse);
     require('./buzz-member-vocabulary')(app, router, parse);
     require('./buzz-member-course')(app, router, parse);
-    require('./buzz-lesson-visited')(app, router, parse);
+    require('./buzz-lesson-member')(app, router, parse);
 };
