@@ -10,6 +10,8 @@ const logger = require('koa-logger');
 const views = require('co-views');
 const userAgent = require('koa-useragent');
 const greenSharedLogger = require('./common/logger')('app.js');
+const cookies = require('./helpers/cookie.js');
+const membership = require('./membership/index.js');
 
 const render = views(path.join(__dirname, 'views'), {
     default: "pug",
@@ -25,6 +27,15 @@ function* enhancedRender(view, locals) {
 
 app.use(userAgent());
 app.use(logger());
+app.use(function* (next) {
+    console.log(this.query.token);
+    if (this.query.token) {
+        let result = yield membership.parseTokenAndSetHcdUser(this, this.query.token);
+        cookies.resetSignOnCookies.call(this, Object.assign({}, result, { token: this.query.token }));
+    }
+
+    yield next;
+});
 
 app.on('error', function (err, ctx) {
     greenSharedLogger.error(err);

@@ -1,3 +1,4 @@
+
 'use strict';
 
 const config = require('../config');
@@ -55,7 +56,7 @@ function simpleRender(app, router, render) {
     }
 }
 function renderWithServerData(app, router, render) {
-    router.get('/sign-up', saas.checkSaasReferer, membership.setHcdUserByToken, function* (next) {
+    router.get('/sign-up', saas.checkSaasReferer, membership.setHcdUserFromCookie, function* (next) {
         if (this.query.step && this.query.step == 2 && !this.state.hcd_user) {
             this.redirect(saas.generateUrl(this, '/sign-up?step=1'));
         } else {
@@ -119,7 +120,7 @@ function helper(app, router) {
         .get('/healthcheck', function* (next) {
             this.body = { every: 'is ok', time: new Date(), env: process.env.NODE_ENV };
         })
-        .get('/whoami', membership.setHcdUserByToken, function* (next) {
+        .get('/whoami', membership.setHcdUserFromCookie, function* (next) {
             this.body = this.state.hcd_user;
         })
         ;

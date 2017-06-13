@@ -16,7 +16,7 @@ function setHcdUser(context, data) {
     };
 }
 
-function* parseToken(context, token) {
+function* parseTokenAndSetHcdUser(context, token) {
     let result = {
         result: {}
     };
@@ -46,36 +46,41 @@ function* parseToken(context, token) {
 
         cookie.deleteMID.call(context);
         cookie.setMID.call(context, result.result.member_id);
+
+        return result.result;
     } else {
         delete context.state.hcd_user;
+        return {};
     }
 }
-function* setHcdUserByToken(context) {
+function* setHcdUserFromCookie(context) {
     let token = context.cookies.get('token');
 
     if (token) {
-        yield parseToken(context, token);
+        yield parseTokenAndSetHcdUser(context, token);
     } else {
         delete context.state.hcd_user;
     }
 }
 let membership = {
-    setHcdUserByToken: function* (next) {
+    parseTokenAndSetHcdUser: parseTokenAndSetHcdUser,
+    setHcdUserFromCookie: setHcdUserFromCookie,
+    setHcdUserFromCookieForRequest: function* (next) {
         let context = this;
-        yield setHcdUserByToken(context);
+        yield setHcdUserFromCookie(context);
 
         yield next;
     },
 
     setHcdUser: setHcdUser,
 
-    parseToken: parseToken
+    parseToken: parseTokenAndSetHcdUser
 };
 
 membership.setHcdUserIfSignedIn = function* (next) {
     let context = this;
 
-    yield setHcdUserByToken(context);
+    yield setHcdUserFromCookie(context);
 
     yield next;
 };
@@ -83,7 +88,7 @@ membership.setHcdUserIfSignedIn = function* (next) {
 membership.ensureAuthenticated = function* (next) {
     let context = this;
 
-    yield setHcdUserByToken(context);
+    yield setHcdUserFromCookie(context);
 
     if (!context.state.hcd_user) {
         if (this.request.get('X-Request-With') === 'XMLHttpRequest') {
@@ -105,7 +110,7 @@ membership.ensureAuthenticated = function* (next) {
 };
 
 membership.ensureAdmin = function* (next) {
-    yield setHcdUserByToken(this);
+    yield setHcdUserFromCookie(this);
 
     if (!this.state.hcd_user || !this.state.hcd_user.isAdmin) {
         require('../helpers/cookie').deleteToken.apply(this);

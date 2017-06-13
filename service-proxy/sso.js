@@ -8,13 +8,6 @@ const cookie = require('../helpers/cookie');
 const url = require('url');
 const saas = require('../bll/saas');
 
-function resetCookies(result) {
-    cookie.deleteToken.call(this);
-    cookie.deleteMID.call(this);
-
-    cookie.setToken.call(this, result.token);
-    cookie.setMID.call(this, result.member_id);
-}
 function redirectToReturnUrl(result, returnUrl) {
     if (this.request.get('X-Request-With') === 'XMLHttpRequest') {
         result.isSuccess = false;
@@ -129,7 +122,7 @@ module.exports = function (app, router, parse) {
             if (result.isSuccess) {
                 membership.setHcdUser(this, result.result);
                 yield bindWechatAccount(data.token, result.result.member_id);
-                resetCookies.call(this, result.result);
+                cookie.resetSignOnCookies.call(this, result.result);
                 redirectToReturnUrl.call(this, result, decodeURIComponent(data.return_url));
             }
 

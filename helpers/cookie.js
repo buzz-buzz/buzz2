@@ -11,7 +11,7 @@ let sessionCookieOption = {
     httpOnly: true
 };
 
-module.exports = {
+let o = {
     setToken: function (token) {
         this.cookies.set('token', token, sessionCookieOption);
     },
@@ -29,3 +29,13 @@ module.exports = {
         this.cookies.set('mid', '', clearCookieOption);
     }
 };
+
+o.resetSignOnCookies = function (result) {
+    o.deleteToken.call(this);
+    o.deleteMID.call(this);
+
+    o.setToken.call(this, result.token);
+    o.setMID.call(this, result.member_id);
+}
+
+module.exports = o;
