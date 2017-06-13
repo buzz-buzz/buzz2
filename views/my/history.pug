@@ -96,9 +96,18 @@ block content
                                                  span.date(ng-cloak) {{lesson.date}}
                                              .description(style='color: #f7b52a; font-weight:bold; cursor:pointer; white-space: normal;', ng-click='aLikeClick("/my/play?date="+lesson.date+"&cat="+ lesson.category.toLowerCase()+"&level="+lesson.level)', ng-cloak) {{lesson.title}}
                                          .extra.content
-                                             a
-                                                 i.icon-heart(style='color:red;')
-                                                 span(ng-click='aLikeClick("/my/play?date="+lesson.date+"&cat="+ lesson.category.toLowerCase()+"&level="+lesson.level)', ng-cloak) &nbsp;&nbsp;&nbsp;{{lesson.baseNumber}}人参加了本节课程
+                                             .ui.grid
+                                                 .row
+                                                     .eight.wide.column
+                                                         a(ng-click='aLikeClick("/my/play?date="+lesson.date+"&cat="+ lesson.category.toLowerCase()+"&level="+lesson.level)', ng-cloak)
+                                                             i.users.icon
+                                                             span(ng-cloak, style='color: #f7b52a;') {{lesson.baseNumber || 0}}人
+                                                             span 参加课程
+                                                     .eight.wide.column
+                                                         a(ng-click='aLikeClick("/my/play?date="+lesson.date+"&cat="+ lesson.category.toLowerCase()+"&level="+lesson.level)', ng-cloak)
+                                                             i.student.icon
+                                                             span(ng-cloak, style='color: #f7b52a;') {{lesson.visited_time || 0}}次
+                                                             span 浏览学习
                     br
                     include ../../node_modules/angular-service/views/pagination
                     + pagination('courseData')

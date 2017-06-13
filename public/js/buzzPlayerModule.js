@@ -120,33 +120,20 @@ angular.module('buzzPlayerModule', ['angularQueryParserModule', 'trackingModule'
         }
 
         function emitVideoEightyPlayedMessage(videoInfo, $scope) {
-            var playedList = JSON.parse(sessionStorage.getItem('playedList'));
+            var playedList = sessionStorage.getItem('playedList');
 
-            if (playedList && playedList.value.contains(videoInfo.lesson_id)) {
+            if (playedList && playedList.indexOf(videoInfo.lesson_id) !== -1) {
                 return;
             }
 
             if (playedList) {
-                playedList.value.push(videoInfo.lesson_id);
+                playedList = playedList + ',' + videoInfo.lesson_id;
             } else {
-                playedList = {
-                    value: [videoInfo.lesson_id]
-                };
+                playedList = videoInfo.lesson_id;
             }
 
-            sessionStorage.setItem('playedList', JSON.stringify(playedList));
+            sessionStorage.setItem('playedList', playedList);
             window.parent.postMessage('video:eightyPercentPlayed//' + JSON.stringify(getData(event, videoInfo, $scope)), window.parent.location.href);
-
-
-            Array.prototype.contains = function (item) {
-                var result = false;
-                for (var i in this) {
-                    if (this[i] === item) {
-                        result = true;
-                    }
-                }
-                return result;
-            }
 
         }
 

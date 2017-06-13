@@ -17,13 +17,13 @@ const proxyOption = {
 
 module.exports = function (app, router, parse) {
     router
-        .get(serviceUrls.buzz.lessonVisited.save.frontEnd, membership.ensureAuthenticated, function* () {
+        .get(serviceUrls.buzz.lessonVisited.save.frontEnd, membership.setHcdUserIfSignedIn, function* () {
             this.body = yield proxy(Object.assign({
                 path: serviceUrls.buzz.lessonVisited.save.upstream.replace(':lesson_id', this.query.lesson_id),
                 method: 'GET'
             }, proxyOption));
         })
-        .post(serviceUrls.buzz.lessonVisited.save.frontEnd, membership.ensureAuthenticated, function* () {
+        .post(serviceUrls.buzz.lessonVisited.save.frontEnd, membership.setHcdUserIfSignedIn, function* () {
             this.body = yield proxy(Object.assign({
                 path: serviceUrls.buzz.lessonVisited.save.upstream.replace(':lesson_id', this.query.lesson_id),
                 method: 'POST'
