@@ -56,7 +56,9 @@ angular.module('buzzHistoryModule', ['angularQueryParserModule', 'servicesModule
                         return $http.get(clientConfig.serviceUrls.buzz.courseViews.frontEnd.replace(':category', c.category).replace(':level', c.level).replace(':lesson_id', c.lesson_id));
                     }).then(function (result) {
                         c.baseNumber = parseInt(c.baseNumber) + (parseInt(result.data.hits) || 0);
-                        document.getElementById('loading-model').style.display = 'none';
+                        if(document.getElementById('loading-model')){
+                            document.getElementById('loading-model').style.display = 'none';
+                        }
                         return $http.get(clientConfig.serviceUrls.buzz.lessonVisited.count.frontEnd + '?lesson_id=' + c.lesson_id);
                     }).then(function (result) {
                         if (result && result.data && parseInt(result.data)) {
