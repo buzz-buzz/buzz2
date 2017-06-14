@@ -62,6 +62,20 @@ function* setHcdUserFromCookie(context) {
         delete context.state.hcd_user;
     }
 }
+function* setHcdUserFromQueryString(context) {
+    let token = context.query.token;
+
+    if (token) {
+        let result = yield parseTokenAndSetHcdUser(context, token);
+        cookie.resetSignOnCookies.call(context, Object.assign({}, result, { token: token }));
+    }
+
+    return token;
+}
+function* setHcdUserFromQSOrCookie(context) {
+    (yield setHcdUserFromQueryString(context))
+        || (yield setHcdUserFromCookie(context));
+}
 let membership = {
     parseTokenAndSetHcdUser: parseTokenAndSetHcdUser,
     setHcdUserFromCookie: setHcdUserFromCookie,
@@ -80,7 +94,7 @@ let membership = {
 membership.setHcdUserIfSignedIn = function* (next) {
     let context = this;
 
-    yield setHcdUserFromCookie(context);
+    yield setHcdUserFromQSOrCookie(context);
 
     yield next;
 };
@@ -88,7 +102,7 @@ membership.setHcdUserIfSignedIn = function* (next) {
 membership.ensureAuthenticated = function* (next) {
     let context = this;
 
-    yield setHcdUserFromCookie(context);
+    yield setHcdUserFromQSOrCookie(context);
 
     if (!context.state.hcd_user) {
         if (this.request.get('X-Request-With') === 'XMLHttpRequest') {
@@ -110,7 +124,7 @@ membership.ensureAuthenticated = function* (next) {
 };
 
 membership.ensureAdmin = function* (next) {
-    yield setHcdUserFromCookie(this);
+    yield setHcdUserFromQSOrCookie(this);
 
     if (!this.state.hcd_user || !this.state.hcd_user.isAdmin) {
         require('../helpers/cookie').deleteToken.apply(this);
