@@ -34,6 +34,7 @@ block js
 block head
     + css("/public/css/modal.min.css")
     + css("/public/css/button.min.css")
+    + css("/public/css/semantic-ui/semantic.min.css")
     
     <!-- Only required for desktop -->
     + css("/node_modules/mobile-angular-ui/dist/css/mobile-angular-ui-hover.min.css")
@@ -66,7 +67,8 @@ mixin itemBar(imageSrc, title, subTitle)
 
 mixin videoPlayer
     .center.aligned.transparent
-        iframe.white.background(ng-src="{{src}}" ng-controller="VideoPlayerCtrl", style="border:none; width: 100%; display: block;", allowfullscreen)
+        include ../../partial/loading
+        iframe.white.background(id='mobile-video-iframe', ng-src="{{src}}" ng-controller="VideoPlayerCtrl", style="border:none; width: 100%; display: none;", allowfullscreen)
 
 mixin quiz
     .list-group(ng-controller="page2ParentCtrl")

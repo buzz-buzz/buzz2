@@ -197,6 +197,7 @@ angular.module('vocabularyModule', ['trackingModule', 'clientConfigModule', 'Dat
                     }).then(function (results) {
                         results[0].map(function (v) {
                             queryVocabularyExplanation(v);
+                            document.getElementById('loading-model').style.display = 'none';
                         });
                     });
                 })($scope.vocabularyAll[$scope.vocabularyAll.length - 1]);
