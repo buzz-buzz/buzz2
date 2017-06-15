@@ -1,4 +1,3 @@
-
 'use strict';
 
 const config = require('../config');
@@ -76,7 +75,7 @@ function redirectRequest(app, router) {
         }
     });
 
-    router.get('/sign-out', function* deleteCookie(next) {
+    router.get('/sign-out', membership.signOut, function* deleteCookie(next) {
         cookie.deleteToken.apply(this);
         yield next;
     }, function* home(next) {

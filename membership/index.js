@@ -134,4 +134,14 @@ membership.ensureAdmin = function* (next) {
     yield next;
 };
 
+membership.signOut = function* (next) {
+    yield request({
+        uri: 'http://' + config.sso.inner.host + ':' + config.sso.inner.port + '/logon/logout',
+        json: { token: this.query.token || this.cookies.get('token') },
+        method: 'POST'
+    });
+
+    yield next;
+};
+
 module.exports = membership;
