@@ -8,6 +8,7 @@ html(manifest="/buzz.appcache")
         meta(name="viewport", content="width=375, user-scalable=no")
         include ../partial/seo.pug
         //width=device-width, initial-scale=1.0, maximum-scale=1.0
+        + css("/public/css/style.min.css", true)
         + css("/public/css/player.min.css", true)
         + css("/public/css/player-layout.min.css")
         + css("/public/css/horizontal-menu.min.css")
@@ -25,7 +26,7 @@ html(manifest="/buzz.appcache")
                 ul.large.right.floated.white.horizontal.menu
                     block extraMenus
                     li
-                        img.middle.aligned.avatar(ng-src="{{profile.avatar}}", ng-if="profile.avatar")
+                        img.middle.aligned.avatar(ng-src="{{profile.avatar}}", ng-if="profile.avatar", style="vertical-align: top;")
                 .white.title
                     if !saas
                         a(href="/")

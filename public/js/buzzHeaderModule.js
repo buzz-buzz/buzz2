@@ -52,6 +52,18 @@ angular.module('buzzHeaderModule', ['angularQueryParserModule', 'servicesModule'
         $scope.isActive = function (link) {
             return location.pathname === link;
         };
+
+        if (typeof $ !== 'undefined') {
+            $(function () {
+                angular.element(document).ready(function () {
+                    $('.ui.dropdown.item')
+                        .dropdown({
+                            on: 'hover'
+                        })
+                        ;
+                })
+            });
+        }
     }])
     .value('GenderDisplay', {
         U: '未知',

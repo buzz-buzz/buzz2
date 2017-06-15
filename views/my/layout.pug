@@ -9,41 +9,44 @@ html(manifest="/buzz.appcache")
         include ../meta
         + css("/public/css/flex-box.min.css")
         + css("/public/css/lib/cube.min.css")
-        title=title || 'Buzzbuzz English'
+        
+        + css("/public/css/semantic-ui/semantic.min.css")
+        title=title || 'Buzzbuzz English - 每天15分钟，学英语读世界！'
         block head
         if saas
             base(href=saasBase)
     body.full.screen.container
-        #buzz-header.fluid.container.header.fixed(ng-controller="headerCtrl")
-            .center.aligned.container.column.borderless
-                ul.large.right.floated.white.horizontal.menu
+        #buzz-header.ui.mini.yellow.inverted.compact.fixed.borderless.menu(ng-controller="headerCtrl")
+            .ui.container
+                if !saas
+                    a.item(href="/", style="padding: 0;")
+                        img.ui.tiny.image(src="http://resource.buzzbuzzenglish.com/new_buzz_logo.png", style="height: 100%; width: auto;")
+                .item(ng-cloak) Hello {{profile.display_name}}, welcome to Buzzbuzz English.
+                .right.menu
                     block extraMenus
-                    li(ng-class="{'active': isActive('/my/history')}")
-                        a.middle.aligned.icon-history(title="历史课程", href="/my/history")
-                    li(ng-class="{'active': isActive('/my/progress')}")
-                        a.middle.aligned.icon-stats-bars(title="学习进度", href="/my/progress")
-                    li(ng-class="{'active': isActive('/vocabulary/my')}")
-                        a.middle.aligned.icon-file-text(title="生词本",href="/vocabulary/my")
-                    li#headportrait
-                        img.middle.aligned.avatar(ng-src="{{profile.avatar}}", ng-if="profile.avatar", ng-cloak)
-                        img.payingmember(src='/images/v.png',ng-show="payingMember" ng-cloak) 
-                        a.middle.aligned(ng-if="!profile.avatar",href="/sign-in", ng-cloak) 请登录
-                        ul.sub.vertical.menu(ng-if="profile.avatar")
-                            li
-                                a(href="/my/account") 账号信息
-                            li
-                                a(href="/my/password") 修改密码
-                            li
-                                a(href="/sign-out") 退出
-                .white.title
-                    if !saas
-                        a(href="/")
-                            img.white.background.logo(src="http://resource.buzzbuzzenglish.com/new_buzz_logo.png")
-                    span.space
-                    span.top.aligned.welcome.message(style="position: absolute;",ng-cloak) Hello {{profile.display_name}}, welcome to Buzzbuzz English.
+                    a.item(title="历史课程", href="/my/history", ng-class="{'active': isActive('/my/history')}")
+                        i.history.icon
+                    a.item(title="学习进度", href="/my/progress", ng-class="{'active': isActive('/my/progress')}")
+                        i.line.chart.icon
+                    a.item(title="生词本",href="/vocabulary/my", ng-class="{'active': isActive('/my/vocabulary') || isActive('/vocabulary/my')}")
+                        i.file.text.icon
+                    a.item.middle.aligned(ng-if="!profile.avatar",href="/sign-in", ng-cloak) 请登录
+                    #headportrait.ui.dropdown.item(ng-if="profile.avatar")
+                        i.icons
+                            .icon.ui.image.circular(style="height: 40px; width: 40px;")
+                                img(ng-src="{{profile.avatar}}", ng-if="profile.avatar", ng-cloak, style="height: 40px!important; width: auto;")
+                            i.red.corner.star.icon(ng-if="payingMember", ng-cloak)
+                        .menu
+                            a.item(href="/my/account") 账号信息
+                            a.item(href="/my/password") 修改密码
+                            a.item(href="/sign-out") 退出
+       
         block content
         include ../js
         + js("/js/buzzHeaderModule.min.js")
+        
+        + js("/node_modules/jquery/dist/jquery.min.js")
+        + js("/public/css/semantic-ui/semantic.min.js")
         script.
             angular.element(document).ready(function () {
                 angular.bootstrap(document.getElementById('buzz-header'), ['buzzHeaderModule']);

@@ -1,32 +1,23 @@
-ul.horizontal.menu {
+.horizontal.menu {
     display: flex;
     align-items: center;
     list-style-type: none;
     padding: 0;
 }
 
-ul.horizontal.menu li {
+.horizontal.menu li {
     padding: 0;
 }
 
-ul.horizontal.menu li a {
+.horizontal.menu li a {
     padding: 5px 10px;
 }
 
-ul.white.horizontal.menu {
+.white.horizontal.menu {
     color: white;
 }
 
-ul.large.menu {
-    font-size: larger;
-}
-
-ul.menu li {
-    cursor: pointer;
-    position: relative;
-}
-
-#buzz-header ul.menu li:hover, ul.menu li:active, ul.menu li.active {
+#buzz-header .menu .item:hover, .menu .item:active, .menu .item.active {
     background-color: #f2c855;
 }
 
@@ -34,7 +25,7 @@ ul.menu.non-interactive li:active {
     background-color: inherit !important;
 }
 
-ul.menu li:hover .sub.menu {
+.menu .item:hover .sub.menu {
     display: block;
     top: 100%;
 }

@@ -69,6 +69,8 @@ a {
     color: #fff;
 }
 
+#buzz-header {min-height: 40px!important;max-height:40px!important;}
+
 #buzz-footer .active.btn.btn-navbar {
     color: #f7b52a!important;
 }

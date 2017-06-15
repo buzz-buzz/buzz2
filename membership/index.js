@@ -54,6 +54,8 @@ function* parseTokenAndSetHcdUser(context, token) {
     }
 }
 function* setHcdUserFromCookie(context) {
+    if (!context.cookies) { return; }
+
     let token = context.cookies.get('token');
 
     if (token) {
@@ -79,12 +81,6 @@ function* setHcdUserFromQSOrCookie(context) {
 let membership = {
     parseTokenAndSetHcdUser: parseTokenAndSetHcdUser,
     setHcdUserFromCookie: setHcdUserFromCookie,
-    setHcdUserFromCookieForRequest: function* (next) {
-        let context = this;
-        yield setHcdUserFromCookie(context);
-
-        yield next;
-    },
 
     setHcdUser: setHcdUser,
 

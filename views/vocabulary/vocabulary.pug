@@ -40,7 +40,7 @@ block content
     include ../partial/svg
     .ui.container(ng-app="vocabularyModule", ng-controller="vocabularyCtrl")
         p &nbsp;
-        table.ui.compact.table
+        table.ui.compact.table(style="width: 100%!important; margin: 0!important;")
             colgroup
                 col(width="100")
                 col
@@ -94,8 +94,8 @@ block content
                     td(colspan="7")
                         include ../../node_modules/angular-service/views/pagination.pug
                         + pagination('vocabularyData')
-        .popup-mask(style="position:fixed;height:100%;width:100%;background-color:rgba(0,0,0,0.4);top:0;left:0",ng-show="printMode")
-        .popup(style="position:fixed;top: 5em;margin:auto;",ng-show="printMode",ng-click="hidePopup()",ng-cloak)
+        .popup-mask(style="position:fixed;height:100%;width:100%;background-color:rgba(0,0,0,0.4);top:0;left:0",ng-show="printMode",ng-click="hidePopup()")
+        .popup(style="position:fixed;top: 5em;margin:auto;",ng-show="printMode",ng-cloak)
             iframe(width=800,height=600,frameborder="no",border="0",ng-show="printMode",ng-src="{{$sce.trustAsResourceUrl(printURL)}}")
 
 block js

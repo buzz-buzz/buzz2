@@ -18,7 +18,7 @@ style.
         font-size: smaller;
     }
 
-li#level-switcher(ng-controller="LevelCtrl", ng-cloak)
+div#level-switcher(ng-controller="LevelCtrl", ng-cloak, style="padding-top: 6px;")
     a(href="javascript: void(0);", ng-click="switchToLevelFrom(currentLevel)", class="toggle")
         span.icon-menu.circle(ng-if="currentLevel === 'B'", style="margin-left: -8px;")
         span &nbsp;

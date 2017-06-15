@@ -1,6 +1,6 @@
 * {
     box-sizing: border-box;
-    font-family: Arial, serif;
+    font-family: "微软雅黑", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 html, body {
@@ -72,10 +72,10 @@ html, body {
     position: relative;
 }
 .payingmember {
-    width:40%;
+    width:20px!important;
     position: absolute;
-    right: 0px;
-    top: 26px;
+    right: 0;
+    bottom:0;
 }
 .fixed.header {
     position: fixed;
