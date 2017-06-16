@@ -55,7 +55,7 @@ block content
         .sidebar.sidebar-right(ng-show="$scope.award === false", ng-cloak)
             .scrollable
                 button.scrollable-header.app-name  打赏
-        #audit-modal.dark.mask(ng-controller="auditModalCtrl", ng-class="{'hide': " + (!!hcd_user && hcd_user.isAdmin) " || hideModal, 'show': showModal}", ng-click=(hcd_user && hcd_user.isAdmin) + ' ? hideTheModal() :""')
+        #audit-modal.dark.mask(ng-controller="auditModalCtrl", ng-class="{'hide': " + (!!hcd_user && hcd_user.isAdmin) + " || hideModal, 'show': showModal}", ng-click=(hcd_user && hcd_user.isAdmin) + ' ? hideTheModal() :""')
         include ../partial/ask-for-login-modal
             .popup(style="padding: 1em 2em;")
                 h1 当前课程正在审核中，请稍后再来哦……
