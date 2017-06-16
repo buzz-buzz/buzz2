@@ -41,7 +41,7 @@ module.exports = {
             port: 10101,
             app_id: 'buzz'
         },
-        returnHost: 'http://buzzbuzzenglish.com'
+        returnHost: 'http://www.buzzbuzzenglish.com'
     },
     wechatSign: {
         inner: {
