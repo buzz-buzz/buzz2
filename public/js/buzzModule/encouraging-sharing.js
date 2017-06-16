@@ -16,7 +16,7 @@ angular.module('buzzModule')
 
         function wechatSharable(videoData, lessonCount, vocabularyCount) {
             try {
-                $rootScope.wechatSharable.desc = '每天15分钟，学英语读世界！第 ' + $scope.buzzDays + ' 天，看 ' + lessonCount + ' 条新闻，学 ' + vocabularyCount + ' 个单词。';
+                $rootScope.wechatSharable.desc = '第 ' + $scope.buzzDays + ' 天，看 ' + lessonCount + ' 条新闻，学 ' + vocabularyCount + ' 个单词。每天15分钟，学英语读世界！';
 
                 wxReady().then(function () {
                     wx.onMenuShareTimeline(angular.extend({}, $rootScope.wechatSharable, {
