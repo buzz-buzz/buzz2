@@ -20,7 +20,7 @@ angular.module('buzzModule')
 
                 wxReady().then(function () {
                     wx.onMenuShareTimeline(angular.extend({}, $rootScope.wechatSharable, {
-                        title: $rootScope.wechatSharable.desc
+                        title: $rootScope.wechatSharable.title + ' ' + $rootScope.wechatSharable.desc
                     }));
 
                     wx.onMenuShareAppMessage(angular.extend({}, $rootScope.wechatSharable));
