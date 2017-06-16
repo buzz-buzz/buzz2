@@ -155,6 +155,11 @@ angular.module('buzzProgressModule', ['angularQueryParserModule', 'servicesModul
                     type: 'weekly-quiz',
                     start_date: DateFactory.toDateISOString(DateFactory.getFirstDayOfMonth($scope.current)),
                     end_date: DateFactory.toDateISOString(DateFactory.getFirstDayOfNextMonth($scope.current))
+                }),
+                quizFactory.getResult({
+                    type: 'vocabulary',
+                    start_date: DateFactory.toDateISOString(DateFactory.getFirstDayOfMonth($scope.current)),
+                    end_date: DateFactory.toDateISOString(DateFactory.getFirstDayOfNextMonth($scope.current))
                 })
             ]).then(function (results) {
                 return results.map(function (r) {
