@@ -75,6 +75,14 @@ style.
         cursor: pointer;
     }
 
+    .header>.grid>a.column{
+        background-color: #FBBD08;
+    }
+
+    .header > .grid > .row > .column > a.column {
+        background-color: #FBBD08;
+    }
+
 mixin goodPerformance()
     img(ng-src="http://source.bridgeplus.cn/image/png/%E5%AD%A6%E4%B9%A0%E8%BF%9B%E5%BA%A6_06.png")&attributes(
     attributes)
@@ -115,12 +123,16 @@ mixin weeks()
 
 .calendar(ng-controller="calendarCtrl")
     .header
-        .grid(ng-cloak)
-            a.column(ng-click="gotoMonth(-1)")
-                span.icon-play3(style="transform: rotate(180deg); display: inline-block;")
-            a.column {{current | date: 'MMM, yyyy'}}
-            a.column(ng-click="gotoMonth(+1)")
-                span.icon-play3
+        .ui.grid
+            .row
+                .four.wide.column
+                    a.column(ng-click="gotoMonth(-1)")
+                        span.icon-play3(style="transform: rotate(180deg); display: inline-block;")
+                .eight.wide.column
+                    a.column {{current | date: 'MMM, yyyy'}}
+                .four.wide.column
+                    a.column(ng-click="gotoMonth(+1)")
+                        span.icon-play3
     .body.very.padded.horizontal
         .grid(ng-cloak)
             .row.weekday.padded.vertical
