@@ -191,6 +191,12 @@ module.exports = {
                 frontEnd: '/service-proxy/lesson-members',
                 upstream: '/lesson-members/:lesson_id/:member_id'
             }
+        },
+        lessonGetTags: {
+            get: {
+                frontEnd: '/service-proxy/lesson-tags',
+                upstream: '/lesson-tags/:lesson_id'
+            }
         }
     },
     wechat: {
