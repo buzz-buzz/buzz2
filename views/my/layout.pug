@@ -16,31 +16,32 @@ html(manifest="/buzz.appcache")
         if saas
             base(href=saasBase)
     body.full.screen.container
-        #buzz-header.ui.mini.yellow.inverted.compact.fixed.borderless.menu(ng-controller="headerCtrl")
+        #buzz-header.ui.container(style="position: fixed; width: 100%;")
             .ui.container
-                if !saas
-                    a.item(href="/", style="padding: 0;")
-                        img.ui.tiny.image(src="http://resource.buzzbuzzenglish.com/new_buzz_logo.png", style="height: 100%; width: auto;")
-                .item(ng-cloak) Hello {{profile.display_name}}, welcome to Buzzbuzz English.
-                .right.menu
-                    block extraMenus
-                    a.item(title="历史课程", href="/my/history", ng-class="{'active': isActive('/my/history')}")
-                        i.history.icon
-                    a.item(title="学习进度", href="/my/progress", ng-class="{'active': isActive('/my/progress')}")
-                        i.line.chart.icon
-                    a.item(title="生词本",href="/vocabulary/my", ng-class="{'active': isActive('/my/vocabulary') || isActive('/vocabulary/my')}")
-                        i.file.text.icon
-                    a.item.middle.aligned(ng-if="!profile.avatar",href="/sign-in", ng-cloak) 请登录
-                    #headportrait.ui.dropdown.item(ng-if="profile.avatar")
-                        i.icons
-                            .icon.ui.image.circular(style="height: 40px; width: 40px;")
-                                img(ng-src="{{profile.avatar}}", ng-if="profile.avatar", ng-cloak, style="height: 40px!important; width: auto;")
-                            i.red.corner.star.icon(ng-if="payingMember", ng-cloak)
-                        .menu
-                            a.item(href="/my/account") 账号信息
-                            a.item(href="/my/password") 修改密码
-                            a.item(href="/sign-out") 退出
-       
+                .ui.mini.yellow.inverted.compact.borderless.menu(ng-controller="headerCtrl", style="width: 100%;")
+                    if !saas
+                        a.item(href="/", style="padding: 0;")
+                            img.ui.tiny.image(src="http://resource.buzzbuzzenglish.com/new_buzz_logo.png", style="height: 100%; width: auto; max-height: 40px;")
+                    .item(ng-cloak) Hello {{profile.display_name}}, welcome to Buzzbuzz English.
+                    .right.menu
+                        block extraMenus
+                        a.item(title="历史课程", href="/my/history", ng-class="{'active': isActive('/my/history')}")
+                            i.history.icon
+                        a.item(title="学习进度", href="/my/progress", ng-class="{'active': isActive('/my/progress')}")
+                            i.line.chart.icon
+                        a.item(title="生词本",href="/vocabulary/my", ng-class="{'active': isActive('/my/vocabulary') || isActive('/vocabulary/my')}")
+                            i.file.text.icon
+                        a.item.middle.aligned(ng-if="!profile.avatar",href="/sign-in", ng-cloak) 请登录
+                        #headportrait.ui.dropdown.item(ng-if="profile.avatar")
+                            i.icons
+                                .icon.ui.image.circular(style="height: 40px; width: 40px;")
+                                    img(ng-src="{{profile.avatar}}", ng-if="profile.avatar", ng-cloak, style="height: 40px!important; width: auto;")
+                                i.red.corner.star.icon(ng-if="payingMember", ng-cloak)
+                            .menu
+                                a.item(href="/my/account") 账号信息
+                                a.item(href="/my/password") 修改密码
+                                a.item(href="/sign-out") 退出
+        
         block content
         include ../js
         + js("/js/buzzHeaderModule.min.js")

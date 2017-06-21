@@ -69,7 +69,12 @@ a {
     color: #fff;
 }
 
-#buzz-header {min-height: 40px!important;max-height:40px!important;}
+#buzz-header {
+    background-color: #f7b52a;
+}
+
+#buzz-header, #buzz-header .menu {min-height: 40px!important;max-height:40px!important;
+    background-color: #f7b52a!important;}
 
 #buzz-footer .active.btn.btn-navbar {
     color: #f7b52a!important;
