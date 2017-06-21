@@ -61,8 +61,9 @@ angular.module('buzzHistoryModule', ['angularQueryParserModule', 'servicesModule
                         }
                         return $http.get(clientConfig.serviceUrls.buzz.lessonVisited.count.frontEnd + '?lesson_id=' + c.lesson_id);
                     }).then(function (result) {
+                        c.visited_time = 50 ;
                         if (result && result.data && parseInt(result.data)) {
-                            c.visited_time = parseInt(result.data) + 50 ;
+                            c.visited_time = parseInt(result.data) + parseInt(c.visited_time);
                         }
                     });
                 });

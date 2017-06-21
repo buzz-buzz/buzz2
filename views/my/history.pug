@@ -64,6 +64,21 @@ block head
             text-transform: uppercase !important;
         }
 
+        @media screen and (max-width: 840px) {
+            #responsive1 {
+                width: 100% !important;
+            }
+
+            #responsive2 {
+                width: 100% !important;
+                box-shadow: none;
+            }
+            .list-image{
+                max-height: 210px;
+                max-width: 375px;
+            }
+        }
+
 block extraMenus
     include partials/level-switcher
 
@@ -85,7 +100,7 @@ block content
                         div.clear.float
                     .ui.container
                         .ui.grid(style='margin:0 !important;')
-                             .row(ng-repeat="lesson in courseList track by $index")
+                             .row(ng-repeat="lesson in courseList track by $index", ng-show='false')
                                  .six.wide.column(ng-click='aLikeClick("/my/play?date="+lesson.date+"&cat="+ lesson.category.toLowerCase()+"&level="+lesson.level)', ng-cloak)
                                      img(style="width:100%; cursor:pointer;",ng-src="{{lesson.image}}")
                                  .ten.wide.column
@@ -107,6 +122,30 @@ block content
                                                              i.student.icon
                                                              span(ng-cloak, style='color: #f7b52a;') {{lesson.visited_time || 0}}人
                                                              span 完成学习
+                             .row(ng-repeat="lesson in courseList track by $index")
+                                 .column
+                                     .ui.card.grid(style='width: 100%;')
+                                         .row(style='padding: 1rem;')
+                                             #responsive1.six.wide.column(ng-click='aLikeClick("/my/play?date="+lesson.date+"&cat="+ lesson.category.toLowerCase()+"&level="+lesson.level)', ng-cloak)
+                                                 img.list-image(style="width:100%; cursor:pointer;",ng-src="{{lesson.image}}")
+                                             #responsive2.ten.wide.column.ui.card
+                                                 .content(style='font-size:1em;')
+                                                     .meta
+                                                         span.date(ng-cloak) {{lesson.date}}
+                                                     .description(style='color: #f7b52a; font-weight:bold; cursor:pointer; white-space: normal;', ng-click='aLikeClick("/my/play?date="+lesson.date+"&cat="+ lesson.category.toLowerCase()+"&level="+lesson.level)', ng-cloak) {{lesson.title}}
+                                                 .extra.content
+                                                     .ui.grid
+                                                         .row
+                                                             .eight.wide.column
+                                                                 a(ng-click='aLikeClick("/my/play?date="+lesson.date+"&cat="+ lesson.category.toLowerCase()+"&level="+lesson.level)', ng-cloak)
+                                                                     i.users.icon
+                                                                     span(ng-cloak, style='color: #f7b52a;') {{lesson.baseNumber || 0}}人
+                                                                     span 参加课程
+                                                             .eight.wide.column
+                                                                 a(ng-click='aLikeClick("/my/play?date="+lesson.date+"&cat="+ lesson.category.toLowerCase()+"&level="+lesson.level)', ng-cloak)
+                                                                     i.student.icon
+                                                                     span(ng-cloak, style='color: #f7b52a;') {{lesson.visited_time || 0}}人
+                                                                     span 完成学习
                     br
                     include ../../node_modules/angular-service/views/pagination
                     + pagination('courseData')
