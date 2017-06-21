@@ -1,5 +1,5 @@
 angular.module('buzzModule')
-    .controller('quizCtrl', ['$scope', '$http', 'queryParser', '$sce', '$window', 'clientConfig', '$rootScope', 'trackingX', '$timeout', 'quizFactory', 'api', 'quizParser', 'quizStatus', '$rootScope', function ($scope, $http, queryParser, $sce, $window, clientConfig, $rootScope, tracking, $timeout, quizFactory, api, quizParser, quizStatus, $rootScope) {
+    .controller('quizCtrl', ['$scope', '$http', 'queryParser', '$sce', '$window', 'clientConfig', '$rootScope', 'trackingX', '$timeout', 'quizFactory', 'api', 'quizParser', 'quizStatus', '$rootScope', function ($scope, $http, queryParser, $sce, $window, clientConfig, $rootScope, tracking, $timeout, quizFactory, api, quizParser, quizStatus) {
         var modalId = '#login';
         $scope.$sce = $sce;
         $scope.quizURL = "";

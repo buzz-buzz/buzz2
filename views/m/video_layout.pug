@@ -26,7 +26,7 @@ html(manifest="/buzz.appcache")
                 ul.large.right.floated.white.horizontal.menu
                     block extraMenus
                     li
-                        img.middle.aligned.avatar(ng-src="{{profile.avatar}}", ng-if="profile.avatar", style="vertical-align: top;")
+                        img.middle.aligned.avatar(ng-src="{{profile.avatar}}", ng-if="profile.avatar")
                 .white.title
                     if !saas
                         a(href="/")
