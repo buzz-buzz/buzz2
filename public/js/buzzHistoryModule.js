@@ -12,7 +12,7 @@ angular.module('buzzHistoryModule', ['angularQueryParserModule', 'servicesModule
             query.enabled = true;
         }
         if (!query.date) {
-            query.date = {end: new Date(2022, 1, 1).toISOString()};
+            query.date = { end: new Date(2022, 1, 1).toISOString() };
         }
         if (query.category) {
             $scope.category = query.category;
@@ -56,7 +56,7 @@ angular.module('buzzHistoryModule', ['angularQueryParserModule', 'servicesModule
                         return $http.get(clientConfig.serviceUrls.buzz.courseViews.frontEnd.replace(':category', c.category).replace(':level', c.level).replace(':lesson_id', c.lesson_id));
                     }).then(function (result) {
                         c.baseNumber = parseInt(c.baseNumber) + (parseInt(result.data.hits) || 0);
-                        if(document.getElementById('loading-model')){
+                        if (document.getElementById('loading-model')) {
                             document.getElementById('loading-model').style.display = 'none';
                         }
                         return $http.get(clientConfig.serviceUrls.buzz.lessonVisited.count.frontEnd + '?lesson_id=' + c.lesson_id);
@@ -69,6 +69,46 @@ angular.module('buzzHistoryModule', ['angularQueryParserModule', 'servicesModule
             }
         });
 
+        function bottomUpwardSlidingDo(callback) {
+            var start, end, slideNum, winH, bodyH,
+                bodyEle = document.querySelector("body"),
+                docEle = document.documentElement,
+                UA = navigator.userAgent,
+                isUC = UA.indexOf("UCBrowser") != -1 || UA.indexOf("Baidu") != -1 || UA.indexOf("MQQBrowser") != -1,
+                _h,
+                _hStart;
+            slideNum = isUC ? 6 : 60;
+            document.addEventListener("touchstart", touchStartHandle, false);
+            !isUC && document.addEventListener("touchend", touchEndHandle, false);
+            function touchStartHandle(evt) {
+                clearTimeout(_hStart);
+                _hStart = setTimeout(function () {
+                    start = evt.touches[0].pageY;
+                }, 0);
+            }
+
+            isUC && document.addEventListener("touchmove", function (evt) {
+                clearTimeout(_h);
+                _h = setTimeout(function () {
+                    touchEndHandle(evt)
+                }, 0);
+
+            }, false);
+            function touchEndHandle(evt) {
+                end = evt.changedTouches[0].pageY;
+                if (start - end > slideNum) {
+                    var scrollTop = bodyEle.scrollTop;
+                    winH = docEle.clientHeight;
+                    bodyH = docEle.scrollHeight;
+                    scrollTop + winH + 1 >= bodyH && callback();
+                }
+            }
+        }
+
+        bottomUpwardSlidingDo(function () {
+            $scope.courseData.getNextPage();
+        });
+
         $scope.courseData.getNextPage();
         $scope.aLikeClick = function (href) {
             window.location.href = href;
@@ -79,4 +119,4 @@ angular.module('buzzHistoryModule', ['angularQueryParserModule', 'servicesModule
             $scope.categories = result.data;
         });
     }])
-;
+    ;
