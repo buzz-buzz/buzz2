@@ -33,7 +33,7 @@ angular.module('signUpModule', ['angularQueryParserModule', 'clientConfigModule'
             password: '',
             captchaId: '',
             captcha: '',
-            agreed: false,
+            agreed: true,
             invite_code: queryParser.get('trk_tag') || sessionStorage.getItem('trk_tag'),
             app_name: 'buzz'
         };
