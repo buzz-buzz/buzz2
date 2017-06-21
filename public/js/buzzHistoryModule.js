@@ -116,18 +116,15 @@ angular.module('buzzHistoryModule', ['angularQueryParserModule', 'servicesModule
 
         bottomUpwardSlidingDo(function () {
             $scope.courseData.getNextPage();
+            setTimeout(function(){
+                document.body.scrollTop = 0;
+            },300)
         });
 
         $scope.courseData.getNextPage();
         $scope.aLikeClick = function (href) {
             window.location.href = href;
         };
-
-        $scope.showTags = function(){
-            console.log(this);
-            this.nextElementSibling.style.display = 'block';
-        }
-
     }])
     .controller('courseCategoryCtrl', ['$scope', '$http', 'clientConfig', 'queryParser', function ($scope, $http, clientConfig, queryParser) {
         $http.get(clientConfig.serviceUrls.buzz.categories.list.frontEnd).then(function (result) {
