@@ -8,23 +8,19 @@
 <div class="center aligned container">
     <div class="video" style="width: 100%;">
         <div style="width: 100%;  background-color: black;" class="video-wrapper">
-            <video style="width: 100%;"
-                   id="main-video"
-                   type='video/mp4'>
+            <video style="width: 100%;" id="main-video" type='video/mp4'>
             </video>
         </div>
     </div>
     <div class="subtitle" style="display: flex;">
         <div class="borderless segment" style="max-height: 100%; width: 100%; overflow: auto; padding: 0;">
-            <h2 class="video-title" style="font-size: 1.2rem; text-align: center;" >
+            <h2 class="video-title" style="font-size: 1.2rem; text-align: center;">
                 <div ng-cloak>{{videoTitle}}</div>
-                <hr style="border: none; border-bottom: solid 1px #f7b52a; width: 25px;"/>
+                <hr style="border: none; border-bottom: solid 1px #f7b52a; width: 25px;" />
             </h2>
             <div id="sub-title" ng-class="{'hide-more': !subTitleExpanded}">
                 <p ng-repeat="st in subtitles" class="zero-margin">
-                    <a class="script"
-                       ng-class="{'highlight': currentTime >= st.startTime&&currentTime < st.endTime}"
-                       ng-click="playTo(st)">
+                    <a class="script" ng-class="{'highlight': currentTime >= st.startTime&&currentTime < st.endTime}" ng-click="playTo(st)">
                         <span ng-bind-html="$sce.trustAsHtml(st.text)"></span>
                         &nbsp;<span class="icon-volume-medium playsound-volume-icon"
                                     ng-click="playTo(st)"
@@ -37,8 +33,7 @@
                 </p>
             </div>
             <div style="text-align: center; margin-top: 10px;" ng-hide="subTitleExpanded">
-                <i class="icon-chevron-thin-down" style="color: #f7b52a;font-size: larger; cursor: pointer"
-                   ng-click="subTitleExpanded=true"></i>
+                <i class="icon-chevron-thin-down" style="color: #f7b52a;font-size: larger; cursor: pointer" ng-click="subTitleExpanded=true"></i>
             </div>
         </div>
     </div>
