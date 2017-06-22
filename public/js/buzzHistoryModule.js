@@ -181,6 +181,10 @@ angular.module('buzzHistoryModule', ['angularQueryParserModule', 'servicesModule
 
             }else{
                 $scope.coursePaidList = [];
+
+                if (document.getElementById('loading-model')) {
+                    document.getElementById('loading-model').style.display = 'none';
+                }
             }
         });
     }])
