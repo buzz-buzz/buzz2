@@ -128,7 +128,6 @@ block content
                                                      .meta(style='position: relative;')
                                                          span.date(ng-cloak) {{lesson.date}}
                                                          .tag-meta(ng-show='lesson.tags.length !== 0', ng-cloak)
-                                                             i.unhide.icon(style='cursor: pointer;color: rgba(0,0,0,.4);')
                                                              .tags(ng-repeat="tag in lesson.tags track by $index")
                                                                  span(ng-cloak) {{tag}}
                                                      .description(style='color: #f7b52a; font-weight:bold; cursor:pointer; white-space: normal;', ng-click='aLikeClick("/my/play?date="+lesson.date+"&cat="+ lesson.category.toLowerCase()+"&level="+lesson.level)', ng-cloak) {{lesson.title}}

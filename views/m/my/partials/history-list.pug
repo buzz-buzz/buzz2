@@ -5,6 +5,9 @@
         .content(style='font-size:1.5em;')
             .meta
                 span.date(ng-cloak) {{lesson.date}}
+                .tag-meta(ng-show='lesson.tags.length !== 0', ng-cloak)
+                    .tags(ng-repeat="tag in lesson.tags track by $index")
+                        span(ng-cloak) {{tag}}
             .description(style='color: #f7b52a;', ng-click='aLikeClick("/m/my/today?date="+lesson.date+"&cat="+ lesson.category.toLowerCase()+"&level="+lesson.level)', ng-cloak) {{lesson.title}}
         .extra.content
             .ui.grid
