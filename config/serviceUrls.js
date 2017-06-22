@@ -182,6 +182,12 @@ module.exports = {
                 upstream: '/member-lessons'
             }
         },
+        memberPaidCourse: {
+            get: {
+                frontEnd: '/service-proxy/member-paid-courses',
+                upstream: '/user-paid/course/:member_id'
+            }
+        },
         lessonVisited: {
             count: {
                 frontEnd: '/service-proxy/lesson-members/count',

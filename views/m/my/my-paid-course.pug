@@ -1,0 +1,72 @@
+extends ../../m/mobile-layout
+
+block meta
+    style.
+        html{
+            height:auto !important;
+            overflow: auto;
+        }
+
+        .meta > .tag-meta {
+            position: relative;
+            float: right;
+            width: 50%;
+            padding: 0 1rem;
+        }
+
+        .meta > .tag-meta > .tags {
+            position: relative;
+            float: right;
+            border-radius: 3px;
+            background-color: #f7b52a;
+            color: white;
+            width: auto;
+            padding: 0 .5rem;
+            margin-left: .5rem;
+            font-size: 1.5rem;
+        }
+
+block js
+    script.
+        angular.module('mobileModule')
+            .run(['$rootScope', function ($rootScope) {
+            }])
+        ;
+block content
+    script(type="text/ng-template", id="my-paid-course.html")
+        div(style='background-color: #eee;', ng-controller="memberPaidCourseCtrl")
+            .history-list(style='margin-bottom:2em;', ng-repeat="lesson in coursePaidList track by $index", ng-cloak)
+                .ui.card(style='width:100%;')
+                    .image
+                        img(ng-src="{{lesson.image}}", ng-click='aLikeClick("/m/my/today?date="+lesson.date+"&cat="+ lesson.category.toLowerCase()+"&level="+lesson.level)')
+                    .content(style='font-size:1.5em;')
+                        .meta
+                            span.date(ng-cloak) {{lesson.date}}
+                            .tag-meta(ng-show='lesson.tags.length !== 0', ng-cloak)
+                                .tags(ng-repeat="tag in lesson.tags track by $index")
+                                    span(ng-cloak) {{tag}}
+                        .description(style='color: #f7b52a;', ng-click='aLikeClick("/m/my/today?date="+lesson.date+"&cat="+ lesson.category.toLowerCase()+"&level="+lesson.level)', ng-cloak) {{lesson.title}}
+                    .extra.content
+                        .ui.grid
+                            .row
+                                .eight.wide.column
+                                    a(ng-click='aLikeClick("/my/play?date="+lesson.date+"&cat="+ lesson.category.toLowerCase()+"&level="+lesson.level)', ng-cloak)
+                                        i.users.icon
+                                        span(ng-cloak, style='color: #f7b52a;') {{lesson.baseNumber || 0}}人
+                                        span 参加课程
+                                .eight.wide.column
+                                    a(ng-click='aLikeClick("/my/play?date="+lesson.date+"&cat="+ lesson.category.toLowerCase()+"&level="+lesson.level)', ng-cloak)
+                                        i.student.icon
+                                        span(ng-cloak, style='color: #f7b52a;') {{lesson.visited_time || 0}}人
+                                        span 完成学习
+            include ../../partial/loading
+            .history-list(ng-if="coursePaidList.length !== 0", ng-cloak)
+                .ui.segments
+                    .ui.segment
+                        p 已经显示所有付费课程！
+            .history-list(style='margin: 2em 0;', ng-if="coursePaidList.length === 0", ng-cloak)
+                .ui.segments
+                    .ui.segment
+                        p 您现在还没有付费过任何课程哦！
+                    .ui.secondary.segment
+                        button.ui.black.basic.button  如何获得付费课程

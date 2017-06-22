@@ -110,5 +110,8 @@ module.exports = function (app, router, render) {
                 this.body = yield render.call(this, 'm/history', { config: config, base: saas.getBaseFor(this, '/my/'), title: 'history' });
             }
         })
+        .get('/my/paid-course', saas.checkSaasReferer, membership.ensureAuthenticated, function* () {
+            this.body = yield render.call(this, 'm/my/my-paid-course', { config: config, base: saas.getBaseFor(this, '/my/'), title: '我的付费课程', backUrl: 'javascript:location.href="/m/my/my"' });
+        })
         ;
 };

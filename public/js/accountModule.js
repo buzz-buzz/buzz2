@@ -46,6 +46,11 @@ angular.module('accountModule', ['clientConfigModule', 'buzzHeaderModule', 'educ
             event.stopPropagation();
         };
 
+        $scope.showPaidCourse = function(){
+            location.href = '/my/paid-course';
+            event.stopPropagation();
+        };
+
         $rootScope.$on('info:updated', function (event, data) {
             if (data.grade) {
                 $scope.info.grade = data.grade;

@@ -31,5 +31,13 @@ module.exports = function (app, router, parse) {
                 })
             }, proxyOption));
         })
+        .get(serviceUrls.buzz.memberPaidCourse.get.frontEnd, membership.ensureAuthenticated, function* () {
+            this.body = yield proxy(Object.assign({
+                path: Router.url(serviceUrls.buzz.memberPaidCourse.get.upstream.replace(':member_id', this.state.hcd_user.member_id),{
+
+                }),
+                method: 'GET'
+            }, proxyOption));
+        })
         ;
 };

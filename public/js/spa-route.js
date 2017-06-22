@@ -37,6 +37,11 @@ angular.module('mobileModule', [
                 controller: 'historyCtrl',
                 controllerAS: 'historyCtrl'
             })
+            .when('/paid-course', {
+                templateUrl: 'my-paid-course.html',
+                controller: 'memberPaidCourseCtrl',
+                controllerAS: 'memberPaidCourseCtrl'
+            });
 
         $routeProvider.otherwise('/weekly-quiz');
     }])
