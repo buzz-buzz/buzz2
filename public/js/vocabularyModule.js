@@ -269,6 +269,8 @@ angular.module('vocabularyModule', ['trackingModule', 'clientConfigModule', 'Dat
                     winH = docEle.clientHeight;
                     bodyH = docEle.scrollHeight;
                     scrollTop + winH + 1 >= bodyH && callback();
+                }else if(end - start > slideNum){
+                    bodyEle.scrollTop <= 2 && window.location.reload();
                 }
             }
         }
