@@ -17,7 +17,7 @@
     color: white;
 }
 
-#buzz-header .menu .item:hover, .menu .item:active, .menu .item.active {
+#buzz-header .ui.yellow.inverted.mini.menu .item:hover, .ui.yellow.inverted.mini.menu .item:active, .ui.yellow.inverted.mini.menu .item.active {
     background-color: #f2c855;
 }
 

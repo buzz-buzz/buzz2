@@ -321,9 +321,14 @@ a.active {
     color: #f7b52a!important;
 }
 
-#buzz-header .ui.menu a.active,
-#buzz-header .ui.menu a:hover,
-#buzz-header .ui.menu a:active {
+#buzz-header > .ui.container > .ui.yellow.inverted.mini.menu > a.active,
+#buzz-header > .ui.container > .ui.yellow.inverted.mini.menu > a:hover,
+#buzz-header > .ui.container > .ui.yellow.inverted.mini.menu > a:active,
+
+#buzz-header > .ui.container > .ui.yellow.inverted.mini.menu > .right.menu > a.active,
+#buzz-header > .ui.container > .ui.yellow.inverted.mini.menu > .right.menu > a:hover,
+#buzz-header > .ui.container > .ui.yellow.inverted.mini.menu > .right.menu > a:active
+ {
     color: white!important;
 }
 

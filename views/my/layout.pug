@@ -38,9 +38,9 @@ html(manifest="/buzz.appcache")
                                     img(ng-src="{{profile.avatar}}", ng-if="profile.avatar", ng-cloak, style="height: 40px!important; width: auto;")
                                 i.red.corner.star.icon(ng-if="payingMember", ng-cloak)
                             .menu
-                                a.item(href="/my/account", style="background-color: #f7b52a;color:#fff!important;") 账号信息
-                                a.item(href="/my/password", style="background-color: #f7b52a!important;border-radius:0!important;color:#fff!important;") 修改密码
-                                a.item(href="/sign-out", style="background-color: #f7b52a!important; border-radius:0!important;color:#fff!important;") 退出
+                                a.item(href="/my/account") 账号信息
+                                a.item(href="/my/password") 修改密码
+                                a.item(href="/sign-out") 退出
         
         block content
         include ../js

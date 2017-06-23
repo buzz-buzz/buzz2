@@ -12,18 +12,9 @@ const userAgent = require('koa-useragent');
 const greenSharedLogger = require('./common/logger')('app.js');
 const cookies = require('./helpers/cookie.js');
 const membership = require('./membership/index.js');
-
-const render = views(path.join(__dirname, 'views'), {
-    default: "pug",
-    extension: "pug",
-    map: {
-        "html": "underscore"
-    }
-});
-
-function* enhancedRender(view, locals) {
-    return yield render(view, Object.assign({}, this.state, locals));
-}
+const renders = require('./common/enhanced-render');
+const render = renders.render;
+const enhancedRender = renders.enhancedRender;
 
 app.use(userAgent());
 app.use(logger());

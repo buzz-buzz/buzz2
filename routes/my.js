@@ -5,6 +5,7 @@ const buzz = require('../service-proxy-for-server/buzz');
 const course = require('../bll/course');
 const membership = require('../membership');
 const saas = require('../bll/saas');
+const courseList = require('./common/course-list');
 
 module.exports = function (app, router, render) {
     router
@@ -36,16 +37,7 @@ module.exports = function (app, router, render) {
                 config: config
             });
         })
-        .get('/my/history', saas.checkSaasReferer, function* (next) {
-            if (!this.state.userAgent.isMobile || this.state.userAgent.isTablet) {
-                this.body = yield render.call(this, 'my/history', {
-                    config: config,
-                    hcd_user: this.state.hcd_user
-                });
-            } else {
-                this.redirect(saas.generateUrl(this, '/my/mobile-history'), { config: config });
-            }
-        })
+        .get('/my/history', saas.checkSaasReferer, courseList.render)
         .get('/my/play', saas.checkSaasReferer, membership.setHcdUserIfSignedIn, function* (next) {
             if (!this.state.userAgent.isMobile || this.state.userAgent.isTablet) {
                 return this.body = yield render.call(this, 'my/play', {

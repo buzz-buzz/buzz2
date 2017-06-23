@@ -1,15 +1,13 @@
 CACHE MANIFEST
 
-#version: 1.5
+#version: 1.6
 
 CACHE:
 /clientConfig.js?v=*
 /my/play
 /my/history
-/my/progress
 /vocabulary/my
 /my/account
-/m/my/my
 /css/fonts/icomoon.eot
 /css/fonts/icomoon.svg
 /css/fonts/icomoon.ttf

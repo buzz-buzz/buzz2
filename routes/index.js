@@ -66,14 +66,6 @@ function renderWithServerData(app, router, render) {
     });
 }
 function redirectRequest(app, router) {
-    router.get('/', saas.checkSaasReferer, membership.setHcdUserIfSignedIn, function* home(next) {
-        if (this.state.hcd_user) {
-            this.redirect(saas.generateUrl(this, '/my/today'));
-        } else {
-            this.redirect(saas.generateUrl(this, '/my/history'));
-        }
-    });
-
     router.get('/sign-out', membership.signOut, function* deleteCookie(next) {
         cookie.deleteToken.apply(this);
         yield next;
@@ -140,29 +132,26 @@ function staticFiles(app, router) {
 function oauth(app, router, render) {
     require('./wechat')(app, router, render);
 }
-function more(app, router, render) {
-    fs.readdir(__dirname + '/more', function (err, results) {
+function routeFolder(folder, app, router, render) {
+    fs.readdir(__dirname + `/${folder}`, function (err, results) {
         if (err) {
             throw err;
         }
 
         results.forEach(fileName => {
-            require('./more/' + fileName)(app, router, render);
+            require(`./${folder}/` + fileName)(app, router, render);
         });
     });
 }
-
-function routerSaas(app, router, render) {
-    router.get('/testsaas', function* (next) {
-        if (this.state.saas) {
-            this.body = 'saas';
-        } else {
-            this.body = 'buzz';
-        }
-    });
+function more(app, router, render) {
+    routeFolder('more', app, router, render);
+}
+function start(app, router, render) {
+    routeFolder('start', app, router, render);
 }
 
 module.exports = function (app, router, render) {
+    start(app, router, render);
     helper(app, router);
     staticFiles(app, router);
     virtualFile(app, router);
@@ -176,7 +165,6 @@ module.exports = function (app, router, render) {
     admin(app, router, render);
     oauth(app, router, render);
     more(app, router, render);
-    routerSaas(app, router, render);
 
     app
         .use(router.routes())
