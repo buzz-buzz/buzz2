@@ -60,7 +60,7 @@ block content
                                         span(ng-cloak, style='color: #f7b52a;') {{lesson.visited_time || 0}}人
                                         span 完成学习
             include ../../partial/loading
-            .history-list(ng-if="coursePaidList.length !== 0", ng-cloak)
+            .history-list(style='margin: 2em 0;', ng-if="coursePaidList.length !== 0", ng-cloak)
                 .ui.segments
                     .ui.segment
                         p 已经显示所有付费课程！

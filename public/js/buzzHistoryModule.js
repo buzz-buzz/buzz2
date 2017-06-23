@@ -187,5 +187,9 @@ angular.module('buzzHistoryModule', ['angularQueryParserModule', 'servicesModule
                 }
             }
         });
+
+        $scope.aLikeClick = function (href) {
+            window.location.href = href;
+        };
     }])
     ;
