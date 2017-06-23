@@ -321,6 +321,12 @@ a.active {
     color: #f7b52a!important;
 }
 
+#buzz-header .ui.menu a.active,
+#buzz-header .ui.menu a:hover,
+#buzz-header .ui.menu a:active {
+    color: white!important;
+}
+
 form input {
     border: none;
     padding: 8px 10px;
