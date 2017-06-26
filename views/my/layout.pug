@@ -16,7 +16,7 @@ html(manifest="/buzz.appcache")
         if saas
             base(href=saasBase)
     body.full.screen.container
-        #buzz-header.ui.container(style="position: fixed; width: 100%;")
+        #buzz-header.ui.container(style="position: fixed; width: 100%; z-index: 9999;")
             .ui.container
                 .ui.mini.yellow.inverted.compact.borderless.menu(ng-controller="headerCtrl", style="width: 100%;")
                     if !saas

@@ -102,7 +102,7 @@ block extraMenus
 block content
     #full-page.full.height.container(ng-app="buzzHistoryModule", style="white-space: nowrap;", ng-cloak)
         .page.with-header.section.transparent
-            .center.aligned.container.column.flex-box.white.background(style="padding-left: 50px; padding-right: 50px; overflow: auto;",ng-controller="historyCtrl")
+            .center.aligned.container.column.flex-box.white.background.ui.container(style="padding-left: 50px; padding-right: 50px; overflow: auto;",ng-controller="historyCtrl")
                 .row.dynamic
                     br
                     .container.left.aligned.categories(ng-controller="courseCategoryCtrl")
@@ -124,7 +124,7 @@ block content
                                              #responsive1.six.wide.column(ng-click='aLikeClick("/my/play?date="+lesson.date+"&cat="+ lesson.category.toLowerCase()+"&level="+lesson.level)', ng-cloak)
                                                  img.list-image(style="width:100%; cursor:pointer;",ng-src="{{lesson.image}}")
                                              #responsive2.ten.wide.column.ui.card(style='box-shadow: none;')
-                                                 .content(style='font-size:1em;')
+                                                 .content(style='font-size: 1em; height: 70%;')
                                                      .meta(style='position: relative;')
                                                          span.date(ng-cloak) {{lesson.date}}
                                                          .tag-meta(ng-show='lesson.tags.length !== 0', ng-cloak)
