@@ -160,4 +160,5 @@ module.exports = function (app, router, parse) {
     require('./buzz-member-course')(app, router, parse);
     require('./buzz-lesson-member')(app, router, parse);
     require('./buzz-lesson-tags')(app, router, parse);
+    require('./user-account')(app, router, parse);
 };

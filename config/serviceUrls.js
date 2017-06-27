@@ -203,6 +203,12 @@ module.exports = {
                 frontEnd: '/service-proxy/lesson-tags',
                 upstream: '/lesson-tags/:lesson_id'
             }
+        },
+        userAccount: {
+            get:{
+                frontEnd: '/service-proxy/user-account',
+                upstream: '/user-account/:member_id'
+            }
         }
     },
     wechat: {

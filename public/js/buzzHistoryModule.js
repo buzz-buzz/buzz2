@@ -58,7 +58,7 @@ angular.module('buzzHistoryModule', ['angularQueryParserModule', 'servicesModule
                         c.baseNumber = parseInt(c.baseNumber) + (parseInt(result.data.hits) || 0);
                         return $http.get(clientConfig.serviceUrls.buzz.lessonVisited.count.frontEnd + '?lesson_id=' + c.lesson_id);
                     }).then(function (result) {
-                        c.visited_time = 50 ;
+                        c.visited_time = 50;
                         if (result && result.data && parseInt(result.data)) {
                             c.visited_time = parseInt(result.data) + parseInt(c.visited_time);
                         }
@@ -66,7 +66,7 @@ angular.module('buzzHistoryModule', ['angularQueryParserModule', 'servicesModule
                     }).then(function (result) {
                         c.tags = [];
                         if (result.data.length !== 0) {
-                            for(var i in result.data){
+                            for (var i in result.data) {
                                 c.tags.push(result.data[i].tag_name);
                             }
                         }
@@ -111,7 +111,7 @@ angular.module('buzzHistoryModule', ['angularQueryParserModule', 'servicesModule
                     winH = docEle.clientHeight;
                     bodyH = docEle.scrollHeight;
                     scrollTop + winH + 1 >= bodyH && callback();
-                }else if(end - start > slideNum){
+                } else if (end - start > slideNum) {
                     bodyEle.scrollTop <= 2 && window.location.reload();
                 }
             }
@@ -119,9 +119,9 @@ angular.module('buzzHistoryModule', ['angularQueryParserModule', 'servicesModule
 
         bottomUpwardSlidingDo(function () {
             $scope.courseData.getNextPage();
-            setTimeout(function(){
+            setTimeout(function () {
                 document.body.scrollTop = 0;
-            },300)
+            }, 300)
         });
 
         $scope.courseData.getNextPage();
@@ -136,7 +136,7 @@ angular.module('buzzHistoryModule', ['angularQueryParserModule', 'servicesModule
     }])
     .controller('memberPaidCourseCtrl', ['$scope', '$http', 'clientConfig', 'queryParser', function ($scope, $http, clientConfig, queryParser) {
         $http.get(clientConfig.serviceUrls.buzz.memberPaidCourse.get.frontEnd).then(function (result) {
-            if(result.data && result.data.length !== 0){
+            if (result.data && result.data.length !== 0) {
                 function sortByDate(a, b) {
                     if (a.date > b.date) {
                         return -1;
@@ -162,7 +162,7 @@ angular.module('buzzHistoryModule', ['angularQueryParserModule', 'servicesModule
                         c.baseNumber = parseInt(c.baseNumber) + (parseInt(result.data.hits) || 0);
                         return $http.get(clientConfig.serviceUrls.buzz.lessonVisited.count.frontEnd + '?lesson_id=' + c.lesson_id);
                     }).then(function (result) {
-                        c.visited_time = 50 ;
+                        c.visited_time = 50;
                         if (result && result.data && parseInt(result.data)) {
                             c.visited_time = parseInt(result.data) + parseInt(c.visited_time);
                         }
@@ -170,7 +170,7 @@ angular.module('buzzHistoryModule', ['angularQueryParserModule', 'servicesModule
                     }).then(function (result) {
                         c.tags = [];
                         if (result.data.length !== 0) {
-                            for(var i in result.data){
+                            for (var i in result.data) {
                                 c.tags.push(result.data[i].tag_name);
                             }
                         }
@@ -181,7 +181,7 @@ angular.module('buzzHistoryModule', ['angularQueryParserModule', 'servicesModule
                     document.getElementById('loading-model').style.display = 'none';
                 }
 
-            }else{
+            } else {
                 $scope.coursePaidList = [];
 
                 if (document.getElementById('loading-model')) {
@@ -226,7 +226,7 @@ angular.module('buzzHistoryModule', ['angularQueryParserModule', 'servicesModule
                     winH = docEle.clientHeight;
                     bodyH = docEle.scrollHeight;
                     scrollTop + winH + 1 >= bodyH && callback();
-                }else if(end - start > slideNum){
+                } else if (end - start > slideNum) {
                     bodyEle.scrollTop <= 2 && window.location.reload();
                 }
             }
@@ -238,9 +238,9 @@ angular.module('buzzHistoryModule', ['angularQueryParserModule', 'servicesModule
 
     }])
     .controller('userAccountCtrl', ['$scope', '$http', 'clientConfig', 'queryParser', function ($scope, $http, clientConfig, queryParser) {
-        $scope.account = 100.00;
-        // $http.get(clientConfig.serviceUrls.buzz.categories.list.frontEnd).then(function (result) {
-        //     $scope.categories = result.data;
-        // });
+        $scope.account = "0.00";
+        $http.get(clientConfig.serviceUrls.buzz.userAccount.get.frontEnd).then(function (result) {
+            $scope.account = parseFloat(result.data.account).toFixed(2);
+        });
     }])
     ;
