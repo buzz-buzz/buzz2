@@ -237,4 +237,10 @@ angular.module('buzzHistoryModule', ['angularQueryParserModule', 'servicesModule
         });
 
     }])
+    .controller('userAccountCtrl', ['$scope', '$http', 'clientConfig', 'queryParser', function ($scope, $http, clientConfig, queryParser) {
+        $scope.account = 100.00;
+        // $http.get(clientConfig.serviceUrls.buzz.categories.list.frontEnd).then(function (result) {
+        //     $scope.categories = result.data;
+        // });
+    }])
     ;

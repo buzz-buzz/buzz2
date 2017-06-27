@@ -1,0 +1,24 @@
+extends ../../m/mobile-layout
+
+block meta
+    style.
+        html{
+            height:auto !important;
+            overflow: auto;
+        }
+
+block js
+    script.
+        angular.module('mobileModule')
+            .run(['$rootScope', function ($rootScope) {
+            }])
+        ;
+block content
+    script(type="text/ng-template", id="user-account.html")
+        div(ng-controller="userAccountCtrl")
+            .ui.horizontal.segments
+                .ui.segment
+                .ui.segment
+                    i.yen.icon
+                    .account(ng-cloak) {{account}}
+                .ui.segment

@@ -51,6 +51,11 @@ angular.module('accountModule', ['clientConfigModule', 'buzzHeaderModule', 'educ
             event.stopPropagation();
         };
 
+        $scope.showUserAccount = function(){
+            location.href = '/my/user-account';
+            event.stopPropagation();
+        };
+
         $rootScope.$on('info:updated', function (event, data) {
             if (data.grade) {
                 $scope.info.grade = data.grade;

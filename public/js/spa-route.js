@@ -41,6 +41,11 @@ angular.module('mobileModule', [
                 templateUrl: 'my-paid-course.html',
                 controller: 'memberPaidCourseCtrl',
                 controllerAS: 'memberPaidCourseCtrl'
+            })
+            .when('/user-account', {
+                templateUrl: 'user-account.html',
+                controller: 'userAccountCtrl',
+                controllerAS: 'userAccountCtrl'
             });
 
         $routeProvider.otherwise('/weekly-quiz');

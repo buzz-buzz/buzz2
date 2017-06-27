@@ -263,10 +263,16 @@ html(manifest="/buzz.appcache")
                         span &nbsp;&nbsp;&nbsp;
                         span.icon-chevron-thin-right(style="text-align: right;")
                 .row.bar.narrow.stackable.notch(ng-click="showPaidCourse()")
-                    span(style="flex: 4;") 我的付费课程
+                    span(style="flex: 4;") 我的预定课程
                     span.more(style="flex:1; text-align: right;")
-                        i.icon-books
-                        span &nbsp;&nbsp;
+                        i.icon-book
+                        span &nbsp;&nbsp;&nbsp;
+                        span.icon-chevron-thin-right(style="text-align: right;")
+                .row.bar.narrow.stackable.notch(ng-click="showUserAccount()")
+                    span(style="flex: 4;") 我的钱包
+                    span.more(style="flex:1; text-align: right;")
+                        i.icon-coin-dollar
+                        span &nbsp;&nbsp;&nbsp;
                         span.icon-chevron-thin-right(style="text-align: right;")
                 a.row.bar.quit(href="/sign-out?return_url=/my/mobile-history", style="text-align: center; display: block;") 退出当前登陆
             .account(ng-if="expanded",ng-controller="mobileInfoCtrl")

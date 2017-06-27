@@ -103,7 +103,10 @@ module.exports = function (app, router, render) {
             }
         })
         .get('/my/paid-course', saas.checkSaasReferer, membership.ensureAuthenticated, function* () {
-            this.body = yield render.call(this, 'm/my/my-paid-course', { config: config, base: saas.getBaseFor(this, '/my/'), title: '我的付费课程', backUrl: 'javascript:location.href="/m/my/my"' });
+            this.body = yield render.call(this, 'm/my/my-paid-course', { config: config, base: saas.getBaseFor(this, '/my/'), title: '我的预定课程', backUrl: 'javascript:location.href="/m/my/my"' });
+        })
+        .get('/my/user-account', saas.checkSaasReferer, membership.ensureAuthenticated, function* () {
+            this.body = yield render.call(this, 'm/my/user-account', { config: config, base: saas.getBaseFor(this, '/my/'), title: '我的钱包', backUrl: 'javascript:location.href="/m/my/my"' });
         })
         ;
 };
