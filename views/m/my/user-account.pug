@@ -2,9 +2,10 @@ extends ../../m/mobile-layout
 
 block meta
     style.
-        html{
-            height:auto !important;
+        html {
+            height: auto !important;
             overflow: auto;
+            font-size: 1rem;
         }
 
 block js
@@ -19,13 +20,15 @@ block content
             .ui.equal.width.center.aligned.padded.grid
                 .row(style="background:gray")
                     .column(style="color:#fff")
-                        i.chevron.circle.down.icon(style="font-size:24px;")
-                        .title 余额
-                        .account(style="font-size:smaller; margin-left: -1.5rem;" ng-cloak)
-                            i.yen.icon {{account}}
+                        .icon(style='width: 3rem; height: 3rem; margin: 0 auto;line-height: 3rem; border: 2px solid white; border-radius: 50%;text-align: center;')
+                            i.diamond.icon(style='font-size: 2rem; margin: 0 !important;')
+                        .title(style='line-height: 1.5rem;') 余&nbsp;额
+                        .account(style="font-size:smaller; margin: 0 auto; font-size: 1rem;")
+                            i.yen.icon(style='margin: 0 !important;')
+                            span(ng-cloak) {{account}}
         div(style="margin:0 10px;")
-            button.fluid.positive.ui.button(style="margin-top:12px;") 充值
-            button.fluid.ui.button(style="margin-top:12px;") 提现
+            button.fluid.positive.ui.button(style="margin-top: 1rem;") 充值
+            button.fluid.ui.button(style="margin-top: 1rem;") 提现
             .ui.tertiary.inverted.segment buzz服务
             .ui.segment
                 p 分享课程给朋友，我们会根据个人分享情况，给予相应的红包奖励，分享给更多的朋友，你将获得更多的红包奖励，快来行动吧！
