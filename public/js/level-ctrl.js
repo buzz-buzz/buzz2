@@ -4,10 +4,11 @@ angular.module('buzzHeaderModule')
 
         $scope.switchToLevelFrom = function (currentLevel) {
             var to = currentLevel === 'A' ? 'B' : 'A';
+            $scope.currentLevel = to;
             query.level = to;
             location.href = location.pathname + '?' + $httpParamSerializer(query);
         };
 
         $scope.currentLevel = query.level || 'B';
     }])
-;
+    ;

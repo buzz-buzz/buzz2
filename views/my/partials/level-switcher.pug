@@ -1,29 +1,49 @@
 style.
-    a.toggle {
-        background-color: white;
-        padding: 5px 15px;
-        border-radius: 30px;
-        color: black !important;
+    #level-switcher .ui.toggle.checkbox input{
+        width: 6rem;
     }
 
-    a.toggle:hover, a.toggle:active {
-        color: black !important;
+    #level-switcher .ui.toggle.checkbox label:before, 
+    #level-switcher .ui.toggle.checkbox input:checked ~ label:before {
+        background: white!important;
+        width: 6rem;
     }
 
-    .circle {
-        background-color: #f6b52a;
+    #level-switcher .ui.toggle.checkbox label span {
+        position: absolute;
+        white-space: nowrap;
+        left: 0;
+        right: 0;
+        z-index: 1;
+        padding-left: 1.8rem;
+        padding-right: 0;
+    }
+
+    #level-switcher .ui.toggle.checkbox label:after{
+        background-color: #FBBD08;
+        left: 0.1rem;
+        content: '\f0c9'!important;
+        font-family: 'Icons'!important;
         color: white;
-        border-radius: 50%;
-        padding: 5px;
-        font-size: smaller;
+        line-height: 1.5rem;
     }
 
-div#level-switcher(ng-controller="LevelCtrl", ng-cloak, style="padding-top: 3.5%;")
-    a(href="javascript: void(0);", ng-click="switchToLevelFrom(currentLevel)", class="toggle")
-        span.icon-menu.circle(ng-if="currentLevel === 'B'", style="margin-left: -8px;")
-        span &nbsp;
-        span Level
-        span &nbsp;
-        strong {{currentLevel}}
-        span &nbsp;
-        span.icon-menu.circle(ng-if="currentLevel === 'A'", style="margin-right: -8px;")
+    #level-switcher .ui.toggle.checkbox input:checked ~ label:after{
+        left: 4.4rem;
+    }
+
+    #level-switcher .ui.toggle.checkbox input:checked ~ label span {
+        padding-left: 0.8rem;
+        padding-right: 1.8rem;
+    }
+
+div#level-switcher.item(ng-controller="LevelCtrl", ng-cloak, ng-click="switchToLevelFrom(currentLevel)")
+    div.ui.toggle.checkbox
+        input(type="checkbox", ng-checked="{{currentLevel==='A'}}")
+        label 
+            i.ui.content.icon
+            span Level 
+                strong {{currentLevel}}
+
+script.
+    $(function(){$('#level-switcher .ui.toggle.checkbox').checkbox();});
