@@ -1,5 +1,6 @@
 #survey(ng-controller="surveyCtrl")
-    .survey-container(style="position: fixed; right: 0; bottom: 100px;", ng-show="survey")
+    .survey-container(style="position: fixed; right: 0; bottom: 100px;", )
+        i.remove.circle.outline.icon(style="position:absolute; top:-2px; right:-5px; color:#fff; cursor:pointer", ng-click="close()")   
         a(href="{{surveyUrls}}", target="_blank")
             img(src="http://www.wenjuan.com/static/images/sharepic/share_pD.png")
 block content

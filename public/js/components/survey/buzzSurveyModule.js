@@ -8,4 +8,7 @@ angular.module('buzzSurveyModule', ['angularQueryParserModule', 'servicesModule'
                 $scope.survey = true;
             }
         })
+        $scope.close = function () {
+            document.getElementById("survey").style.display = "none";
+        }
     }])
