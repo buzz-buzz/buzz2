@@ -1,3 +1,11 @@
-div#survey(style="position: fixed; right: 0; bottom: 100px;")
-    a(href="https://www.wenjuan.com/s/aAFjuu/", target="_blank")
-        img(src="http://www.wenjuan.com/static/images/sharepic/share_pD.png")
+#survey(ng-controller="surveyCtrl")
+    .survey-container(style="position: fixed; right: 0; bottom: 100px;", ng-show="survey")
+        a(href="{{surveyUrls}}", target="_blank")
+            img(src="http://www.wenjuan.com/static/images/sharepic/share_pD.png")
+block content
+        include ../js
+        + js("/js/components/survey/buzzSurveyModule.min.js")
+script.
+        angular.element(document).ready(function () {
+            angular.bootstrap(document.getElementById('survey'), ['buzzSurveyModule']);
+        });

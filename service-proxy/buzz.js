@@ -161,4 +161,5 @@ module.exports = function (app, router, parse) {
     require('./buzz-lesson-member')(app, router, parse);
     require('./buzz-lesson-tags')(app, router, parse);
     require('./user-account')(app, router, parse);
+    require('./survey')(app, router, parse);
 };

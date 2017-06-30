@@ -205,13 +205,19 @@ module.exports = {
             }
         },
         userAccount: {
-            get:{
+            get: {
                 frontEnd: '/service-proxy/user-account',
                 upstream: '/user-account/:member_id'
+            }
+        },
+        survey: {
+            get: {
+                frontEnd: '/service-proxy/surveys',
+                upstream: '/surveys/latest'
             }
         }
     },
     wechat: {
-        sign: {frontEnd: '/service-proxy/wechat/sign', upstream: '/sign/buzz'}
+        sign: { frontEnd: '/service-proxy/wechat/sign', upstream: '/sign/buzz' }
     }
 };
