@@ -24,5 +24,11 @@ module.exports = function (app, router, render) {
         }).get('/agreement', saas.checkSaasReferer, function* () {
             this.body = yield render.call(this, '/agreement', { config: config });
         })
+        .get('/survey', saas.checkSaasReferer, function* () {
+            this.body = yield render.call(this, '/survey', {
+                config: config,
+                base: saas.getBaseFor(this, '/')
+            });
+        })
         ;
 };
