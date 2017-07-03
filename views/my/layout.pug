@@ -9,7 +9,7 @@ html(manifest="/buzz.appcache")
         include ../meta
         + css("/public/css/flex-box.min.css")
         + css("/public/css/lib/cube.min.css")
-        
+
         + css("/public/css/semantic-ui/semantic.min.css")
         title=title || 'Buzzbuzz English - 每天15分钟，学英语读世界！'
         block head
@@ -27,11 +27,11 @@ html(manifest="/buzz.appcache")
                     .right.menu
                         block extraMenus
                         a.item(title="历史课程", href="/my/history", ng-class="{'active': isActive('/my/history')}")
-                            i.history.icon
+                            i.big.history.icon
                         a.item(title="学习进度", href="/my/progress", ng-class="{'active': isActive('/my/progress')}")
-                            i.line.chart.icon
+                            i.big.line.chart.icon
                         a.item(title="生词本",href="/vocabulary/my", ng-class="{'active': isActive('/my/vocabulary') || isActive('/vocabulary/my')}")
-                            i.file.text.icon
+                            i.big.file.text.icon
                         a.item.middle.aligned(ng-if="!profile.avatar",href="/sign-in", ng-cloak) 请登录
                         #headportrait.ui.dropdown.item(ng-if="profile.avatar")
                             i.icons

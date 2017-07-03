@@ -145,6 +145,7 @@ function routeFolder(folder, app, router, render) {
 }
 function more(app, router, render) {
     routeFolder('more', app, router, render);
+    routeFolder('secure', app, router, render);
 }
 function start(app, router, render) {
     routeFolder('start', app, router, render);

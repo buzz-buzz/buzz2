@@ -1,0 +1,24 @@
+extends ./my/layout
+
+block head
+    + css("/public/css/semantic-ui/semantic.min.css")
+    <!-- Only required for desktop -->
+    + css("/node_modules/mobile-angular-ui/dist/css/mobile-angular-ui-hover.min.css")
+
+    <!-- Always required -->
+    + css("/node_modules/mobile-angular-ui/dist/css/mobile-angular-ui-base.min.css")
+
+    <!-- Only required for desktop -->
+    + css("/node_modules/mobile-angular-ui/dist/css/mobile-angular-ui-desktop.min.css")
+    if base
+        base(href=base)
+
+block content
+    #main.app-body(ng-app="mobileModule")
+        ng-view(style="height: 100%")
+        block body
+
+block js
+    + js("/node_modules/angular-route/angular-route.min.js")
+    + js("/node_modules/mobile-angular-ui/dist/js/mobile-angular-ui.min.js")
+    block javascript

@@ -8,32 +8,21 @@ const saas = require('../../bll/saas');
 
 module.exports = function (app, router, render) {
     router
-        .get('/s/player', saas.checkSaasReferer, function* () {
+        .get('/s/player', saas.checkSaasReferer, function*() {
             if (this.state.userAgent.isMobile && !this.state.userAgent.isTablet) {
-                this.body = yield render.call(this, '/m/player', { config: config });
+                this.body = yield render.call(this, '/m/player', {config: config});
             } else {
-                this.body = yield render.call(this, 'my/player', { config: config });
+                this.body = yield render.call(this, 'my/player', {config: config});
             }
         })
-        .get('/s/ad/:trk_tag?', saas.checkSaasReferer, function* () {
+        .get('/s/ad/:trk_tag?', saas.checkSaasReferer, function*() {
             if (!this.query.trk_tag) {
                 this.redirect(saas.generateUrl(this, `/s/ad?trk_tag=${this.params.trk_tag}`));
             } else {
-                this.body = yield render.call(this, 'ad', { config: config, trk_tag: this.query.trk_tag });
+                this.body = yield render.call(this, 'ad', {config: config, trk_tag: this.query.trk_tag});
             }
-        }).get('/agreement', saas.checkSaasReferer, function* () {
-            this.body = yield render.call(this, '/agreement', { config: config });
-        })
-        .get('/survey', saas.checkSaasReferer, function* () {
-            if (this.state.userAgent.isMobile && !this.state.userAgent.isTablet) {
-                this.body = yield render.call(this, '/survey', {
-                    config: config,
-                    base: saas.getBaseFor(this, '/'),
-                    survey_url: this.query.url
-                });
-            } else {
-                this.body = '开发中';
-            }
-        })
-        ;
+        }).get('/agreement', saas.checkSaasReferer, function*() {
+        this.body = yield render.call(this, '/agreement', {config: config});
+    })
+    ;
 };
