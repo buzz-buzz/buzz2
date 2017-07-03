@@ -25,10 +25,15 @@ module.exports = function (app, router, render) {
             this.body = yield render.call(this, '/agreement', { config: config });
         })
         .get('/survey', saas.checkSaasReferer, function* () {
-            this.body = yield render.call(this, '/survey', {
-                config: config,
-                base: saas.getBaseFor(this, '/')
-            });
+            if (this.state.userAgent.isMobile && !this.state.userAgent.isTablet) {
+                this.body = yield render.call(this, '/survey', {
+                    config: config,
+                    base: saas.getBaseFor(this, '/'),
+                    survey_url: this.query.url
+                });
+            } else {
+                this.body = '开发中';
+            }
         })
         ;
 };

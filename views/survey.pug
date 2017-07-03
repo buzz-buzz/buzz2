@@ -3,7 +3,7 @@ extends ./m/mobile-master-layout
 block content
     script(type="text/ng-template", id="survey.html")
         div#wenjuan(style="height: 100%;")
-            iframe#WJ_survey(name="WJ_survey", width="100%", frameborder="0", src='https://www.wenjuan.com/s/aAFjuu/?iframe=1&', style="min-height: 600px; border: 0; overflow: hidden; allow-transparency: true; height: 100%;")
+            iframe#WJ_survey(name="WJ_survey", width="100%", frameborder="0", src= survey_url || 'javascript:location.href="https://www.wenjuan.com/s/aAFjuu/?iframe=1&"', style="min-height: 600px; border: 0; overflow: hidden; allow-transparency: true; height: 100%;")
 
 block js
     + js('/js/components/survey/spa-route.min.js')
