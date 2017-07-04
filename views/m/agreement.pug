@@ -1,9 +1,8 @@
-extends ./spa-layout
+extends ./mobile-master-layout
 
-block body
+block content
     script(type="text/ng-template", id="agreement.html")
-        .ui.container(style='padding: 60px 2rem;background-color: white;')
-            h2(style='text-align: center;') 《BUZZBUZZ服务平台用户注册协议》
+        .ui.container(style='padding: 2rem 1rem;')
             h4  1. 特别提示
             p   1.1BUZZBUZZ服务平台（以下简称“本平台”）的经营者同意按照本协议的规定及已经发布或将来可能发布的操作规则提供基于互联网以及移动网的相关服务（以下称“网络服务”），本平台的经营者是指法律认可的经营本平台网站的责任主体，有关本平台经营者的信息，请查看平台网站首页底部公布的公司信息。
             p   为获得网络服务，服务使用人（以下称“用户”）应当同意本协议的全部条款并按照页面上的提示完成全部的注册程序。用户在进行注册程序过程中点击“同意”按钮即表示用户完全接受本协议项下的全部条款。除另行申明外，本平台提供的基于互联网以及移动网的相关服务，均受本协议约束。如果您不同意本协议的约定，您应立即停止注册/激活程序或停止使用本平台服务。
@@ -130,6 +129,5 @@ block body
             p   如果您要介绍亲朋好友到「BUZZBUZZ」加入或参与相关之活动的话，请提供您亲友相关联系方式。若您的朋友因此成为会员，记录将会视您为介绍者。
             p  「BUZZBUZZ」的隐私权政策，保护条款及其他相关之约定，将会视实际需要作适度修订。如果我们决定改变我们搜集、使用或分享数据的方式时，我们会采取适当的商业步骤，透过电子邮件通知会员并说明更动的原因，亦会让会员自由决定是否同意我们用新方法来使用他们的数据。如果您对这个部分的条款有任何问题，或是对「BUZZBUZZ」其他条款或做法有任何问题时，请与我们联络。
 
-block javascript
+block js
     + js('/js/components/survey/spa-route.min.js')
-

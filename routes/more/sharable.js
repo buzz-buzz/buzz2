@@ -21,8 +21,20 @@ module.exports = function (app, router, render) {
             } else {
                 this.body = yield render.call(this, 'ad', {config: config, trk_tag: this.query.trk_tag});
             }
-        }).get('/agreement', saas.checkSaasReferer, function*() {
-        this.body = yield render.call(this, '/agreement', {config: config});
-    })
+        })
+        .get('/agreement', saas.checkSaasReferer, function*() {
+            let view = '/agreement';
+
+            if (this.state.userAgent.isMobile && !this.state.userAgent.isTablet) {
+                view = '/m' + view;
+            }
+
+            this.body = yield render.call(this, view, {
+                config: config,
+                base: saas.getBaseFor(this, '/'),
+                title: 'Buzzbuzz用户协议',
+                backUrl: 'javascript:location.href="/sign-up"'
+            });
+        })
     ;
 };

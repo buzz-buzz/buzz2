@@ -11,6 +11,11 @@ angular.module('mobileModule', [
                 controller: 'surveyCtrl',
                 controllerAs: 'surveyCtrl'
             })
+            .when('/agreement', {
+                templateUrl: 'agreement.html',
+                controller: 'surveyCtrl',
+                controllerAs: 'surveyCtrl'
+            })
             ;
 
         $routeProvider.otherwise('/survey');

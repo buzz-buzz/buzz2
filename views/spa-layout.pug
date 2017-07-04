@@ -13,9 +13,16 @@ block head
     if base
         base(href=base)
 
+    style.
+        body {
+            background: url('http://source.bridgeplus.cn/buzz/skin2.png') repeat-x 0 0;
+            background-size: cover;
+            background-attachment: fixed;
+        }
+
 block content
     #main.app-body(ng-app="mobileModule")
-        ng-view(style="height: 100%")
+        ng-view(style="height: 100%; overflow: auto;")
         block body
 
 block js

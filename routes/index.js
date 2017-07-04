@@ -46,7 +46,7 @@ function mobileRender(app, router, render) {
 }
 
 function simpleRender(app, router, render) {
-    let routes = ['sign-in', 'agreement', 'reset-password'];
+    let routes = ['sign-in', 'reset-password'];
 
     for (let i = 0; i < routes.length; i++) {
         router.get('/' + routes[i], saas.checkSaasReferer, function* () {
