@@ -125,12 +125,12 @@ block content
                                                  img.list-image(style="width:100%; cursor:pointer;",ng-src="{{lesson.image}}")
                                              #responsive2.ten.wide.column.ui.card(style='box-shadow: none;')
                                                  .content(style='font-size: 1em; height: 70%;')
+                                                     .description(style='color: #f7b52a; font-weight:bold; cursor:pointer; white-space: normal; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; margin-bottom: 1rem; font-size: 1.5rem;', ng-click='aLikeClick("/my/play?date="+lesson.date+"&cat="+ lesson.category.toLowerCase()+"&level="+lesson.level)', ng-cloak) {{lesson.title}}
                                                      .meta(style='position: relative;')
                                                          span.date(ng-cloak) {{lesson.date}}
                                                          .tag-meta(ng-show='lesson.tags.length !== 0', ng-cloak)
                                                              .tags(ng-repeat="tag in lesson.tags track by $index")
                                                                  span(ng-cloak) {{tag}}
-                                                     .description(style='color: #f7b52a; font-weight:bold; cursor:pointer; white-space: normal; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; margin-top: 2rem;', ng-click='aLikeClick("/my/play?date="+lesson.date+"&cat="+ lesson.category.toLowerCase()+"&level="+lesson.level)', ng-cloak) {{lesson.title}}
                                                  .extra.content
                                                      .ui.grid
                                                          .row
