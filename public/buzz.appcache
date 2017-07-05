@@ -1,11 +1,9 @@
 CACHE MANIFEST
 
-#version: 1.7
+#version: 1.8
 
 CACHE:
 /clientConfig.js?v=*
-/my/history
-/my/account
 /my/vocabulary
 /css/fonts/icomoon.eot
 /css/fonts/icomoon.svg
