@@ -1,7 +1,7 @@
-block body
+block content
     script(type="text/ng-template", id="survey.html")
-        div#wenjuan.ui.container(style="height: 100%;")
+        #wenjuan(style="height: 100%;")
             iframe#WJ_survey(name="WJ_survey", width="100%", frameborder="0", src= survey_url, style="min-height: 600px; border: 0; overflow: hidden; allow-transparency: true; height: 100%;")
 
-block javascript
+block js
     + js('/js/components/survey/spa-route.min.js')

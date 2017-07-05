@@ -1,31 +1,50 @@
-extends ./my/layout
+doctype html
+html(manifest="/buzz.appcache")
+    head
+        meta(charset="utf-8")
+        meta(http-equiv="X-UA-Compatible", content="IE=edge, chrome=1")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0, maximum-scale=1.0")
+        include ./meta
+        + css("/public/css/semantic-ui/semantic.min.css")
+        <!-- Only required for desktop -->
+        + css("/node_modules/mobile-angular-ui/dist/css/mobile-angular-ui-hover.min.css")
 
-block head
-    + css("/public/css/semantic-ui/semantic.min.css")
-    <!-- Only required for desktop -->
-    + css("/node_modules/mobile-angular-ui/dist/css/mobile-angular-ui-hover.min.css")
+        <!-- Always required -->
+        + css("/node_modules/mobile-angular-ui/dist/css/mobile-angular-ui-base.min.css")
 
-    <!-- Always required -->
-    + css("/node_modules/mobile-angular-ui/dist/css/mobile-angular-ui-base.min.css")
+        <!-- Only required for desktop -->
+        + css("/node_modules/mobile-angular-ui/dist/css/mobile-angular-ui-desktop.min.css")
+        + css("/public/css/semantic-ui/semantic.min.css")
+        title=title || 'Buzzbuzz English - 每天15分钟，学英语读世界！'
+        block head
+        if saas
+            base(href=saasBase)
+        else if base
+            base(href=base)
 
-    <!-- Only required for desktop -->
-    + css("/node_modules/mobile-angular-ui/dist/css/mobile-angular-ui-desktop.min.css")
-    if base
-        base(href=base)
+        style.
+            body {
+                background: url('http://source.bridgeplus.cn/buzz/skin2.png') repeat-x 0 0;
+                background-size: cover;
+                background-attachment: fixed;
+            }
+    body
+        .app
+            .navbar.navbar-app.navbar-absolute-top#buzz-header
+                include partial/header-nav
 
-    style.
-        body {
-            background: url('http://source.bridgeplus.cn/buzz/skin2.png') repeat-x 0 0;
-            background-size: cover;
-            background-attachment: fixed;
-        }
+            #main.app-body(ng-app="mobileModule")
+                ng-view(style="height: 100%;")
+                block content
 
-block content
-    #main.app-body(ng-app="mobileModule")
-        ng-view(style="height: 100%; overflow: auto;")
-        block body
-
-block js
-    + js("/node_modules/angular-route/angular-route.min.js")
-    + js("/node_modules/mobile-angular-ui/dist/js/mobile-angular-ui.min.js")
-    block javascript
+        + js("/node_modules/jquery/dist/jquery.min.js")
+        + js("/public/css/semantic-ui/semantic.min.js")
+        include ./js
+        + js("/node_modules/angular-route/angular-route.min.js")
+        + js("/node_modules/mobile-angular-ui/dist/js/mobile-angular-ui.min.js")
+        + js("/js/buzzHeaderModule.min.js")
+        script.
+            angular.element(document).ready(function () {
+                angular.bootstrap(document.getElementById('buzz-header'), ['buzzHeaderModule']);
+            });
+        block js
