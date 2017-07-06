@@ -1,7 +1,10 @@
 block content
     script(type="text/ng-template", id="survey.html")
-        #wenjuan(style="height: 100%;")
-            iframe#WJ_survey(name="WJ_survey", width="100%", frameborder="0", src= survey_url, style="min-height: 600px; border: 0; overflow: hidden; allow-transparency: true; height: 100%;")
+        if !answered
+            div#wenjuan.ui.container(style="height: 100%;")
+                iframe#WJ_survey(name="WJ_survey", width="100%", frameborder="0", src= survey_url, style="min-height: 600px; border: 0; overflow: hidden; allow-transparency: true; height: 100%;")
+        else
+            p 你已经回答过了
 
 block js
     + js('/js/components/survey/spa-route.min.js')

@@ -218,6 +218,20 @@ module.exports = {
         }
     },
     wechat: {
-        sign: { frontEnd: '/service-proxy/wechat/sign', upstream: '/sign/buzz' }
+        sign: { frontEnd: '/service-proxy/wechat/sign', upstream: '/sign/buzz' },
+
+        surveyApi: {
+            get:{
+                frontEnd: '/service-proxy/member/survey-api',
+                upstream: '/survey/url/:member_id/:short_id/:user/:test'
+            }
+        },
+
+        answerApi: {
+            get:{
+                frontEnd: '/service-proxy/member/answer-api',
+                upstream: '/survey/answer/:member_id/:short_id/:user/:data_type'
+            }
+        }
     }
 };

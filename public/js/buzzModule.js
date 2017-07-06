@@ -62,10 +62,10 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                 $scope.queryString = location.search + '&video_path=' + (result.data.video_path) + '&new_words_path=' + result.data.new_words_path + '&lesson_id=' + result.data.lesson_id;
 
                 $scope.src = '/s/player' + $scope.queryString;
-                if(document.getElementById('loading-model')){
+                if (document.getElementById('loading-model')) {
                     document.getElementById('loading-model').style.display = 'none';
                 }
-                if(document.getElementById('mobile-video-iframe')){
+                if (document.getElementById('mobile-video-iframe')) {
                     document.getElementById('mobile-video-iframe').style.display = 'block';
                 }
 
@@ -102,7 +102,7 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
             if (event.origin === location.origin && (typeof event.data === 'string') && event.data.indexOf('video:eightyPercentPlayed//') === 0) {
                 try {
                     var data = JSON.parse(event.data.substr(27));
-                    console.log("send 80% to :"+ data.lesson_id);
+                    console.log("send 80% to :" + data.lesson_id);
                     $http.post(clientConfig.serviceUrls.buzz.lessonVisited.save.frontEnd + '?lesson_id=' + data.lesson_id, {})
                     ;
                 } catch (ex) {
@@ -207,18 +207,40 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
             }
         });
     }])
-    .controller("surveyCtrl", ['$scope', '$rootScope', '$q', 'api', 'clientConfig', function ($scope, $rootScope, $q, api, clientConfig) {
-        api.get(clientConfig.serviceUrls.buzz.survey.get.frontEnd).then(function (result) {
-            $scope.surveyUrls = result.data.survey_url;
-            if ($scope.surveyUrls == null) {
-                $scope.survey = false;
-            } else {
-                $scope.surveyUrls = '/survey?url= '+ encodeURIComponent(result.data.survey_url);
-                $scope.survey = true;
-            }
-        });
+    .controller("surveyCtrl", ['$scope', '$rootScope', '$q', 'api', 'clientConfig', 'queryParser', function ($scope, $rootScope, $q, api, clientConfig, queryParser) {
+        var query = queryParser.parse();
+        var test = '';
 
-        $scope.closeTarget = function () {
+        if (query.test) {
+            test = '1';
+        }
+
+        api.get(clientConfig.serviceUrls.buzz.survey.get.frontEnd)
+            .then(function (result) {
+                $scope.surveyUrls = result.data.survey_url;
+                if ($scope.surveyUrls == null) {
+                    $scope.survey = false;
+                    return false;
+                } else {
+                    return result.data.survey_url.replace('https://www.wenjuan.com/s/', '').replace('/', '');
+                }
+            })
+            .then(function(short_id){
+                if(short_id){
+                    api.get(clientConfig.serviceUrls.wechat.surveyApi.get.frontEnd + '?short_id=' + short_id + '&test=' + test).then(function (result) {
+                        if(result.data){
+                            $scope.surveyUrls = '/survey?url= '+ encodeURIComponent(result.data) + '&short_id=' +short_id;
+                            $scope.survey = true;
+                        }else{
+                            $scope.survey = false;
+                        }
+                    });
+                }
+            })
+        ;
+
+
+        $scope.close = function () {
             document.getElementById("survey").style.display = "none";
         }
     }])
