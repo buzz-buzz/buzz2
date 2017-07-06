@@ -16,7 +16,7 @@
             a.item.middle.aligned(ng-if="!profile.avatar",href="/sign-in", ng-cloak) 请登录
             #headportrait.ui.dropdown.item(ng-if="profile.avatar")
                 i.icons
-                    .icon.ui.image.circular(style="height: 40px; width: 40px;")
+                    a.icon.ui.image.circular(style="height: 40px; width: 40px;", href="/my/account")
                         img(ng-src="{{profile.avatar}}", ng-if="profile.avatar", ng-cloak, style="height: 40px!important; width: auto;")
                     i.red.corner.star.icon(ng-if="payingMember", ng-cloak)
                 .menu
