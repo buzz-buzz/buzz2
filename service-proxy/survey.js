@@ -15,11 +15,11 @@ const proxyOption = {
 
 module.exports = function (app, router, parse) {
     router
-        .get(serviceUrls.buzz.survey.get.frontEnd, membership.ensureAuthenticated, function*() {
+        .get(serviceUrls.buzz.survey.get.frontEnd, function* () {
             this.body = yield proxy(Object.assign({
                 path: serviceUrls.buzz.survey.get.upstream,
                 method: 'GET'
             }, proxyOption));
         })
-    ;
+        ;
 };
