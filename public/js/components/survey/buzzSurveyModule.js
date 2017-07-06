@@ -17,7 +17,7 @@ angular.module('buzzSurveyModule', ['angularQueryParserModule', 'servicesModule'
         //
         //             //真正的url赋值
         //             //$scope.surveyUrls = '/survey?url= '+ encodeURIComponent(result.data.survey_url);
-        //             $scope.survey = true;git 
+        //             $scope.survey = true;git
         //         });
         //     }
         // });
