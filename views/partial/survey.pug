@@ -1,8 +1,8 @@
 #survey(ng-controller="surveyCtrl")
     .survey-container(style="position: fixed; right: 0; bottom: 100px;",ng-show="survey" )
-        i.remove.circle.outline.icon(style="position:absolute; top:-2px; right:-5px; color: #fff; cursor: pointer", ng-click="close()")   
+        i.remove.circle.outline.icon(style="position:absolute; top:10px; right:-5px; color: #FFC125; font-size: 1.5rem; cursor: pointer", ng-click="close()")   
         a(href="{{surveyUrls}}")
-            img(src="http://www.wenjuan.com/static/images/sharepic/share_pD.png")
+            img(src="/images/survey.png", style="height: 10rem;")
 block content
         include ../js
         + js("/js/components/survey/buzzSurveyModule.min.js")
