@@ -2,25 +2,25 @@
     .ui.mini.yellow.inverted.compact.borderless.menu(ng-controller="headerCtrl", style="width: 100%;")
         - var link = hcd_user ? '/my/today' : '/';
         if !saas
-            a.item(href=link, style="padding: 0;")
+            a.item(href='javascript:location.href='+link, style="padding: 0;")
                 img.ui.tiny.image(src="http://resource.buzzbuzzenglish.com/new_buzz_logo.png", style="height: 100%; width: auto; max-height: 40px;")
         .seo-modal(style='display: none;') 每天15分钟，学英语读世界！每天更新的，青少年英语新闻分级阅读！只要一杯咖啡的价格，让您的孩子英语水平超凡！
         .item(ng-cloak) Hello {{profile.display_name}}, welcome to Buzzbuzz English.
         .right.menu
             block extraMenus
-            a.item(title="历史课程", href="/my/history", ng-class="{'active': isActive('/my/history')}")
+            a.item(title="历史课程", href="javascript:location.href='/my/history'", ng-class="{'active': isActive('/my/history')}")
                 i.big.history.icon
-            a.item(title="学习进度", href="/my/progress", ng-class="{'active': isActive('/my/progress')}")
+            a.item(title="学习进度", href="javascript:location.href='/my/progress'", ng-class="{'active': isActive('/my/progress')}")
                 i.big.line.chart.icon
-            a.item(title="生词本",href="/vocabulary/my", ng-class="{'active': isActive('/my/vocabulary') || isActive('/vocabulary/my')}")
+            a.item(title="生词本",href="javascript:location.href='/vocabulary/my'", ng-class="{'active': isActive('/my/vocabulary') || isActive('/vocabulary/my')}")
                 i.big.file.text.icon
-            a.item.middle.aligned(ng-if="!profile.avatar",href="/sign-in", ng-cloak) 请登录
+            a.item.middle.aligned(ng-if="!profile.avatar",href="javascript:location.href='/sign-in'", ng-cloak) 请登录
             #headportrait.ui.dropdown.item(ng-if="profile.avatar")
                 i.icons
-                    a.icon.ui.image.circular(style="height: 40px; width: 40px;", href="/my/account")
+                    a.icon.ui.image.circular(style="height: 40px; width: 40px;", href="javascript:location.href='/my/account'")
                         img(ng-src="{{profile.avatar}}", ng-if="profile.avatar", ng-cloak, style="height: 40px!important; width: auto;")
                     i.red.corner.star.icon(ng-if="payingMember", ng-cloak)
                 .menu
-                    a.item(href="/my/account") 账号信息
-                    a.item(href="/my/password") 修改密码
-                    a.item(href="/sign-out") 退出
+                    a.item(href="javascript:location.href='/my/account'") 账号信息
+                    a.item(href="javascript:location.href='/my/password'") 修改密码
+                    a.item(href="javascript:location.href='/sign-out'") 退出
