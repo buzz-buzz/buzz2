@@ -1,5 +1,5 @@
 .mask {
-    display: flex!important;
+    display: none!important;
     flex-direction: row;
     justify-content: center;
     align-items: center;

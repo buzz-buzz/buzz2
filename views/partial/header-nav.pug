@@ -1,7 +1,8 @@
 .ui.container
     .ui.mini.yellow.inverted.compact.borderless.menu(ng-controller="headerCtrl", style="width: 100%;")
+        - var link = hcd_user ? '/my/today' : '/';
         if !saas
-            a.item(href="/", style="padding: 0;")
+            a.item(href=link, style="padding: 0;")
                 img.ui.tiny.image(src="http://resource.buzzbuzzenglish.com/new_buzz_logo.png", style="height: 100%; width: auto; max-height: 40px;")
         .seo-modal(style='display: none;') 每天15分钟，学英语读世界！每天更新的，青少年英语新闻分级阅读！只要一杯咖啡的价格，让您的孩子英语水平超凡！
         .item(ng-cloak) Hello {{profile.display_name}}, welcome to Buzzbuzz English.
