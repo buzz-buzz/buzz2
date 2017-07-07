@@ -47,7 +47,8 @@ module.exports = function (app, router, render) {
                 config: config,
                 base: saas.getBaseFor(this, '/'),
                 survey_url: survey_url,
-                answered: answerData == '此用户尚未完成答卷,或不存在!' ? false : true
+                answered: answerData == '此用户尚未完成答卷,或不存在!' ? false : true,
+                answer: answerData
             });
         })
     ;
