@@ -5,10 +5,11 @@ const saas = require('../../bll/saas');
 const membership = require('../../membership');
 const url = require('url');
 const proxy = require('../../service-proxy/proxy');
+const surveyBll = require('../../bll/survey');
 
 module.exports = function (app, router, render) {
     router
-        .get('/survey', saas.checkSaasReferer, membership.ensureAuthenticated, function*() {
+        .get('/survey', saas.checkSaasReferer, membership.ensureAuthenticated, function* () {
             let view = '/survey';
 
             if (this.state.userAgent.isMobile && !this.state.userAgent.isTablet) {
@@ -33,7 +34,7 @@ module.exports = function (app, router, render) {
 
             urlData = url.parse(urlData);
 
-            let answerData = yield  proxy({
+            let answerData = yield proxy({
                 host: urlData.host,
                 port: 80,
                 path: urlData.path,
@@ -46,10 +47,10 @@ module.exports = function (app, router, render) {
             this.body = yield render.call(this, view, {
                 config: config,
                 base: saas.getBaseFor(this, '/'),
-                survey_url: survey_url,
+                survey_url: surveyBll.getIframeUrl(survey_url),
                 answered: answerData == '此用户尚未完成答卷,或不存在!' ? false : true,
                 answer: answerData
             });
         })
-    ;
+        ;
 };

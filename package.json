@@ -1,7 +1,8 @@
 {
   "scripts": {
     "start": "gulp && node app.js",
-    "test": "mocha && gulp test"
+    "test": "mocha && gulp test",
+    "server-test": "mocha"
   },
   "dependencies": {
     "angular": "^1.6.4",
