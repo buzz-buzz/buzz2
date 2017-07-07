@@ -1,4 +1,4 @@
-angular.module('mobileModule', [
+angular.module('spaModule', [
     'ngRoute',
     'mobile-angular-ui',
     'buzzModule',

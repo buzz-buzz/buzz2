@@ -1,7 +1,4 @@
-angular.module('mobileModule', [
-    'ngRoute',
-    'mobile-angular-ui'
-])
+angular.module('spaModule')
     .config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
         $locationProvider.html5Mode(true);
 

@@ -29,13 +29,14 @@ html(manifest="/buzz.appcache")
                 background-attachment: fixed;
             }
     body
-        .app
+        .app(ng-app="spaModule", style="background: transparent;")
             .navbar.navbar-app.navbar-absolute-top#buzz-header
                 include partial/header-nav
 
-            #main.app-body(ng-app="mobileModule")
-                ng-view(style="height: 100%;")
-                block content
+            #main.app-body
+                .app-content
+                    ng-view
+                    block content
 
         + js("/node_modules/jquery/dist/jquery.min.js")
         + js("/public/css/semantic-ui/semantic.min.js")
@@ -43,8 +44,4 @@ html(manifest="/buzz.appcache")
         + js("/node_modules/angular-route/angular-route.min.js")
         + js("/node_modules/mobile-angular-ui/dist/js/mobile-angular-ui.min.js")
         + js("/js/buzzHeaderModule.min.js")
-        script.
-            angular.element(document).ready(function () {
-                angular.bootstrap(document.getElementById('buzz-header'), ['buzzHeaderModule']);
-            });
         block js
