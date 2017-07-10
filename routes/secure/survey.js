@@ -3,9 +3,9 @@
 const config = require('../../config');
 const saas = require('../../bll/saas');
 const membership = require('../../membership');
-const url = require('url');
 const proxy = require('../../service-proxy/proxy');
 const surveyBll = require('../../bll/survey');
+const Router = require('koa-router');
 
 module.exports = function (app, router, render) {
     router
@@ -18,8 +18,7 @@ module.exports = function (app, router, render) {
                 source = 'mobile';
             }
 
-            let survey_url = this.query.url;
-            let short_id = this.query.short_id || localStorage.getItem('short_id');
+            let short_id = this.query.short_id;
 
             let urlData = yield proxy({
                 host: config.wechatSign.inner.host,
@@ -31,28 +30,36 @@ module.exports = function (app, router, render) {
                 method: 'GET'
             });
 
-            console.log('---------------------');
-            console.log(urlData);
-
-            urlData = url.parse(urlData);
-
             let answerData = yield proxy({
-                host: urlData.host,
-                port: 80,
-                path: urlData.path,
+                url: urlData,
                 method: 'GET'
             });
 
-            console.log('---------------------');
-            console.log(answerData);
+            let answered = answerData !== '此用户尚未完成答卷,或不存在!';
+
+            let survey_url = '';
+            if (!answered) {
+                survey_url = yield proxy({
+                    host: config.wechatSign.inner.host,
+                    port: config.wechatSign.inner.port,
+                    path: Router.url('/survey/callback/url/:member_id/:short_id/:user/:callback/:redirect/:test?', {
+                        member_id: this.state.hcd_user.member_id,
+                        short_id: this.query.short_id,
+                        user: 'buzzbuzz',
+                        callback: encodeURIComponent(`${config.wechat.returnHost}/service-proxy/surveys/answers`),
+                        redirect: encodeURIComponent(`${config.wechat.returnHost}/jumpresult`)
+                    }),
+                    method: 'GET'
+                });
+            }
 
             this.body = yield render.call(this, view, {
                 config: config,
                 base: saas.getBaseFor(this, '/'),
                 survey_url: survey_url,
-                answered: answerData !== '此用户尚未完成答卷,或不存在!',
-                answer: answerData,
-                source: source
+                source: source,
+                answered: answered,
+                answer: answerData
             });
         })
         ;

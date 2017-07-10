@@ -41,7 +41,7 @@ module.exports = {
             port: 10101,
             app_id: 'buzz'
         },
-        returnHost: 'http://127.0.0.1:16000'
+        returnHost: 'http://localhost:16000'
     },
 
     wechatSign: {

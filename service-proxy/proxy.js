@@ -14,9 +14,9 @@ function composeUrl(host, port, path) {
  *  Always pass host and port to avoid host or port undefined error
  * @returns {*}
  */
-function *proxy(settings) {
+function* proxy(settings) {
     let option = {
-        uri: composeUrl(settings.host, settings.port, settings.path),
+        uri: settings.url || composeUrl(settings.host, settings.port, settings.path),
         method: settings.method || 'POST'
     };
 

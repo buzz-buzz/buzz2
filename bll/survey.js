@@ -7,7 +7,8 @@ const config = require('../config');
 module.exports = {
     getShortId: function (shortUrl) {
         let reg = /https\:\/\/www\.wenjuan\.com\/s\/(\w+)\/?/;
-        return reg.exec(shortUrl)[1];
+        let matches = reg.exec(shortUrl);
+        return matches[1];
     },
 
     getIframeUrl: function (shortUrl) {

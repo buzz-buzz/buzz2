@@ -5,6 +5,4 @@ block content
     include ./js
     + js("/js/components/survey/buzzSurveyModule.min.js")
 script.
-    console.log(window.parent);
-    console.log(window.location);
-    window.parent.postMessage('redirect://' + location.pathname.replace('jump',''), window.location.origin);
+    window.parent.postMessage('refresh://', window.location.origin);

@@ -36,12 +36,7 @@ module.exports = function (app, router, render) {
                 backUrl: 'javascript:location.href="/sign-up"'
             });
         })
-        .get('/jump*', function *(){
-            //turn
-            //this.body = 'ok,buzz page';
-            this.body = yield render.call(this, '/result-callback', { config: config });
-        })
-        .get('/result-callback', function *(){
+        .get('/jumpresult', function* () {
             this.body = yield render.call(this, '/result-callback', { config: config });
         })
         ;

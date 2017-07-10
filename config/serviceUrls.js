@@ -214,6 +214,14 @@ module.exports = {
             get: {
                 frontEnd: '/service-proxy/surveys',
                 upstream: '/surveys/latest'
+            },
+            latest: {
+                frontEnd: '/service-proxy/surveys/latest',
+                upstream: '/surveys/latest'
+            },
+            answer: {
+                frontEnd: '/service-proxy/survey/answer/callback',
+                upstream: '/surveys/answers'
             }
         }
     },
@@ -221,21 +229,21 @@ module.exports = {
         sign: { frontEnd: '/service-proxy/wechat/sign', upstream: '/sign/buzz' },
 
         surveyApi: {
-            get:{
+            get: {
                 frontEnd: '/service-proxy/member/survey-api',
                 upstream: '/survey/url/:member_id/:short_id/:user/:test'
             }
         },
 
         surveyApiCallback: {
-            get:{
+            get: {
                 frontEnd: '/service-proxy/member/callback-api',
                 upstream: '/survey/callback/url/:member_id/:short_id/:user/:callback/:redirect/:test'
             }
         },
 
         answerApi: {
-            get:{
+            get: {
                 frontEnd: '/service-proxy/member/answer-api',
                 upstream: '/survey/answer/:member_id/:short_id/:user/:data_type'
             }

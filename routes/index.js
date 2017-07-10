@@ -92,6 +92,9 @@ function filterConfig(config) {
     ret.cdn = config.cdn;
     ret.captcha = config.captcha.public;
     ret.serviceUrls = config.serviceUrls;
+    ret.wechat = {
+        returnHost: config.wechat.returnHost
+    };
 
     return ret;
 }
