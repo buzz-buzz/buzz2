@@ -1,4 +1,3 @@
-
 'use strict';
 
 const config = require('../config');
@@ -8,6 +7,7 @@ const proxy = require('./proxy');
 const Router = require('koa-router');
 const qs = require('querystring');
 const surveyBll = require('../bll/survey');
+const greenSharedLogger = require('../common/logger')('/service-proxy/survey.js');
 
 const proxyOption = {
     host: config.buzz.inner.host,
@@ -36,8 +36,7 @@ module.exports = function (app, router, parse) {
             }
         })
         .get(serviceUrls.buzz.survey.answer.frontEnd, function* () {
-            console.log('called by wenjun ==========>>>>>>>>>');
-            console.log(this.req.url);
+            greenSharedLogger.error('called by wenjun ==========>>>>>>>>> ' + this.req.url);
             this.body = yield proxy(Object.assign({
                 path: serviceUrls.buzz.survey.answer.upstream,
                 method: 'PUT',
@@ -46,6 +45,20 @@ module.exports = function (app, router, parse) {
                     short_id: this.query.wj_short_id,
                     wj_user: 'buzzbuzz',
                     data_type: 'json'
+                }
+            }, proxyOption));
+        })
+        .put('/service-proxy/surveys/help-friend/i-support', membership.ensureAuthenticated, function* () {
+            let data = yield parse(this.request);
+
+            this.body = yield proxy(Object.assign({
+                path: Router.url('/surveys/:supporter_id/support/:supportee_id', {
+                    supporter_id: this.state.hcd_user.member_id,
+                    supportee_id: data.friend_member_id
+                }),
+                method: 'PUT',
+                data: {
+                    short_id: data.short_id
                 }
             }, proxyOption));
         })

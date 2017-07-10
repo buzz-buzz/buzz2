@@ -20,22 +20,17 @@ module.exports = function (app, router, render) {
 
             let short_id = this.query.short_id;
 
-            let urlData = yield proxy({
-                host: config.wechatSign.inner.host,
-                port: config.wechatSign.inner.port,
-                path: config.serviceUrls.wechat.answerApi.get.upstream.replace(':member_id', this.state.hcd_user.member_id)
-                    .replace(':short_id', short_id)
-                    .replace(':user', 'buzzbuzz')
-                    .replace(':date_type', 'json'),
-                method: 'GET'
-            });
-
             let answerData = yield proxy({
-                url: urlData,
+                host: config.buzz.inner.host,
+                port: config.buzz.inner.port,
+                path: Router.url(config.serviceUrls.buzz.survey.answerInBuzz.upstream, {
+                    short_id: short_id,
+                    member_id: this.state.hcd_user.member_id
+                }),
                 method: 'GET'
             });
 
-            let answered = answerData !== '此用户尚未完成答卷,或不存在!';
+            let answered = JSON.stringify(answerData) !== '"{}"';
 
             let survey_url = '';
             if (!answered) {
@@ -61,6 +56,29 @@ module.exports = function (app, router, render) {
                 answered: answered,
                 answer: answerData
             });
+        })
+        .get('/survey/help-friend/:short_id/:friend_member_id', saas.checkSaasReferer, membership.ensureAuthenticated, function* () {
+            let view = '/survey';
+
+            if (this.state.userAgent.isMobile && !this.state.userAgent.isTablet) {
+                view = '/m' + view;
+            }
+
+            let answerData = yield proxy({
+                host: config.buzz.inner.host,
+                port: config.buzz.inner.port,
+                path: Router.url(config.serviceUrls.buzz.survey.answerInBuzz.upstream, {
+                    short_id: this.params.short_id,
+                    member_id: this.params.friend_member_id
+                }),
+                method: 'GET'
+            });
+
+            this.body = yield render.call(this, view, {
+                config: config,
+                answer: answerData,
+                base: saas.getBaseFor(this, '/')
+            })
         })
         ;
 };

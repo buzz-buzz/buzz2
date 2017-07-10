@@ -222,6 +222,10 @@ module.exports = {
             answer: {
                 frontEnd: '/service-proxy/survey/answer/callback',
                 upstream: '/surveys/answers'
+            },
+            answerInBuzz: {
+                frontEnd: '/service-proxy/survey/answer/in/buzz',
+                upstream: '/surveys/answers/:short_id/:member_id'
             }
         }
     },

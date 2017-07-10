@@ -13,7 +13,12 @@ angular.module('spaModule')
                 controller: 'surveyCtrl',
                 controllerAs: 'surveyCtrl'
             })
-        ;
+            .when('/survey/help-friend/:short_id/:friend_member_id', {
+                templateUrl: 'help-friend.html',
+                controller: 'helpFriendCtrl',
+                controllerAs: 'helpFriendCtrl'
+            })
+            ;
 
         $routeProvider.otherwise('/survey');
     }])
@@ -115,4 +120,22 @@ angular.module('spaModule')
             });
         });
     }])
-;
+    .controller('helpFriendCtrl', ['$scope', '$http', '$routeParams', function ($scope, $http, $routeParams) {
+        $scope.support = function () {
+            $http.put('/service-proxy/surveys/help-friend/i-support', {
+                short_id: $routeParams.short_id,
+                friend_member_id: $routeParams.friend_member_id
+            }).then(function (res) {
+                gotoSurveyPage();
+            });
+        };
+
+        function gotoSurveyPage() {
+            location.href = '/survey?short_id=' + $routeParams.short_id;
+        }
+
+        $scope.giveUp = function () {
+            gotoSurveyPage();
+        };
+    }])
+    ;

@@ -14,4 +14,5 @@ angular.module('buzzSurveyModule', ['angularQueryParserModule', 'servicesModule'
         $scope.close = function () {
             document.getElementById("survey").style.display = "none";
         };
-    }]);
+    }])
+    ;
