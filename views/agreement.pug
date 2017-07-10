@@ -1,12 +1,12 @@
 extends ./spa-layout
 
-block body
+block content
     script(type="text/ng-template", id="agreement.html")
         .ui.container(style='padding: 60px 2rem;background-color: white;')
             h2(style='text-align: center;') 《BUZZBUZZ服务平台用户注册协议》
             include partial/agreement-content
 
-block javascript
-    + js('/js/spaModule.min.js')
+block js
+    + js('/js/components/spaModuleWithHeader.min.js')
     + js('/js/components/survey/spa-route.min.js')
 
