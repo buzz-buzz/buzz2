@@ -227,6 +227,13 @@ module.exports = {
             }
         },
 
+        surveyApiCallback: {
+            get:{
+                frontEnd: '/service-proxy/member/callback-api',
+                upstream: '/survey/callback/url/:member_id/:short_id/:user/:callback/:redirect/:test'
+            }
+        },
+
         answerApi: {
             get:{
                 frontEnd: '/service-proxy/member/answer-api',

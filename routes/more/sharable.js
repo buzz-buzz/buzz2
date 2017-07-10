@@ -36,5 +36,10 @@ module.exports = function (app, router, render) {
                 backUrl: 'javascript:location.href="/sign-up"'
             });
         })
+        .get('/jump*', function *(){
+            //turn
+
+            this.body = 'result';
+        })
         ;
 };

@@ -1,13 +1,13 @@
 #survey(ng-controller="surveyCtrl")
     .survey-container(style="position: fixed; right: 0; bottom: 100px;",ng-show="survey" )
-        i.remove.circle.outline.icon(style="position:absolute; top:10px; right:-5px; color: #FFC125; font-size: 1.5rem; cursor: pointer", ng-click="close()")   
+        i.remove.circle.outline.icon(style="position:absolute; top:10px; right:-5px; color: #FFC125; font-size: 1.5rem; cursor: pointer", ng-click="close()")
         a(href="{{surveyUrls}}")
-            img(src="//resource.buzzbuzzenglish.com/survey.png", style="height: 10rem;")
+            img(src="//resource.buzzbuzzenglish.com/survey1.png", style="height: 10rem;")
 block content
-        include ../js
-        + js("/js/components/survey/buzzSurveyModule.min.js")
+    include ../js
+    + js("/js/components/survey/buzzSurveyModule.min.js")
 script.
-        angular.element(document).ready(function () {
-            angular.bootstrap(document.getElementById('survey'), ['buzzSurveyModule']);
-        });
+    angular.element(document).ready(function () {
+        angular.bootstrap(document.getElementById('survey'), ['buzzSurveyModule']);
+    });
 

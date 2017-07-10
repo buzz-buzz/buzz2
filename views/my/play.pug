@@ -8,6 +8,7 @@ block js
     + js("/js/buzzModule/quizCtrl.min.js")
     + js("/js/buzzModule/newWordCtrl.min.js")
     + js("/js/buzzModule/weeklyQuizCtrl.min.js")
+    + js("/js/components/survey/buzzSurveyModule.min.js")
     + js("/lib/jwplayer/jwplayer.js")
     script.
         jwplayer.key = 'lG24bAGJCRLF1gi4kajg4EnUKi+ujyUyKMoSNA==';
@@ -34,7 +35,6 @@ block content
         .page.with-header.section.transparent
             .center.aligned.container.column.flex-box.transparent(style='position: relative;')
                 include ../partial/loading
-                include ../partial/survey-pc
                 iframe.row.content.white.background(id='mobile-video-iframe', ng-src="{{src}}" ng-controller="VideoPlayerCtrl", style="border:none; width: 100%; display: none;", allowfullscreen)
                 #page-2-header.center.aligned.container.column.white.background.row.dynamic
                     .tabular.menu
@@ -65,3 +65,4 @@ block content
         #paying-modal.dark.mask(ng-controller="payingModalCtrl", ng-class="{'hide': hideModal, 'show': showModal}", ng-click=(hcd_user && hcd_user.isAdmin) + ' ? hideTheModal() : ""')
             .popup(style="padding: 1em 2em;")
                 h1 你无权查看本课程……
+    include ../partial/survey-pc.pug

@@ -17,14 +17,19 @@ angular.module('buzzSurveyModule', ['angularQueryParserModule', 'servicesModule'
                     return result.data.survey_url.replace('https://www.wenjuan.com/s/', '').replace('/', '');
                 }
             })
-            .then(function (short_id) {
-                if (short_id) {
-                    api.get(clientConfig.serviceUrls.wechat.surveyApi.get.frontEnd + '?short_id=' + short_id + '&test=' + test).then(function (result) {
-                        if (result.data) {
-                            console.log('----------url-------');
-                            $scope.surveyUrls = '/survey?url= ' + encodeURIComponent(result.data) + '&short_id=' + short_id;
+            .then(function(short_id){
+                if(short_id){
+                    var callback = encodeURIComponent('http://buzzbuzzenglish.com/survey/wenjuan/callback');
+                    var redirect = encodeURIComponent('http://localhost:16000/jumpresult');
+                    api.get(clientConfig.serviceUrls.wechat.surveyApiCallback.get.frontEnd + '?short_id=' + short_id + '&test=' + test
+                        +'&callback=' + callback + '&redirect=' + redirect
+                    ).then(function (result) {
+                        if(result.data){
+                            $scope.surveyUrls = '/survey?url= '+ encodeURIComponent(result.data) + '&short_id=' +short_id;
+                            console.log('------callback url');
+                            console.log(result.data);
                             $scope.survey = true;
-                        } else {
+                        }else{
                             $scope.survey = false;
                         }
                     });

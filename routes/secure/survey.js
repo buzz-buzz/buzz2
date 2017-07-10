@@ -47,8 +47,8 @@ module.exports = function (app, router, render) {
             this.body = yield render.call(this, view, {
                 config: config,
                 base: saas.getBaseFor(this, '/'),
-                survey_url: surveyBll.getIframeUrl(survey_url),
-                answered: answerData == '此用户尚未完成答卷,或不存在!' ? false : true,
+                survey_url: survey_url,
+                answered: answerData !== '此用户尚未完成答卷,或不存在!',
                 answer: answerData
             });
         })

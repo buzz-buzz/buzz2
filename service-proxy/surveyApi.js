@@ -22,6 +22,19 @@ module.exports = function (app, router, parse) {
                 method: 'GET'
             });
         })
+        .get(config.serviceUrls.wechat.surveyApiCallback.get.frontEnd, membership.ensureAuthenticated, function *() {
+            this.body = yield proxy({
+                host: config.wechatSign.inner.host,
+                port: config.wechatSign.inner.port,
+                path: config.serviceUrls.wechat.surveyApiCallback.get.upstream.replace(':member_id', this.state.hcd_user.member_id)
+                    .replace(':short_id', this.query.short_id)
+                    .replace(':user', 'buzzbuzz')
+                    .replace(':callback', encodeURIComponent(this.query.callback))
+                    .replace(':redirect', encodeURIComponent(this.query.redirect))
+                    .replace(':test', this.query.test ? this.query.test : ''),
+                method: 'GET'
+            });
+        })
         .get(config.serviceUrls.wechat.answerApi.get.frontEnd, membership.ensureAuthenticated, function *() {
             let urlData = yield proxy({
                 host: config.wechatSign.inner.host,
