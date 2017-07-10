@@ -17,7 +17,7 @@ module.exports = function (app, router, render) {
             }
 
             let survey_url = this.query.url;
-            let short_id = this.query.short_id;
+            let short_id = this.query.short_id || localStorage.getItem('short_id');
 
             let urlData = yield proxy({
                 host: config.wechatSign.inner.host,

@@ -11,3 +11,11 @@ block js
     + js("/js/buzzHeaderModule.min.js")
     + js('/js/components/spaModuleWithHeader.min.js')
     + js('/js/components/survey/spa-route.min.js')
+    script.
+        window.addEventListener('message', function (event) {
+        if (event.data && event.data.indexOf && event.data.indexOf('redirect://') === 0) {
+        console.log('==========redrect==========');
+        console.log(event.data.replace('redirect://','').replace('result','my/account'));
+        location.href = '/survey?url= ' + localStorage.getItem('wenjuanurl') + '&short_id=' + localStorage.getItem('short_id');
+        }
+        }, false);

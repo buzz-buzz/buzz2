@@ -38,8 +38,11 @@ module.exports = function (app, router, render) {
         })
         .get('/jump*', function *(){
             //turn
-
-            this.body = 'result';
+            //this.body = 'ok,buzz page';
+            this.body = yield render.call(this, '/result-callback', { config: config });
+        })
+        .get('/result-callback', function *(){
+            this.body = yield render.call(this, '/result-callback', { config: config });
         })
         ;
 };

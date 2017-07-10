@@ -25,8 +25,10 @@ angular.module('buzzSurveyModule', ['angularQueryParserModule', 'servicesModule'
                         +'&callback=' + callback + '&redirect=' + redirect
                     ).then(function (result) {
                         if(result.data){
+                            localStorage.setItem('wenjuanurl', encodeURIComponent(result.data));
+                            localStorage.setItem('short_id', short_id);
                             $scope.surveyUrls = '/survey?url= '+ encodeURIComponent(result.data) + '&short_id=' +short_id;
-                            console.log('------callback url');
+                            console.log('------callback url----hank---');
                             console.log(result.data);
                             $scope.survey = true;
                         }else{

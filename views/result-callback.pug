@@ -1,0 +1,10 @@
+#survey-result
+    .survey-container
+        p 页面玩命加载中,请稍后 ....
+block content
+    include ./js
+    + js("/js/components/survey/buzzSurveyModule.min.js")
+script.
+    console.log(window.parent);
+    console.log(window.location);
+    window.parent.postMessage('redirect://' + location.pathname.replace('jump',''), window.location.origin);
