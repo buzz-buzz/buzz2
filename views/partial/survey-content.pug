@@ -1,7 +1,7 @@
 block content
     script(type="text/ng-template", id="survey.html")
         if !answered
-            div#wenjuan.ui.container(style="height: 100%; margin: 0 auto !important;padding: 0;")
+            div#wenjuan.ui.container(style="height: 100%; margin: 0 auto !important; padding-bottom: 3rem; ")
                 iframe#WJ_survey(name="WJ_survey", width="100%", frameborder="0", src= survey_url, style="min-height: 600px; border: 0; overflow: hidden; allow-transparency: true; height: 100%;")
         else
             .ui.container(style='margin-top: 40px;background-color: white; padding-bottom: 2rem;')
@@ -18,8 +18,9 @@ block content
                         button.ui.yellow.button(onclick="console.log('-----share----');document.getElementById('dimmer').style.display = 'block';document.getElementById('dimmer').style.opacity = 1;", style='display: block; margin: 0 auto;') 分享给好友
                     else
                         .ui.secondary.segment
-                            p 小提示:目前只支持微信端分享给好友哦！
-            .ui.dimmer#dimmer(onclick="console.log('-----share----');document.getElementById('dimmer').style.display = 'none';document.getElementById('dimmer').style.opacity = 0;")
+                            p 小提示:目前只支持微信端分享给好友哦, 拿起手机快快行动吧！
+        if source == 'mobile'
+            .ui.dimmer#dimmer(onclick="console.log('-----share----');document.getElementById('dimmer').style.display = 'none';document.getElementById('dimmer').style.opacity = 0;" ,ng-controller='surveyShareCtrl')
                 .content
                     .center
                         img(src="//resource.buzzbuzzenglish.com/share-friends.jpg", style='width: 85%;')
@@ -28,6 +29,7 @@ block js
     + js("/js/buzzHeaderModule.min.js")
     + js('/js/components/spaModuleWithHeader.min.js')
     + js('/js/components/survey/spa-route.min.js')
+
     script.
         window.addEventListener('message', function (event) {
             if (event.data && event.data.indexOf && event.data.indexOf('refresh://') === 0) {
