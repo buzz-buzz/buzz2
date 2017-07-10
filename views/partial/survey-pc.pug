@@ -1,7 +1,7 @@
 #survey(ng-controller='surveyCtrl')
     .survey-container(style="position: fixed; right: 20%; top: 40px; width: 100px; height: 140px;",ng-show="survey")
         i.remove.circle.outline.icon(style="position: absolute; top: 5px; right:0; color: #FFC125; font-size: 1.5rem; cursor: pointer", ng-click="close()")
-        a(href="{{surveyUrls}}",style="display: block; width: 100%; height: 100%;")
+        a(href="{{surveyUrls}}",style="display: block; width: 100%; height: 100%;",target="_blank")
             img(src="//resource.buzzbuzzenglish.com/survey1.png", style='width: 100%;')
     block content
         include ../js
