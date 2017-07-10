@@ -3,9 +3,9 @@ script(type="text/ng-template", id="help-friend.html")
         h3 你的朋友已投票，快来支持一下吧
         .ui.segments
             .ui.segment
-                p= JSON.parse(answer).Q1.title
+                p= JSON.parse(answer).Q1 ? JSON.parse(answer).Q1.title : ''
             .ui.secondary.segment
-                p= '已回答:　' + JSON.parse(answer).Q1.answer
+                p= '已回答:　' + JSON.parse(answer).Q1 ? JSON.parse(answer).answer : ''
         .ui.buttons
             button.ui.positive.button(ng-click="support()") 支持
             .or

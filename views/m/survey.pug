@@ -1,3 +1,10 @@
 extends ./mobile-master-layout
 
-include ../partial/survey-content
+block content
+    include ../partial/survey-content
+    include ../partial/help-friend
+
+block js
+    + js("/js/buzzHeaderModule.min.js")
+    + js('/js/components/spaModuleWithHeader.min.js')
+    + js('/js/components/survey/spa-route.min.js')

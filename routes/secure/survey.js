@@ -32,6 +32,8 @@ module.exports = function (app, router, render) {
 
             let answered = JSON.stringify(answerData) !== '"{}"';
 
+            console.log('answerred = ', answered, ',,,', JSON.stringify(answerData));
+
             let survey_url = '';
             if (!answered) {
                 survey_url = yield proxy({

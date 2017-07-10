@@ -50,7 +50,7 @@ angular.module('spaModule')
 
         $http.get(clientConfig.serviceUrls.wechat.sign.frontEnd, {
             params: {
-                url: encodeURIComponent(location.href.substr(0, index))
+                url: encodeURIComponent(location.href)
             }
         }).then(function (result) {
             wx.config({
