@@ -26,20 +26,6 @@ angular.module('spaModule')
 
     }])
     .controller('surveyShareCtrl', ['$scope', '$rootScope', '$http', 'clientConfig', function ($scope, $rootScope, $http, clientConfig) {
-
-        var index = location.href.indexOf('#');
-        if (index < 0) {
-            index = undefined;
-        }
-
-        var sharable = {
-            title: '你的朋友邀您一起学习有趣的英语课程',
-            desc: '每天更新的，青少年英语新闻分级阅读！精彩内容，不容错过...',
-            link: location.href,
-            imgUrl: 'http://resource.buzzbuzzenglish.com/wechat-share-friend.jpg'
-        };
-
-
         var strCookie = document.cookie;
         var arrCookie = strCookie.split(";");
         var member_id;
@@ -50,6 +36,15 @@ angular.module('spaModule')
                 break;
             }
         }
+
+        var short_id = /\??short_id=(\w+)/.exec(location.search)[1];
+
+        var sharable = {
+            title: '你的朋友邀您一起学习有趣的英语课程',
+            desc: '每天更新的，青少年英语新闻分级阅读！精彩内容，不容错过...',
+            link: location.origin + '/survey/help-friend/' + short_id + '/' + member_id,
+            imgUrl: 'http://resource.buzzbuzzenglish.com/wechat-share-friend.jpg'
+        };
 
         $rootScope.wechatSharable = sharable;
 
