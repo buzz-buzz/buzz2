@@ -28,8 +28,6 @@ angular.module('buzzSurveyModule', ['angularQueryParserModule', 'servicesModule'
                             localStorage.setItem('wenjuanurl', encodeURIComponent(result.data));
                             localStorage.setItem('short_id', short_id);
                             $scope.surveyUrls = '/survey?url= '+ encodeURIComponent(result.data) + '&short_id=' +short_id;
-                            console.log('------callback url----hank---');
-                            console.log(result.data);
                             $scope.survey = true;
                         }else{
                             $scope.survey = false;
@@ -42,5 +40,5 @@ angular.module('buzzSurveyModule', ['angularQueryParserModule', 'servicesModule'
 
         $scope.close = function () {
             document.getElementById("survey").style.display = "none";
-        }
+        };
     }]);

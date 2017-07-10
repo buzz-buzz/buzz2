@@ -11,9 +11,11 @@ module.exports = function (app, router, render) {
     router
         .get('/survey', saas.checkSaasReferer, membership.ensureAuthenticated, function* () {
             let view = '/survey';
+            let source = 'computer';
 
             if (this.state.userAgent.isMobile && !this.state.userAgent.isTablet) {
                 view = '/m' + view;
+                source = 'mobile';
             }
 
             let survey_url = this.query.url;
@@ -49,7 +51,8 @@ module.exports = function (app, router, render) {
                 base: saas.getBaseFor(this, '/'),
                 survey_url: survey_url,
                 answered: answerData !== '此用户尚未完成答卷,或不存在!',
-                answer: answerData
+                answer: answerData,
+                source: source
             });
         })
         ;
