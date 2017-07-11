@@ -5,7 +5,7 @@ script(type="text/ng-template", id="help-friend.html")
             .ui.segment
                 p= JSON.parse(answer).Q1 ? JSON.parse(answer).Q1.title : ''
             .ui.secondary.segment
-                p= '已回答:　' + JSON.parse(answer).Q1 ? JSON.parse(answer).answer : ''
+                p= '已回答:　' + (JSON.parse(answer).Q1 ? JSON.parse(answer).Q1.answer : '')
         .ui.buttons
             button.ui.positive.button(ng-click="support()") 支持
             .or
