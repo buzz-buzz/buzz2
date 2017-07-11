@@ -1,12 +1,12 @@
 script(type="text/ng-template", id="help-friend.html")
-    .ui.container
+    .ui.container(style='padding: 2rem 15px;')
         h3 你的朋友已投票，快来支持一下吧
         .ui.segments
             .ui.segment
                 p= JSON.parse(answer).Q1 ? JSON.parse(answer).Q1.title : ''
             .ui.secondary.segment
                 p= '已回答:　' + (JSON.parse(answer).Q1 ? JSON.parse(answer).Q1.answer : '')
-        .ui.buttons
+        .ui.buttons(style='width: 100%;')
             button.ui.positive.button(ng-click="support()") 支持
             .or
             button.ui.button(ng-click="giveUp()") 放弃
