@@ -2,11 +2,6 @@ extends ../../m/mobile-layout
 
 block meta
     style.
-        html{
-            height:auto !important;
-            overflow: auto;
-        }
-
         .meta > .tag-meta {
             position: relative;
             float: right;
@@ -28,7 +23,7 @@ block meta
 
 block js
     script.
-        angular.module('mobileModule')
+        angular.module('spaModule')
             .run(['$rootScope', function ($rootScope) {
             }])
         ;
