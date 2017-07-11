@@ -36,8 +36,5 @@ module.exports = function (app, router, render) {
                 backUrl: 'javascript:location.href="/sign-up"'
             });
         })
-        .get('/jumpresult', function* () {
-            this.body = yield render.call(this, '/result-callback', { config: config });
-        })
         ;
 };

@@ -6,6 +6,7 @@ const membership = require('../../membership');
 const proxy = require('../../service-proxy/proxy');
 const surveyBll = require('../../bll/survey');
 const Router = require('koa-router');
+const greenSharedLogger = require('../../common/logger')('/routes/secure/survey.js');
 
 module.exports = function (app, router, render) {
     router
@@ -44,7 +45,7 @@ module.exports = function (app, router, render) {
                         short_id: this.query.short_id,
                         user: 'buzzbuzz',
                         callback: encodeURIComponent(`${config.wechat.returnHost}/service-proxy/surveys/answers`),
-                        redirect: encodeURIComponent(`${config.wechat.returnHost}/jumpresult`)
+                        redirect: encodeURIComponent(`${config.wechat.returnHost}/jumpresult?short_id=${this.query.short_id}`)
                     }),
                     method: 'GET'
                 });
@@ -81,6 +82,32 @@ module.exports = function (app, router, render) {
                 answer: answerData,
                 base: saas.getBaseFor(this, '/')
             })
+        })
+        .get('/jumpresult', membership.ensureAuthenticated, function* () {
+            greenSharedLogger.error('called by wenjun ==========>>>>>>>>> ' + this.req.url);
+
+            greenSharedLogger.error('referer = ' + this.req.headers.referer);
+
+            if (this.query.short_id) {
+                let r = yield proxy(Object.assign({
+                    path: config.serviceUrls.buzz.survey.answer.upstream,
+                    method: 'PUT',
+                    data: {
+                        member_id: this.state.hcd_user.member_id,
+                        short_id: this.query.short_id,
+                        wj_user: 'buzzbuzz',
+                        data_type: 'json'
+                    }
+                }, {
+                        host: config.buzz.inner.host,
+                        port: config.buzz.inner.port,
+                    }
+                ));
+
+                greenSharedLogger.error('saving answer result: ' + r + JSON.stringify(r));
+            }
+
+            this.body = yield render.call(this, '/result-callback', { config: config });
         })
         ;
 };
