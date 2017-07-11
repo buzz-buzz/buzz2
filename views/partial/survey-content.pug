@@ -1,7 +1,7 @@
 script(type="text/ng-template", id="survey.html")
     if !answered
-        div#wenjuan.ui.container(style="height: 100%; margin: 0 auto !important;padding: 0;")
-            iframe#WJ_survey(name="WJ_survey", width="100%", frameborder="0", src= survey_url, style="min-height: 600px; border: 0; overflow: hidden; allow-transparency: true; height: 100%;")
+        div#wenjuan.ui.container(style="min-height: 800px; margin: 0 auto !important;padding: 0;-webkit-overflow-scrolling: touch; overflow: auto!important;")
+            iframe#WJ_survey(name="WJ_survey", width="100%", frameborder="0", src= survey_url, style="min-height: 800px; border: 0; allow-transparency: true; height: 100%;")
     else
         .ui.container(style='margin-top: 40px;background-color: white; padding-bottom: 2rem;')
             .ui.segment
