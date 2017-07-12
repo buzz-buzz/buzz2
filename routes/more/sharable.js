@@ -36,5 +36,12 @@ module.exports = function (app, router, render) {
                 backUrl: 'javascript:location.href="/sign-up"'
             });
         })
+        .get('/video', saas.checkSaasReferer, function* () {
+            this.body = yield render.call(this, '/m/video', {
+                config: config,
+                base: saas.getBaseFor(this, '/'),
+                title: 'video demo'
+            })
+        })
         ;
 };

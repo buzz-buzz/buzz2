@@ -1,0 +1,28 @@
+extends ./mobile-master-layout
+
+block content
+    script(type="text/ng-template", id="video.html")
+        .ui.container
+            .ui.embed(class="4:3")
+                video#video(autoplay="true", style="width: 100%;")
+
+block js
+    + js('/js/components/spaModule.min.js')
+    + js('/js/components/video/spa-route.min.js')
+    script.
+        angular.element(document).ready(function(){
+            var video = document.querySelector("#video");
+        
+            navigator.mediaDevices.getUserMedia({video: true})
+            .then(handleVideo)
+            .catch(videoError)
+            ;
+            
+            function handleVideo(stream) {
+                video.src = window.URL.createObjectURL(stream);
+            }
+            
+            function videoError(e) {
+                console.error(e);
+            }
+        });
