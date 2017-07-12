@@ -16,6 +16,8 @@ const renders = require('./common/enhanced-render');
 const render = renders.render;
 const enhancedRender = renders.enhancedRender;
 
+const server = require('http').createServer(app.callback());
+
 app.use(userAgent());
 app.use(logger());
 
@@ -32,10 +34,10 @@ app.use(function* (next) {
     }
 });
 
-require('./routes')(app, router, enhancedRender);
+require('./routes')(app, router, enhancedRender, server);
 
 if (!module.parent) {
     var port = process.env.PORT || config.port || 16000;
-    app.listen(port);
+    server.listen(port);
     console.log('Running %s site at: http://localhost:%d', config.mode, port);
 }

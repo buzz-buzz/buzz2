@@ -1,0 +1,48 @@
+extends ./mobile-master-layout
+
+block content
+    script(type="text/ng-template", id="video.html")
+        //- .ui.container
+            //- .ui.embed(class="4:3")
+            //-     video#video(autoplay="true", style="width: 100%;")
+
+        form(ng-submit="uploadVideo()")
+            fieldset
+                legend 上传视频
+                .form-group
+                    label 开始拍摄
+                    input#video-file.form-control(type="file", accept="video/*", capture="camera", placeholder="点击此处开始拍摄")
+            hr
+            button.btn.btn-primary.btn-block 上传
+    script(type="text/ng-template", id="video-player.html")
+        <video controls="controls" autoplay="true" style="width: 100%;" id="video-player" type="video/mp4" src="{{videoSrc}}">
+        </video>
+
+block js
+    + js('/js/components/spaModuleWithFile.min.js')
+    + js('/js/components/video/spa-route.min.js')
+    + js('/node_modules/socket.io-client/dist/socket.io.slim.js')
+    + js("/node_modules/angular-file-reader-module/dist/angular-file-reader.js")
+    script.
+        angular.element(document).ready(function(){
+            //- var video = document.querySelector("#video");
+        
+            //- navigator.mediaDevices.getUserMedia({video: true})
+            //- .then(handleVideo)
+            //- .catch(videoError)
+            //- ;
+            
+            //- function handleVideo(stream) {
+            //-     video.src = window.URL.createObjectURL(stream);
+            //-     socket.emit('video', stream);
+            //- }
+            
+            //- function videoError(e) {
+            //-     console.error(e);
+            //-     alert(e);
+            //- }
+
+            //- var socket = io();
+
+            //- socket.emit('test', 'test message');
+        });
