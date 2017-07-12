@@ -38,6 +38,7 @@
     "request": "^2.78.0",
     "select2": "^4.0.3",
     "selectize": "^0.12.4",
+    "socket.io": "^2.0.3",
     "ui-select": "^0.19.6",
     "underscore": "^1.8.3"
   },

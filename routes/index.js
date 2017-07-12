@@ -135,26 +135,26 @@ function staticFiles(app, router) {
 function oauth(app, router, render) {
     require('./wechat')(app, router, render);
 }
-function routeFolder(folder, app, router, render) {
+function routeFolder(folder, app, router, render, server) {
     fs.readdir(__dirname + `/${folder}`, function (err, results) {
         if (err) {
             throw err;
         }
 
         results.forEach(fileName => {
-            require(`./${folder}/` + fileName)(app, router, render);
+            require(`./${folder}/` + fileName)(app, router, render, server);
         });
     });
 }
-function more(app, router, render) {
-    routeFolder('more', app, router, render);
-    routeFolder('secure', app, router, render);
+function more(app, router, render, server) {
+    routeFolder('more', app, router, render, server);
+    routeFolder('secure', app, router, render, server);
 }
 function start(app, router, render) {
     routeFolder('start', app, router, render);
 }
 
-module.exports = function (app, router, render) {
+module.exports = function (app, router, render, server) {
     start(app, router, render);
     helper(app, router);
     staticFiles(app, router);
@@ -168,7 +168,7 @@ module.exports = function (app, router, render) {
     auth(app, router, render);
     admin(app, router, render);
     oauth(app, router, render);
-    more(app, router, render);
+    more(app, router, render, server);
 
     app
         .use(router.routes())

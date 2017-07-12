@@ -6,9 +6,15 @@ block content
             .ui.embed(class="4:3")
                 video#video(autoplay="true", style="width: 100%;")
 
+        .ui.container
+            p Select
+        .ui.container
+            input(type="file", accept="video/*", capture="camera")
+
 block js
     + js('/js/components/spaModule.min.js')
     + js('/js/components/video/spa-route.min.js')
+    + js('/node_modules/socket.io-client/dist/socket.io.slim.js')
     script.
         angular.element(document).ready(function(){
             var video = document.querySelector("#video");
@@ -20,9 +26,15 @@ block js
             
             function handleVideo(stream) {
                 video.src = window.URL.createObjectURL(stream);
+                socket.emit('video', stream);
             }
             
             function videoError(e) {
                 console.error(e);
+                alert(e);
             }
+
+            var socket = io();
+
+            socket.emit('test', 'test message');
         });
