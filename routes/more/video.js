@@ -5,6 +5,24 @@ const buzz = require('../../service-proxy-for-server/buzz');
 const course = require('../../bll/course');
 const mount = require('koa-mount');
 const saas = require('../../bll/saas');
+const fs = require('fs');
+const request = require('request');
+
+function pipeRequest(from, bucket) {
+    return function (cb) {
+        from.pipe(request.put(
+            composeUrl(config.upload_qiniu.inner.host, config.upload_qiniu.inner.port, '/upload' + bucket),
+            {
+            },
+            function (err, response, body) {
+                cb(err, body);
+            }));
+    };
+}
+
+function composeUrl(host, port, path) {
+    return 'http://' + host + ':' + port + path;
+}
 
 module.exports = function (app, router, render, server) {
     const io = require('socket.io')(server);
@@ -31,6 +49,11 @@ module.exports = function (app, router, render, server) {
                 base: saas.getBaseFor(this, '/'),
                 title: 'video demo'
             })
+        })
+        .put('/videos', function* (next) {
+            if (!this.request.is('multipart/*')) return yield next
+
+            this.body = yield pipeRequest(this.req, config.serviceUrls.buzz.picture.upload.bucket);
         })
         ;
 };
