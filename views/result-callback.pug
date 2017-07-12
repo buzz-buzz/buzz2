@@ -1,6 +1,7 @@
 #survey-result
-    .survey-container
-        p 页面玩命加载中,请稍后 ....
+    .ui.segment
+        .ui.active.dimmer
+            .ui.text.loader 数据加载中,请稍后...
 block content
     include ./js
     + js("/js/components/survey/buzzSurveyModule.min.js")

@@ -57,7 +57,8 @@ module.exports = function (app, router, render) {
                 survey_url: survey_url,
                 source: source,
                 answered: answered,
-                answer: answerData
+                answer: answerData,
+                title: '我的话题'
             });
         })
         .get('/survey/help-friend/:short_id/:friend_member_id', saas.checkSaasReferer, membership.ensureAuthenticated, function* () {
@@ -80,7 +81,8 @@ module.exports = function (app, router, render) {
             this.body = yield render.call(this, view, {
                 config: config,
                 answer: answerData,
-                base: saas.getBaseFor(this, '/')
+                base: saas.getBaseFor(this, '/'),
+                title: '朋友的邀请'
             })
         })
         .get('/jumpresult', membership.ensureAuthenticated, function* () {
