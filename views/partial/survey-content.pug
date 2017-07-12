@@ -2,13 +2,14 @@ script(type="text/ng-template", id="survey.html")
     if !answered
         iframe#WJ_survey(name="WJ_survey", width="100%", frameborder="0", src= survey_url, style="min-height: 600px; border: 0; overflow: hidden; allow-transparency: true; height: 100%;")
     else
-        .ui.container(style='margin-top: 40px; padding-bottom: 2rem;')
+        .ui.container(style='margin-top: 20px; padding-bottom: 2rem;')
             .ui.segment
                 h3 你的话题已选择
                 .ui.segments
                     .ui.segment
                         p= JSON.parse(answer).Q1.title
-                    .ui.secondary.segment
+                    .ui.secondary.segment(style='max-width: 300px;')
+                        include survey-img.pug
                         p= '已回答:　' + JSON.parse(answer).Q1.answer
                 .ui.tertiary.segment
                     p 邀请您的朋友一起来学习吧，将有机会获得积分奖励，更能领取现金红包呦！
@@ -18,10 +19,10 @@ script(type="text/ng-template", id="survey.html")
                     .ui.secondary.segment
                         p 小提示:目前只支持微信端分享给好友哦！
         if source == 'mobile'
-            .ui.dimmer#dimmer(onclick="console.log('-----share----');document.getElementById('dimmer').style.display = 'none';document.getElementById('dimmer').style.opacity = 0;" ,ng-controller='surveyShareCtrl')
+            .ui.dimmer#dimmer(onclick="document.getElementById('dimmer').style.display = 'none';document.getElementById('dimmer').style.opacity = 0;" ,ng-controller='surveyShareCtrl', style='position: fixed;')
                 .content
-                    .center
-                        img(src="//resource.buzzbuzzenglish.com/share-friends.jpg", style='width: 85%;')
+                    img(src='//resource.buzzbuzzenglish.com/share-new.png', style='width:100%;')
+
 
 script.
     window.addEventListener('message', function (event) {

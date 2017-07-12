@@ -1,13 +1,14 @@
 script(type="text/ng-template", id="help-friend.html")
-    .ui.container(style='margin-top: 40px; padding-bottom: 2rem;')
+    .ui.container(style='margin-top: 20px; padding-bottom: 2rem;')
         .ui.segment(style='margin: 0 auto; max-width: 600px;')
             h3 你的朋友已投票，快来和他一起学习吧
             .ui.segments
                 .ui.segment
                     p= JSON.parse(answer).Q1 ? JSON.parse(answer).Q1.title : ''
-                .ui.secondary.segment
+                .ui.secondary.segment(style='max-width: 300px;')
+                    include survey-img.pug
                     p= '已回答:　' + (JSON.parse(answer).Q1 ? JSON.parse(answer).Q1.answer : '')
             .ui.buttons(style='width: 100%;')
-                button.ui.positive.button(ng-click="support()") 支持
+                button.ui.positive.button.yellow(ng-click="support()") 支持
                 .or
-                button.ui.button(ng-click="giveUp()") 放弃
+                button.ui.button.grey(ng-click="giveUp()") 放弃
