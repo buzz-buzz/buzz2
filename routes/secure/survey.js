@@ -68,22 +68,38 @@ module.exports = function (app, router, render) {
                 view = '/m' + view;
             }
 
-            let answerData = yield proxy({
+            let my_answerData = yield proxy({
                 host: config.buzz.inner.host,
                 port: config.buzz.inner.port,
                 path: Router.url(config.serviceUrls.buzz.survey.answerInBuzz.upstream, {
                     short_id: this.params.short_id,
-                    member_id: this.params.friend_member_id
+                    member_id: this.state.hcd_user.member_id
                 }),
                 method: 'GET'
             });
 
-            this.body = yield render.call(this, view, {
-                config: config,
-                answer: answerData,
-                base: saas.getBaseFor(this, '/'),
-                title: '朋友的邀请'
-            })
+            let answered = JSON.stringify(my_answerData) !== '"{}"';
+
+            if(answered){
+                this.redirect(saas.generateUrl(this, '/survey?short_id=' + this.params.short_id));
+            }else{
+                let answerData = yield proxy({
+                    host: config.buzz.inner.host,
+                    port: config.buzz.inner.port,
+                    path: Router.url(config.serviceUrls.buzz.survey.answerInBuzz.upstream, {
+                        short_id: this.params.short_id,
+                        member_id: this.params.friend_member_id
+                    }),
+                    method: 'GET'
+                });
+
+                this.body = yield render.call(this, view, {
+                    config: config,
+                    answer: answerData,
+                    base: saas.getBaseFor(this, '/'),
+                    title: '朋友的邀请'
+                })
+            }
         })
         .get('/jumpresult', membership.ensureAuthenticated, function* () {
             greenSharedLogger.error('called by wenjun ==========>>>>>>>>> ' + this.req.url);
