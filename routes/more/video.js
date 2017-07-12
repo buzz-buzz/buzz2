@@ -43,7 +43,7 @@ module.exports = function (app, router, render, server) {
     });
 
     router
-        .get('/video', saas.checkSaasReferer, function* () {
+        .get('/video*', saas.checkSaasReferer, function* () {
             this.body = yield render.call(this, '/m/video', {
                 config: config,
                 base: saas.getBaseFor(this, '/'),

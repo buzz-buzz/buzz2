@@ -8,11 +8,16 @@ angular.module('spaModule')
                 controller: 'videoCtrl',
                 controllerAs: 'videoCtrl'
             })
+            .when('/video-player/:key', {
+                templateUrl: 'video-player.html',
+                controller: 'videoPlayerCtrl',
+                controllerAs: 'videoPlayerCtrl'
+            })
             ;
 
         $routeProvider.otherwise('/video');
     }])
-    .controller('videoCtrl', ['$scope', '$rootScope', '$http', 'requestTransformers', function ($scope, $rootScope, $http, requestTransformers) {
+    .controller('videoCtrl', ['$scope', '$rootScope', '$http', 'requestTransformers', '$location', function ($scope, $rootScope, $http, requestTransformers, $location) {
         $scope.formData = { video: null };
 
         $scope.uploadVideo = function () {
@@ -30,7 +35,7 @@ angular.module('spaModule')
                         transformRequest: requestTransformers.transformToFormData
                     }).then(function (res) {
                         console.log(res);
-                        alert(res.data);
+                        $location.path('/video-player/' + res.data.key);
                     }).catch(function (reason) {
                         console.log(reason);
                         alert(reason.data);
@@ -39,5 +44,8 @@ angular.module('spaModule')
                 console.log('empty file');
             }
         };
+    }])
+    .controller('videoPlayerCtrl', ['$scope', '$routeParams', function ($scope, $routeParams) {
+        $scope.videoSrc = 'http://resource.buzzbuzzenglish.com/' + $routeParams.key;
     }])
     ;

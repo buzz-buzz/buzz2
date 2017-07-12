@@ -14,6 +14,9 @@ block content
                     input#video-file.form-control(type="file", accept="video/*", capture="camera", placeholder="点击此处开始拍摄")
             hr
             button.btn.btn-primary.btn-block 上传
+    script(type="text/ng-template", id="video-player.html")
+        <video controls="controls" autoplay="true" style="width: 100%;" id="video-player" type="video/mp4" src="{{videoSrc}}">
+        </video>
 
 block js
     + js('/js/components/spaModuleWithFile.min.js')
