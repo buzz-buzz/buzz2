@@ -12,6 +12,14 @@ const os = require('os');
 const path = require('path');
 const extname = path.extname;
 const parse = require('co-busboy');
+const exec = require('child_process').exec;
+
+
+function yieldableExec(command) {
+    return function (cb) {
+        exec(command, cb);
+    }
+}
 
 function pipeRequest(from, bucket) {
     return function (cb) {
@@ -76,14 +84,26 @@ module.exports = function (app, router, render, server) {
             let part;
 
             while ((part = yield parts)) {
-                let stream = fs.createWriteStream(path.join(os.tmpdir(), `Math.random().toString()${part.filename}`));
+                let stream = fs.createWriteStream(path.join(os.tmpdir(), `${Math.random().toString()}${part.filename}`));
                 part.pipe(stream);
                 console.log('uploading %s --> %s', part.filename, stream.path);
+                let outputPath = (path.join(os.tmpdir(), `${Math.random().toString()}${part.filename}`));
 
-                let encodedPath = new Buffer(stream.path).toString('base64');
+                let command = 'C:\\ffmpeg\\bin\\ffmpeg.exe -i C:\\Users\\Jeff\\Downloads\\2.mp4 -i ' + stream.path + ' -filter_complex "[0:v:0] [0:a:0] [1:v:0] [1:a:0] concat=n=2:v=1:a=1 [v][a]" -map "[v]" -map "[a]" ' + outputPath;
+
+                let r = yield yieldableExec(command);
+
+                let encodedPath = new Buffer(outputPath).toString('base64');
 
                 this.body = `/videos?path=${encodedPath}`;
             }
+        })
+        .get('/testcommand', function* (next) {
+            let r = yield yieldableExec('dir');
+            this.body = `stdout: ${r[0]}\nstderr: ${r[1]}\nexec error: ${r[2]}`;
+        })
+        .get('/__dirname', function* (next) {
+            this.body = __dirname;
         })
         .get('/videos', function* (next) {
             let fpath = new Buffer(this.query.path, 'base64').toString();
