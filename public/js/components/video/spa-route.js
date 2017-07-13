@@ -8,7 +8,7 @@ angular.module('spaModule')
                 controller: 'videoCtrl',
                 controllerAs: 'videoCtrl'
             })
-            .when('/video-player/:key', {
+            .when('/video-player/:src', {
                 templateUrl: 'video-player.html',
                 controller: 'videoPlayerCtrl',
                 controllerAs: 'videoPlayerCtrl'
@@ -19,6 +19,25 @@ angular.module('spaModule')
     }])
     .controller('videoCtrl', ['$scope', '$rootScope', '$http', 'requestTransformers', '$location', function ($scope, $rootScope, $http, requestTransformers, $location) {
         $scope.formData = { video: null };
+
+        $scope.uploadVideoToOwnServer = function () {
+            var file = document.querySelector('input[id=video-file]').files[0];
+
+            if (file) {
+                $http.post('/videos', {
+                    file: file
+                }, {
+                        headers: {
+                            'X-Requested-With': undefined,
+                            'Content-Type': undefined
+                        },
+                        transformRequest: requestTransformers.transformToFormData
+                    }
+                ).then(function (res) {
+                    $location.path('/video-player/' + encodeURIComponent(res.data));
+                });
+            }
+        };
 
         $scope.uploadVideo = function () {
             var file = document.querySelector('input[id=video-file]').files[0];
@@ -35,7 +54,7 @@ angular.module('spaModule')
                         transformRequest: requestTransformers.transformToFormData
                     }).then(function (res) {
                         console.log(res);
-                        $location.path('/video-player/' + res.data.key);
+                        $location.path('/video-player/' + encodeURIComponent('http://resource.buzzbuzzenglish.com/' + res.data.key));
                     }).catch(function (reason) {
                         console.log(reason);
                         alert(reason.data);
@@ -46,6 +65,6 @@ angular.module('spaModule')
         };
     }])
     .controller('videoPlayerCtrl', ['$scope', '$routeParams', function ($scope, $routeParams) {
-        $scope.videoSrc = 'http://resource.buzzbuzzenglish.com/' + $routeParams.key;
+        $scope.videoSrc = decodeURIComponent($routeParams.src);
     }])
     ;
