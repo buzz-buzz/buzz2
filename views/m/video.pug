@@ -15,8 +15,13 @@ block content
             hr
             button.btn.btn-primary.btn-block 上传
     script(type="text/ng-template", id="video-player.html")
-        <video controls="controls" autoplay="true" style="width: 100%;" id="video-player" type="video/mp4" src="{{videoSrc}}">
+        <video controls="controls" autoplay="true" style="width: 100%;" id="video-player" type="video/*" src="{{videoSrc}}">
+            srouce(src="{{videoSrc}}", type="video/mp4")
         </video>
+        .ui.container
+            <p>
+                <a href="{{url}}">{{url}}</a>
+            </p>
 
 block js
     + js('/js/components/spaModuleWithFile.min.js')

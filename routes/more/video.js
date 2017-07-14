@@ -13,7 +13,7 @@ const path = require('path');
 const extname = path.extname;
 const parse = require('co-busboy');
 const exec = require('child_process').exec;
-
+const stream = require('koa-stream');
 
 function yieldableExec(command) {
     return function (cb) {
@@ -58,7 +58,16 @@ module.exports = function (app, router, render, server) {
     // app.use(koaBody({ multipart: true }));
 
     router
-        .get('/video*', saas.checkSaasReferer, function* () {
+        .get('/video', saas.checkSaasReferer, function* () {
+            this.body = '正在开发中，请以后再来。';
+            return;
+            // this.body = yield render.call(this, '/m/video', {
+            //     config: config,
+            //     base: saas.getBaseFor(this, '/'),
+            //     title: 'video demo'
+            // })
+        })
+        .get('/video-player/:path', saas.checkSaasReferer, function* () {
             this.body = yield render.call(this, '/m/video', {
                 config: config,
                 base: saas.getBaseFor(this, '/'),
@@ -87,15 +96,19 @@ module.exports = function (app, router, render, server) {
                 let stream = fs.createWriteStream(path.join(os.tmpdir(), `${Math.random().toString()}${part.filename}`));
                 part.pipe(stream);
                 console.log('uploading %s --> %s', part.filename, stream.path);
-                let outputPath = (path.join(os.tmpdir(), `${Math.random().toString()}${part.filename}`));
+                let outputPath = (path.join(os.tmpdir(), `${Math.random().toString().substr(2)}.mp4`));
 
                 let command = 'C:\\ffmpeg\\bin\\ffmpeg.exe -i C:\\Users\\Jeff\\Downloads\\2.mp4 -i ' + stream.path + ' -filter_complex "[0:v:0] [0:a:0] [1:v:0] [1:a:0] concat=n=2:v=1:a=1 [v][a]" -map "[v]" -map "[a]" ' + outputPath;
 
+                console.log(command);
+
                 let r = yield yieldableExec(command);
+
+                console.log(r);
 
                 let encodedPath = new Buffer(outputPath).toString('base64');
 
-                this.body = `/videos?path=${encodedPath}`;
+                this.body = `/videos/${encodedPath}`;
             }
         })
         .get('/testcommand', function* (next) {
@@ -105,13 +118,18 @@ module.exports = function (app, router, render, server) {
         .get('/__dirname', function* (next) {
             this.body = __dirname;
         })
-        .get('/videos', function* (next) {
-            let fpath = new Buffer(this.query.path, 'base64').toString();
+        .get('/videos/:path', function* (next) {
+            let fpath = new Buffer(this.params.path, 'base64').toString();
             let fstat = fs.statSync(fpath);
 
             if (fstat.isFile()) {
-                this.type = extname(fpath);
-                this.body = fs.createReadStream(fpath);
+                // this.set('Content-disposition', `inline; filename=${path.basename(fpath)}`);
+                // this.set('Content-Transfer-Encoding', 'binary');
+                // this.type = extname(fpath);
+                // this.body = fs.createReadStream(fpath);
+                yield stream.file(this, path.basename(fpath), {
+                    root: path.dirname(fpath)
+                });
             } else {
                 this.body = `${fpath} is not a file or is deleted`;
             }

@@ -4,6 +4,7 @@ const serveStatic = require('koa-static');
 const koaMount = require('koa-mount');
 const proxy = require('../service-proxy/proxy');
 const fs = require('fs');
+const path = require('path');
 
 const staticSetting = {
     etag: true,
@@ -27,7 +28,7 @@ module.exports = function (app, router) {
     app.use(koaMount('/mock', serveStatic('mock', getStaticSetting())));
     app.use(koaMount('/node_modules', serveStatic('node_modules', getStaticSetting())));
     if (process.env.NODE_ENV !== 'prd') {
-        app.use(koaMount('/resources', function *(next) {
+        app.use(koaMount('/resources', function* (next) {
             this.body = yield proxy({
                 host: 'www.buzzbuzzenglish.com',
                 port: 80,

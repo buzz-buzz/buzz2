@@ -66,5 +66,6 @@ angular.module('spaModule')
     }])
     .controller('videoPlayerCtrl', ['$scope', '$routeParams', function ($scope, $routeParams) {
         $scope.videoSrc = decodeURIComponent($routeParams.src);
+        $scope.url = location.href;
     }])
     ;
