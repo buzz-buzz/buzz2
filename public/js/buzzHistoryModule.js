@@ -79,50 +79,18 @@ angular.module('buzzHistoryModule', ['angularQueryParserModule', 'servicesModule
             }
         });
 
-        function bottomUpwardSlidingDo(callback) {
-            var start, end, slideNum, winH, bodyH,
-                bodyEle = document.querySelector("body"),
-                docEle = document.documentElement,
-                UA = navigator.userAgent,
-                isUC = UA.indexOf("UCBrowser") != -1 || UA.indexOf("Baidu") != -1 || UA.indexOf("MQQBrowser") != -1,
-                _h,
-                _hStart;
-            slideNum = isUC ? 6 : 60;
-            document.addEventListener("touchstart", touchStartHandle, false);
-            !isUC && document.addEventListener("touchend", touchEndHandle, false);
-            function touchStartHandle(evt) {
-                clearTimeout(_hStart);
-                _hStart = setTimeout(function () {
-                    start = evt.touches[0].pageY;
-                }, 0);
-            }
-
-            isUC && document.addEventListener("touchmove", function (evt) {
-                clearTimeout(_h);
-                _h = setTimeout(function () {
-                    touchEndHandle(evt)
-                }, 0);
-
-            }, false);
-            function touchEndHandle(evt) {
-                end = evt.changedTouches[0].pageY;
-                if (start - end > slideNum) {
-                    var scrollTop = bodyEle.scrollTop;
-                    winH = docEle.clientHeight;
-                    bodyH = docEle.scrollHeight;
-                    scrollTop + winH + 1 >= bodyH && callback();
-                } else if (end - start > slideNum) {
-                    bodyEle.scrollTop <= 2 && window.location.reload();
-                }
-            }
-        }
-
-        bottomUpwardSlidingDo(function () {
+        $scope.loadMore = function(){
             $scope.courseData.getNextPage();
-            setTimeout(function () {
-                document.body.scrollTop = 0;
-            }, 300)
-        });
+            var s = setTimeout(function () {
+                document.documentElement.scrollTop = 0;
+                clearTimeout(s);
+            }, 300);
+            console.log(document.documentElement.scrollTop);
+        };
+
+        $scope.refreshPage = function(){
+            window.location.reload();
+        };
 
         $scope.courseData.getNextPage();
         $scope.aLikeClick = function (href) {
@@ -193,48 +161,6 @@ angular.module('buzzHistoryModule', ['angularQueryParserModule', 'servicesModule
         $scope.aLikeClick = function (href) {
             window.location.href = href;
         };
-
-        function bottomUpwardSlidingDo(callback) {
-            var start, end, slideNum, winH, bodyH,
-                bodyEle = document.querySelector("body"),
-                docEle = document.documentElement,
-                UA = navigator.userAgent,
-                isUC = UA.indexOf("UCBrowser") != -1 || UA.indexOf("Baidu") != -1 || UA.indexOf("MQQBrowser") != -1,
-                _h,
-                _hStart;
-            slideNum = isUC ? 6 : 60;
-            document.addEventListener("touchstart", touchStartHandle, false);
-            !isUC && document.addEventListener("touchend", touchEndHandle, false);
-            function touchStartHandle(evt) {
-                clearTimeout(_hStart);
-                _hStart = setTimeout(function () {
-                    start = evt.touches[0].pageY;
-                }, 0);
-            }
-
-            isUC && document.addEventListener("touchmove", function (evt) {
-                clearTimeout(_h);
-                _h = setTimeout(function () {
-                    touchEndHandle(evt)
-                }, 0);
-
-            }, false);
-            function touchEndHandle(evt) {
-                end = evt.changedTouches[0].pageY;
-                if (start - end > slideNum) {
-                    var scrollTop = bodyEle.scrollTop;
-                    winH = docEle.clientHeight;
-                    bodyH = docEle.scrollHeight;
-                    scrollTop + winH + 1 >= bodyH && callback();
-                } else if (end - start > slideNum) {
-                    bodyEle.scrollTop <= 2 && window.location.reload();
-                }
-            }
-        }
-
-        bottomUpwardSlidingDo(function () {
-
-        });
 
     }])
     .controller('userAccountCtrl', ['$scope', '$http', 'clientConfig', 'queryParser', function ($scope, $http, clientConfig, queryParser) {
