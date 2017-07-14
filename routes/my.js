@@ -62,7 +62,9 @@ module.exports = function (app, router, render) {
             if (!this.state.userAgent.isMobile || this.state.userAgent.isTablet) {
                 this.body = yield render.call(this, 'my/progress', { config: config });
             } else {
-                this.redirect(saas.generateUrl(this, '/my/mobile-history'), { config: config });
+                this.body = yield render.call(this, '/m/my/progress', {
+                    config: config
+                });
             }
         })
         .get('/my/account', saas.checkSaasReferer, membership.ensureAuthenticated, function* () {

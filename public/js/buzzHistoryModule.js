@@ -2,7 +2,7 @@ angular.module('buzzHistoryModule', ['angularQueryParserModule', 'servicesModule
     .run(['$rootScope', 'queryParser', 'tracking', function ($rootScope, queryParser, tracking) {
         tracking.sendX('history')
     }])
-    .controller('historyCtrl', ['$scope', '$http', 'queryParser', 'service', 'clientConfig', 'httpPaginationData', '$httpParamSerializer', 'tracking', function ($scope, $http, queryParser, service, clientConfig, httpPaginationData, $httpParamSerializer, tracking) {
+    .controller('historyCtrl', ['$scope', '$http', 'queryParser', 'service', 'clientConfig', 'httpPaginationData', '$httpParamSerializer', 'tracking', '$rootScope', function ($scope, $http, queryParser, service, clientConfig, httpPaginationData, $httpParamSerializer, tracking, $rootScope) {
         var query = queryParser.parse();
 
         if (!query.level) {
@@ -36,6 +36,8 @@ angular.module('buzzHistoryModule', ['angularQueryParserModule', 'servicesModule
             return 0;
         }
 
+        $scope.allCourseData = [];
+        $scope.more = true;
         $scope.courseData = new httpPaginationData({
             sourceUrl: url,
             pageSize: 7,
@@ -46,6 +48,10 @@ angular.module('buzzHistoryModule', ['angularQueryParserModule', 'servicesModule
                 }
 
                 $scope.courseList = result.sort(sortByDate);
+
+                if ($scope.courseList.length <= 0) {
+                    $scope.more = false;
+                }
 
                 $scope.courseList.map(function (c) {
                     $http.get(c.video_path).then(function (result) {
@@ -73,23 +79,16 @@ angular.module('buzzHistoryModule', ['angularQueryParserModule', 'servicesModule
                     });
                 });
 
+                $scope.allCourseData = $scope.allCourseData.concat($scope.courseList);
+
                 if (document.getElementById('loading-model')) {
                     document.getElementById('loading-model').style.display = 'none';
                 }
             }
         });
 
-        $scope.loadMore = function(){
+        $rootScope.loadMore = function () {
             $scope.courseData.getNextPage();
-            var s = setTimeout(function () {
-                document.documentElement.scrollTop = 0;
-                clearTimeout(s);
-            }, 300);
-            console.log(document.documentElement.scrollTop);
-        };
-
-        $scope.refreshPage = function(){
-            window.location.reload();
         };
 
         $scope.courseData.getNextPage();
