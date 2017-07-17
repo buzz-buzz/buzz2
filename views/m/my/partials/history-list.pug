@@ -1,3 +1,4 @@
+a(name='top')
 .history-list(style='margin-bottom:2em;', ng-repeat="lesson in allCourseData track by $index", ui-scroll-bottom="loadMore()")
     .ui.card(style="width: 100%;")
         .image(style="height: 211px;")
@@ -23,3 +24,4 @@ include ../../../partial/loading
 div(style='position: relative; width: 100%; padding: 0;')
     button.btn.btn-block(ng-click='loadMore()' ng-hide="!more") 加载更多历史
     button.btn.btn-block(ng-disabled="true" ng-if="!more") 没有更多了
+    button.btn.btn-block(ng-click='toTop()') 返回顶部

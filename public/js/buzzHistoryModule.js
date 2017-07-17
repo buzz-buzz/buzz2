@@ -2,7 +2,7 @@ angular.module('buzzHistoryModule', ['angularQueryParserModule', 'servicesModule
     .run(['$rootScope', 'queryParser', 'tracking', function ($rootScope, queryParser, tracking) {
         tracking.sendX('history')
     }])
-    .controller('historyCtrl', ['$scope', '$http', 'queryParser', 'service', 'clientConfig', 'httpPaginationData', '$httpParamSerializer', 'tracking', '$rootScope', function ($scope, $http, queryParser, service, clientConfig, httpPaginationData, $httpParamSerializer, tracking, $rootScope) {
+    .controller('historyCtrl', ['$scope', '$http', 'queryParser', 'service', 'clientConfig', 'httpPaginationData', '$httpParamSerializer', 'tracking', '$rootScope', '$anchorScroll', function ($scope, $http, queryParser, service, clientConfig, httpPaginationData, $httpParamSerializer, tracking, $rootScope, $anchorScroll) {
         var query = queryParser.parse();
 
         if (!query.level) {
@@ -93,6 +93,11 @@ angular.module('buzzHistoryModule', ['angularQueryParserModule', 'servicesModule
 
         $scope.aLikeClick = function (href) {
             window.location.href = href;
+        };
+
+
+        $rootScope.toTop = function () {
+            $anchorScroll('top');
         };
 
         $scope.courseData.getNextPage();

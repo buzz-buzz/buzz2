@@ -29,5 +29,5 @@ block js
         ;
 block content
     script(type="text/ng-template", id="history.html")
-        div#history-list(style='background-color: #eee;', ng-controller="historyCtrl")
+        div#history-list.scrollable-content(style='background-color: #eee;', ng-controller="historyCtrl")
             include my/partials/history-list
