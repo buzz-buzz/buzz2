@@ -57,27 +57,21 @@ module.exports = function (app, router, render, server) {
 
     // app.use(koaBody({ multipart: true }));
 
+    function* renderVideoSPA() {
+        this.body = yield render.call(this, '/m/video', {
+            config: config,
+            base: saas.getBaseFor(this, '/'),
+            title: 'Buzzbuzz English'
+        });
+    }
+
     router
-        .get('/video', saas.checkSaasReferer, function* () {
-            this.body = '正在开发中，请以后再来。';
-            return;
-            // this.body = yield render.call(this, '/m/video', {
-            //     config: config,
-            //     base: saas.getBaseFor(this, '/'),
-            //     title: 'video demo'
-            // })
-        })
-        .get('/video-player/:path', saas.checkSaasReferer, function* () {
-            this.body = yield render.call(this, '/m/video', {
-                config: config,
-                base: saas.getBaseFor(this, '/'),
-                title: 'video demo'
-            })
-        })
+        .get('/video', saas.checkSaasReferer, renderVideoSPA)
+        .get('/video-player/:path', saas.checkSaasReferer, renderVideoSPA)
         .put('/videos', function* (next) {
             if (!this.request.is('multipart/*')) return yield next
 
-            this.body = yield pipeRequest(this.req, config.serviceUrls.buzz.picture.upload.bucket);
+            this.body = yield pipeRequest(this.req, '/buzz-video');
         })
         // .post('/videos', function* (next) {
         //     const file = this.request.body.files.file;

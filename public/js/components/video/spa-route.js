@@ -54,10 +54,14 @@ angular.module('spaModule')
                         transformRequest: requestTransformers.transformToFormData
                     }).then(function (res) {
                         console.log(res);
-                        $location.path('/video-player/' + encodeURIComponent('http://resource.buzzbuzzenglish.com/' + res.data.key));
-                    }).catch(function (reason) {
+                        if (res.data.isSuccess === false) {
+                            throw res;
+                        } else {
+                            $location.path('/video-player/' + encodeURIComponent('//' + res.data.host + '/' + res.data.key));
+                        }
+                    }).then(null, function (reason) {
                         console.log(reason);
-                        alert(reason.data);
+                        $scope.errorMessage = reason.data || '出了错误。';
                     });
             } else {
                 console.log('empty file');
