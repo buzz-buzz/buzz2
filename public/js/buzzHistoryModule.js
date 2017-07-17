@@ -12,7 +12,7 @@ angular.module('buzzHistoryModule', ['angularQueryParserModule', 'servicesModule
             query.enabled = true;
         }
         if (!query.date) {
-            query.date = { end: new Date(2022, 1, 1).toISOString() };
+            query.date = {end: new Date(2022, 1, 1).toISOString()};
         }
         if (query.category) {
             $scope.category = query.category;
@@ -91,10 +91,11 @@ angular.module('buzzHistoryModule', ['angularQueryParserModule', 'servicesModule
             $scope.courseData.getNextPage();
         };
 
-        $scope.courseData.getNextPage();
         $scope.aLikeClick = function (href) {
             window.location.href = href;
         };
+
+        $scope.courseData.getNextPage();
     }])
     .controller('courseCategoryCtrl', ['$scope', '$http', 'clientConfig', 'queryParser', function ($scope, $http, clientConfig, queryParser) {
         $http.get(clientConfig.serviceUrls.buzz.categories.list.frontEnd).then(function (result) {
@@ -168,4 +169,4 @@ angular.module('buzzHistoryModule', ['angularQueryParserModule', 'servicesModule
             $scope.account = parseFloat(result.data.account).toFixed(2);
         });
     }])
-    ;
+;
