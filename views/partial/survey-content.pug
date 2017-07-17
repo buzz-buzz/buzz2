@@ -13,15 +13,13 @@ script(type="text/ng-template", id="survey.html")
                         p= '已回答:　' + (JSON.parse(answer).Q1 ? JSON.parse(answer).Q1.answer : '')
                 .ui.tertiary.segment(style='font-size: 1.6rem;')
                     p 邀请您的朋友一起来学习吧，将有机会获得积分奖励，更能领取现金红包呦！
-                if source == 'mobile'
-                    button.ui.yellow.button(onclick="console.log('-----share----');document.getElementById('dimmer').style.display = 'block';document.getElementById('dimmer').style.opacity = 1;", style='display: block; margin: 0 auto;') 分享给好友
-                else
+                if source != 'mobile'
                     .ui.secondary.segment(style='font-size: 1.3rem;')
                         p 小提示:目前只支持微信端分享给好友哦！
         if source == 'mobile'
             .ui.dimmer#dimmer(onclick="document.getElementById('dimmer').style.display = 'none';document.getElementById('dimmer').style.opacity = 0;" ,ng-controller='surveyShareCtrl', style='position: fixed; z-index: 1200;')
                 .content
-                    img(src='//resource.buzzbuzzenglish.com/share-new.png', style='width:100%;')
+                    img(src='//resource.buzzbuzzenglish.com//share-survey.png', style='width:100%;')
 
 
 script.
@@ -30,3 +28,8 @@ script.
     location.reload();
     }
     }, false);
+
+    setTimeout(function(){
+    document.getElementById('dimmer').style.display = 'block';
+    document.getElementById('dimmer').style.opacity = .95;
+    }, 3000);

@@ -41,18 +41,4 @@ module.exports = function (app, router, render) {
         .get('/m/player', saas.checkSaasReferer, function* () {
             this.body = yield render.call(this, '/m/player', { config: config })
         })
-        .get('/m/my/my', saas.checkSaasReferer, membership.ensureAuthenticated, function* () {
-            if (!this.state.userAgent.isMobile || this.state.userAgent.isTablet) {
-                this.redirect(saas.generateUrl(this, '/my/account'), { config: config });
-            } else {
-                this.body = yield render.call(this, '/m/my/my', { config: config });
-            }
-        })
-        .get('/m/my/progress', saas.checkSaasReferer, membership.ensureAuthenticated, function* () {
-            if (this.state.userAgent.isMobile && !this.state.userAgent.isTablet) {
-                this.body = yield render.call(this, '/m/my/progress', { config: config });
-            } else {
-                this.redirect(saas.generateUrl(this, '/my/progress'), { config: config });
-            }
-        })
 };

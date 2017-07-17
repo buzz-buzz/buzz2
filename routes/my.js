@@ -10,6 +10,11 @@ const courseList = require('./common/course-list');
 module.exports = function (app, router, render) {
     router
         .get('/my/today', saas.checkSaasReferer, membership.ensureAuthenticated, function* (next) {
+            if (!this.state.hcd_user.member_id) {
+                this.redirect(saas.generateUrl(this, '/my/history'), { config: config });
+                return;
+            }
+
             let level = config.mock ? 'A' : yield buzz.getMemberCurrentLevel(this.state.hcd_user.member_id);
             if (!level || level === 'U') {
                 level = 'B';
@@ -19,11 +24,6 @@ module.exports = function (app, router, render) {
 
             if (!latestCourse) {
                 this.throw(500, 'failed to fetch latest course');
-            }
-
-            if (!this.state.hcd_user.member_id) {
-                this.redirect(saas.generateUrl(this, '/my/history'), { config: config });
-                return;
             }
 
             if (!this.state.userAgent.isMobile || this.state.userAgent.isTablet) {
@@ -71,7 +71,8 @@ module.exports = function (app, router, render) {
             if (!this.state.userAgent.isMobile || this.state.userAgent.isTablet) {
                 this.body = yield render.call(this, 'my/account', { config: config });
             } else {
-                this.redirect(saas.generateUrl(this, '/m/my/my'), { config: config });
+                //this.redirect(saas.generateUrl(this, '/m/my/my'), { config: config });
+                this.body = yield render.call(this, '/m/my/my', { config: config });
             }
         })
         .get('/my/password', saas.checkSaasReferer, membership.ensureAuthenticated, function* () {
@@ -81,7 +82,7 @@ module.exports = function (app, router, render) {
             if (!this.state.userAgent.isMobile || this.state.userAgent.isTablet) {
                 this.body = yield render.call(this, 'vocabulary/vocabulary', { config: config });
             } else {
-                this.redirect(saas.generateUrl(this, '/m/my/vocabulary'), { config: config });
+                this.body = yield render.call(this, '/m/my/vocabulary', { config: config });
             }
         })
         .get('/my/weekly-quiz', saas.checkSaasReferer, membership.ensureAuthenticated, function* () {

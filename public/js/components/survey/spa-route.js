@@ -25,7 +25,8 @@ angular.module('spaModule')
     .controller('surveyCtrl', ['$scope', '$rootScope', '$http', function ($scope, $rootScope, $http) {
 
     }])
-    .controller('surveyShareCtrl', ['$scope', '$rootScope', '$http', 'clientConfig', function ($scope, $rootScope, $http, clientConfig) {
+    .controller('surveyShareCtrl', ['$scope', '$rootScope', '$http', 'clientConfig', '$timeout', function ($scope, $rootScope, $http, clientConfig, $timeout) {
+
         var strCookie = document.cookie;
         var arrCookie = strCookie.split(";");
         var member_id;
