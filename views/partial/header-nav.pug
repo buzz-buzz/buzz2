@@ -1,8 +1,7 @@
 .ui.container
     .ui.mini.yellow.inverted.compact.borderless.menu(ng-controller="headerCtrl", style="width: 100%;")
-        - var link = hcd_user ? '/my/today' : '/';
         if !saas
-            a.item(href='javascript:location.href="'+link+'"', style="padding: 0;")
+            a.item(href='javascript:location.href="/my/today"', style="padding: 0;")
                 img.ui.tiny.image(src="http://resource.buzzbuzzenglish.com/new_buzz_logo.png", style="height: 100%; width: auto; max-height: 40px;")
         .item(ng-cloak) Hello {{profile.display_name}}, welcome to Buzzbuzz English.
         .right.menu
