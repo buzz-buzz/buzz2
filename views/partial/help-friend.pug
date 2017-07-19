@@ -4,9 +4,9 @@ script(type="text/ng-template", id="help-friend.html")
             h3 你的朋友已投票，快来和他一起学习吧
             .ui.segments
                 .ui.segment(style='font-size: 1.5rem;')
-                    p= JSON.parse(answer).Q1 ? JSON.parse(answer).Q1.title : ''
+                    p 选择你最想看的英语奇闻趣事
                 .ui.secondary.segment(style='max-width: 300px; font-size: 1.3rem;')
-                    p= '已回答:　' + (JSON.parse(answer).Q1 ? JSON.parse(answer).Q1.answer : '')
+                    p= '他已回答:　' + (JSON.parse(answer).Q1 ? JSON.parse(answer).Q1.answer : '')
             .ui.buttons(style='width: 100%; font-size: 1.3rem;')
                 button.ui.positive.button.yellow(ng-click="support()") 支持
                 .or

@@ -2,24 +2,22 @@ script(type="text/ng-template", id="survey.html")
     if !answered
         iframe#WJ_survey(name="WJ_survey", width="100%", frameborder="0", src= survey_url, style="min-height: 600px; border: 0; overflow: hidden; allow-transparency: true; height: 100%;")
     else
-        .ui.container(style='margin-top: 20px; padding-bottom: 2rem;')
-            .ui.segment
-                h3 你的话题已选择
-                .ui.segments
-                    .ui.segment(style='font-size: 1.5rem;')
-                        p= (JSON.parse(answer).Q1 ? JSON.parse(answer).Q1.title : '')
-                    .ui.secondary.segment(style='max-width: 300px; font-size: 1.3rem;')
-                        p= '已回答:　' + (JSON.parse(answer).Q1 ? JSON.parse(answer).Q1.answer : '')
-                .ui.tertiary.segment(style='font-size: 1.6rem;')
-                    p 邀请您的朋友一起来学习吧，将有机会获得积分奖励，更能领取现金红包呦！
-                if source != 'mobile'
-                    .ui.secondary.segment(style='font-size: 1.3rem;')
-                        p 小提示:目前只支持微信端分享给好友哦！
-        if source == 'mobile'
-            .ui.dimmer#dimmer(onclick="document.getElementById('dimmer').style.display = 'none';document.getElementById('dimmer').style.opacity = 0;" ,ng-controller='surveyShareCtrl', style='position: fixed; z-index: 1200;')
-                .content
-                    img(src='//resource.buzzbuzzenglish.com//share-survey.png', style='width:100%;')
-
+        .ui.icon.message(style='margin: 2rem auto; width: 90%; padding: .5rem;')
+            i(style='max-width: 180px;')
+                img(style='width: 80%;', src='//resource.buzzbuzzenglish.com/survey-selected.png')
+            .content
+                .head(style='font-size: 1.5rem;')
+                    span 选择你最想看的英语奇闻趣事
+                p
+                    span 我已选择:
+                    b='' + (JSON.parse(answer).Q1 ? JSON.parse(answer).Q1.answer : '')
+    if source != 'mobile'
+        .ui.message.transition(style='font-size: 1.3rem; width: 90%; margin: 0 auto;')
+            p 小提示: 目前只支持微信端分享给好友哦！
+    if source == 'mobile'
+        .ui.dimmer#dimmer(onclick="document.getElementById('dimmer').style.display = 'none';document.getElementById('dimmer').style.opacity = 0;" ,ng-controller='surveyShareCtrl', style='position: fixed; z-index: 1200;')
+            .content(style='position: relative;')
+                img(src='//resource.buzzbuzzenglish.com/survey-dimmer.png', style='width:100%;')
 
 script.
     window.addEventListener('message', function (event) {
@@ -31,4 +29,4 @@ script.
     setTimeout(function(){
     document.getElementById('dimmer').style.display = 'block';
     document.getElementById('dimmer').style.opacity = .95;
-    }, 3000);
+    }, 2000);
