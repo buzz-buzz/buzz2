@@ -13,23 +13,23 @@ script(type="text/ng-template", id="help-friend.html")
                         span TA的选择:
                         b='' + (JSON.parse(answer).Q1 ? JSON.parse(answer).Q1.answer : '')
             .ui.buttons(style='width: 100%; font-size: 1.3rem;')
-                button.ui.positive.button.yellow(ui-turn-on='modal_support', ng-click='support(true)') 参与
+                button.ui.positive.button.yellow(ui-turn-on='modal_support', ng-click='support()') 参与
                 .or
                 button.ui.button.grey(ui-turn-on='modal_give_up') 放弃
     div(ui-content-for="modals")
         .modal.modal-overlay(ui-if='modal_give_up',ui-state='modal_give_up', ui-shared-state='modal_give_up', style='z-index: 1500; display: block; background-color: transparent;')
-            .modal-dialog
-                .modal-content
-                    .modal-body(style='margin-top: 70%;')
+            .modal-dialog(style='height: 100%;')
+                .modal-content(style='display: flex; justify-content: center; align-items: center; height: 100%;')
+                    .modal-body
                         .show-img
                             img(src='//resource.buzzbuzzenglish.com/survey-sure.png', style='margin: 0 auto; display: block;')
                         .give-up
-                            img(src='//resource.buzzbuzzenglish.com/survey-chose-myself.png', style='margin: 1rem auto; display: block;', ui-turn-off='modal_give_up', ng-click='support(false)')
+                            img(src='//resource.buzzbuzzenglish.com/survey-think.png', style='margin: 1rem auto; display: block;', ui-turn-off='modal_give_up')
                         .agree
                             img(src='//resource.buzzbuzzenglish.com/survey-support-friend.png', style='margin: 0 auto; display: block;', ui-turn-off='modal_give_up', ng-click='giveUp()')
         .modal.modal-overlay(ui-if='modal_support',ui-state='modal_support', ui-shared-state='modal_support', style='z-index: 1500; display: block; background: transparent;', ui-turn-off='modal_support')
-            .modal-dialog
-                .modal-content
-                    .modal-body(style='margin-top: 80%;')
+            .modal-dialog(style='height: 100%;')
+                .modal-content(style='display: flex; justify-content: center; align-items: center; height: 100%;')
+                    .modal-body
                         .agree
                             img(src='//resource.buzzbuzzenglish.com/survey-support-modal.png', style='margin: 0 auto; display: block;')

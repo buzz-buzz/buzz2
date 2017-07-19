@@ -28,8 +28,8 @@ html(manifest="/buzz.appcache")
                 background-size: cover;
                 background-attachment: fixed;
             }
-    body
-        .app(ng-app="spaModule", style="background: transparent;")
+    body(ng-app="spaModule")
+        .app(style="background: transparent;")
             .navbar.navbar-app.navbar-absolute-top#buzz-header
                 include partial/header-nav
 
@@ -37,6 +37,8 @@ html(manifest="/buzz.appcache")
                 .app-content
                     ng-view
                     block content
+
+        div(ui-yield-to="modals")
 
         + js("/node_modules/jquery/dist/jquery.min.js")
         + js("/public/css/semantic-ui/semantic.min.js")

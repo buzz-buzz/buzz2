@@ -117,23 +117,17 @@ angular.module('spaModule')
         });
     }])
     .controller('helpFriendCtrl', ['$scope', '$http', '$routeParams', '$timeout', function ($scope, $http, $routeParams, $timeout) {
-        $scope.support = function (delay) {
-            if(delay){
-                $timeout(function(){
-                    console.log('support====');
-                    //supportFriend();
-                },2000);
-            }else{
-                console.log('support====');
-                //supportFriend();
-            }
+        $scope.support = function () {
+            $timeout(function () {
+                supportFriend();
+            }, 2000);
         };
 
         function gotoSurveyPage() {
             location.href = '/survey?short_id=' + $routeParams.short_id;
         }
 
-        function supportFriend(){
+        function supportFriend() {
             $http.put('/service-proxy/surveys/help-friend/i-support', {
                 short_id: $routeParams.short_id,
                 friend_member_id: $routeParams.friend_member_id
@@ -143,8 +137,7 @@ angular.module('spaModule')
         }
 
         $scope.giveUp = function () {
-            console.log('give up----');
-            //gotoSurveyPage();
+            gotoSurveyPage();
         };
     }])
 ;
