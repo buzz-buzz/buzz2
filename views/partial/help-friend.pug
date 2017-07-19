@@ -1,10 +1,10 @@
 script(type="text/ng-template", id="help-friend.html")
     .container(style='max-width: 800px;')
         .ui.cotainer
-            .content(style='width: 80%; margin: 0 auto; padding: 2rem 0;')
+            .content(style='width: 80%; margin: 0 auto; padding: 2rem 0; font-size: 1.5rem;')
                 span='' + title.replace('的邀请', '') + '邀你观看TA精心挑选的英语奇闻趣事,'
                 b 一个月读懂全球英语咨询!
-        .ui.cotainer(style='width: 85%; margin: 0 auto; padding:0 1rem 1rem; background-color: white;')
+        .ui.cotainer(style='width: 90%; margin: 0 auto; padding:0 1rem 1rem; background-color: white;')
             .ui.icon.message(style='padding: .5rem; box-shadow: none; margin-bottom: 0; background-color: white; ')
                 i(style='max-width: 180px; width: 45%;')
                     img(style='width: 80%;', src='//resource.buzzbuzzenglish.com/survey-invited.png')
@@ -12,10 +12,10 @@ script(type="text/ng-template", id="help-friend.html")
                     p
                         span TA的选择:
                         b='' + (JSON.parse(answer).Q1 ? JSON.parse(answer).Q1.answer : '')
-            .ui.buttons(style='width: 100%; font-size: 1.3rem;')
-                button.ui.positive.button.yellow(ui-turn-on='modal_support', ng-click='support()') 参与
-                .or
-                button.ui.button.grey(ui-turn-on='modal_give_up') 放弃
+            .ui.buttons(style='width: 100%;')
+                button.ui.positive.button.yellow(ui-turn-on='modal_support', ng-click='support()', style='font-size: 1.5rem;') 参与
+                .or(style='font-size: 1.5rem;')
+                button.ui.button.grey(ui-turn-on='modal_give_up', style='font-size: 1.5rem;') 放弃
     div(ui-content-for="modals")
         .modal.modal-overlay(ui-if='modal_give_up',ui-state='modal_give_up', ui-shared-state='modal_give_up', style='z-index: 1500; display: block; background-color: transparent;')
             .modal-dialog(style='height: 100%;')

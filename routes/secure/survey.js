@@ -81,32 +81,7 @@ module.exports = function (app, router, render) {
             let answered = JSON.stringify(my_answerData) !== '"{}"';
 
             if (answered) {
-                //this.redirect(saas.generateUrl(this, '/survey?short_id=' + this.params.short_id));
-                let answerData = yield proxy({
-                    host: config.buzz.inner.host,
-                    port: config.buzz.inner.port,
-                    path: Router.url(config.serviceUrls.buzz.survey.answerInBuzz.upstream, {
-                        short_id: this.params.short_id,
-                        member_id: this.params.friend_member_id
-                    }),
-                    method: 'GET'
-                });
-
-                let friendName = yield proxy({
-                    host: config.sso.inner.host,
-                    port: config.sso.inner.port,
-                    path: Router.url(config.serviceUrls.sso.profile.load.upstream.replace(':member_id', this.params.friend_member_id), {}),
-                    method: 'GET'
-                });
-
-                friendName = JSON.parse(friendName).result.display_name || JSON.parse(friendName).result.real_name || '朋友';
-
-                this.body = yield render.call(this, view, {
-                    config: config,
-                    answer: answerData,
-                    base: saas.getBaseFor(this, '/'),
-                    title: friendName + '的邀请'
-                })
+                this.redirect(saas.generateUrl(this, '/survey?short_id=' + this.params.short_id));
             } else {
                 let answerData = yield proxy({
                     host: config.buzz.inner.host,
