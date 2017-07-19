@@ -18,7 +18,7 @@ angular.module('spaModule')
                 controller: 'helpFriendCtrl',
                 controllerAs: 'helpFriendCtrl'
             })
-            ;
+        ;
 
         $routeProvider.otherwise('/survey');
     }])
@@ -104,7 +104,7 @@ angular.module('spaModule')
                 wx.onMenuShareAppMessage(angular.extend({}, sharable, {
                     success: shareToFriendSuccess,
                     cancel: shareToFriendCancel,
-                    title: sharable.title + ' ' + sharable.desc
+                    title: sharable.title
                 }));
 
                 $rootScope.$emit('wx:ready', sharable);
@@ -116,22 +116,35 @@ angular.module('spaModule')
             });
         });
     }])
-    .controller('helpFriendCtrl', ['$scope', '$http', '$routeParams', function ($scope, $http, $routeParams) {
-        $scope.support = function () {
-            $http.put('/service-proxy/surveys/help-friend/i-support', {
-                short_id: $routeParams.short_id,
-                friend_member_id: $routeParams.friend_member_id
-            }).then(function (res) {
-                gotoSurveyPage();
-            });
+    .controller('helpFriendCtrl', ['$scope', '$http', '$routeParams', '$timeout', function ($scope, $http, $routeParams, $timeout) {
+        $scope.support = function (delay) {
+            if(delay){
+                $timeout(function(){
+                    console.log('support====');
+                    //supportFriend();
+                },2000);
+            }else{
+                console.log('support====');
+                //supportFriend();
+            }
         };
 
         function gotoSurveyPage() {
             location.href = '/survey?short_id=' + $routeParams.short_id;
         }
 
+        function supportFriend(){
+            $http.put('/service-proxy/surveys/help-friend/i-support', {
+                short_id: $routeParams.short_id,
+                friend_member_id: $routeParams.friend_member_id
+            }).then(function (res) {
+                gotoSurveyPage();
+            });
+        }
+
         $scope.giveUp = function () {
-            gotoSurveyPage();
+            console.log('give up----');
+            //gotoSurveyPage();
         };
     }])
-    ;
+;

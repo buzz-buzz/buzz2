@@ -1,13 +1,35 @@
 script(type="text/ng-template", id="help-friend.html")
-    .ui.container(style='margin-top: 20px; padding-bottom: 2rem;')
-        .ui.segment(style='margin: 0 auto; max-width: 600px;')
-            h3 你的朋友已投票，快来和他一起学习吧
-            .ui.segments
-                .ui.segment(style='font-size: 1.5rem;')
-                    p 选择你最想看的英语奇闻趣事
-                .ui.secondary.segment(style='max-width: 300px; font-size: 1.3rem;')
-                    p= '他已回答:　' + (JSON.parse(answer).Q1 ? JSON.parse(answer).Q1.answer : '')
+    .container(style='max-width: 800px;')
+        .ui.cotainer
+            .content(style='width: 80%; margin: 0 auto; padding: 2rem 0;')
+                span='' + title.replace('的邀请', '') + '邀你观看TA精心挑选的英语奇闻趣事,'
+                b 一个月读懂全球英语咨询!
+        .ui.cotainer(style='width: 85%; margin: 0 auto; padding:0 1rem 1rem; background-color: white;')
+            .ui.icon.message(style='padding: .5rem; box-shadow: none; margin-bottom: 0; background-color: white; ')
+                i(style='max-width: 180px; width: 45%;')
+                    img(style='width: 80%;', src='//resource.buzzbuzzenglish.com/survey-invited.png')
+                .content
+                    p
+                        span TA的选择:
+                        b='' + (JSON.parse(answer).Q1 ? JSON.parse(answer).Q1.answer : '')
             .ui.buttons(style='width: 100%; font-size: 1.3rem;')
-                button.ui.positive.button.yellow(ng-click="support()") 支持
+                button.ui.positive.button.yellow(ui-turn-on='modal_support', ng-click='support(true)') 参与
                 .or
-                button.ui.button.grey(ng-click="giveUp()") 放弃
+                button.ui.button.grey(ui-turn-on='modal_give_up') 放弃
+    div(ui-content-for="modals")
+        .modal.modal-overlay(ui-if='modal_give_up',ui-state='modal_give_up', ui-shared-state='modal_give_up', style='z-index: 1500; display: block; background-color: transparent;')
+            .modal-dialog
+                .modal-content
+                    .modal-body(style='margin-top: 70%;')
+                        .show-img
+                            img(src='//resource.buzzbuzzenglish.com/survey-sure.png', style='margin: 0 auto; display: block;')
+                        .give-up
+                            img(src='//resource.buzzbuzzenglish.com/survey-chose-myself.png', style='margin: 1rem auto; display: block;', ui-turn-off='modal_give_up', ng-click='support(false)')
+                        .agree
+                            img(src='//resource.buzzbuzzenglish.com/survey-support-friend.png', style='margin: 0 auto; display: block;', ui-turn-off='modal_give_up', ng-click='giveUp()')
+        .modal.modal-overlay(ui-if='modal_support',ui-state='modal_support', ui-shared-state='modal_support', style='z-index: 1500; display: block; background: transparent;', ui-turn-off='modal_support')
+            .modal-dialog
+                .modal-content
+                    .modal-body(style='margin-top: 80%;')
+                        .agree
+                            img(src='//resource.buzzbuzzenglish.com/survey-support-modal.png', style='margin: 0 auto; display: block;')

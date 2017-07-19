@@ -93,11 +93,20 @@ module.exports = function (app, router, render) {
                     method: 'GET'
                 });
 
+                let friendName = yield proxy({
+                    host: config.sso.inner.host,
+                    port: config.sso.inner.port,
+                    path: Router.url(config.serviceUrls.sso.profile.load.upstream.replace(':member_id', this.params.friend_member_id), {}),
+                    method: 'GET'
+                });
+
+                friendName = JSON.parse(friendName).result.display_name || JSON.parse(friendName).result.real_name || '朋友';
+
                 this.body = yield render.call(this, view, {
                     config: config,
                     answer: answerData,
                     base: saas.getBaseFor(this, '/'),
-                    title: '朋友的邀请'
+                    title: friendName + '的邀请'
                 })
             }
         })
