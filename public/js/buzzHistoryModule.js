@@ -107,7 +107,7 @@ angular.module('buzzHistoryModule', ['angularQueryParserModule', 'servicesModule
             $scope.categories = result.data;
         });
     }])
-    .controller('memberPaidCourseCtrl', ['$scope', '$http', 'clientConfig', 'queryParser', function ($scope, $http, clientConfig, queryParser) {
+    .controller('memberPaidCourseCtrl', ['$scope', '$http', 'clientConfig', 'queryParser', '$anchorScroll', '$rootScope', function ($scope, $http, clientConfig, queryParser, $anchorScroll, $rootScope) {
         $http.get(clientConfig.serviceUrls.buzz.memberPaidCourse.get.frontEnd).then(function (result) {
             if (result.data && result.data.length !== 0) {
                 function sortByDate(a, b) {
@@ -165,6 +165,10 @@ angular.module('buzzHistoryModule', ['angularQueryParserModule', 'servicesModule
 
         $scope.aLikeClick = function (href) {
             window.location.href = href;
+        };
+
+        $rootScope.toTop = function () {
+            $anchorScroll('top');
         };
 
     }])

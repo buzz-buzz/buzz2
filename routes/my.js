@@ -126,7 +126,7 @@ module.exports = function (app, router, render) {
                 config: config,
                 base: saas.getBaseFor(this, '/my/'),
                 title: '头像',
-                backUrl: 'javascript:location.href="/m/my/my"'
+                backUrl: 'javascript:location.href="/my/account"'
             });
         })
         .get('/my/mobile-history', saas.checkSaasReferer, membership.setHcdUserIfSignedIn, function* () {

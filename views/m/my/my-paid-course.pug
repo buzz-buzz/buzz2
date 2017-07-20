@@ -58,11 +58,13 @@ block content
             .history-list(style='margin: 2em 0;', ng-if="coursePaidList.length !== 0", ng-cloak)
                 .ui.segments
                     .ui.segment
-                        p 已经显示所有付费课程！
+                        p(style='font-size: 1.3rem;') 已经显示所有付费课程！
             .history-list(style='margin: 2em 0;', ng-if="coursePaidList.length === 0", ng-cloak)
                 .ui.segments
                     .ui.segment
-                        p 您现在还没有付费过任何课程哦！
+                        p(style='font-size: 1.5rem;') 您现在还没有付费过任何课程哦！
                     .ui.secondary.segment
-                        button.ui.black.basic.button  如何获得付费课程
-            .button(style='background:#e8e8e8;text-align: center;padding:.4em;') 顶部下拉刷新
+                        p(style='font-size: 1.3rem;')  如何获得付费课程?
+                        p(style='font-size: 1.3rem;')  请持续关注Buzzbuzz的学习活动，用一杯咖啡的价格，助力孩子实现一个学习英语的梦想！
+
+            .button(style='background:#e8e8e8;text-align: center;padding:.4em;') 返回顶部
