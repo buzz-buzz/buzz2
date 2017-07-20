@@ -14,21 +14,10 @@ script(type="text/ng-template", id="survey.html")
     if source != 'mobile' && answered
         .ui.message.transition(style='font-size: 1.3rem; width: 90%; margin: 0 auto;')
             p 小提示: 目前只支持微信端分享给好友哦！
-    if source == 'mobile' && answered
-        .ui.dimmer#dimmer(onclick="document.getElementById('dimmer').style.display = 'none';document.getElementById('dimmer').style.opacity = 0;" ,ng-controller='surveyShareCtrl', style='position: fixed; z-index: 1500; background-color: transparent;')
-            .content(style='position: relative;')
-                img(src='//resource.buzzbuzzenglish.com/survey-dimmer.png', style='width: 100%; height: 100%;')
 
 script.
     window.addEventListener('message', function (event) {
-    if (event.data && event.data.indexOf && event.data.indexOf('refresh://') === 0) {
-    location.reload();
-    }
+        if (event.data && event.data.indexOf && event.data.indexOf('refresh://') === 0) {
+            location.reload();
+        }
     }, false);
-
-    setTimeout(function(){
-    if(document.getElementById('dimmer')){
-    document.getElementById('dimmer').style.display = 'block';
-    document.getElementById('dimmer').style.opacity = 1;
-    }
-    }, 2000);

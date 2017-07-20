@@ -3,7 +3,10 @@ extends ./mobile-master-layout
 block content
     include ../partial/survey-content
     include ../partial/help-friend
-
+    if source == 'mobile' && answered
+        .ui.dimmer#dimmer(ng-controller='surveyShareCtrl', style='position: fixed; z-index: 1500; background-color: transparent;')
+            .content(style='position: relative;', ng-click='closeDimmer()')
+                img(src='//resource.buzzbuzzenglish.com/survey-dimmer.png', style='width: 100%; height: 100%;')
 block js
     + js("/js/buzzHeaderModule.min.js")
     + js('/js/components/spaModuleWithHeader.min.js')

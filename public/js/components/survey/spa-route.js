@@ -22,11 +22,9 @@ angular.module('spaModule')
 
         $routeProvider.otherwise('/survey');
     }])
-    .controller('surveyCtrl', ['$scope', '$rootScope', '$http', function ($scope, $rootScope, $http) {
-
+    .controller('surveyCtrl', ['$scope', '$rootScope', '$http', '$timeout', function ($scope, $rootScope, $http, $timeout) {
     }])
     .controller('surveyShareCtrl', ['$scope', '$rootScope', '$http', 'clientConfig', '$timeout', function ($scope, $rootScope, $http, clientConfig, $timeout) {
-
         var strCookie = document.cookie;
         var arrCookie = strCookie.split(";");
         var member_id;
@@ -115,6 +113,18 @@ angular.module('spaModule')
                 console.error(res);
             });
         });
+
+        $timeout(function () {
+            $('#dimmer')
+                .dimmer('show')
+            ;
+        }, 2000);
+
+        $scope.closeDimmer = function () {
+            $('#dimmer')
+                .dimmer('hide')
+            ;
+        };
     }])
     .controller('helpFriendCtrl', ['$scope', '$http', '$routeParams', '$timeout', function ($scope, $http, $routeParams, $timeout) {
         $scope.support = function () {
