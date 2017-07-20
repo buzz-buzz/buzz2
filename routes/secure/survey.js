@@ -10,7 +10,7 @@ const greenSharedLogger = require('../../common/logger')('/routes/secure/survey.
 
 module.exports = function (app, router, render) {
     router
-        .get('/survey', saas.checkSaasReferer, membership.ensureAuthenticated, function*() {
+        .get('/survey', saas.checkSaasReferer, membership.ensureAuthenticated, function* () {
             let view = '/survey';
             let source = 'computer';
 
@@ -61,7 +61,7 @@ module.exports = function (app, router, render) {
                 title: '我的话题'
             });
         })
-        .get('/survey/help-friend/:short_id/:friend_member_id', saas.checkSaasReferer, membership.ensureAuthenticated, function*() {
+        .get('/survey/help-friend/:short_id/:friend_member_id', saas.checkSaasReferer, membership.ensureAuthenticated, function* () {
             let view = '/survey';
 
             if (this.state.userAgent.isMobile && !this.state.userAgent.isTablet) {
@@ -110,31 +110,29 @@ module.exports = function (app, router, render) {
                 })
             }
         })
-        .get('/jumpresult', membership.ensureAuthenticated, function*() {
-            greenSharedLogger.error('called by wenjun ==========>>>>>>>>> ' + this.req.url);
+        .get('/jumpresult', membership.ensureAuthenticated, function* () {
+            //  called by wenjun ==========>>>>>>>>> /jumpresult?short_id=yiA3Yv
 
-            greenSharedLogger.error('referer = ' + this.req.headers.referer);
+            // greenSharedLogger.error('called by wenjun ==========>>>>>>>>> ' + this.req.url);
 
             if (this.query.short_id) {
                 let r = yield proxy(Object.assign({
-                        path: config.serviceUrls.buzz.survey.answer.upstream,
-                        method: 'PUT',
-                        data: {
-                            member_id: this.state.hcd_user.member_id,
-                            short_id: this.query.short_id,
-                            wj_user: 'buzzbuzz',
-                            data_type: 'json'
-                        }
-                    }, {
-                        host: config.buzz.inner.host,
-                        port: config.buzz.inner.port,
+                    path: config.serviceUrls.buzz.survey.answer.upstream,
+                    method: 'PUT',
+                    data: {
+                        member_id: this.state.hcd_user.member_id,
+                        short_id: this.query.short_id,
+                        wj_user: 'buzzbuzz',
+                        data_type: 'json'
                     }
-                ));
-
-                greenSharedLogger.error('saving answer result: ' + r + JSON.stringify(r));
+                }, {
+                    host: config.buzz.inner.host,
+                    port: config.buzz.inner.port,
+                }));
             }
 
-            this.body = yield render.call(this, '/result-callback', {config: config});
-        })
-    ;
+            this.body = yield render.call(this, '/result-callback', {
+                config: config
+            });
+        });
 };

@@ -1,5 +1,9 @@
 extends ../m/mobile-layout
 
+block rightTopMenu
+    if !hcd_user
+        a.btn(href="javascript:location.href='/sign-in';",  style="color: black;") 登录
+
 block meta
     style.
         .meta > .tag-meta {

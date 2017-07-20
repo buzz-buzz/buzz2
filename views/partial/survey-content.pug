@@ -18,6 +18,6 @@ script(type="text/ng-template", id="survey.html")
 script.
     window.addEventListener('message', function (event) {
         if (event.data && event.data.indexOf && event.data.indexOf('refresh://') === 0) {
-            location.reload();
+            location.reload(true);
         }
     }, false);
