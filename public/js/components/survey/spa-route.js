@@ -39,8 +39,8 @@ angular.module('spaModule')
         var short_id = /\??short_id=(\w+)/.exec(location.search)[1];
 
         var sharable = {
-            title: '你的朋友邀您一起学习有趣的英语课程',
-            desc: '每天更新的，青少年英语新闻分级阅读！精彩内容，不容错过...',
+            title: '孩子一个月看懂全球英语资讯？这不是痴人说梦',
+            desc: '用一顿肯德基的钱，助力孩子实现一个梦想',
             link: location.origin + '/survey/help-friend/' + short_id + '/' + member_id,
             imgUrl: 'http://resource.buzzbuzzenglish.com/wechat-share-friend.jpg'
         };

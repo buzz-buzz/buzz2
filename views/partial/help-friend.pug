@@ -10,8 +10,15 @@ script(type="text/ng-template", id="help-friend.html")
                     img(style='width: 80%;', src='//resource.buzzbuzzenglish.com/survey-invited.png')
                 .content
                     p
+                    - var myAnswer = JSON.parse(answer).Q1
+                    if (myAnswer) && (myAnswer.answer) && (myAnswer.answer.indexOf('--') > -1)
                         span TA的选择:
-                        b='' + (JSON.parse(answer).Q1 ? JSON.parse(answer).Q1.answer : '')
+                        b= myAnswer.answer.split('--')[0] || ''
+                        br
+                        span= '---' + myAnswer.answer.split('--')[1]
+                    else
+                        span TA的选择:
+                        b='' + (myAnswer ? myAnswer.answer : '')
             .ui.buttons(style='width: 100%;')
                 button.ui.positive.button.yellow(ui-turn-on='modal_support', ng-click='support()', style='font-size: 1.5rem;') 参与
                 .or(style='font-size: 1.5rem;')

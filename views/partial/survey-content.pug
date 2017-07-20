@@ -11,7 +11,7 @@ script(type="text/ng-template", id="survey.html")
                 p
                 - var myAnswer = JSON.parse(answer).Q1
                 if (myAnswer) && (myAnswer.answer)  && (myAnswer.answer.indexOf('--') > -1)
-                    b= myAnswer.answer.split('--')[0]
+                    b= myAnswer.answer.split('--')[0] || ''
                     br
                     span= '---' + myAnswer.answer.split('--')[1]
                 else
