@@ -98,11 +98,12 @@ angular.module('spaModule')
                 self.c1.height = self.video.videoHeight;
                 self.c2.width = self.video.videoWidth;
                 self.c2.height = self.video.videoHeight;
+                self.c0.style.width = self.video.videoWidth;
                 self.c0.style.height = self.video.videoHeight;
+                self.c1.style.width = self.video.videoWidth;
                 self.c1.style.height = self.video.videoHeight;
+                self.c2.style.width = self.video.videoWidth;
                 self.c2.style.height = self.video.videoHeight;
-
-                self.c2.style.backgroundSize = self.video.videoWidth + 'px ' + self.video.videoHeight + 'px';
 
                 self.timerCallback();
             }, false);
@@ -128,22 +129,56 @@ angular.module('spaModule')
             var l = frame.data.length / 4;
 
             for (var i = 0; i < l; i++) {
-                var r = frame.data[i * 4 + 0];
-                var g = frame.data[i * 4 + 1];
-                var b = frame.data[i * 4 + 2];
-                var maskR = mask.data[i * 4 + 0];
-                var maskG = mask.data[i * 4 + 1];
-                var maskB = mask.data[i * 4 + 2];
-                // if (!isHumanSkin(r, g, b) && !isHumanHair(r, g, b))
-                if (!headArea(maskR, maskG, maskB))
-                    frame.data[i * 4 + 3] = 0;
+                var j = maskPos(i, this.c1.width, this.c1.height, this.c0.width, this.c0.height);
+                if (!headArea(mask.data, j)) {
+                    setRGBA(frame.data, i, null, null, null, 0);
+                } else {
+                    setRGBA(mask.data, j, 255, 0, 0, 255);
+                }
             }
             this.ctx2.putImageData(frame, 0, 0);
+            this.ctx0.putImageData(mask, 0, 0);
             return;
         };
 
-        function headArea(r, g, b) {
-            return r === 255 && g === 255 && b === 255;
+        function maskPos(i, w, h, w1, h1) {
+            var x = i % w;
+            var y = Math.floor((i + 1) / w);
+
+            var x1 = Math.round((w1 - w) / 2 + x);
+            var y1 = Math.round((h1 - h) / 2 + y);
+
+            var i1 = x1 + y1 * w1;
+            return i1;
+        }
+
+        function getRGBA(data, i) {
+            return {
+                r: data[i * 4 + 0],
+                g: data[i * 4 + 1],
+                b: data[i * 4 + 2],
+                a: data[i * 4 + 3]
+            };
+        }
+
+        function setRGBA(data, i, r, g, b, a) {
+            if (r != null) {
+                data[i * 4 + 0] = r;
+            }
+            if (g != null) {
+                data[i * 4 + 1] = g;
+            }
+            if (b != null) {
+                data[i * 4 + 2] = b;
+            }
+            if (a != null) {
+                data[i * 4 + 3] = a;
+            }
+        }
+
+        function headArea(data, pos) {
+            var rgb = getRGBA(data, pos);
+            return Math.abs(rgb.r - 255) < 30 && Math.abs(rgb.g - 255) < 30 && Math.abs(rgb.b - 255) < 30;
         }
 
         function isHumanSkin(r, g, b) {
