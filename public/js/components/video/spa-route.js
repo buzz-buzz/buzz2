@@ -103,7 +103,8 @@ angular.module('spaModule')
             console.log('Recorded Blobs: ', recordedBlobs);
             $scope.recordedVideo.controls = true;
             $scope.playButton.disabled = false;
-            $scope.stopRecordButton.disabled = false;
+            $scope.stopRecordButton.disabled = true;
+            $scope.recordButton.disabled = false;
         };
         $scope.startRecording = function () {
             var options = {
@@ -129,6 +130,7 @@ angular.module('spaModule')
             }
 
             try {
+                recordedBlobs = [];
                 mediaRecorder = new MediaRecorder(localMediaStream, options);
             } catch (e) {
                 console.error('Exception while creating MediaRecorder: ' + e);

@@ -2,23 +2,40 @@ extends ./m/mobile-master-layout
 
 block content
     script(type="text/ng-template", id="video.html")
-        //- .ui.container
-            //- .ui.embed(class="4:3")
-            //-     video#video(autoplay="true", style="width: 100%;")
+        style.
+            .form-group{position:relative;}
+            video{width:100%;}
+            .record .video-mask, .playback .video-mask {
+                border:solid 1px red;
+                position: absolute;
+                top:0;
+                bottom:0;
+                left:0;
+                right:0;
+                display:block;
+                background: url(http://resource.buzzbuzzenglish.com/bg3.png);
+                background-size: 100% 100%;
+                opacity: 0.8;
+            }
+
+            .playback .video-mask {opacity:1;}
 
         form.ui.form(ng-submit="uploadVideo()", ng-class="{'error': !!errorMessage}")
             include ./partial/formMessage
             fieldset
                 legend 上传视频
-                .form-group
+                .form-group.record
                     video#cam(autoplay)
+                    .video-mask
                 .form-group
                     div.btn-group
                         button.btn.btn-default(ng-click="startRecording()" type="button", ng-class="{'disabled': recordButton.disabled}") 开始录制
                         button.btn.btn-default(ng-click="stopRecording()", type="button", ng-class="{'disabled': stopRecordButton.disabled}") 停止录制
                         button.btn.btn-default(ng-click="play()", type="button", ng-class="{'disabled': playButton.disabled}") 回放
-                .form-group
+                .form-group.playback
                     video#recorded(autoplay, loop, controls="{{recordedVideo.controls}}", src="{{recordedVideo.src}}")
+                    .video-mask
+            hr 
             button.btn.btn-primary.btn-block(type="submit") 上传
     script(type="text/ng-template", id="video-player.html")
         style.
