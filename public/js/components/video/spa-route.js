@@ -67,6 +67,95 @@ angular.module('spaModule')
                 console.log('empty file');
             }
         };
+
+        navigator.mediaDevices.getUserMedia({
+            video: true,
+            audio: true
+        }).then(function (stream) {
+            var video = document.querySelector('video#cam');
+            video.src = window.URL.createObjectURL(stream);
+
+            video.onloadedmetadata = function (e) {};
+            localMediaStream = stream;
+        }).catch(function (err) {
+            console.error(err);
+        });
+
+        var recordedBlobs = [];
+        var mediaRecorder;
+        var localMediaStream;
+        $scope.recordButton = {};
+        $scope.stopRecordButton = {
+            disabled: true
+        };
+        $scope.playButton = {
+            disabled: true
+        };
+        $scope.recordedVideo = {};
+        $scope.stopRecording = function () {
+            mediaRecorder.stop();
+            console.log('Recorded Blobs: ', recordedBlobs);
+            $scope.recordedVideo.controls = true;
+            $scope.playButton.disabled = false;
+            $scope.stopRecordButton.disabled = false;
+        };
+        $scope.startRecording = function () {
+            var options = {
+                mimeType: 'video/webm;codecs=vp9'
+            };
+            if (!MediaRecorder.isTypeSupported(options.mimeType)) {
+                console.log(options.mimeType + ' is not Supported');
+                options = {
+                    mimeType: 'video/webm;codecs=vp8'
+                };
+                if (!MediaRecorder.isTypeSupported(options.mimeType)) {
+                    console.log(options.mimeType + ' is not Supported');
+                    options = {
+                        mimeType: 'video/webm'
+                    };
+                    if (!MediaRecorder.isTypeSupported(options.mimeType)) {
+                        console.log(options.mimeType + ' is not Supported');
+                        options = {
+                            mimeType: ''
+                        };
+                    }
+                }
+            }
+
+            try {
+                mediaRecorder = new MediaRecorder(localMediaStream, options);
+            } catch (e) {
+                console.error('Exception while creating MediaRecorder: ' + e);
+                alert('Exception while creating MediaRecorder: ' +
+                    e + '. mimeType: ' + options.mimeType);
+                return;
+            }
+            console.log('Created MediaRecorder', mediaRecorder, 'with options', options);
+            mediaRecorder.onstop = handleStop;
+            mediaRecorder.ondataavailable = handleDataAvailable;
+            mediaRecorder.start(10); // collect 10ms of data
+            console.log('MediaRecorder started', mediaRecorder);
+            $scope.recordButton.disabled = true;
+            console.log('disabled start recording');
+            $scope.stopRecordButton.disabled = false;
+        };
+
+        function handleStop() {
+            console.log('Recorder stopped: ', event);
+        }
+
+        function handleDataAvailable(event) {
+            if (event.data && event.data.size > 0) {
+                recordedBlobs.push(event.data);
+            }
+        }
+
+        $scope.play = function () {
+            var superBuffer = new Blob(recordedBlobs, {
+                type: 'video/webm'
+            });
+            $scope.recordedVideo.src = window.URL.createObjectURL(superBuffer);
+        };
     }])
     .controller('videoPlayerCtrl', ['$scope', '$routeParams', function ($scope, $routeParams) {
         $scope.videoSrc = decodeURIComponent($routeParams.src);

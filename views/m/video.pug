@@ -11,10 +11,19 @@ block content
             fieldset
                 legend 上传视频
                 .form-group
+                    video#cam(autoplay)
+                .form-group
+                    div.btn-group
+                        button.btn.btn-default(ng-click="startRecording()" type="button", ng-class="{'disabled': recordButton.disabled}") 开始录制
+                        button.btn.btn-default(ng-click="stopRecording()", type="button", ng-class="{'disabled': stopRecordButton.disabled}") 停止录制
+                        button.btn.btn-default(ng-click="play()", type="button", ng-class="{'disabled': playButton.disabled}") 回放
+                .form-group
+                    video#recorded(autoplay, loop, controls="{{recordedVideo.controls}}", src="{{recordedVideo.src}}")
+                .form-group
                     label 开始拍摄
-                    input#video-file.form-control(type="file", accept="video/*", capture="camera", placeholder="点击此处开始拍摄")
+                    input#video-file.form-control(type="file", accept="video/*", capture="camcorder", placeholder="点击此处开始拍摄")
             hr
-            button.btn.btn-primary.btn-block 上传
+            button.btn.btn-primary.btn-block(type="submit") 上传
     script(type="text/ng-template", id="video-player.html")
         style.
             #c2, #c1, #c0 {
