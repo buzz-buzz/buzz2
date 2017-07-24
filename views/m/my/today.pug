@@ -67,10 +67,8 @@ mixin itemBar(imageSrc, title, subTitle)
         i.fa.fa-chevron-right(style="color: #f7b52a;")
 
 mixin videoPlayer
-    .center.aligned.transparent
-        include ../../partial/loading
-        iframe.white.background(id='mobile-video-iframe', ng-src="{{src}}" ng-controller="VideoPlayerCtrl", style="border:none; width: 100%; display: none;", allowfullscreen)
-
+    .center.aligned.transparent.ui.segment(style='min-height: 20em; padding: 0; border: 0;', ng-class='{"loading": loading}', ng-controller="VideoPlayerCtrl")
+        iframe.white.background(ng-src="{{src}}", style="border:none; width: 100%;", allowfullscreen, ng-if="!loading")
 mixin quiz
     .list-group(ng-controller="page2ParentCtrl")
         + itemBar('/public/images/exersise1.png',"Today's Vocabulary", "今日单词")(ng-click="switchToTab(1)",ng-cloak, style="border-bottom: none;")

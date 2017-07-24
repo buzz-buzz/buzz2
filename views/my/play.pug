@@ -34,8 +34,8 @@ block content
         a.page-pos(name="page-1")
         .page.with-header.section.transparent
             .center.aligned.container.column.flex-box.transparent(style='position: relative;')
-                include ../partial/loading
-                iframe.row.content.white.background(id='mobile-video-iframe', ng-src="{{src}}" ng-controller="VideoPlayerCtrl", style="border:none; width: 100%; display: none;", allowfullscreen)
+                .ui.segment.column.flex-box(style='height: 100%; padding: 0; border: 0;', ng-class='{"loading": loading}', ng-controller="VideoPlayerCtrl")
+                    iframe.row.content.white.background(ng-src="{{src}}", style="border: none; width: 100%;", allowfullscreen, ng-if="!loading")
                 #page-2-header.center.aligned.container.column.white.background.row.dynamic
                     .tabular.menu
                         .item.middle(ng-class="{'active': $root.tabularIndex===1}", ng-click="$root.tabularIndex=1")

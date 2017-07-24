@@ -51,6 +51,8 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
 
     }])
     .controller('VideoPlayerCtrl', ['$scope', '$sce', 'clientConfig', '$http', 'queryParser', '$rootScope', function ($scope, $sce, clientConfig, $http, queryParser, $rootScope) {
+        $scope.loading = true;
+
         function getLesson() {
             var query = queryParser.parse();
 
@@ -62,12 +64,7 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                 $scope.queryString = location.search + '&video_path=' + (result.data.video_path) + '&new_words_path=' + result.data.new_words_path + '&lesson_id=' + result.data.lesson_id;
 
                 $scope.src = '/s/player' + $scope.queryString;
-                if (document.getElementById('loading-model')) {
-                    document.getElementById('loading-model').style.display = 'none';
-                }
-                if (document.getElementById('mobile-video-iframe')) {
-                    document.getElementById('mobile-video-iframe').style.display = 'block';
-                }
+                $scope.loading = false;
 
                 $rootScope.lessonInfo = {
                     video_path: result.data.video_path,
