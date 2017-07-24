@@ -42,6 +42,13 @@ angular.module('spaModule')
         $scope.uploadVideo = function () {
             var file = document.querySelector('input[id=video-file]').files[0];
 
+            if (!file) {
+                file = new Blob(recordedBlobs, {
+                    type: 'video/webm'
+                });
+                console.log('==============', file);
+            }
+
             if (file) {
                 $http.put('/videos', {
                     file: file,
