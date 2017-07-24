@@ -40,7 +40,11 @@ angular.module('spaModule')
         };
 
         $scope.uploadVideo = function () {
-            var file = document.querySelector('input[id=video-file]').files[0];
+            var file = document.querySelector('input[id=video-file]');
+
+            if (file) {
+                file = file.files[0];
+            }
 
             if (!file && recordedBlobs && recordedBlobs.length) {
                 file = new Blob(recordedBlobs, {
