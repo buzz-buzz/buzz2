@@ -24,9 +24,7 @@ function yieldableExec(command) {
 function pipeRequest(from, bucket) {
     return function (cb) {
         from.pipe(request.put(
-            composeUrl(config.upload_qiniu.inner.host, config.upload_qiniu.inner.port, '/upload' + bucket),
-            {
-            },
+            composeUrl(config.upload_qiniu.inner.host, config.upload_qiniu.inner.port, '/upload' + bucket), {},
             function (err, response, body) {
                 cb(err, body);
             }));
@@ -58,7 +56,12 @@ module.exports = function (app, router, render, server) {
     // app.use(koaBody({ multipart: true }));
 
     function* renderVideoSPA() {
-        this.body = yield render.call(this, '/m/video', {
+        let view = '/video';
+        if (this.state.userAgent.isMobile) {
+            view = '/m' + view;
+        }
+
+        this.body = yield render.call(this, view, {
             config: config,
             base: saas.getBaseFor(this, '/'),
             title: 'Buzzbuzz English'
@@ -127,6 +130,5 @@ module.exports = function (app, router, render, server) {
             } else {
                 this.body = `${fpath} is not a file or is deleted`;
             }
-        })
-        ;
+        });
 };

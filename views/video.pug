@@ -1,0 +1,70 @@
+extends ./m/mobile-master-layout
+
+block content
+    script(type="text/ng-template", id="video.html")
+        //- .ui.container
+            //- .ui.embed(class="4:3")
+            //-     video#video(autoplay="true", style="width: 100%;")
+
+        form.ui.form(ng-submit="uploadVideo()", ng-class="{'error': !!errorMessage}")
+            include ./partial/formMessage
+            fieldset
+                legend 上传视频
+                .form-group
+                    video#cam(autoplay)
+                .form-group
+                    div.btn-group
+                        button.btn.btn-default(ng-click="startRecording()" type="button", ng-class="{'disabled': recordButton.disabled}") 开始录制
+                        button.btn.btn-default(ng-click="stopRecording()", type="button", ng-class="{'disabled': stopRecordButton.disabled}") 停止录制
+                        button.btn.btn-default(ng-click="play()", type="button", ng-class="{'disabled': playButton.disabled}") 回放
+                .form-group
+                    video#recorded(autoplay, loop, controls="{{recordedVideo.controls}}", src="{{recordedVideo.src}}")
+            button.btn.btn-primary.btn-block(type="submit") 上传
+    script(type="text/ng-template", id="video-player.html")
+        style.
+            #c2, #c1, #c0 {
+                background-image: url('http://resource.buzzbuzzenglish.com/bg3.jpg');
+                background-repeat: no-repeat;
+                background-size: 100% 100%;
+            },
+
+            canvas {border: solid 1px red; width: 100%; height: 500px;}
+        div
+            img#mask(src="http://resource.buzzbuzzenglish.com/bg3.jpg", crossorigin="Anonymous", style="display: none;")
+        div
+            canvas#c0(style="display:none;")
+        div
+            canvas#c1(style="display:none;")
+        div
+            canvas#c2(style="width: 100%;")
+        <video controls="controls" autoplay style="width: 100%; display: none;" id="video-player" type="video/*" src="{{videoSrc}}" crossorigin="Anonymous">
+        </video>
+        
+block js
+    + js('/js/components/spaModuleWithFile.min.js')
+    + js('/js/components/video/spa-route.js')
+    + js('/node_modules/socket.io-client/dist/socket.io.slim.js')
+    + js("/node_modules/angular-file-reader-module/dist/angular-file-reader.js")
+    script.
+        angular.element(document).ready(function(){
+            //- var video = document.querySelector("#video");
+        
+            //- navigator.mediaDevices.getUserMedia({video: true})
+            //- .then(handleVideo)
+            //- .catch(videoError)
+            //- ;
+            
+            //- function handleVideo(stream) {
+            //-     video.src = window.URL.createObjectURL(stream);
+            //-     socket.emit('video', stream);
+            //- }
+            
+            //- function videoError(e) {
+            //-     console.error(e);
+            //-     alert(e);
+            //- }
+
+            //- var socket = io();
+
+            //- socket.emit('test', 'test message');
+        });

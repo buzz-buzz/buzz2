@@ -42,11 +42,10 @@ angular.module('spaModule')
         $scope.uploadVideo = function () {
             var file = document.querySelector('input[id=video-file]').files[0];
 
-            if (!file) {
+            if (!file && recordedBlobs && recordedBlobs.length) {
                 file = new Blob(recordedBlobs, {
                     type: 'video/webm'
                 });
-                console.log('==============', file);
             }
 
             if (file) {
@@ -274,7 +273,7 @@ angular.module('spaModule')
 
         function headArea(data, pos) {
             var rgb = getRGBA(data, pos);
-            return Math.abs(rgb.r - 255) < 30 && Math.abs(rgb.g - 255) < 30 && Math.abs(rgb.b - 255) < 30;
+            return Math.abs(rgb.r - 204) < 10 && Math.abs(rgb.g - 204) < 10 && Math.abs(rgb.b - 255) < 10;
         }
 
         function isHumanSkin(r, g, b) {
