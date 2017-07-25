@@ -29,36 +29,32 @@ block js
         ;
 block content
     script(type="text/ng-template", id="my-paid-course.html")
-        div(style='background-color: #eee;', ng-controller="memberPaidCourseCtrl")
+        .ui.segment(style='background-color: #eee; padding: 0;', ng-controller="memberPaidCourseCtrl", ng-class='{"loading": loading}')
+            a(name='top')
             .history-list(style='margin-bottom:2em;', ng-repeat="lesson in coursePaidList track by $index", ng-cloak)
                 .ui.card(style='width:100%;')
-                    .image
+                    .image(style="height: 211px;")
                         img(ng-src="{{lesson.image}}", ng-click='aLikeClick("/m/my/today?date="+lesson.date+"&cat="+ lesson.category.toLowerCase()+"&level="+lesson.level)')
                     .content(style='font-size:1.5em;')
+                        .description(style='color: #f7b52a;', ng-click='aLikeClick("/m/my/today?date="+lesson.date+"&cat="+ lesson.category.toLowerCase()+"&level="+lesson.level)', ng-cloak) {{lesson.title}}
                         .meta
                             span.date(ng-cloak) {{lesson.date}}
                             .tag-meta(ng-show='lesson.tags.length !== 0', ng-cloak)
                                 .tags(ng-repeat="tag in lesson.tags track by $index")
                                     span(ng-cloak) {{tag}}
-                        .description(style='color: #f7b52a;', ng-click='aLikeClick("/m/my/today?date="+lesson.date+"&cat="+ lesson.category.toLowerCase()+"&level="+lesson.level)', ng-cloak) {{lesson.title}}
-                    .extra.content
-                        .ui.grid
-                            .row
-                                .eight.wide.column
-                                    a(ng-click='aLikeClick("/my/play?date="+lesson.date+"&cat="+ lesson.category.toLowerCase()+"&level="+lesson.level)', ng-cloak)
-                                        i.users.icon
-                                        span(ng-cloak, style='color: #f7b52a;') {{lesson.baseNumber || 0}}人
-                                        span 参加课程
-                                .eight.wide.column
-                                    a(ng-click='aLikeClick("/my/play?date="+lesson.date+"&cat="+ lesson.category.toLowerCase()+"&level="+lesson.level)', ng-cloak)
-                                        i.student.icon
-                                        span(ng-cloak, style='color: #f7b52a;') {{lesson.visited_time || 0}}人
-                                        span 完成学习
-            include ../../partial/loading
+                    .extra.content(style="white-space: nowrap;")
+                        a.right.floated
+                            i.student.icon
+                            span(ng-cloak, style='color: #f7b52a;') {{lesson.visited_time || 0}}人
+                            span 完成学习
+                        a
+                            i.users.icon
+                            span(ng-cloak, style='color: #f7b52a;') {{lesson.baseNumber || 0}}人
+                            span 参加课程
             .history-list(style='margin: 2em 0;', ng-if="coursePaidList.length !== 0", ng-cloak)
                 .ui.segments
                     .ui.segment
-                        p(style='font-size: 1.3rem;') 已经显示所有付费课程！
+                        p(style='font-size: 1.3rem;') 已经显示所有预定课程！
             .history-list(style='margin: 2em 0;', ng-if="coursePaidList.length === 0", ng-cloak)
                 .ui.segments
                     .ui.segment
@@ -67,4 +63,4 @@ block content
                         p(style='font-size: 1.3rem;')  如何获得付费课程?
                         p(style='font-size: 1.3rem;')  请持续关注Buzzbuzz的学习活动，用一杯咖啡的价格，助力孩子实现一个学习英语的梦想！
 
-            .button(style='background:#e8e8e8;text-align: center;padding:.4em;') 返回顶部
+            .button(style='background:#e8e8e8;text-align: center;padding:.4em;', ng-click='toTop()', ng-if='coursePaidList.length > 1') 返回顶部

@@ -108,6 +108,7 @@ angular.module('buzzHistoryModule', ['angularQueryParserModule', 'servicesModule
         });
     }])
     .controller('memberPaidCourseCtrl', ['$scope', '$http', 'clientConfig', 'queryParser', '$anchorScroll', '$rootScope', function ($scope, $http, clientConfig, queryParser, $anchorScroll, $rootScope) {
+        $scope.loading = true;
         $http.get(clientConfig.serviceUrls.buzz.memberPaidCourse.get.frontEnd).then(function (result) {
             if (result.data && result.data.length !== 0) {
                 function sortByDate(a, b) {
@@ -150,16 +151,12 @@ angular.module('buzzHistoryModule', ['angularQueryParserModule', 'servicesModule
                     });
                 });
 
-                if (document.getElementById('loading-model')) {
-                    document.getElementById('loading-model').style.display = 'none';
-                }
+                $scope.loading = false;
 
             } else {
                 $scope.coursePaidList = [];
 
-                if (document.getElementById('loading-model')) {
-                    document.getElementById('loading-model').style.display = 'none';
-                }
+                $scope.loading = false;
             }
         });
 

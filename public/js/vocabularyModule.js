@@ -18,6 +18,11 @@ angular.module('vocabularyModule', ['trackingModule', 'clientConfigModule', 'Dat
             $anchorScroll('top');
         };
 
+        $rootScope.loadMore = function () {
+            $scope.vocabularyData.getNextPage();
+            $anchorScroll('top');
+        };
+
         trackingX.sendX('myVocabulary');
 
         $scope.printMode = false;
