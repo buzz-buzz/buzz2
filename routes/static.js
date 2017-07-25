@@ -9,7 +9,8 @@ const path = require('path');
 const staticSetting = {
     etag: true,
     maxage: 1000 * 3600 * 24 * 30,
-    gzip: true
+    gzip: true,
+    hidden: true
 };
 let getStaticSetting = function () {
     return Object.assign({}, staticSetting);
