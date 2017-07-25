@@ -119,7 +119,7 @@ body
     a(name='top')
     .header
         span 生词
-    .body.init(ng-app="vocabularyModule", ng-controller="vocabularyCtrl")
+    .body.init.ui.segment(ng-app="vocabularyModule", ng-controller="vocabularyCtrl", style='margin: 0; padding: 0;', ng-class='{"loading": loading}')
         .row.title
             .column.item(ng-click="checkboxClick(RADIO_TYPE.NONE)", ng-class='{"active": radioBoxType==RADIO_TYPE.NONE}') 全部
             .column.item(ng-click="checkboxClick(RADIO_TYPE.FAIL)", ng-class='{"active": radioBoxType==RADIO_TYPE.FAIL}') 不理解
@@ -131,7 +131,6 @@ body
                     .wordname {{word.name}}
                         span  {{word.ipc_gb+''+word.ipc_us}}
                     .wordexplain {{word.explanation}}
-        include ../../partial/loading
         .button(style='background:#e8e8e8;text-align: center;padding:.4em;', ng-click='loadMore()') 查看更多
         .button(style='background:#e8e8e8;text-align: center;padding:.4em; margin-top: .5rem;', ng-click='toTop()') 回到顶部
         .row.blank

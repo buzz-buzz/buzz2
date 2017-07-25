@@ -23,6 +23,8 @@ angular.module('vocabularyModule', ['trackingModule', 'clientConfigModule', 'Dat
             $anchorScroll('top');
         };
 
+        $scope.loading = true;
+
         trackingX.sendX('myVocabulary');
 
         $scope.printMode = false;
@@ -206,9 +208,7 @@ angular.module('vocabularyModule', ['trackingModule', 'clientConfigModule', 'Dat
                     }).then(function (results) {
                         results[0].map(function (v) {
                             queryVocabularyExplanation(v);
-                            if(document.getElementById('loading-model')){
-                                document.getElementById('loading-model').style.display = 'none';
-                            }
+                            $scope.loading = false;
                         });
                     });
                 })($scope.vocabularyAll[$scope.vocabularyAll.length - 1]);

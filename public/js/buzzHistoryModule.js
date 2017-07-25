@@ -36,6 +36,7 @@ angular.module('buzzHistoryModule', ['angularQueryParserModule', 'servicesModule
             return 0;
         }
 
+        $scope.loading = true;
         $scope.allCourseData = [];
         $scope.more = true;
         $scope.courseData = new httpPaginationData({
@@ -81,9 +82,7 @@ angular.module('buzzHistoryModule', ['angularQueryParserModule', 'servicesModule
 
                 $scope.allCourseData = $scope.allCourseData.concat($scope.courseList);
 
-                if (document.getElementById('loading-model')) {
-                    document.getElementById('loading-model').style.display = 'none';
-                }
+                $scope.loading = false;
             }
         });
 

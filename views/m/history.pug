@@ -33,5 +33,5 @@ block js
         ;
 block content
     script(type="text/ng-template", id="history.html")
-        div#history-list.scrollable-content(style='background-color: #eee;', ng-controller="historyCtrl")
+        div#history-list.scrollable-content.ui.segment(style='padding: 0; background-color: #eee; min-height: 10rem;', ng-controller="historyCtrl", ng-class='{"loading": loading}')
             include my/partials/history-list
