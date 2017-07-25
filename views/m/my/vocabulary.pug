@@ -8,6 +8,7 @@ html(manifest="/buzz.appcache")
     title='Buzzbuzz English'
     + css("/public/css/style.min.css", true)
     + css("/public/css/semantic-ui/semantic.min.css")
+    + css("/public/css/semantic-ui/semantic.min.css")
 body
     style.
         .init {
@@ -115,6 +116,7 @@ body
         .reserve-row {
             min-height: 3rem;
         }
+    a(name='top')
     .header 生词
     .body.init(ng-app="vocabularyModule", ng-controller="vocabularyCtrl")
         .row.title
@@ -129,7 +131,7 @@ body
                         span  {{word.ipc_gb+''+word.ipc_us}}
                     .wordexplain {{word.explanation}}
         include ../../partial/loading
-        .button(style='background:#e8e8e8;text-align: center;padding:.4em;') 顶部下拉刷新    底部上滑翻页
+        .button(style='background:#e8e8e8;text-align: center;padding:.4em;', ng-click='toTop()') 回到顶部
         .row.blank
         .row.blank
         .row.blank
