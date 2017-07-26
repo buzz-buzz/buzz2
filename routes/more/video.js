@@ -70,7 +70,7 @@ module.exports = function (app, router, render, server) {
     }
 
     router
-        .get('/video', httpsHelper.ensureHttps, saas.checkSaasReferer, renderVideoSPA)
+        .get('/video', saas.checkSaasReferer, renderVideoSPA)
         .get('/video-player/:path', saas.checkSaasReferer, renderVideoSPA)
         .put('/videos', function* (next) {
             if (!this.request.is('multipart/*')) return yield next
