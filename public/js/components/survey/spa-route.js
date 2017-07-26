@@ -17,13 +17,11 @@ angular.module('spaModule')
                 templateUrl: 'help-friend.html',
                 controller: 'helpFriendCtrl',
                 controllerAs: 'helpFriendCtrl'
-            })
-        ;
+            });
 
         $routeProvider.otherwise('/survey');
     }])
-    .controller('surveyCtrl', ['$scope', '$rootScope', '$http', '$timeout', function ($scope, $rootScope, $http, $timeout) {
-    }])
+    .controller('surveyCtrl', ['$scope', '$rootScope', '$http', '$timeout', function ($scope, $rootScope, $http, $timeout) {}])
     .controller('surveyShareCtrl', ['$scope', '$rootScope', '$http', 'clientConfig', '$timeout', function ($scope, $rootScope, $http, clientConfig, $timeout) {
         var strCookie = document.cookie;
         var arrCookie = strCookie.split(";");
@@ -42,7 +40,7 @@ angular.module('spaModule')
             title: '孩子一个月看懂全球英语资讯？这不是痴人说梦',
             desc: '用一顿肯德基的钱，助力孩子实现一个梦想',
             link: location.origin + '/survey/help-friend/' + short_id + '/' + member_id,
-            imgUrl: 'http://resource.buzzbuzzenglish.com/wechat-share-friend.jpg'
+            imgUrl: '//resource.buzzbuzzenglish.com/wechat-share-friend.jpg'
         };
 
         $rootScope.wechatSharable = sharable;
@@ -57,7 +55,7 @@ angular.module('spaModule')
                 appId: result.data.appId, // 必填，公众号的唯一标识
                 timestamp: result.data.timestamp, // 必填，生成签名的时间戳
                 nonceStr: result.data.nonceStr, // 必填，生成签名的随机串
-                signature: result.data.signature,// 必填，签名，见附录1
+                signature: result.data.signature, // 必填，签名，见附录1
                 jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'onMenuShareQZone'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
             });
 
@@ -88,8 +86,7 @@ angular.module('spaModule')
             function shareToFriendCancel(result) {
                 if (result.errMsg === 'sendAppMessage:cancel') {
 
-                } else {
-                }
+                } else {}
             }
 
             wx.ready(function () {
@@ -116,14 +113,12 @@ angular.module('spaModule')
 
         $timeout(function () {
             $('#dimmer')
-                .dimmer('show')
-            ;
+                .dimmer('show');
         }, 2000);
 
         $scope.closeDimmer = function () {
             $('#dimmer')
-                .dimmer('hide')
-            ;
+                .dimmer('hide');
         };
     }])
     .controller('helpFriendCtrl', ['$scope', '$http', '$routeParams', '$timeout', function ($scope, $http, $routeParams, $timeout) {
@@ -149,5 +144,4 @@ angular.module('spaModule')
         $scope.giveUp = function () {
             gotoSurveyPage();
         };
-    }])
-;
+    }]);

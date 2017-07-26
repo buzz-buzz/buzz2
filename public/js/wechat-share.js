@@ -28,7 +28,7 @@ angular.module('wechatShareModule', ['clientConfigModule', 'buzzHeaderModule'])
             title: '用一杯咖啡价格，让孩子看懂英语新闻',
             desc: '每天更新的，青少年英语新闻分级阅读！精彩内容，不容错过...',
             link: location.href,
-            imgUrl: 'http://resource.buzzbuzzenglish.com/wechat-share-friend.jpg'
+            imgUrl: '//resource.buzzbuzzenglish.com/wechat-share-friend.jpg'
         };
 
         $rootScope.wechatSharable = sharable;
@@ -43,7 +43,7 @@ angular.module('wechatShareModule', ['clientConfigModule', 'buzzHeaderModule'])
                 appId: result.data.appId, // 必填，公众号的唯一标识
                 timestamp: result.data.timestamp, // 必填，生成签名的时间戳
                 nonceStr: result.data.nonceStr, // 必填，生成签名的随机串
-                signature: result.data.signature,// 必填，签名，见附录1
+                signature: result.data.signature, // 必填，签名，见附录1
                 jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'onMenuShareQZone'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
             });
 
@@ -74,8 +74,7 @@ angular.module('wechatShareModule', ['clientConfigModule', 'buzzHeaderModule'])
             function shareToFriendCancel(result) {
                 if (result.errMsg === 'sendAppMessage:cancel') {
 
-                } else {
-                }
+                } else {}
             }
 
             wx.ready(function () {
@@ -98,5 +97,4 @@ angular.module('wechatShareModule', ['clientConfigModule', 'buzzHeaderModule'])
                 console.error(res);
             });
         });
-    }])
-    ;
+    }]);

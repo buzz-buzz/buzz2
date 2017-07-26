@@ -3,13 +3,13 @@
    Created by hank on 2017/4/18.
 .weekly-meau(ng-show="weeklyStatus=='menu'",ng-cloak,style='width:100%;')
     .img(style='width:60%;margin:10px auto;')
-        img(style='width:60%;display:block;margin:0 auto;',src='http://resource.buzzbuzzenglish.com/image/weeklyquiz.png')
+        img(style='width:60%;display:block;margin:0 auto;',src='//resource.buzzbuzzenglish.com/image/weeklyquiz.png')
     div(style="display: flex; width:100%;margin:0 auto;")
         a.button.yellow.exercisebutton(ng-click="turnTo('grade')", style="flex: 1;text-decoration: none;") 查看成绩
         span(style='width:10%;')
         a.button.yellow.exercisebutton(ng-click="turnTo('exercise')", style="flex: 1;text-decoration: none;color: #f6b52a!important;background-color: #fff!important;border:1px solid #f6b52a;") 重新测试
 .weekly-grade(ng-show="weeklyStatus=='grade'",ng-cloak)
-    .grade-title(style='background:#fff url(http://resource.buzzbuzzenglish.com/weekly_grade.png) no-repeat center;color:white;width:50%;') 成绩单
+    .grade-title(style='background:#fff url(//resource.buzzbuzzenglish.com/weekly_grade.png) no-repeat center;color:white;width:50%;') 成绩单
     .grade-body
         .course
             .title 得分
