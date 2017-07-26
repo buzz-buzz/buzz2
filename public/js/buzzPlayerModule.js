@@ -211,14 +211,14 @@ angular.module('buzzPlayerModule', ['angularQueryParserModule', 'trackingModule'
                     playlist: [{
                         // title: smil.title,
                         description: smil.description,
-                        image: smil.image || 'http://source.bridgeplus.cn/image/png/buzz-poster.png',
+                        image: smil.image || '//resource.buzzbuzzenglish.com/image/png/buzz-poster.png',
                         stretching: "none",
                         sources: smil.switch.map(function (s) {
                             return {
                                 file: s.src,
                                 label: s.title,
                                 default: s.default,
-                                image: s.image || 'http://source.bridgeplus.cn/image/png/buzz-poster.png'
+                                image: s.image || '//resource.buzzbuzzenglish.com/image/png/buzz-poster.png'
                             };
                         })
                     }]
@@ -274,5 +274,4 @@ angular.module('buzzPlayerModule', ['angularQueryParserModule', 'trackingModule'
                     });
                 }
             });
-    }])
-;
+    }]);

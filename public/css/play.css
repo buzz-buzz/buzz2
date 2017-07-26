@@ -1,5 +1,5 @@
 body {
-    background: url('http://source.bridgeplus.cn/buzz/skin2.png') repeat 0 0;
+    background: url('//resource.buzzbuzzenglish.com/image/png/skin2.png') repeat 0 0;
     background-size: cover;
     background-attachment: fixed;
 }
@@ -31,7 +31,7 @@ a {
     justify-content: space-between;
 }
 
-.grade-body > div {
+.grade-body>div {
     border: 1px solid #bbb;
     border-radius: 2px;
 }
@@ -56,11 +56,11 @@ a {
     width: 65%;
 }
 
-.grade-body .content > .title {
+.grade-body .content>.title {
     font-weight: bold;
 }
 
-.grade-body .content > div {
+.grade-body .content>div {
     height: 2em;
     line-height: 2em;
     width: 100%;
@@ -69,7 +69,7 @@ a {
     margin: 0;
 }
 
-.exercise-container > div {
+.exercise-container>div {
     padding: 0;
     margin: 0;
     display: inline-block;
@@ -79,12 +79,12 @@ a {
     position: relative;
 }
 
-.exercise-container > .right.arrow {
+.exercise-container>.right.arrow {
     position: absolute;
     top: 40%;
 }
 
-.detail > div {
+.detail>div {
     display: inline-block;
     width: 25%;
     text-align: center;

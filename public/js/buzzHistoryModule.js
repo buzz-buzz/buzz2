@@ -12,7 +12,9 @@ angular.module('buzzHistoryModule', ['angularQueryParserModule', 'servicesModule
             query.enabled = true;
         }
         if (!query.date) {
-            query.date = {end: new Date(2022, 1, 1).toISOString()};
+            query.date = {
+                end: new Date(2022, 1, 1).toISOString()
+            };
         }
         if (query.category) {
             $scope.category = query.category;
@@ -58,7 +60,7 @@ angular.module('buzzHistoryModule', ['angularQueryParserModule', 'servicesModule
                     $http.get(c.video_path).then(function (result) {
                         c.title = result.data.title;
                         c.baseNumber = result.data.baseNumber || 100;
-                        c.image = result.data.image || 'http://source.bridgeplus.cn/image/png/buzz-poster.png';
+                        c.image = result.data.image || '//resource.buzzbuzzenglish.com/image/png/buzz-poster.png';
 
                         return $http.get(clientConfig.serviceUrls.buzz.courseViews.frontEnd.replace(':category', c.category).replace(':level', c.level).replace(':lesson_id', c.lesson_id));
                     }).then(function (result) {
@@ -128,7 +130,7 @@ angular.module('buzzHistoryModule', ['angularQueryParserModule', 'servicesModule
                     $http.get(c.video_path).then(function (result) {
                         c.title = result.data.title;
                         c.baseNumber = result.data.baseNumber || 100;
-                        c.image = result.data.image || 'http://source.bridgeplus.cn/image/png/buzz-poster.png';
+                        c.image = result.data.image || '//resource.buzzbuzzenglish.com/image/png/buzz-poster.png';
 
                         return $http.get(clientConfig.serviceUrls.buzz.courseViews.frontEnd.replace(':category', c.category).replace(':level', c.level).replace(':lesson_id', c.lesson_id));
                     }).then(function (result) {
@@ -173,5 +175,4 @@ angular.module('buzzHistoryModule', ['angularQueryParserModule', 'servicesModule
         $http.get(clientConfig.serviceUrls.buzz.userAccount.get.frontEnd).then(function (result) {
             $scope.account = parseFloat(result.data.account).toFixed(2);
         });
-    }])
-;
+    }]);
