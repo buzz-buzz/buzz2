@@ -60,7 +60,7 @@ angular.module('buzzHistoryModule', ['angularQueryParserModule', 'servicesModule
                     $http.get(c.video_path).then(function (result) {
                         c.title = result.data.title;
                         c.baseNumber = result.data.baseNumber || 100;
-                        c.image = result.data.image || '//resource.buzzbuzzenglish.com/image/png/buzz-poster.png';
+                        c.image = result.data.image.replace('http://', '//').replace('https://', '//') || '//resource.buzzbuzzenglish.com/image/png/buzz-poster.png';
 
                         return $http.get(clientConfig.serviceUrls.buzz.courseViews.frontEnd.replace(':category', c.category).replace(':level', c.level).replace(':lesson_id', c.lesson_id));
                     }).then(function (result) {
@@ -83,7 +83,6 @@ angular.module('buzzHistoryModule', ['angularQueryParserModule', 'servicesModule
                 });
 
                 $scope.allCourseData = $scope.allCourseData.concat($scope.courseList);
-
                 $scope.loading = false;
             }
         });
