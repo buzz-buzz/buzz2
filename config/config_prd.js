@@ -70,7 +70,7 @@ module.exports = {
         appName: 'buzz'
     },
 
-    tracking: "http://tracking.buzzbuzzenglish.com/js/t.js?write-key=BeUYw5s9DgGdga4XX02V0DuBYsDDxNE8",
+    tracking: "//tracking.buzzbuzzenglish.com/js/t.js?write-key=BeUYw5s9DgGdga4XX02V0DuBYsDDxNE8",
 
     admins: ['484f357e-a6ff-4651-bfc0-8dbe610496d7', '5b2b6697-0189-4dba-965a-e705cd6615c5'],
 
