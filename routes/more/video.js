@@ -5,6 +5,7 @@ const buzz = require('../../service-proxy-for-server/buzz');
 const course = require('../../bll/course');
 const mount = require('koa-mount');
 const saas = require('../../bll/saas');
+const httpsHelper = require('../../bll/https');
 const fs = require('fs');
 const request = require('request');
 const koaBody = require('koa-body');
@@ -69,7 +70,7 @@ module.exports = function (app, router, render, server) {
     }
 
     router
-        .get('/video', saas.checkSaasReferer, renderVideoSPA)
+        .get('/video', httpsHelper.ensureHttps, saas.checkSaasReferer, renderVideoSPA)
         .get('/video-player/:path', saas.checkSaasReferer, renderVideoSPA)
         .put('/videos', function* (next) {
             if (!this.request.is('multipart/*')) return yield next
