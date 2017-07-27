@@ -3,17 +3,16 @@ extends ./m/mobile-master-layout
 block content
     script(type="text/ng-template", id="video.html")
         style.
-            .form-group{position:relative;}
-            video{width:100%;}
+            .form-group{position:relative;width: 640px; padding:0;}
+            video{width:100%;display:block;}
             .record .video-mask, .playback .video-mask {
-                border:solid 1px red;
                 position: absolute;
                 top:0;
                 bottom:0;
                 left:0;
                 right:0;
                 display:block;
-                background: url(//resource.buzzbuzzenglish.com/bg3.png);
+                background: url(//resource.buzzbuzzenglish.com/bg4.png);
                 background-size: 100% 100%;
                 opacity: 0.8;
             }
@@ -24,7 +23,7 @@ block content
             include ./partial/formMessage
             fieldset
                 legend 上传视频
-                .form-group.record
+                .form-group.record(style="height: 480px;")
                     video#cam(autoplay)
                     .video-mask
                 .form-group
@@ -32,7 +31,7 @@ block content
                         button.btn.btn-default(ng-click="startRecording()" type="button", ng-class="{'disabled': recordButton.disabled}") 开始录制
                         button.btn.btn-default(ng-click="stopRecording()", type="button", ng-class="{'disabled': stopRecordButton.disabled}") 停止录制
                         button.btn.btn-default(ng-click="play()", type="button", ng-class="{'disabled': playButton.disabled}") 回放
-                .form-group.playback
+                .form-group.playback(style="height: 480px;")
                     video#recorded(autoplay, loop, controls="{{recordedVideo.controls}}", src="{{recordedVideo.src}}")
                     .video-mask
             hr 

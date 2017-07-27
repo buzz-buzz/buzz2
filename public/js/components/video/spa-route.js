@@ -157,6 +157,7 @@ angular.module('spaModule')
         }
 
         function handleDataAvailable(event) {
+            console.log(event.data);
             if (event.data && event.data.size > 0) {
                 recordedBlobs.push(event.data);
             }
