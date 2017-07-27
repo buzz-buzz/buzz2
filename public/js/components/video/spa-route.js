@@ -234,8 +234,6 @@ angular.module('spaModule')
                 var j = maskPos(i, this.c1.width, this.c1.height, this.c0.width, this.c0.height);
                 if (!headArea(mask.data, j)) {
                     setRGBA(frame.data, i, null, null, null, 0);
-                } else {
-                    setRGBA(mask.data, j, 255, 0, 0, 255);
                 }
             }
             this.ctx2.putImageData(frame, 0, 0);
@@ -278,9 +276,20 @@ angular.module('spaModule')
             }
         }
 
+        document.getElementById('c2').onmousemove = function (evt) {
+            // var c0 =
+            //     document.getElementById('c0');
+            // console.log(evt.offsetX, evt.offsetY);
+            // var ctx2 = c0.getContext('2d');
+            // var mask = ctx2.getImageData(0, 0, 640, 480);
+            // console.log(mask);
+            // console.log(getRGBA(mask.data, evt.offsetX + evt.offsetY * 640));
+        };
+
         function headArea(data, pos) {
-            var rgb = getRGBA(data, pos);
-            return Math.abs(rgb.r - 204) < 10 && Math.abs(rgb.g - 204) < 10 && Math.abs(rgb.b - 255) < 10;
+            var rgba = getRGBA(data, pos);
+            return rgba.a === 0;
+            // return Math.abs(rgb.r - 204) < 10 && Math.abs(rgb.g - 204) < 10 && Math.abs(rgb.b - 255) < 10;
         }
 
         function isHumanSkin(r, g, b) {
