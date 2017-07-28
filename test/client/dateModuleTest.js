@@ -5,8 +5,8 @@ function testDateRangeOfWeek(buzzCalendar, theDate, start, end) {
     expect(buzzCalendar.getFirstDateOfNextWeek(theDate)).toEqual(end);
 }
 describe('date module', function () {
-    let buzzCalendar;
-    let calendar;
+    var buzzCalendar;
+    var calendar;
 
     beforeEach(angular.mock.module('DateModule'));
     beforeEach(inject(function (_BuzzCalendar_, _Calendar_) {
@@ -15,12 +15,12 @@ describe('date module', function () {
     }));
 
     it('get date of this monday', function () {
-        let date = new Date(2017, 2, 31);
+        var date = new Date(2017, 2, 31);
         expect(calendar.dateOffsetOfThisMonday(date)).toEqual(27);
     });
 
     it('get date of next monday', function () {
-        let date = new Date(2017, 2, 31);
+        var date = new Date(2017, 2, 31);
         expect(calendar.dateOffsetOfNextMonday(date)).toEqual(34);
     });
 
@@ -32,7 +32,7 @@ describe('date module', function () {
     });
 
     it('get dates of this week', function () {
-        let date = new Date(2017, 3, 11);
+        var date = new Date(2017, 3, 11);
 
         expect(buzzCalendar.getDatesOfThisWeek(date)).toEqual([
             new Date(2017, 3, 10),

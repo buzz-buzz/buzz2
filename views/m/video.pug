@@ -16,7 +16,13 @@ block content
         </video>
         
 block js
-    + js('/js/components/spaModuleWithFile.min.js')
+    script.
+        angular.module('spaModule', [
+            'ngRoute',
+            'mobile-angular-ui',
+            'angular-file-reader',
+            'videoParserModule'
+        ]);
     + js('/js/components/video/spa-route.min.js')
     + js('/node_modules/socket.io-client/dist/socket.io.slim.js')
     + js("/node_modules/angular-file-reader-module/dist/angular-file-reader.js")

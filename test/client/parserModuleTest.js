@@ -3,7 +3,7 @@
 describe('parser module', function () {
     var quizParser;
     var vocabularyParser;
-    let highlightParser;
+    var highlightParser;
 
     beforeEach(angular.mock.module('parserModule'));
     beforeEach(inject(function (_quizParser_, _vocabularyParser_, _highlightParser_) {
@@ -12,12 +12,12 @@ describe('parser module', function () {
         highlightParser = _highlightParser_;
     }));
 
-    let v1QuizJson = {
+    var v1QuizJson = {
         quiz1: "/buzz-quiz/20170321-AH-B-1/index.html",
         quiz2: "/buzz-quiz/20170321-AH-B-2/index.html"
     };
 
-    let v2QuizJson = {
+    var v2QuizJson = {
         type: 'quiz',
         version: '2.0.0',
         quizzes: [{
@@ -29,7 +29,7 @@ describe('parser module', function () {
         }]
     };
 
-    let parsedQuizJson = [{
+    var parsedQuizJson = [{
         "name": 'quiz1',
         "url": "/buzz-quiz/20170321-AH-B-1/index.html",
         "status": "unchecked"
@@ -39,7 +39,7 @@ describe('parser module', function () {
         "status": "unchecked"
     }];
 
-    let v1VocabularyJson = {
+    var v1VocabularyJson = {
         caseSensitive: false,
         array: [
             "hero",
@@ -66,7 +66,7 @@ describe('parser module', function () {
         }
     };
 
-    let v2VocabularyJson = {
+    var v2VocabularyJson = {
         "type": "vocabulary",
         "version": "2.0.0",
         "words": [{
@@ -83,7 +83,7 @@ describe('parser module', function () {
         }
     };
 
-    let parsedVocabularyJson = [{
+    var parsedVocabularyJson = [{
         "word": "hero",
         "id": 1,
         "url": "/dict/hero/index.html",
@@ -103,7 +103,7 @@ describe('parser module', function () {
         "status": "unchecked"
     }];
 
-    let parsedHighlights = [
+    var parsedHighlights = [
             "hero",
             "travel"
         ];

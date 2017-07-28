@@ -170,8 +170,9 @@ angular.module('spaModule')
             $scope.recordedVideo.src = window.URL.createObjectURL(superBuffer);
         };
     }])
-    .controller('videoPlayerCtrl', ['$scope', '$routeParams', function ($scope, $routeParams) {
+    .controller('videoPlayerCtrl', ['$scope', '$routeParams', '$http', 'subTitleParser', function ($scope, $routeParams, $http, subTitleParser) {
         $scope.videoSrc = decodeURIComponent($routeParams.src);
+        console.log($scope.videoSrc);
         $scope.url = location.href;
 
         var processor = {};
@@ -303,4 +304,22 @@ angular.module('spaModule')
         angular.element(document).ready(function () {
             processor.doLoad();
         });
+
+        $http.get($scope.videoSrc + '.sub').then(function (res) {
+            $scope.subtitles = subTitleParser.parse(res.data);
+            console.log($scope.subtitles);
+        }).catch(function (reason) {
+            console.error(reason);
+            $scope.subtitle = {
+                text: '字幕正在生成中……'
+            };
+        });
+
+        var video = document.getElementById('video-player');
+        video.ontimeupdate = function (event) {
+            if (!$scope.subtitle || video.currentTime > $scope.subtitle.endSecond || video.currentTime < $scope.subtitle.startSecond) {
+                $scope.subtitle = subTitleParser.findSubtitleBySecond($scope.subtitles, video.currentTime);
+                $scope.$apply();
+            }
+        };
     }]);

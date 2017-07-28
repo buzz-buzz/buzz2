@@ -44,7 +44,10 @@ block content
                 background-size: 100% 100%;
                 width: 640px!important;
                 height: 480px;
-            },
+            }
+
+            .display-area {position: relative;}
+            .display-area .subtitle  {position: absolute;bottom:10px; width: 100%;text-align: center;text-shadow: black 1px 1px 0, black -1px -1px 0;color:white;}
 
         div
             img#mask(src="//resource.buzzbuzzenglish.com/bg4.png", crossorigin="Anonymous", style="display: none;")
@@ -52,13 +55,22 @@ block content
             canvas#c0(style="display:none;")
         div
             canvas#c1(style="display:none;")
-        div
+        .display-area(style="width: 640px;")
             canvas#c2(style="width: 100%;")
+            .subtitle
+                h3 {{subtitle.text}}
         <video controls="controls" autoplay loop style="width: 100%; display: none;" id="video-player" type="video/*" src="{{videoSrc}}" crossorigin="Anonymous">
         </video>
         
 block js
-    + js('/js/components/spaModuleWithFile.min.js')
+    script.
+        angular.module('spaModule', [
+            'ngRoute',
+            'mobile-angular-ui',
+            'angular-file-reader',
+            'videoParserModule'
+        ]);
+    + js('/js/videoParserModule.js')
     + js('/js/components/video/spa-route.js')
     + js('/node_modules/socket.io-client/dist/socket.io.slim.js')
     + js("/node_modules/angular-file-reader-module/dist/angular-file-reader.js")

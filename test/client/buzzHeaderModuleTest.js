@@ -1,10 +1,10 @@
 'use strict';
 
 describe('buzz header module', function () {
-    let levelFactory;
-    let mockBackend;
-    let clientConfig;
-    let api;
+    var levelFactory;
+    var mockBackend;
+    var clientConfig;
+    var api;
 
     beforeEach(angular.mock.module('buzzHeaderModule'));
     beforeEach(inject(function (_levelFactory_, $httpBackend, _clientConfig_, _api_) {
