@@ -46,14 +46,13 @@ angular.module('spaModule')
                     },
                     transformRequest: requestTransformers.transformToFormData
                 }).then(function (res) {
-                    console.log(res);
                     if (res.data.isSuccess === false) {
                         throw res;
                     } else {
                         $location.path('/video-player/' + encodeURIComponent('//' + res.data.host + '/' + res.data.key));
                     }
                 }).then(null, function (reason) {
-                    console.log(reason);
+                    console.error(reason);
                     $scope.errorMessage = reason.data || '出了错误。';
                 }).finally(function () {
                     $scope.uploading = false;
@@ -79,7 +78,9 @@ angular.module('spaModule')
             var video = document.querySelector('video#cam');
             video.src = window.URL.createObjectURL(stream);
 
-            video.onloadedmetadata = function (e) {};
+            video.onloadedmetadata = function (e) {
+
+            };
             localMediaStream = stream;
             $scope.mediaReady = true;
             $scope.$apply();
@@ -306,10 +307,6 @@ angular.module('spaModule')
             return Math.abs(r - 24) < 5 && Math.abs(g - 18) < 5 && Math.abs(b - 22) < 5;
         }
 
-        angular.element(document).ready(function () {
-            processor.doLoad();
-        });
-
         $http.get($scope.videoSrc + '.ass').then(function (res) {
             $scope.subtitles = subTitleParser.parse(res.data);
             console.log($scope.subtitles);
@@ -322,7 +319,6 @@ angular.module('spaModule')
 
         var video = document.getElementById('video-player');
         video.ontimeupdate = function (event) {
-            console.log(video.currentTime);
             if (!$scope.subtitle || video.currentTime > $scope.subtitle.endSecond || video.currentTime < $scope.subtitle.startSecond) {
                 $scope.subtitle = subTitleParser.findSubtitleBySecond($scope.subtitles, video.currentTime);
                 $scope.$apply();
@@ -332,5 +328,9 @@ angular.module('spaModule')
         document.querySelector('#c2').onmouseenter = function () {
             video.pause();
             video.play();
+        };
+
+        video.onloadedmetadata = function(){
+            processor.doLoad();
         };
     }]);
