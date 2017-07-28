@@ -16,27 +16,9 @@ angular.module('spaModule')
 
         $routeProvider.otherwise('/video');
     }])
-    .controller('videoCtrl', ['$scope', '$rootScope', '$http', 'requestTransformers', '$location', function ($scope, $rootScope, $http, requestTransformers, $location) {
+    .controller('videoCtrl', ['$scope', '$rootScope', '$http', 'requestTransformers', '$location', '$timeout', function ($scope, $rootScope, $http, requestTransformers, $location, $timeout) {
         $scope.formData = {
             video: null
-        };
-
-        $scope.uploadVideoToOwnServer = function () {
-            var file = document.querySelector('input[id=video-file]').files[0];
-
-            if (file) {
-                $http.post('/videos', {
-                    file: file
-                }, {
-                    headers: {
-                        'X-Requested-With': undefined,
-                        'Content-Type': undefined
-                    },
-                    transformRequest: requestTransformers.transformToFormData
-                }).then(function (res) {
-                    $location.path('/video-player/' + encodeURIComponent(res.data));
-                });
-            }
         };
 
         $scope.uploadVideo = function () {
@@ -53,6 +35,7 @@ angular.module('spaModule')
             }
 
             if (file) {
+                $scope.uploading = true;
                 $http.put('/videos', {
                     file: file,
                     'x:category': 'upload-' + Math.random().toString()
@@ -72,12 +55,23 @@ angular.module('spaModule')
                 }).then(null, function (reason) {
                     console.log(reason);
                     $scope.errorMessage = reason.data || '出了错误。';
+                }).finally(function () {
+                    $scope.uploading = false;
                 });
             } else {
-                console.log('empty file');
+                $scope.errorMessage = 'Please record a video first!';
             }
         };
 
+        $scope.$watch('errorMessage', function (newValue, oldValue) {
+            if (newValue) {
+                $timeout(function () {
+                    $scope.errorMessage = '';
+                }, 2000)
+            }
+        });
+
+        $scope.mediaReady = false;
         navigator.mediaDevices.getUserMedia({
             video: true,
             audio: true
@@ -87,17 +81,18 @@ angular.module('spaModule')
 
             video.onloadedmetadata = function (e) {};
             localMediaStream = stream;
+            $scope.mediaReady = true;
+            $scope.$apply();
+            console.log('media ready!');
         }).catch(function (err) {
             console.error(err);
+            $scope.mediaReady = false;
+            $scope.$apply();
         });
 
         var recordedBlobs = [];
         var mediaRecorder;
         var localMediaStream;
-        $scope.recordButton = {};
-        $scope.stopRecordButton = {
-            disabled: true
-        };
         $scope.playButton = {
             disabled: true
         };
@@ -107,8 +102,6 @@ angular.module('spaModule')
             console.log('Recorded Blobs: ', recordedBlobs);
             $scope.recordedVideo.controls = true;
             $scope.playButton.disabled = false;
-            $scope.stopRecordButton.disabled = true;
-            $scope.recordButton.disabled = false;
         };
         $scope.startRecording = function () {
             var options = {
@@ -136,6 +129,7 @@ angular.module('spaModule')
             try {
                 recordedBlobs = [];
                 mediaRecorder = new MediaRecorder(localMediaStream, options);
+                $scope.recording = true;
             } catch (e) {
                 console.error('Exception while creating MediaRecorder: ' + e);
                 alert('Exception while creating MediaRecorder: ' +
@@ -147,20 +141,21 @@ angular.module('spaModule')
             mediaRecorder.ondataavailable = handleDataAvailable;
             mediaRecorder.start(10); // collect 10ms of data
             console.log('MediaRecorder started', mediaRecorder);
-            $scope.recordButton.disabled = true;
-            console.log('disabled start recording');
-            $scope.stopRecordButton.disabled = false;
         };
 
         function handleStop() {
             console.log('Recorder stopped: ', event);
+            $scope.recording = false;
+            $scope.$apply();
         }
 
         function handleDataAvailable(event) {
-            console.log(event.data);
             if (event.data && event.data.size > 0) {
                 recordedBlobs.push(event.data);
             }
+
+            $scope.recording = true;
+            $scope.$apply();
         }
 
         $scope.play = function () {
@@ -169,6 +164,10 @@ angular.module('spaModule')
             });
             $scope.recordedVideo.src = window.URL.createObjectURL(superBuffer);
         };
+
+        $scope.allowRecording = function () {
+            return $scope.mediaReady && !$scope.recording;
+        }
     }])
     .controller('videoPlayerCtrl', ['$scope', '$routeParams', '$http', 'subTitleParser', function ($scope, $routeParams, $http, subTitleParser) {
         $scope.videoSrc = decodeURIComponent($routeParams.src);
@@ -305,7 +304,7 @@ angular.module('spaModule')
             processor.doLoad();
         });
 
-        $http.get($scope.videoSrc + '.sub').then(function (res) {
+        $http.get($scope.videoSrc + '.ass').then(function (res) {
             $scope.subtitles = subTitleParser.parse(res.data);
             console.log($scope.subtitles);
         }).catch(function (reason) {
@@ -317,6 +316,7 @@ angular.module('spaModule')
 
         var video = document.getElementById('video-player');
         video.ontimeupdate = function (event) {
+            console.log(video.currentTime);
             if (!$scope.subtitle || video.currentTime > $scope.subtitle.endSecond || video.currentTime < $scope.subtitle.startSecond) {
                 $scope.subtitle = subTitleParser.findSubtitleBySecond($scope.subtitles, video.currentTime);
                 $scope.$apply();

@@ -12,34 +12,48 @@ block content
                 left:0;
                 right:0;
                 display:block;
-                background: url(//resource.buzzbuzzenglish.com/bg4.png);
+                background: url(//resource.buzzbuzzenglish.com/bg5.png);
                 background-size: 100% 100%;
                 opacity: 0.8;
             }
 
             .playback .video-mask {opacity:1;}
 
-        form.ui.form(ng-submit="uploadVideo()", ng-class="{'error': !!errorMessage}")
-            include ./partial/formMessage
-            fieldset
-                legend 上传视频
-                .form-group.record(style="height: 480px;")
-                    video#cam(autoplay)
-                    .video-mask
-                .form-group
-                    div.btn-group
-                        button.btn.btn-default(ng-click="startRecording()" type="button", ng-class="{'disabled': recordButton.disabled}") 开始录制
-                        button.btn.btn-default(ng-click="stopRecording()", type="button", ng-class="{'disabled': stopRecordButton.disabled}") 停止录制
-                        button.btn.btn-default(ng-click="play()", type="button", ng-class="{'disabled': playButton.disabled}") 回放
-                .form-group.playback(style="height: 480px;")
-                    video#recorded(autoplay, loop, controls="{{recordedVideo.controls}}", src="{{recordedVideo.src}}")
-                    .video-mask
-            hr 
-            button.btn.btn-primary.btn-block(type="submit") 上传
+        .ui.container
+            form.ui.form(ng-submit="uploadVideo()", ng-class="{'error': !!errorMessage, 'loading': uploading}")
+                include ./partial/formMessage
+                fieldset
+                    legend 
+                    .form-group
+                        div.btn-group
+                            button.btn.btn-default(ng-click="startRecording()" type="button", ng-class="{'disabled': !allowRecording()}", ng-disabled="!allowRecording()") 
+                                i.record.icon
+                                | Start recording
+                            button.btn.btn-default(ng-click="stopRecording()", type="button", ng-class="{'disabled': !recording}", ng-disabled="!recording") 
+                                i.red.stop.icon
+                                | Stop recording
+                            button.btn.btn-default(ng-click="play()", type="button", ng-class="{'disabled': recording || playButton.disabled}", ng-disabled="recording || playButton.disabled") 
+                                i.film.icon
+                                | Playback
+                    .form-group
+                        br
+                    .form-group.record(style="height: 480px;", ng-show="recording")
+                        video#cam(autoplay)
+                        .video-mask
+                    .form-group.playback(style="height: 480px; background-color: white;", ng-show="!recording")
+                        video#recorded(autoplay, loop, controls="{{recordedVideo.controls}}", src="{{recordedVideo.src}}")
+                        .video-mask
+
+                    .form-group
+                        br
+                    .form-group
+                        button.btn.btn-primary.btn-block(type="submit", ng-class="{'disabled': recording}", ng-disabled="recording || playButton.disabled") 
+                            i.send.icon
+                            | Love it? Upload to share!
     script(type="text/ng-template", id="video-player.html")
         style.
             #c2, #c1, #c0 {
-                background-image: url('//resource.buzzbuzzenglish.com/bg4.png');
+                background-image: url('//resource.buzzbuzzenglish.com/bg5.png');
                 background-repeat: no-repeat;
                 background-size: 100% 100%;
                 width: 640px!important;
@@ -49,18 +63,20 @@ block content
             .display-area {position: relative;}
             .display-area .subtitle  {position: absolute;bottom:10px; width: 100%;text-align: center;text-shadow: black 1px 1px 0, black -1px -1px 0;color:white;}
 
-        div
-            img#mask(src="//resource.buzzbuzzenglish.com/bg4.png", crossorigin="Anonymous", style="display: none;")
-        div
-            canvas#c0(style="display:none;")
-        div
-            canvas#c1(style="display:none;")
-        .display-area(style="width: 640px;")
-            canvas#c2(style="width: 100%;")
-            .subtitle
-                h3 {{subtitle.text}}
-        <video controls="controls" autoplay loop style="width: 100%; display: none;" id="video-player" type="video/*" src="{{videoSrc}}" crossorigin="Anonymous">
-        </video>
+        .ui.container
+            h2
+            div
+                img#mask(src="//resource.buzzbuzzenglish.com/bg5.png", crossorigin="Anonymous", style="display: none;")
+            div
+                canvas#c0(style="display:none;")
+            div
+                canvas#c1(style="display:none;")
+            .display-area(style="width: 640px;")
+                canvas#c2(style="width: 100%;")
+                .subtitle
+                    h3 {{subtitle.text}}
+            <video controls="controls" autoplay loop style="width: 100%; display: none;" id="video-player" type="video/*" src="{{videoSrc}}" crossorigin="Anonymous">
+            </video>
         
 block js
     script.
@@ -70,8 +86,8 @@ block js
             'angular-file-reader',
             'videoParserModule'
         ]);
-    + js('/js/videoParserModule.js')
-    + js('/js/components/video/spa-route.js')
+    + js('/js/videoParserModule.min.js')
+    + js('/js/components/video/spa-route.min.js')
     + js('/node_modules/socket.io-client/dist/socket.io.slim.js')
     + js("/node_modules/angular-file-reader-module/dist/angular-file-reader.js")
     script.

@@ -65,7 +65,7 @@ module.exports = function (app, router, render, server) {
         this.body = yield render.call(this, view, {
             config: config,
             base: saas.getBaseFor(this, '/'),
-            title: 'Buzzbuzz English'
+            title: 'Buzzbuzz English - Record your own videos and share to the world!'
         });
     }
 
