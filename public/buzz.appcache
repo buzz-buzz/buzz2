@@ -45,6 +45,10 @@ CACHE:
 /js/signUpModule.min.js
 /js/vocabularyModule.min.js
 /js/wechat-share.min.js
+/js/videoParserModule.min.js
+/js/components/video/spa-route.min.js
+/node_modules/socket.io-client/dist/socket.io.slim.js
+/node_modules/angular-file-reader-module/dist/angular-file-reader.js
 /lib/jwplayer/jwplayer.js
 /service-proxy/share/my-link?invite_code=*
 http://10.20.32.51:14444/js/t.min.js?write-key=HjYKeEnEV7QiyFXCKxZXrPmqgsjkaQpb&v=2.95.1-1491535163984

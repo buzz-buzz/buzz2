@@ -1,5 +1,21 @@
 extends ./m/mobile-master-layout
 
+block meta
+    style.
+        video {position:relative;}
+        video::-webkit-media-controls-fullscreen-button
+        {
+                display: none !important;
+        }
+
+        video::-webkit-media-controls-panel {
+            position: absolute;
+            left:0;
+            bottom:0;
+            z-index: 99999;
+            opacity: 1;
+            background-color: white;
+        }
 block content
     script(type="text/ng-template", id="video.html")
         style.
@@ -41,7 +57,7 @@ block content
                         video#cam(autoplay)
                         .video-mask
                     .form-group.playback(style="height: 480px; background-color: white;", ng-show="!recording")
-                        video#recorded(autoplay, loop, controls="{{recordedVideo.controls}}", src="{{recordedVideo.src}}")
+                        video#recorded(autoplay, loop, controls="{{recordedVideo.controls}}", src="{{recordedVideo.src}}", style="height: 480px;")
                         .video-mask
 
                     .form-group
@@ -75,7 +91,7 @@ block content
                 canvas#c2(style="width: 100%;")
                 .subtitle
                     h3 {{subtitle.text}}
-            <video controls="controls" autoplay loop style="width: 100%; display: none;" id="video-player" type="video/*" src="{{videoSrc}}" crossorigin="Anonymous">
+            <video controls="controls" autoplay loop style="width: 640px; height: 30px; padding-top: 30px;" id="video-player" type="video/*" src="{{videoSrc}}" crossorigin="Anonymous">
             </video>
         
 block js

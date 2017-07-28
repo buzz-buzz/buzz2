@@ -167,7 +167,13 @@ angular.module('spaModule')
 
         $scope.allowRecording = function () {
             return $scope.mediaReady && !$scope.recording;
-        }
+        };
+
+        document.querySelector('.playback .video-mask').onmouseenter = function () {
+            var v = document.querySelector('video#recorded');
+            v.pause();
+            v.play();
+        };
     }])
     .controller('videoPlayerCtrl', ['$scope', '$routeParams', '$http', 'subTitleParser', function ($scope, $routeParams, $http, subTitleParser) {
         $scope.videoSrc = decodeURIComponent($routeParams.src);
@@ -321,5 +327,10 @@ angular.module('spaModule')
                 $scope.subtitle = subTitleParser.findSubtitleBySecond($scope.subtitles, video.currentTime);
                 $scope.$apply();
             }
+        };
+
+        document.querySelector('#c2').onmouseenter = function () {
+            video.pause();
+            video.play();
         };
     }]);
