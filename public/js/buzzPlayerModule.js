@@ -197,6 +197,8 @@ angular.module('buzzPlayerModule', ['angularQueryParserModule', 'trackingModule'
                 $scope.videoTitle = smil.title;
 
                 if (smil.subtitle) {
+                    smil.subtitle = smil.subtitle.replace('http://', '//').replace('https://', '//');
+
                     api.get(smil.subtitle).then(function (result) {
                         var subtitles = result.data;
 

@@ -106,17 +106,17 @@ angular.module('spaModule')
         };
         $scope.startRecording = function () {
             var options = {
-                mimeType: 'video/webm;codecs=vp9'
+                mimeType: 'video/mp4;codecs=vp9'
             };
             if (!MediaRecorder.isTypeSupported(options.mimeType)) {
                 console.log(options.mimeType + ' is not Supported');
                 options = {
-                    mimeType: 'video/webm;codecs=vp8'
+                    mimeType: 'video/mp4;codecs=vp8'
                 };
                 if (!MediaRecorder.isTypeSupported(options.mimeType)) {
                     console.log(options.mimeType + ' is not Supported');
                     options = {
-                        mimeType: 'video/webm'
+                        mimeType: 'video/mp4'
                     };
                     if (!MediaRecorder.isTypeSupported(options.mimeType)) {
                         console.log(options.mimeType + ' is not Supported');
@@ -283,28 +283,10 @@ angular.module('spaModule')
             }
         }
 
-        document.getElementById('c2').onmousemove = function (evt) {
-            // var c0 =
-            //     document.getElementById('c0');
-            // console.log(evt.offsetX, evt.offsetY);
-            // var ctx2 = c0.getContext('2d');
-            // var mask = ctx2.getImageData(0, 0, 640, 480);
-            // console.log(mask);
-            // console.log(getRGBA(mask.data, evt.offsetX + evt.offsetY * 640));
-        };
-
         function headArea(data, pos) {
             var rgba = getRGBA(data, pos);
             return rgba.a === 0;
             // return Math.abs(rgb.r - 204) < 10 && Math.abs(rgb.g - 204) < 10 && Math.abs(rgb.b - 255) < 10;
-        }
-
-        function isHumanSkin(r, g, b) {
-            return r > 95 && g > 40 && b > 20 && r > g && r > b && Math.max(r, g, b) - Math.min(r, g, b) > 15 && Math.abs(r - g) > 15;
-        }
-
-        function isHumanHair(r, g, b) {
-            return Math.abs(r - 24) < 5 && Math.abs(g - 18) < 5 && Math.abs(b - 22) < 5;
         }
 
         $http.get($scope.videoSrc + '.ass').then(function (res) {
@@ -330,7 +312,7 @@ angular.module('spaModule')
             video.play();
         };
 
-        video.onloadedmetadata = function(){
+        video.onloadedmetadata = function () {
             processor.doLoad();
         };
     }]);

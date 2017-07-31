@@ -60,7 +60,12 @@ angular.module('buzzHistoryModule', ['angularQueryParserModule', 'servicesModule
                     $http.get(c.video_path).then(function (result) {
                         c.title = result.data.title;
                         c.baseNumber = result.data.baseNumber || 100;
-                        c.image = result.data.image.replace('http://', '//').replace('https://', '//') || '//resource.buzzbuzzenglish.com/image/png/buzz-poster.png';
+
+                        if (result.data.image === 'http://source.bridgeplus.cn/image/png/buzz-poster.png') {
+                            c.image = '//resource.buzzbuzzenglish.com/image/png/buzz-poster.png';
+                        } else {
+                            c.image = result.data.image.replace('http://', '//').replace('https://', '//') || '//resource.buzzbuzzenglish.com/image/png/buzz-poster.png';
+                        }
 
                         return $http.get(clientConfig.serviceUrls.buzz.courseViews.frontEnd.replace(':category', c.category).replace(':level', c.level).replace(':lesson_id', c.lesson_id));
                     }).then(function (result) {
