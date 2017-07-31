@@ -179,7 +179,8 @@ angular.module('buzzPlayerModule', ['angularQueryParserModule', 'trackingModule'
                     playlist: [{
                         // title: smil.title,
                         description: smil.description,
-                        image: smil.image.replace('http://', '//').replace('https://', '//') || '//resource.buzzbuzzenglish.com/image/png/buzz-poster.png',
+                        image: smil.image === 'http://source.bridgeplus.cn/image/png/buzz-poster.png' ? (smile.image = '//resource.buzzbuzzenglish.com/image/png/buzz-poster.png') :
+                            (smil.image.replace('http://', '//').replace('https://', '//') || '//resource.buzzbuzzenglish.com/image/png/buzz-poster.png'),
                         stretching: "none",
                         sources: smil.switch.map(function (s) {
                             return {
