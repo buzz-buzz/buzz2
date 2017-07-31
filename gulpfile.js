@@ -14,19 +14,25 @@ let getPackageJson = function () {
 
 gulp.task('bump-minor-patch', function () {
     return gulp.src(['./package.json'])
-        .pipe(bump({ key: 'version', type: 'minor' }))
-        .pipe(bump({ key: 'version', type: 'patch' }))
-        .pipe(gulp.dest('./'))
-        ;
+        .pipe(bump({
+            key: 'version',
+            type: 'minor'
+        }))
+        .pipe(bump({
+            key: 'version',
+            type: 'patch'
+        }))
+        .pipe(gulp.dest('./'));
 });
 
 gulp.task('patch-time', function () {
     let json = getPackageJson();
 
     return gulp.src(['./package.json'])
-        .pipe(bump({ version: json.version + '-' + new Date().getTime() }))
-        .pipe(gulp.dest('./'))
-        ;
+        .pipe(bump({
+            version: json.version.replace(/\./g, '-') + '-' + new Date().getTime()
+        }))
+        .pipe(gulp.dest('./'));
 });
 
 gulp.task('bump', function () {
@@ -35,9 +41,11 @@ gulp.task('bump', function () {
 
 gulp.task('bumpup', function () {
     return gulp.src(['./package.json'])
-        .pipe(bump({ key: 'version', type: 'major' }))
-        .pipe(gulp.dest('./'))
-        ;
+        .pipe(bump({
+            key: 'version',
+            type: 'major'
+        }))
+        .pipe(gulp.dest('./'));
 });
 
 gulp.task('uglify-js', function (done) {
@@ -46,8 +54,7 @@ gulp.task('uglify-js', function (done) {
         .pipe(rename(function (path) {
             path.basename += '.min';
         }))
-        .pipe(gulp.dest('public/js'))
-        ;
+        .pipe(gulp.dest('public/js'));
 });
 
 gulp.task('uglify-css', function (done) {
@@ -56,8 +63,7 @@ gulp.task('uglify-css', function (done) {
         .pipe(rename(function (path) {
             path.basename += '.min';
         }))
-        .pipe(gulp.dest('public/css'))
-        ;
+        .pipe(gulp.dest('public/css'));
 });
 
 gulp.task('default', ['uglify-js', 'uglify-css']);
