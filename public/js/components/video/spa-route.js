@@ -106,17 +106,17 @@ angular.module('spaModule')
         };
         $scope.startRecording = function () {
             var options = {
-                mimeType: 'video/mp4;codecs=vp9'
+                mimeType: 'video/webm;codecs=vp9'
             };
             if (!MediaRecorder.isTypeSupported(options.mimeType)) {
                 console.log(options.mimeType + ' is not Supported');
                 options = {
-                    mimeType: 'video/mp4;codecs=vp8'
+                    mimeType: 'video/webm;codecs=vp8'
                 };
                 if (!MediaRecorder.isTypeSupported(options.mimeType)) {
                     console.log(options.mimeType + ' is not Supported');
                     options = {
-                        mimeType: 'video/mp4'
+                        mimeType: 'video/webm'
                     };
                     if (!MediaRecorder.isTypeSupported(options.mimeType)) {
                         console.log(options.mimeType + ' is not Supported');

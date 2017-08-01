@@ -73,9 +73,13 @@ module.exports = function (app, router, render, server) {
         .get('/video', saas.checkSaasReferer, renderVideoSPA)
         .get('/video-player/:path', saas.checkSaasReferer, renderVideoSPA)
         .put('/videos', function* (next) {
-            if (!this.request.is('multipart/*')) return yield next
+            try {
+                if (!this.request.is('multipart/*')) return yield next
 
-            this.body = yield pipeRequest(this.req, '/buzz-video');
+                this.body = yield pipeRequest(this.req, '/buzz-video');
+            } catch (ex) {
+                this.throw(ex);
+            }
         })
         // .post('/videos', function* (next) {
         //     const file = this.request.body.files.file;
