@@ -184,7 +184,7 @@ angular.module('buzzPlayerModule', ['angularQueryParserModule', 'trackingModule'
                         stretching: "none",
                         sources: smil.switch.map(function (s) {
                             return {
-                                file: s.src,
+                                file: s.src.replace('http://', '//').replace('https://', '//'),
                                 label: s.title,
                                 default: s.default,
                                 image: s.image.replace('http://', '//').replace('https://', '//') || '//resource.buzzbuzzenglish.com/image/png/buzz-poster.png'
