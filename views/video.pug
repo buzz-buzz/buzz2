@@ -51,15 +51,19 @@ block content
                             button.btn.btn-default(ng-click="play()", type="button", ng-class="{'disabled': recording || playButton.disabled}", ng-disabled="recording || playButton.disabled") 
                                 i.film.icon
                                 | Playback
-                    .form-group
+                           
+                            div.countDown(ng-show="countDown", style="position:absolute; left:428px; width:100%; font-size:21px;") 您的录制时间剩余
+                                span(style="color:red") {{times}}
+                                span 秒
+                    .form-group 
+                        div(ng-show="countDown", style="width:100%; margin-top:12px; text-align:center; font-size:16px;") Recording......
                         br
                     .form-group.record(style="height: 480px;", ng-show="recording")
                         video#cam(autoplay)
                         .video-mask
                     .form-group.playback(style="height: 480px; background-color: white;", ng-show="!recording")
                         video#recorded(autoplay, loop, controls="{{recordedVideo.controls}}", src="{{recordedVideo.src}}", style="height: 480px;")
-                        .video-mask
-
+                        .video-mask   
                     .form-group
                         br
                     .form-group
@@ -77,7 +81,7 @@ block content
             }
 
             .display-area {position: relative;}
-            .display-area .subtitle  {position: absolute;bottom:10px; width: 100%;text-align: center;text-shadow: black 1px 1px 0, black -1px -1px 0;color:white;}
+            .display-area .subtitle  {position: absolute; bottom:10px; width: 100%;text-align: center;text-shadow: black 1px 1px 0, black -1px -1px 0;color:white;}
         .ui.container
             h2
             div

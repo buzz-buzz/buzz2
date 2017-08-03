@@ -40,23 +40,23 @@ angular.module('spaModule')
                     file: file,
                     'x:category': 'upload-' + Math.random().toString()
                 }, {
-                    headers: {
-                        'X-Requested-With': undefined,
-                        'Content-Type': undefined
-                    },
-                    transformRequest: requestTransformers.transformToFormData
-                }).then(function (res) {
-                    if (res.data.isSuccess === false) {
-                        throw res;
-                    } else {
-                        $location.path('/video-player/' + encodeURIComponent('//' + res.data.host + '/' + res.data.key));
-                    }
-                }).then(null, function (reason) {
-                    console.error(reason);
-                    $scope.errorMessage = reason.data || '出了错误。';
-                }).finally(function () {
-                    $scope.uploading = false;
-                });
+                        headers: {
+                            'X-Requested-With': undefined,
+                            'Content-Type': undefined
+                        },
+                        transformRequest: requestTransformers.transformToFormData
+                    }).then(function (res) {
+                        if (res.data.isSuccess === false) {
+                            throw res;
+                        } else {
+                            $location.path('/video-player/' + encodeURIComponent('//' + res.data.host + '/' + res.data.key));
+                        }
+                    }).then(null, function (reason) {
+                        console.error(reason);
+                        $scope.errorMessage = reason.data || '出了错误。';
+                    }).finally(function () {
+                        $scope.uploading = false;
+                    });
             } else {
                 $scope.errorMessage = 'Please record a video first!';
             }
@@ -103,11 +103,27 @@ angular.module('spaModule')
             console.log('Recorded Blobs: ', recordedBlobs);
             $scope.recordedVideo.controls = true;
             $scope.playButton.disabled = false;
+            $scope.countDown = false;
         };
+
         $scope.startRecording = function () {
+            $scope.countDown = true;
+            $scope.cheek = true;
             var options = {
                 mimeType: 'video/webm;codecs=vp9'
             };
+            $scope.times = 40;
+            var timer = setInterval(contDown, 1000);
+            function contDown() {
+                $scope.times--;
+                if ($scope.times === 0) {
+                    $scope.stopRecording()
+                    clearInterval(timer)
+                    $scope.countDown = false;
+                    $scope.cheek = false;
+                }
+            }
+
             if (!MediaRecorder.isTypeSupported(options.mimeType)) {
                 console.log(options.mimeType + ' is not Supported');
                 options = {
