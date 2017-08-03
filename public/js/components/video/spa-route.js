@@ -108,7 +108,6 @@ angular.module('spaModule')
 
         $scope.startRecording = function () {
             $scope.countDown = true;
-            $scope.cheek = true;
             var options = {
                 mimeType: 'video/webm;codecs=vp9'
             };
@@ -120,7 +119,6 @@ angular.module('spaModule')
                     $scope.stopRecording()
                     clearInterval(timer)
                     $scope.countDown = false;
-                    $scope.cheek = false;
                 }
             }
 
