@@ -129,7 +129,8 @@ angular.module('spaModule')
         };
 
         function gotoSurveyPage() {
-            location.href = '/survey?short_id=' + $routeParams.short_id;
+            var timestamp=(new Date()).getTime();
+            location.href = '/survey?short_id=' + $routeParams.short_id + '&time=' +timestamp;
         }
 
         function supportFriend() {
