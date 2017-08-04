@@ -8,7 +8,7 @@ block content
                 .form-group
                     label 开始拍摄
                     input#video-file.form-control(type="file", accept="video/*", capture="camcorder", placeholder="点击此处开始拍摄")
-            hr
+            br
             button.btn.btn-primary.btn-block(type="submit") 上传
     script(type="text/ng-template", id="video-player.html")
         <video controls="controls" autoplay style="width: 100%;" id="video-player" type="video/*" src="{{videoSrc}}" crossorigin="Anonymous">
@@ -22,7 +22,8 @@ block js
             'angular-file-reader',
             'videoParserModule'
         ]);
-    + js('/js/components/video/spa-route.min.js')
+    + js('/js/videoParserModule.min.js')
+    + js('/js/components/video/spa-route.js')
     + js('/node_modules/socket.io-client/dist/socket.io.slim.js')
     + js("/node_modules/angular-file-reader-module/dist/angular-file-reader.js")
     script.

@@ -40,23 +40,23 @@ angular.module('spaModule')
                     file: file,
                     'x:category': 'upload-' + Math.random().toString()
                 }, {
-                        headers: {
-                            'X-Requested-With': undefined,
-                            'Content-Type': undefined
-                        },
-                        transformRequest: requestTransformers.transformToFormData
-                    }).then(function (res) {
-                        if (res.data.isSuccess === false) {
-                            throw res;
-                        } else {
-                            $location.path('/video-player/' + encodeURIComponent('//' + res.data.host + '/' + res.data.key));
-                        }
-                    }).then(null, function (reason) {
-                        console.error(reason);
-                        $scope.errorMessage = reason.data || '出了错误。';
-                    }).finally(function () {
-                        $scope.uploading = false;
-                    });
+                    headers: {
+                        'X-Requested-With': undefined,
+                        'Content-Type': undefined
+                    },
+                    transformRequest: requestTransformers.transformToFormData
+                }).then(function (res) {
+                    if (res.data.isSuccess === false) {
+                        throw res;
+                    } else {
+                        $location.path('/video-player/' + encodeURIComponent('//' + res.data.host + '/' + res.data.key));
+                    }
+                }).then(null, function (reason) {
+                    console.error(reason);
+                    $scope.errorMessage = reason.data || '出了错误。';
+                }).finally(function () {
+                    $scope.uploading = false;
+                });
             } else {
                 $scope.errorMessage = 'Please record a video first!';
             }
@@ -76,15 +76,15 @@ angular.module('spaModule')
             audio: true
         }).then(function (stream) {
             var video = document.querySelector('video#cam');
-            video.src = window.URL.createObjectURL(stream);
+            if (video) {
+                video.src = window.URL.createObjectURL(stream);
+                video.onloadedmetadata = function (e) {
 
-            video.onloadedmetadata = function (e) {
-
-            };
-            localMediaStream = stream;
-            $scope.mediaReady = true;
-            $scope.$apply();
-            console.log('media ready!');
+                };
+                localMediaStream = stream;
+                $scope.mediaReady = true;
+                $scope.$apply();
+            }
         }).catch(function (err) {
             console.error(err);
             $scope.mediaReady = false;
@@ -113,6 +113,7 @@ angular.module('spaModule')
             };
             $scope.times = 40;
             var timer = setInterval(contDown, 1000);
+
             function contDown() {
                 $scope.times--;
                 if ($scope.times === 0) {
@@ -182,12 +183,6 @@ angular.module('spaModule')
 
         $scope.allowRecording = function () {
             return $scope.mediaReady && !$scope.recording;
-        };
-
-        document.querySelector('.playback .video-mask').onmouseenter = function () {
-            var v = document.querySelector('video#recorded');
-            v.pause();
-            v.play();
         };
     }])
     .controller('videoPlayerCtrl', ['$scope', '$routeParams', '$http', 'subTitleParser', function ($scope, $routeParams, $http, subTitleParser) {
@@ -319,11 +314,6 @@ angular.module('spaModule')
                 $scope.subtitle = subTitleParser.findSubtitleBySecond($scope.subtitles, video.currentTime);
                 $scope.$apply();
             }
-        };
-
-        document.querySelector('#c2').onmouseenter = function () {
-            video.pause();
-            video.play();
         };
 
         video.onloadedmetadata = function () {
