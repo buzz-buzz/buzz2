@@ -40,7 +40,7 @@ angular.module('spaModule')
             title: '孩子一个月看懂全球英语资讯？这不是痴人说梦',
             desc: '用一顿肯德基的钱，助力孩子实现一个梦想',
             link: location.origin + '/survey/help-friend/' + short_id + '/' + member_id,
-            imgUrl: '//resource.buzzbuzzenglish.com/wechat-share-friend.jpg'
+            imgUrl: 'https://resource.buzzbuzzenglish.com/wechat-share-friend.jpg'
         };
 
         $rootScope.wechatSharable = sharable;
