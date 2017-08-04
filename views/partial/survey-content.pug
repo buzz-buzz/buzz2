@@ -11,12 +11,12 @@ script(type="text/ng-template", id="survey.html")
                 p
                 - var myAnswer = JSON.parse(answer).Q1
                 if (myAnswer) && (myAnswer.answer)  && (myAnswer.answer.indexOf('--') > -1)
-                    b= myAnswer.answer.split('--')[0] || ''
+                    b#answer= myAnswer.answer.split('--')[0] || ''
                     br
                     span= '---' + myAnswer.answer.split('--')[1]
                 else
                     span 我已选择:
-                    b='' + (myAnswer ? myAnswer.answer : '')
+                    b#answer='' + (myAnswer ? myAnswer.answer : '')
     if source != 'mobile' && answered
         .ui.message.transition(style='font-size: 1.3rem; width: 90%; margin: 0 auto;')
             p 小提示: 目前只支持微信端分享给好友哦！

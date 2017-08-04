@@ -21,8 +21,8 @@ angular.module('spaModule')
 
         $routeProvider.otherwise('/survey');
     }])
-    .controller('surveyCtrl', ['$scope', '$rootScope', '$http', '$timeout', function ($scope, $rootScope, $http, $timeout) {}])
-    .controller('surveyShareCtrl', ['$scope', '$rootScope', '$http', 'clientConfig', '$timeout', function ($scope, $rootScope, $http, clientConfig, $timeout) {
+    .controller('surveyCtrl', ['$scope', '$rootScope', '$http', '$timeout', function ($scope, $rootScope, $http, $timeout) { }])
+    .controller('surveyShareCtrl', ['$scope', '$rootScope', '$http', 'clientConfig', '$timeout', 'api', function ($scope, $rootScope, $http, clientConfig, $timeout, api) {
         var strCookie = document.cookie;
         var arrCookie = strCookie.split(";");
         var member_id;
@@ -33,18 +33,20 @@ angular.module('spaModule')
                 break;
             }
         }
+        api.get(clientConfig.serviceUrls.sso.profile.load.frontEnd)
+            .then(function (result) {
+                var profile = result.data.result;
 
-        var short_id = /\??short_id=(\w+)/.exec(location.search)[1];
-
-        var sharable = {
-            title: '孩子一个月看懂全球英语资讯？这不是痴人说梦',
-            desc: '用一顿肯德基的钱，助力孩子实现一个梦想',
-            link: location.origin + '/survey/help-friend/' + short_id + '/' + member_id,
-            imgUrl: 'https://resource.buzzbuzzenglish.com/wechat-share-friend.jpg'
-        };
-
-        $rootScope.wechatSharable = sharable;
-
+                var short_id = /\??short_id=(\w+)/.exec(location.search)[1];
+                var myAnswer = document.getElementById("answer").innerHTML;
+                var sharable = {
+                    title: '孩子一个月看懂全球英语资讯？这不是痴人说梦',
+                    desc: profile.display_name + '邀请你支持' + myAnswer,
+                    link: location.origin + '/survey/help-friend/' + short_id + '/' + member_id,
+                    imgUrl: 'https://resource.buzzbuzzenglish.com/wechat-share-friend.jpg'
+                };
+                $rootScope.wechatSharable = sharable;
+            })
         $http.get(clientConfig.serviceUrls.wechat.sign.frontEnd, {
             params: {
                 url: encodeURIComponent(location.href)
@@ -86,7 +88,7 @@ angular.module('spaModule')
             function shareToFriendCancel(result) {
                 if (result.errMsg === 'sendAppMessage:cancel') {
 
-                } else {}
+                } else { }
             }
 
             wx.ready(function () {
@@ -129,8 +131,8 @@ angular.module('spaModule')
         };
 
         function gotoSurveyPage() {
-            var timestamp=(new Date()).getTime();
-            location.href = '/survey?short_id=' + $routeParams.short_id + '&time=' +timestamp;
+            var timestamp = (new Date()).getTime();
+            location.href = '/survey?short_id=' + $routeParams.short_id + '&time=' + timestamp;
         }
 
         function supportFriend() {
