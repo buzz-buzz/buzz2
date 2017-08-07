@@ -16,9 +16,51 @@ angular.module('spaModule')
 
         $routeProvider.otherwise('/video');
     }])
+    .run(['$rootScope', function ($rootScope) {
+        $rootScope.previousState;
+        $rootScope.currentState;
+        $rootScope.$on('$stateChangeSuccess', function (ev, to, toParams, from, fromParams) {
+            $rootScope.previousState = from.name;
+            $rootScope.currentState = to.name;
+        });
+
+        $rootScope.back = function ($event) {
+            if (history.length > 1) {
+                history.back();
+                $rootScope.$apply();
+                $event.preventDefault();
+                $event.stopPropagation();
+            }
+        };
+    }])
     .controller('videoCtrl', ['$scope', '$rootScope', '$http', 'requestTransformers', '$location', '$timeout', function ($scope, $rootScope, $http, requestTransformers, $location, $timeout) {
         $scope.formData = {
-            video: null
+            video: null,
+            subtitle: 'I like drawing, and walking in nature'
+        };
+
+        $scope.uploadVideoToOwnServer = function () {
+            var file = document.querySelector('input[id=video-file]').files[0];
+
+            if (file) {
+                $scope.uploading = true;
+                $http.post('/videos', {
+                    file: file,
+                    subtitle: $scope.formData.subtitle
+                }, {
+                    headers: {
+                        'X-Requested-With': undefined,
+                        'Content-Type': undefined
+                    },
+                    transformRequest: requestTransformers.transformToFormData
+                }).then(function (res) {
+                    $location.path('/video-player/' + encodeURIComponent(res.data));
+                }).catch(function (reason) {
+                    $scope.errorMessage = reason.statusText || reason;
+                }).finally(function () {
+                    $scope.uploading = false;
+                });
+            }
         };
 
         $scope.uploadVideo = function () {
@@ -71,25 +113,27 @@ angular.module('spaModule')
         });
 
         $scope.mediaReady = false;
-        navigator.mediaDevices.getUserMedia({
-            video: true,
-            audio: true
-        }).then(function (stream) {
-            var video = document.querySelector('video#cam');
-            if (video) {
-                video.src = window.URL.createObjectURL(stream);
-                video.onloadedmetadata = function (e) {
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+            navigator.mediaDevices.getUserMedia({
+                video: true,
+                audio: true
+            }).then(function (stream) {
+                var video = document.querySelector('video#cam');
+                if (video) {
+                    video.src = window.URL.createObjectURL(stream);
+                    video.onloadedmetadata = function (e) {
 
-                };
-                localMediaStream = stream;
-                $scope.mediaReady = true;
+                    };
+                    localMediaStream = stream;
+                    $scope.mediaReady = true;
+                    $scope.$apply();
+                }
+            }).catch(function (err) {
+                console.error(err);
+                $scope.mediaReady = false;
                 $scope.$apply();
-            }
-        }).catch(function (err) {
-            console.error(err);
-            $scope.mediaReady = false;
-            $scope.$apply();
-        });
+            });
+        }
 
         var recordedBlobs = [];
         var mediaRecorder;

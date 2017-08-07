@@ -66,6 +66,11 @@ module.exports = {
         }
     },
 
+    hongda: {
+        host: 'service.hcdlearning.com',
+        port: 10126
+    },
+
     logger: {
         appName: 'buzz'
     },

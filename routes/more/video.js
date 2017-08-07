@@ -15,6 +15,8 @@ const extname = path.extname;
 const parse = require('co-busboy');
 const exec = require('child_process').exec;
 const stream = require('koa-stream');
+const proxy = require('../../service-proxy/proxy');
+const greenSharedLogger = require('../../common/logger')('/routes/more/video.js');
 
 function yieldableExec(command) {
     return function (cb) {
@@ -94,31 +96,53 @@ module.exports = function (app, router, render, server) {
             let parts = parse(this);
             let part;
 
+            let videoStoredPath = '';
+            let srtStoredPath = '';
             while ((part = yield parts)) {
-                let stream = fs.createWriteStream(path.join(os.tmpdir(), `${Math.random().toString()}${part.filename}`));
-                part.pipe(stream);
-                console.log('uploading %s --> %s', part.filename, stream.path);
-                let outputPath = (path.join(os.tmpdir(), `${Math.random().toString().substr(2)}.mp4`));
+                console.log(typeof part);
+                if (part && part.filename) {
+                    videoStoredPath = path.join(os.tmpdir(), `${Math.random().toString()}${part.filename}`).replace('MOV', 'mp4').replace('mov', 'mp4');
+                    let parsed = path.parse(videoStoredPath);
+                    srtStoredPath = `${parsed.dir}${path.sep}${parsed.name}.srt`;
 
-                let command = 'C:\\ffmpeg\\bin\\ffmpeg.exe -i C:\\Users\\Jeff\\Downloads\\2.mp4 -i ' + stream.path + ' -filter_complex "[0:v:0] [0:a:0] [1:v:0] [1:a:0] concat=n=2:v=1:a=1 [v][a]" -map "[v]" -map "[a]" ' + outputPath;
+                    let stream = fs.createWriteStream(videoStoredPath);
+                    part.pipe(stream);
+                    console.log('uploading %s --> %s', part.filename, stream.path);
+                } else {
+                    let srt = `1
+00:00:00,000 --> 00:00:04,375
+${part[1]}
 
-                console.log(command);
-
-                let r = yield yieldableExec(command);
-
-                console.log(r);
-
-                let encodedPath = new Buffer(outputPath).toString('base64');
-
-                this.body = `/videos/${encodedPath}`;
+`;
+                    fs.writeFileSync(srtStoredPath, srt);
+                }
             }
-        })
-        .get('/testcommand', function* (next) {
-            let r = yield yieldableExec('dir');
-            this.body = `stdout: ${r[0]}\nstderr: ${r[1]}\nexec error: ${r[2]}`;
-        })
-        .get('/__dirname', function* (next) {
-            this.body = __dirname;
+
+            if (videoStoredPath && srtStoredPath) {
+                let parsed = path.parse(videoStoredPath);
+                let finalPath = `${parsed.dir}${path.sep}subtitled-${parsed.base}`.replace('MOV', 'mp4').replace('mov', 'mp4');
+
+                let r = yield proxy({
+                    host: config.hongda.host,
+                    port: config.hongda.port,
+                    path: '/burn_subtitle',
+                    method: 'POST',
+                    data: {
+                        srtPath: srtStoredPath,
+                        videoPath: videoStoredPath,
+                        outputPath: finalPath
+                    }
+                });
+
+                if (r === 'done') {
+                    let encodedPath = new Buffer(finalPath).toString('base64');
+                    this.body = `/videos/${encodedPath}`;
+                } else {
+                    let err = '在生成字幕时产生了错误';
+                    greenSharedLogger.error(err);
+                    this.throw(err);
+                }
+            }
         })
         .get('/videos/:path', function* (next) {
             let fpath = new Buffer(this.params.path, 'base64').toString();

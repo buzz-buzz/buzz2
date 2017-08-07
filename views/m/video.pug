@@ -1,12 +1,14 @@
 extends ./mobile-master-layout
 block content
     script(type="text/ng-template", id="video.html")
-        form.ui.form(ng-submit="uploadVideo()", ng-class="{'error': !!errorMessage}")
+        form.ui.form(ng-submit="uploadVideoToOwnServer()", ng-class="{'error': !!errorMessage, 'loading': uploading}")
             include ../partial/formMessage
             fieldset
                 legend 上传视频
                 .form-group
-                    label 开始拍摄
+                    label {{formData.subtitle}}
+                .form-group
+                    label 记住了，开始拍摄
                     input#video-file.form-control(type="file", accept="video/*", capture="camcorder", placeholder="点击此处开始拍摄")
             br
             button.btn.btn-primary.btn-block(type="submit") 上传

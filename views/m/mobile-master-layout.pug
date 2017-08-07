@@ -32,7 +32,7 @@ html(manifest="/buzz.appcache", style="height:100%!important;")
             }
 
             .scrollable{
-                background: url('//resource.buzzbuzzenglish.com/image/png/skin2.png') repeat-x 0 0;
+                background-color: #FEF6E7;
                 background-size: cover;
                 background-attachment: fixed;
             }
@@ -59,7 +59,7 @@ html(manifest="/buzz.appcache", style="height:100%!important;")
                     span=title || 'Buzzbuzz English'
                 .btn.sidebar-toggle()
                     .btn-group.pull-left
-                        a(href=backUrl ||'javascript:location.href="/my/today"')
+                        a(href=backUrl ||'javascript:location.href="/my/today"', ng-click="back($event)")
                             i.ui.big.chevron.circle.left.icon
                 .btn-group.pull-right
                     block rightTopMenu
