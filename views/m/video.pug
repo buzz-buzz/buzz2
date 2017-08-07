@@ -3,7 +3,7 @@ block content
     script(type="text/ng-template", id="video.html")
         form.ui.form(ng-class="{'error': !!errorMessage, 'loading': uploading}")
             include ../partial/formMessage
-            fieldset(ng-if="!videoSrc")
+            fieldset
                 legend(style='text-align: center; padding-top: 2rem; border: none; margin-bottom: 0;') level 1
                 .ui.container
                     .subtitle(style='border: 6px solid #f7b52a; background-color: #fff; min-height: 20rem; padding: 1rem')
@@ -18,7 +18,7 @@ block content
         .ui.container
             .title(style='font-size: 20px; margin: 1rem 0;') level 1 闯关成功!
             p(style='font-size: 16px; margin: 1rem 0;') 以下是您录制的视频 :
-            <video controls="controls" autoplay style="width: 100%;" id="video-player" type="video/*" src="" crossorigin="Anonymous"></video>
+            <video controls="controls" autoplay style="width: 100%;" id="video-player" type="video/*" ng-src="{{videoSrc}}" crossorigin="Anonymous"></video>
             .ui.submit-div(style='position: relative; margin-top: 2rem;')
                 button.btn.btn-block(style='display: inline-block; width: 45%; margin-top: 0; background-color: #f7b52a; color: #fff;')
                     i.external.icon
