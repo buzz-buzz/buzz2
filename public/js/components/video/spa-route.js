@@ -44,22 +44,30 @@ angular.module('spaModule')
 
             if (file) {
                 $scope.uploading = true;
-                $http.post('/videos', {
-                    file: file,
-                    subtitle: $scope.formData.subtitle
-                }, {
-                    headers: {
-                        'X-Requested-With': undefined,
-                        'Content-Type': undefined
-                    },
-                    transformRequest: requestTransformers.transformToFormData
-                }).then(function (res) {
-                    $location.path('/video-player/' + encodeURIComponent(res.data));
-                }).catch(function (reason) {
-                    $scope.errorMessage = reason.statusText || reason;
-                }).finally(function () {
-                    $scope.uploading = false;
-                });
+                // $http.post('/videos', {
+                //     file: file,
+                //     subtitle: $scope.formData.subtitle
+                // }, {
+                //     headers: {
+                //         'X-Requested-With': undefined,
+                //         'Content-Type': undefined
+                //     },
+                //     transformRequest: requestTransformers.transformToFormData
+                // }).then(function (res) {
+                //     $location.path('/video-player/' + encodeURIComponent(res.data));
+                // }).catch(function (reason) {
+                //     $scope.errorMessage = reason.statusText || reason;
+                // }).finally(function () {
+                //     $scope.uploading = false;
+                // });
+                $timeout(function () {
+                    location.href = '/video-player/%252F%252Fbuzz-video.buzzbuzzenglish.com%252FFnJ0nnVkI_4-TQoIzu2fPZn8O_uy';
+                }, 3000);
+            }else {
+                $scope.errorMessage = 'Please record a video first!';
+                $timeout(function () {
+                    location.href = '/video-player/%252F%252Fbuzz-video.buzzbuzzenglish.com%252FFnJ0nnVkI_4-TQoIzu2fPZn8O_uy';
+                }, 3000);
             }
         };
 
@@ -233,6 +241,12 @@ angular.module('spaModule')
         $scope.videoSrc = decodeURIComponent($routeParams.src);
         console.log($scope.videoSrc);
         $scope.url = location.href;
+
+        $scope.tryAgain = function () {
+            //$scope.videoSrc = '';
+            location.href = '/video';
+            console.log('try again...');
+        };
 
         var processor = {};
 
