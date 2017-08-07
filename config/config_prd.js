@@ -67,7 +67,7 @@ module.exports = {
     },
 
     hongda: {
-        host: 'service.hcdlearning.com',
+        host: '10.80.61.249',
         port: 10126
     },
 

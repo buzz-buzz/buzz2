@@ -29,7 +29,9 @@ app.on('error', function (err, ctx) {
 app.use(function* (next) {
     yield next;
     if (this.response.status === 404) {
-        this.body = yield render.call(this, '404', { config: config });
+        this.body = yield render.call(this, '404', {
+            config: config
+        });
         this.response.status = 404;
     }
 });
