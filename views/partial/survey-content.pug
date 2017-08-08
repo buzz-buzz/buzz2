@@ -22,13 +22,6 @@ script(type="text/ng-template", id="survey.html")
             p 小提示: 目前只支持微信端分享给好友哦！
 
 script.
-    window.addEventListener('message', function (event) {
-        if (event.data && event.data.indexOf && event.data.indexOf('refresh://') === 0) {
-            var timestamp=(new Date()).getTime();
-            location.href = location.href + '&time=' +timestamp;
-        }
-    }, false);
-
     window.onload=function(){
             var timestamp=location.search;
             if(timestamp.indexOf("&time=")>-1){
@@ -37,4 +30,12 @@ script.
             var timestamp=(new Date()).getTime();
             location.href = location.href + '&time=' +timestamp;
             }
+    }
+    window.addEventListener('message', function (event) {
+        if (event.data && event.data.indexOf && event.data.indexOf('refresh://') === 0) {
+            var timestamp=(new Date()).getTime();
+            location.href = location.href + '&time=' +timestamp;
         }
+    }, false);
+
+    

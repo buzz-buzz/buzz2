@@ -33,16 +33,6 @@ angular.module('spaModule')
                 break;
             }
         }
-        var ifrm1 = document.getElementById("WJ_survey");
-        if (ifrm1 !== null) {
-            ifrm1.onload = function () {
-                var answered1 = ifrm1.contentWindow.document.getElementById("end_desc").innerHTML;
-                if (answered1.indexof("你已经回答过该问卷") > -1 || answered1.indexof("您已完成本次问卷，感谢您的帮助与支持") > -1) {
-                    var timestamp = (new Date()).getTime();
-                    location.href = '/survey?short_id=' + $routeParams.short_id + '&time=' + timestamp;
-                }
-            }
-        }
         api.get(clientConfig.serviceUrls.sso.profile.load.frontEnd)
             .then(function (result) {
                 var profile = result.data.result;
