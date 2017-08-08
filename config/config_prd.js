@@ -79,5 +79,7 @@ module.exports = {
 
     admins: ['484f357e-a6ff-4651-bfc0-8dbe610496d7', '5b2b6697-0189-4dba-965a-e705cd6615c5'],
 
-    rootDomain: ".buzzbuzzenglish.com"
+    rootDomain: ".buzzbuzzenglish.com",
+
+    ugcVideoFolder: '/mnt/br-nas/content-buzz-ugc-video/'
 };

@@ -60,7 +60,7 @@ angular.module('spaModule')
                 }).finally(function () {
                     $scope.uploading = false;
                 });
-            }else {
+            } else {
                 $scope.errorMessage = 'Please record a video first!';
             }
         };
@@ -368,7 +368,9 @@ angular.module('spaModule')
             }
         };
 
+        alert(video);
         video.onloadedmetadata = function () {
             processor.doLoad();
+            alert('hello');
         };
     }]);

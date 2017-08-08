@@ -17,6 +17,7 @@ const exec = require('child_process').exec;
 const stream = require('koa-stream');
 const proxy = require('../../service-proxy/proxy');
 const greenSharedLogger = require('../../common/logger')('/routes/more/video.js');
+const videoBll = require('../../bll/video');
 
 function yieldableExec(command) {
     return function (cb) {
@@ -96,14 +97,14 @@ module.exports = function (app, router, render, server) {
             let parts = parse(this);
             let part;
 
+            let ugcPaths;
             let videoStoredPath = '';
             let srtStoredPath = '';
             while ((part = yield parts)) {
-                console.log(typeof part);
                 if (part && part.filename) {
-                    videoStoredPath = path.join(os.tmpdir(), `${Math.random().toString()}${part.filename}`).replace('MOV', 'mp4').replace('mov', 'mp4');
-                    let parsed = path.parse(videoStoredPath);
-                    srtStoredPath = `${parsed.dir}${path.sep}${parsed.name}.srt`;
+                    ugcPaths = videoBll.ugcPaths(part.filename);
+                    videoStoredPath = ugcPaths.raw;
+                    srtStoredPath = ugcPaths.srt;
 
                     let stream = fs.createWriteStream(videoStoredPath);
                     part.pipe(stream);
@@ -119,8 +120,7 @@ ${part[1]}
             }
 
             if (videoStoredPath && srtStoredPath) {
-                let parsed = path.parse(videoStoredPath);
-                let finalPath = `${parsed.dir}${path.sep}subtitled-${parsed.base}`.replace('MOV', 'mp4').replace('mov', 'mp4');
+                let finalPath = ugcPaths.output;
 
                 let r = yield proxy({
                     host: config.hongda.host,
