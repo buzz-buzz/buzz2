@@ -67,7 +67,7 @@ module.exports = {
     },
 
     hongda: {
-        host: '10.80.61.249',
+        host: '10.45.53.116',
         port: 10126
     },
 
