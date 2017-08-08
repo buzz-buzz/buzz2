@@ -28,3 +28,13 @@ script.
             location.href = location.href + '&time=' +timestamp;
         }
     }, false);
+
+    window.onload=function(){
+            var timestamp=location.search;
+            if(timestamp.indexOf("&time=")>-1){
+                return false
+            }else{
+            var timestamp=(new Date()).getTime();
+            location.href = location.href + '&time=' +timestamp;
+            }
+        }
