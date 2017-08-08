@@ -39,6 +39,15 @@ angular.module('spaModule')
             subtitle: 'I like drawing, and walking in nature'
         };
 
+        $scope.videoChange = function(){
+            var file = document.getElementById('video-file').files[0];
+            var url = URL.createObjectURL(file);
+            console.log(url);
+            $rootScope.videoPrewSrc = url;
+            $rootScope.videoFile = file;
+            $location.path('/video-player/' + encodeURIComponent(url));
+        };
+
         $scope.uploadVideoToOwnServer = function () {
             var file = document.querySelector('input[id=video-file]').files[0];
 
@@ -231,16 +240,64 @@ angular.module('spaModule')
             return $scope.mediaReady && !$scope.recording;
         };
     }])
-    .controller('videoPlayerCtrl', ['$scope', '$routeParams', '$http', 'subTitleParser', function ($scope, $routeParams, $http, subTitleParser) {
-        $scope.videoSrc = decodeURIComponent($routeParams.src);
+    .controller('videoPlayerCtrl', ['$scope', '$routeParams', '$http', 'subTitleParser', '$rootScope', '$location', 'requestTransformers', '$timeout', function ($scope, $routeParams, $http, subTitleParser, $rootScope, $location, requestTransformers, $timeout) {
+        //$scope.videoSrc = decodeURIComponent($routeParams.src);
+
+        $scope.videoSrc = $rootScope.videoPrewSrc;
         console.log($scope.videoSrc);
         $scope.url = location.href;
 
-        $scope.tryAgain = function () {
-            //$scope.videoSrc = '';
-            location.href = '/video';
-            console.log('try again...');
+        $scope.formData = {
+            video: null,
+            subtitle: 'I like drawing, and walking in nature'
         };
+
+        $scope.file = $rootScope.videoFile;
+
+        if(!$scope.file){
+            location.href = '/video';
+        }
+
+        $scope.$watch('errorMessage', function (newValue, oldValue) {
+            if (newValue) {
+                $timeout(function () {
+                    $scope.errorMessage = '';
+                }, 2000)
+            }
+        });
+
+        $scope.tryAgain = function () {
+            $rootScope.videoFile = undefined;
+            $scope.file = undefined;
+            location.href = '/video';
+        };
+
+        $scope.uploadVideoToOwnServer = function () {
+            if ($scope.file) {
+                $scope.uploading = true;
+                $http.post('/videos', {
+                    file: $scope.file,
+                    subtitle: $scope.formData.subtitle
+                }, {
+                    headers: {
+                        'X-Requested-With': undefined,
+                        'Content-Type': undefined
+                    },
+                    transformRequest: requestTransformers.transformToFormData
+                }).then(function (res) {
+                    //$location.path('/video-player/' + encodeURIComponent(res.data));
+                    $scope.videoSrc = res.data;
+                    document.getElementById('recoedAgain').disabled = true;
+                }).catch(function (reason) {
+                    $scope.errorMessage = reason.statusText || reason;
+                }).finally(function () {
+                    $scope.uploading = false;
+                });
+            }else {
+                $scope.errorMessage = 'Please record a video first!';
+            }
+        };
+
 
         var processor = {};
 
@@ -360,17 +417,20 @@ angular.module('spaModule')
             };
         });
 
-        var video = document.getElementById('video-player');
-        video.ontimeupdate = function (event) {
-            if (!$scope.subtitle || video.currentTime > $scope.subtitle.endSecond || video.currentTime < $scope.subtitle.startSecond) {
-                $scope.subtitle = subTitleParser.findSubtitleBySecond($scope.subtitles, video.currentTime);
-                $scope.$apply();
-            }
-        };
+        angular.element(document).ready(function(){
+            var video = document.getElementById('video-player');
+            video.ontimeupdate = function (event) {
+                if (!$scope.subtitle || video.currentTime > $scope.subtitle.endSecond || video.currentTime < $scope.subtitle.startSecond) {
+                    $scope.subtitle = subTitleParser.findSubtitleBySecond($scope.subtitles, video.currentTime);
+                    $scope.$apply();
+                }
+            };
 
         alert(video);
         video.onloadedmetadata = function () {
             processor.doLoad();
             alert('hello');
         };
+
+        });
     }]);
