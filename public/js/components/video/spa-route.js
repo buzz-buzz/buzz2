@@ -8,6 +8,11 @@ angular.module('spaModule')
                 controller: 'videoCtrl',
                 controllerAs: 'videoCtrl'
             })
+            .when('/video-preview', {
+                templateUrl: 'video-preview.html',
+                controller: 'videoPreviewCtrl',
+                controllerAs: 'videoPreviewCtrl'
+            })
             .when('/video-player/:src', {
                 templateUrl: 'video-player.html',
                 controller: 'videoPlayerCtrl',
@@ -45,7 +50,7 @@ angular.module('spaModule')
             console.log(url);
             $rootScope.videoPrewSrc = url;
             $rootScope.videoFile = file;
-            $location.path('/video-player/' + encodeURIComponent(url));
+            $location.path('/video-preview');
         };
 
         $scope.uploadVideoToOwnServer = function () {
@@ -240,7 +245,7 @@ angular.module('spaModule')
             return $scope.mediaReady && !$scope.recording;
         };
     }])
-    .controller('videoPlayerCtrl', ['$scope', '$routeParams', '$http', 'subTitleParser', '$rootScope', '$location', 'requestTransformers', '$timeout', function ($scope, $routeParams, $http, subTitleParser, $rootScope, $location, requestTransformers, $timeout) {
+    .controller('videoPreviewCtrl', ['$scope', '$routeParams', '$http', 'subTitleParser', '$rootScope', '$location', 'requestTransformers', '$timeout', function ($scope, $routeParams, $http, subTitleParser, $rootScope, $location, requestTransformers, $timeout) {
         //$scope.videoSrc = decodeURIComponent($routeParams.src);
 
         $scope.videoSrc = $rootScope.videoPrewSrc;
@@ -285,8 +290,8 @@ angular.module('spaModule')
                     },
                     transformRequest: requestTransformers.transformToFormData
                 }).then(function (res) {
-                    //$location.path('/video-player/' + encodeURIComponent(res.data));
-                    $scope.videoSrc = res.data;
+                    $location.path('/video-player/' + encodeURIComponent(res.data));
+                    //$scope.videoSrc = res.data;
                     document.getElementById('recoedAgain').disabled = true;
                 }).catch(function (reason) {
                     $scope.errorMessage = reason.statusText || reason;
@@ -432,4 +437,15 @@ angular.module('spaModule')
         };
 
         });
-    }]);
+    }])
+    .controller('videoPlayerCtrl', ['$scope', '$routeParams', function ($scope, $routeParams) {
+        $scope.videoSrc = decodeURIComponent($routeParams.src);
+        console.log($scope.videoSrc);
+        $scope.url = location.href;
+
+        $scope.formData = {
+            video: null,
+            subtitle: 'I like drawing, and walking in nature'
+        };
+    }])
+;

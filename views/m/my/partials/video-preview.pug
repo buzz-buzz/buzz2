@@ -1,0 +1,14 @@
+script(type="text/ng-template", id="video-preview.html")
+    form.ui.form(ng-class="{'error': !!errorMessage, 'loading': uploading}", style='padding: 0 15px; margin: 1rem;')
+        include ../../../partial/formMessage
+        .title(style='font-size: 20px; margin: 1rem 0;') level 1 闯关成功!
+        p(style='font-size: 16px; margin: 1rem 0;') 以下是您录制的视频 :
+        video#video-player(style="width: 100%; max-height: 250px;", controls="controls", autoplay, ng-src='{{videoSrc}}', type="video/*", crossorigin="Anonymous")
+        //<video controls="controls" autoplay style="width: 100%;" id="video-player" type="video/*" ng-src="{{videoSrc}}" crossorigin="Anonymous"></video>
+        .ui.submit-div(style='position: relative; margin-top: 2rem;')
+            button.btn.btn-block(style='display: inline-block; width: 45%; margin-top: 0; background-color: #f7b52a; color: #fff;', ng-click='uploadVideoToOwnServer()')
+                i.upload.icon
+                span 确认上传
+            button.btn.btn-block#recoedAgain(ng-click='tryAgain()', style='display: inline-block; width: 45%; margin-top: 0; background-color: #f7b52a; color: #fff; position: absolute; right: 0;')
+                i.repeat.icon
+                span 重新录制
