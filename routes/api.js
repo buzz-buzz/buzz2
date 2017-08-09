@@ -12,10 +12,10 @@ module.exports = function (app, route) {
             let files = fs.readdirSync(dir);
             this.body = files.filter(f => f.startsWith('subtitled-') && f.endsWith('.mp4')).map(f => {
                 let fullPath = path.join(dir, f);
+                let encodedPath = new Buffer(fullPath).toString('base64');
                 return {
                     videoName: f,
-                    fullPath: fullPath,
-                    encodedPath: new Buffer(fullPath).toString('base64')
+                    url: encodeURIComponent(encodeURIComponent(`/videos/${encodedPath}`))
                 }
             });
         });

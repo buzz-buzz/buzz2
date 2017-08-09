@@ -148,6 +148,7 @@ ${part[1]}
         })
         .get('/videos/:path', function* (next) {
             let fpath = new Buffer(this.params.path, 'base64').toString();
+            console.log(fpath);
             let fstat = fs.statSync(fpath);
 
             if (fstat.isFile()) {

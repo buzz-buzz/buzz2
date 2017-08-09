@@ -10,5 +10,6 @@ angular.module('spaModule')
     .controller('videoListCtrl', ['$scope', '$http', function ($scope, $http) {
         $http.get('/api/videos').then(function (results) {
             $scope.videos = results.data;
+            console.log($scope.videos);
         });
     }]);

@@ -19,7 +19,7 @@ angular.module('spaModule')
                 controllerAs: 'videoPlayerCtrl'
             })
 
-        $routeProvider.otherwise('/video-player/xxx');
+        // $routeProvider.otherwise('/video');
     }])
     .run(['$rootScope', function ($rootScope) {
         $rootScope.previousState;
@@ -455,7 +455,7 @@ angular.module('spaModule')
             subtitle: 'I like drawing, and walking in nature'
         };
 
-        $scope.shareToFriends = function(){
+        $scope.shareToFriends = function () {
             $('#dimmer-video')
                 .dimmer('show');
         };
@@ -519,7 +519,7 @@ angular.module('spaModule')
             function shareToFriendCancel(result) {
                 if (result.errMsg === 'sendAppMessage:cancel') {
 
-                } else { }
+                } else {}
             }
 
             wx.ready(function () {
@@ -543,5 +543,4 @@ angular.module('spaModule')
                 console.error(res);
             });
         });
-    }])
-;
+    }]);
