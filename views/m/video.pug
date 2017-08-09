@@ -24,13 +24,15 @@ block js
             'ngRoute',
             'mobile-angular-ui',
             'angular-file-reader',
-            'videoParserModule'
+            'videoParserModule',
+            'buzzHeaderModule'
         ]);
     + js('/js/videoParserModule.min.js')
     + js('/js/components/video/spa-route.js')
     + js('/js/components/video/list.js')
     + js('/node_modules/socket.io-client/dist/socket.io.slim.js')
     + js("/node_modules/angular-file-reader-module/dist/angular-file-reader.js")
+    + js("/js/buzzHeaderModule.min.js")
     script.
         angular.element(document).ready(function(){
             //- var video = document.querySelector("#video");
