@@ -426,7 +426,6 @@ angular.module('spaModule')
                 }
             };
 
-        alert(video);
         video.onloadedmetadata = function () {
             processor.doLoad();
             alert('hello');
