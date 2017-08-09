@@ -438,7 +438,7 @@ angular.module('spaModule')
 
         });
     }])
-    .controller('videoPlayerCtrl', ['$scope', '$routeParams', function ($scope, $routeParams) {
+    .controller('videoPlayerCtrl', ['$scope', '$routeParams', '$rootScope', '$http', 'clientConfig', '$timeout', 'api', function ($scope, $routeParams, $rootScope, $http, clientConfig, $timeout, api) {
         $scope.videoSrc = decodeURIComponent($routeParams.src);
         console.log($scope.videoSrc);
         $scope.url = location.href;
@@ -447,5 +447,94 @@ angular.module('spaModule')
             video: null,
             subtitle: 'I like drawing, and walking in nature'
         };
+
+        $scope.shareToFriends = function(){
+            $('#dimmer-video')
+                .dimmer('show');
+        };
+
+        $scope.closeDimmer = function () {
+            $('#dimmer-video')
+                .dimmer('hide');
+        };
+
+        //share to friends
+        api.get(clientConfig.serviceUrls.sso.profile.load.frontEnd)
+            .then(function (result) {
+                var profile = result.data.result;
+
+                var sharable = {
+                    title: '我在Buzzbuzz自拍了英语视频，快来看看吧',
+                    desc: profile.display_name + '邀请你看视频',
+                    link: location.href,
+                    imgUrl: 'https://resource.buzzbuzzenglish.com/wechat-share-friend.jpg'
+                };
+                $rootScope.wechatSharable = sharable;
+            });
+        $http.get(clientConfig.serviceUrls.wechat.sign.frontEnd, {
+            params: {
+                url: encodeURIComponent(location.href)
+            }
+        }).then(function (result) {
+            wx.config({
+                debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                appId: result.data.appId, // 必填，公众号的唯一标识
+                timestamp: result.data.timestamp, // 必填，生成签名的时间戳
+                nonceStr: result.data.nonceStr, // 必填，生成签名的随机串
+                signature: result.data.signature, // 必填，签名，见附录1
+                jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'onMenuShareQZone'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+            });
+
+            function shareToTimelineSuccess(result) {
+                if (result.errMsg === 'shareTimeline:ok') {
+
+                } else {
+
+                }
+            }
+
+            function shareToTimelineCancel(result) {
+                if (result.errMsg === 'shareTimeline:cancel') {
+
+                } else {
+
+                }
+            }
+
+            function shareToFriendSuccess(result) {
+                if (result.errMsg === 'sendAppMessage:ok') {
+
+                } else {
+
+                }
+            }
+
+            function shareToFriendCancel(result) {
+                if (result.errMsg === 'sendAppMessage:cancel') {
+
+                } else { }
+            }
+
+            wx.ready(function () {
+                wx.onMenuShareTimeline(angular.extend({}, sharable, {
+                    success: shareToTimelineSuccess,
+                    cancel: shareToTimelineCancel,
+                    title: sharable.title + ' ' + sharable.desc
+                }));
+
+                wx.onMenuShareAppMessage(angular.extend({}, sharable, {
+                    success: shareToFriendSuccess,
+                    cancel: shareToFriendCancel,
+                    title: sharable.title
+                }));
+
+                $rootScope.$emit('wx:ready', sharable);
+                wx.isReady = true;
+            });
+
+            wx.error(function (res) {
+                console.error(res);
+            });
+        });
     }])
 ;

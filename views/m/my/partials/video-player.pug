@@ -1,7 +1,10 @@
 script(type="text/ng-template", id="video-player.html")
-    form.ui.form(ng-class="{'error': !!errorMessage, 'loading': uploading}", style='padding: 0 15px; margin: 1rem;')
+    form.ui.form(style='padding: 0 15px; margin: 1rem;')
         .title(style='font-size: 20px; margin: 1rem 0;') 上传成功!
         p(style='font-size: 16px; margin: 1rem 0;') 以下是您已录制完成的视频 :
         video#video-uploaded(style="width: 100%; max-height: 250px;", controls="controls", autoplay, ng-src='{{videoSrc}}', type="video/*", crossorigin="Anonymous")
         .ui.share-friend(style='margin-top: 2rem;')
-            .ui.segment 点击右上角，分享给朋友，邀Ta一起来！
+            button.btn.btn-primary.center-block(ng-click='shareToFriends()') 分享给朋友
+    .ui.dimmer#dimmer-video(style='position: fixed; z-index: 1500;')
+        .content(style='position: relative;', ng-click='closeDimmer()')
+            img(src='//resource.buzzbuzzenglish.com/video-share-friends.png', style='width: 100%;')
