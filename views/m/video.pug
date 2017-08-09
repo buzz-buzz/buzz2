@@ -4,14 +4,14 @@ block content
         form.ui.form(ng-class="{'error': !!errorMessage, 'loading': uploading}")
             include ../partial/formMessage
             fieldset
-                legend(style='text-align: center; padding-top: 2rem; border: none; margin-bottom: 0;') level 1
+                legend(style='text-align: center; padding-top: 2rem; border: none; margin-bottom: 0; font-family:"HYxindipaofu"; font-weight: 800;') level 1
                 .ui.container
                     .subtitle(style='border: 6px solid #f7b52a; background-color: #fff; min-height: 20rem; padding: 1rem;')
-                        .subtitle-label 请记住以下内容:
+                        .subtitle-label(style='font-family:"HYxindipaofu"') 请记住以下内容:
                         .subtitle-english(style='padding-top: 1rem;') {{formData.subtitle || 'Today is monday.'}}
-                        .ui.segment(style='margin-top: 3rem;') 请在录制时说出这句"台词"
+                        .ui.segment(style='margin-top: 3rem; font-family:"HYxindipaofu"') 请在录制时说出这句"台词"
                     .form-group
-                        button.ui.yellow.button.center-block(style='font-size: 1.5rem; border-radius: 0; letter-spacing: 3px; position: relative;') 我记住了,开始录制
+                        button.ui.yellow.button.center-block(style='font-size: 1.5rem; border-radius: 0; letter-spacing: 3px; position: relative; font-family:"HYxindipaofu"') 我记住了,开始录制
                             input#video-file.form-control(type="file", accept="video/*", capture="camcorder", style='position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0;', onchange="angular.element(this).scope().videoChange()")
     include ./my/partials/video-preview
     include ./my/partials/video-player

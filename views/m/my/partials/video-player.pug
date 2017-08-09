@@ -1,10 +1,10 @@
 script(type="text/ng-template", id="video-player.html")
-    form.ui.form(style='padding: 0 15px; margin: 1rem;')
-        .title(style='font-size: 20px; margin: 1rem 0;') 上传成功!
-        p(style='font-size: 16px; margin: 1rem 0;') 以下是您已录制完成的视频 :
+    form.ui.form(style='padding: 0 15px; margin: 1rem; ')
+        .title(style='font-size: 20px; margin: 1rem 0; font-family:"HYxindipaofu"') 录制完成!
+        p(style='font-size: 16px; margin: 1rem 0; font-family:"HYxindipaofu"') 以下是您已录制完成的视频 :
         video#video-uploaded(style="width: 100%; max-height: 250px;", controls="controls", autoplay, ng-src='{{videoSrc}}', type="video/*", crossorigin="Anonymous")
         .ui.share-friend(style='margin-top: 2rem;')
-            button.btn.btn-primary.center-block(ng-click='shareToFriends()') 分享给朋友
+            button.btn.center-block(ng-click='shareToFriends()', style='background-color: #f7b52a; color: #fff; font-family:"HYxindipaofu"') 分享给朋友
     .ui.dimmer#dimmer-video(style='position: fixed; z-index: 1500;')
         .content(style='position: relative;', ng-click='closeDimmer()')
             img(src='//resource.buzzbuzzenglish.com/video-share-friends.png', style='width: 100%;')
