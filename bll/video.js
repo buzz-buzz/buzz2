@@ -18,12 +18,18 @@ module.exports = {
         }
     },
 
-    ugcPaths: function (fileName) {
+    ugcPath: function () {
         let base = config.ugcVideoFolder;
 
         if (!base) {
             base = os.tmpdir();
         }
+
+        return base;
+    },
+
+    ugcPaths: function (fileName) {
+        let base = this.ugcPath();
 
         let videoStoredPath = path.join(base, `${Math.random().toString()}${fileName}`).replace('MOV', 'mp4').replace('mov', 'mp4');
 
