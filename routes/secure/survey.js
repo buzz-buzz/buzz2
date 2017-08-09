@@ -10,7 +10,7 @@ const greenSharedLogger = require('../../common/logger')('/routes/secure/survey.
 
 module.exports = function (app, router, render) {
     router
-        .get('/survey', saas.checkSaasReferer, membership.ensureAuthenticated, function* () {
+        .get('/survey/:timestamp?', saas.checkSaasReferer, membership.ensureAuthenticated, function* () {
             let view = '/survey';
             let source = 'computer';
 
@@ -126,9 +126,9 @@ module.exports = function (app, router, render) {
                         data_type: 'json'
                     }
                 }, {
-                    host: config.buzz.inner.host,
-                    port: config.buzz.inner.port,
-                }));
+                        host: config.buzz.inner.host,
+                        port: config.buzz.inner.port,
+                    }));
             }
 
             this.body = yield render.call(this, '/result-callback', {

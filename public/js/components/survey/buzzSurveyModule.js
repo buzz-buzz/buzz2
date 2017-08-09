@@ -5,8 +5,9 @@ angular.module('buzzSurveyModule', ['angularQueryParserModule', 'servicesModule'
         api.get(clientConfig.serviceUrls.buzz.survey.latest.frontEnd)
             .then(function (result) {
                 if (result.data) {
-                    $scope.surveyUrl = '/survey?short_id=' + result.data;
-                    result.data.survey_url; $scope.showSurvey = true;
+                    var timestamp = (new Date()).getTime();
+                    $scope.surveyUrl = '/survey/' + timestamp + '?short_id=' + result.data;
+                    $scope.showSurvey = true;
                 }
             })
             ;

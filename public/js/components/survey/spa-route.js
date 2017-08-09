@@ -3,7 +3,7 @@ angular.module('spaModule')
         $locationProvider.html5Mode(true);
 
         $routeProvider
-            .when('/survey', {
+            .when('/survey/:timestamp?', {
                 templateUrl: 'survey.html',
                 controller: 'surveyCtrl',
                 controllerAs: 'surveyCtrl'
@@ -19,7 +19,7 @@ angular.module('spaModule')
                 controllerAs: 'helpFriendCtrl'
             });
 
-        $routeProvider.otherwise('/survey');
+        $routeProvider.otherwise('/survey/12345');
     }])
     .controller('surveyCtrl', ['$scope', '$rootScope', '$http', '$timeout', function ($scope, $rootScope, $http, $timeout) { }])
     .controller('surveyShareCtrl', ['$scope', '$rootScope', '$http', 'clientConfig', '$timeout', 'api', function ($scope, $rootScope, $http, clientConfig, $timeout, api) {
