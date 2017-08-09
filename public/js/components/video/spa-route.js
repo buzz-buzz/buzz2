@@ -17,9 +17,9 @@ angular.module('spaModule')
                 templateUrl: 'video-player.html',
                 controller: 'videoPlayerCtrl',
                 controllerAs: 'videoPlayerCtrl'
-            });
+            })
 
-        $routeProvider.otherwise('/video');
+        $routeProvider.otherwise('/video-player/xxx');
     }])
     .run(['$rootScope', function ($rootScope) {
         $rootScope.previousState;
@@ -44,7 +44,7 @@ angular.module('spaModule')
             subtitle: 'I like drawing, and walking in nature'
         };
 
-        $scope.videoChange = function(){
+        $scope.videoChange = function () {
             var file = document.getElementById('video-file').files[0];
             var url = URL.createObjectURL(file);
             console.log(url);
@@ -259,7 +259,7 @@ angular.module('spaModule')
 
         $scope.file = $rootScope.videoFile;
 
-        if(!$scope.file){
+        if (!$scope.file) {
             location.href = '/video';
         }
 
@@ -298,7 +298,7 @@ angular.module('spaModule')
                 }).finally(function () {
                     $scope.uploading = false;
                 });
-            }else {
+            } else {
                 $scope.errorMessage = 'Please record a video first!';
             }
         };
@@ -312,32 +312,40 @@ angular.module('spaModule')
             this.bg = document.getElementById('mask');
 
             this.c0 = document.getElementById('c0');
-            this.ctx0 = this.c0.getContext('2d');
+            if (this.c0) {
+                this.ctx0 = this.c0.getContext('2d');
+            }
 
             this.c1 = document.getElementById('c1');
-            this.ctx1 = this.c1.getContext('2d');
+            if (this.c1) {
+                this.ctx1 = this.c1.getContext('2d');
+            }
 
             this.c2 = document.getElementById('c2');
-            this.ctx2 = this.c2.getContext('2d');
+            if (this.c2) {
+                this.ctx2 = this.c2.getContext('2d');
+            }
 
             var self = this;
             this.video.addEventListener('play', function () {
-                self.width = self.video.videoWidth;
-                self.height = self.video.videoHeight;
-                self.c0.width = self.video.videoWidth;
-                self.c0.height = self.video.videoHeight;
-                self.c1.width = self.video.videoWidth;
-                self.c1.height = self.video.videoHeight;
-                self.c2.width = self.video.videoWidth;
-                self.c2.height = self.video.videoHeight;
-                self.c0.style.width = self.video.videoWidth;
-                self.c0.style.height = self.video.videoHeight;
-                self.c1.style.width = self.video.videoWidth;
-                self.c1.style.height = self.video.videoHeight;
-                self.c2.style.width = self.video.videoWidth;
-                self.c2.style.height = self.video.videoHeight;
+                if (self.c0 && self.c1 && self.c2) {
+                    self.width = self.video.videoWidth;
+                    self.height = self.video.videoHeight;
+                    self.c0.width = self.video.videoWidth;
+                    self.c0.height = self.video.videoHeight;
+                    self.c1.width = self.video.videoWidth;
+                    self.c1.height = self.video.videoHeight;
+                    self.c2.width = self.video.videoWidth;
+                    self.c2.height = self.video.videoHeight;
+                    self.c0.style.width = self.video.videoWidth;
+                    self.c0.style.height = self.video.videoHeight;
+                    self.c1.style.width = self.video.videoWidth;
+                    self.c1.style.height = self.video.videoHeight;
+                    self.c2.style.width = self.video.videoWidth;
+                    self.c2.style.height = self.video.videoHeight;
 
-                self.timerCallback();
+                    self.timerCallback();
+                }
             }, false);
         };
 
@@ -422,7 +430,7 @@ angular.module('spaModule')
             };
         });
 
-        angular.element(document).ready(function(){
+        angular.element(document).ready(function () {
             var video = document.getElementById('video-player');
             video.ontimeupdate = function (event) {
                 if (!$scope.subtitle || video.currentTime > $scope.subtitle.endSecond || video.currentTime < $scope.subtitle.startSecond) {
@@ -431,10 +439,9 @@ angular.module('spaModule')
                 }
             };
 
-        video.onloadedmetadata = function () {
-            processor.doLoad();
-            alert('hello');
-        };
+            video.onloadedmetadata = function () {
+                processor.doLoad();
+            };
 
         });
     }])

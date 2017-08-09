@@ -40,7 +40,9 @@ function mobileRender(app, router, render) {
                 config: config
             });
         } else {
-            this.redirect(saas.generateUrl(this, '/vocabulary/my'), { config: config });
+            this.redirect(saas.generateUrl(this, '/vocabulary/my'), {
+                config: config
+            });
         }
     });
 }
@@ -50,10 +52,13 @@ function simpleRender(app, router, render) {
 
     for (let i = 0; i < routes.length; i++) {
         router.get('/' + routes[i], saas.checkSaasReferer, function* () {
-            this.body = yield render.call(this, routes[i], { config: config });
+            this.body = yield render.call(this, routes[i], {
+                config: config
+            });
         });
     }
 }
+
 function renderWithServerData(app, router, render) {
     router.get('/sign-up', saas.checkSaasReferer, function* (next) {
         if (this.query.step && this.query.step == 2 && !this.state.hcd_user) {
@@ -65,6 +70,7 @@ function renderWithServerData(app, router, render) {
         }
     });
 }
+
 function redirectRequest(app, router) {
     router.get('/sign-out', membership.signOut, function* deleteCookie(next) {
         cookie.deleteToken.apply(this);
@@ -74,6 +80,7 @@ function redirectRequest(app, router) {
         this.redirect(saas.generateUrl(this, returnUrl || '/sign-in'));
     });
 }
+
 function auth(app, router, render) {
     require('./my')(app, router, render);
     app.use(mount('/vocabulary', membership.ensureAuthenticated));
@@ -111,14 +118,19 @@ function virtualFile(app, router) {
 function helper(app, router) {
     router
         .get('/healthcheck', function* (next) {
-            this.body = { every: 'is ok', time: new Date(), env: process.env.NODE_ENV };
+            this.body = {
+                every: 'is ok',
+                time: new Date(),
+                env: process.env.NODE_ENV
+            };
         })
         .get('/whoami', membership.setHcdUserFromCookie, function* (next) {
             this.body = this.state.hcd_user;
-        })
-        ;
+        });
 }
+
 function serviceProxy(app, router) {
+    require('./api')(app, router);
     require('../service-proxy/sso')(app, router, coBody);
     require('../service-proxy/sms')(app, router, coBody);
     require('../service-proxy/buzz')(app, router, coBody);
@@ -129,12 +141,15 @@ function serviceProxy(app, router) {
     require('../service-proxy/progress')(app, router, coBody);
     require('../service-proxy/qiniu-picture')(app, router, coBody);
 }
+
 function staticFiles(app, router) {
     require('./static')(app, router);
 }
+
 function oauth(app, router, render) {
     require('./wechat')(app, router, render);
 }
+
 function routeFolder(folder, app, router, render, server) {
     fs.readdir(__dirname + `/${folder}`, function (err, results) {
         if (err) {
@@ -146,10 +161,12 @@ function routeFolder(folder, app, router, render, server) {
         });
     });
 }
+
 function more(app, router, render, server) {
     routeFolder('more', app, router, render, server);
     routeFolder('secure', app, router, render, server);
 }
+
 function start(app, router, render) {
     routeFolder('start', app, router, render);
 }

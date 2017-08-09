@@ -76,9 +76,10 @@ module.exports = function (app, router, render, server) {
         .get('/video', saas.checkSaasReferer, renderVideoSPA)
         .get('/video-player/:path', saas.checkSaasReferer, renderVideoSPA)
         .get('/video-preview', saas.checkSaasReferer, renderVideoSPA)
+        .get('/video-list', saas.checkSaasReferer, renderVideoSPA)
         .put('/videos', function* (next) {
             try {
-                if (!this.request.is('multipart/*')) return yield next
+                if (!this.request.is('multipart/*')) return yield next;
 
                 this.body = yield pipeRequest(this.req, '/buzz-video');
             } catch (ex) {

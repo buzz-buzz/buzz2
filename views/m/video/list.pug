@@ -1,0 +1,3 @@
+script(type="text/ng-template", id="video-list.html")
+    .list-group
+        a.list-group-item(ng-repeat="v in videos", ng-href="/video-player/{{v.encodedPath}}") {{v.videoName}}
