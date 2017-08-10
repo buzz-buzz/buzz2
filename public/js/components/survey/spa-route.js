@@ -19,7 +19,7 @@ angular.module('spaModule')
                 controllerAs: 'helpFriendCtrl'
             });
 
-        $routeProvider.otherwise('/survey/12345');
+        $routeProvider.otherwise('/survey/:timestamp?');
     }])
     .controller('surveyCtrl', ['$scope', '$rootScope', '$http', '$timeout', function ($scope, $rootScope, $http, $timeout) { }])
     .controller('surveyShareCtrl', ['$scope', '$rootScope', '$http', 'clientConfig', '$timeout', 'api', function ($scope, $rootScope, $http, clientConfig, $timeout, api) {
