@@ -124,7 +124,7 @@ angular.module('spaModule')
         });
 
         $scope.mediaReady = false;
-        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        if (false && navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
             navigator.mediaDevices.getUserMedia({
                 video: true,
                 audio: true

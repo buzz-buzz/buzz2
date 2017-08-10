@@ -19,6 +19,10 @@ block content
 
 block js
     script.
+        if(location.protocol !== 'https:' && (location.hostname === 'buzzbuzzenglish.com' || location.hostname === 'www.buzzbuzzenglish.com')) {
+            location.href = location.href.replace('http:', 'https:');
+        }
+    script.
         angular.module('spaModule', [
             'ngRoute',
             'mobile-angular-ui',

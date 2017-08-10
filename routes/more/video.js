@@ -61,9 +61,11 @@ module.exports = function (app, router, render, server) {
 
     function* renderVideoSPA() {
         let view = '/video';
-        if (this.state.userAgent.isMobile) {
+        if (true || this.state.userAgent.isMobile) {
             view = '/m' + view;
         }
+
+        console.log(view);
 
         this.body = yield render.call(this, view, {
             config: config,
