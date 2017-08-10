@@ -2,8 +2,5 @@
     .ui.segment
         .ui.active.dimmer
             .ui.text.loader 数据加载中,请稍后...
-block content
-    include ./js
-    + js("/js/components/survey/buzzSurveyModule.min.js")
 script.
     window.parent.postMessage('refresh://', '*');
