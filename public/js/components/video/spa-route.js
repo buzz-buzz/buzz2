@@ -44,15 +44,6 @@ angular.module('spaModule')
             subtitle: 'I like drawing, and walking in nature'
         };
 
-        $scope.videoChange = function () {
-            var file = document.getElementById('video-file').files[0];
-            var url = URL.createObjectURL(file);
-            console.log(url);
-            $rootScope.videoPrewSrc = url;
-            $rootScope.videoFile = file;
-            $location.path('/video-preview');
-        };
-
         $scope.uploadVideoToOwnServer = function () {
             var file = document.querySelector('input[id=video-file]').files[0];
 
@@ -68,7 +59,9 @@ angular.module('spaModule')
                     },
                     transformRequest: requestTransformers.transformToFormData
                 }).then(function (res) {
-                    $location.path('/video-player/' + encodeURIComponent(res.data));
+                    //$location.path('/video-player/' + encodeURIComponent(res.data));
+                    localStorage.setItem('videoPrewSrc',res.data);
+                    location.href = '/video-preview';
                 }).catch(function (reason) {
                     $scope.errorMessage = reason.statusText || reason;
                 }).finally(function () {
@@ -77,6 +70,10 @@ angular.module('spaModule')
             } else {
                 $scope.errorMessage = 'Please record a video first!';
             }
+        };
+
+        $scope.videoChange = function () {
+            $scope.uploadVideoToOwnServer();
         };
 
         $scope.uploadVideo = function () {
@@ -248,8 +245,7 @@ angular.module('spaModule')
     .controller('videoPreviewCtrl', ['$scope', '$routeParams', '$http', 'subTitleParser', '$rootScope', '$location', 'requestTransformers', '$timeout', function ($scope, $routeParams, $http, subTitleParser, $rootScope, $location, requestTransformers, $timeout) {
         //$scope.videoSrc = decodeURIComponent($routeParams.src);
 
-        $scope.videoSrc = $rootScope.videoPrewSrc;
-        console.log($scope.videoSrc);
+        $scope.videoSrc = localStorage.getItem('videoPrewSrc');
         $scope.url = location.href;
 
         $scope.formData = {
@@ -259,7 +255,7 @@ angular.module('spaModule')
 
         $scope.file = $rootScope.videoFile;
 
-        if (!$scope.file) {
+        if (!$scope.videoSrc) {
             location.href = '/video';
         }
 
@@ -272,37 +268,13 @@ angular.module('spaModule')
         });
 
         $scope.tryAgain = function () {
-            $rootScope.videoFile = undefined;
-            $scope.file = undefined;
+            localStorage.setItem('videoPrewSrc', undefined);
             location.href = '/video';
         };
 
-        $scope.uploadVideoToOwnServer = function () {
-            if ($scope.file) {
-                $scope.uploading = true;
-                $http.post('/videos', {
-                    file: $scope.file,
-                    subtitle: $scope.formData.subtitle
-                }, {
-                    headers: {
-                        'X-Requested-With': undefined,
-                        'Content-Type': undefined
-                    },
-                    transformRequest: requestTransformers.transformToFormData
-                }).then(function (res) {
-                    $location.path('/video-player/' + encodeURIComponent(res.data));
-                    //$scope.videoSrc = res.data;
-                    document.getElementById('recoedAgain').disabled = true;
-                }).catch(function (reason) {
-                    $scope.errorMessage = reason.statusText || reason;
-                }).finally(function () {
-                    $scope.uploading = false;
-                });
-            } else {
-                $scope.errorMessage = 'Please record a video first!';
-            }
+        $scope.sureUpload = function(){
+            location.href = '/video-player/' + encodeURIComponent($scope.videoSrc);
         };
-
 
         var processor = {};
 
