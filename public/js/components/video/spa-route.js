@@ -273,25 +273,21 @@ angular.module('spaModule')
             $('#dimmer-video')
                 .dimmer('show');
         };
-
+    }])
+    .controller('videoShareCtrl', ['$scope', '$routeParams', '$rootScope', '$http', 'clientConfig', '$timeout', 'api', function ($scope, $routeParams, $rootScope, $http, clientConfig, $timeout, api) {
         $scope.closeDimmer = function () {
             $('#dimmer-video')
                 .dimmer('hide');
         };
 
         //share to friends
-        api.get(clientConfig.serviceUrls.sso.profile.load.frontEnd)
-            .then(function (result) {
-                var profile = result.data.result;
+        var sharable = {
+            title: '我在Buzzbuzz自拍了英语视频，快来看看吧',
+            desc: '邀请你看视频',
+            link: location.href,
+            imgUrl: 'https://resource.buzzbuzzenglish.com/wechat-share-friend.jpg'
+        };
 
-                var sharable = {
-                    title: '我在Buzzbuzz自拍了英语视频，快来看看吧',
-                    desc: profile.display_name + '邀请你看视频',
-                    link: location.href,
-                    imgUrl: 'https://resource.buzzbuzzenglish.com/wechat-share-friend.jpg'
-                };
-                $rootScope.wechatSharable = sharable;
-            });
         $http.get(clientConfig.serviceUrls.wechat.sign.frontEnd, {
             params: {
                 url: encodeURIComponent(location.href)
@@ -305,36 +301,6 @@ angular.module('spaModule')
                 signature: result.data.signature, // 必填，签名，见附录1
                 jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'onMenuShareQZone'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
             });
-
-            function shareToTimelineSuccess(result) {
-                if (result.errMsg === 'shareTimeline:ok') {
-
-                } else {
-
-                }
-            }
-
-            function shareToTimelineCancel(result) {
-                if (result.errMsg === 'shareTimeline:cancel') {
-
-                } else {
-
-                }
-            }
-
-            function shareToFriendSuccess(result) {
-                if (result.errMsg === 'sendAppMessage:ok') {
-
-                } else {
-
-                }
-            }
-
-            function shareToFriendCancel(result) {
-                if (result.errMsg === 'sendAppMessage:cancel') {
-
-                } else {}
-            }
 
             wx.ready(function () {
                 wx.onMenuShareTimeline(angular.extend({}, sharable, {
@@ -357,4 +323,5 @@ angular.module('spaModule')
                 console.error(res);
             });
         });
-    }]);
+    }])
+;

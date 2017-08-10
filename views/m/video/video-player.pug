@@ -5,6 +5,6 @@ script(type="text/ng-template", id="video-player.html")
         video#video-uploaded(style="width: 100%; max-height: 250px;", controls="controls", autoplay, ng-src='{{videoSrc}}', type="video/*", crossorigin="Anonymous")
         .ui.share-friend(style='margin-top: 2rem;')
             button.btn.center-block(ng-click='shareToFriends()', style='font-size: 20px; background-color: #f7b52a; color: #fff; font-family:"HYxindipaofu"') 分享给朋友
-    .ui.dimmer#dimmer-video(style='position: fixed; z-index: 1500;')
+    .ui.dimmer#dimmer-video(ng-controller='videoShareCtrl', style='position: fixed; z-index: 1500;')
         .content(style='position: relative;', ng-click='closeDimmer()')
             img(src='//resource.buzzbuzzenglish.com/video-share-friends.png', style='width: 100%;')
