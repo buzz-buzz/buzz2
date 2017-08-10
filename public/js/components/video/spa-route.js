@@ -273,10 +273,6 @@ angular.module('spaModule')
         };
 
         $scope.sureUpload = function(){
-            console.log($scope.videoSrc);
-            console.log(encodeURIComponent($scope.videoSrc));
-            console.log(encodeURIComponent(encodeURIComponent($scope.videoSrc)));
-            console.log('/video-player/' + encodeURIComponent(encodeURIComponent($scope.videoSrc)));
             location.href = '/video-player/' + encodeURIComponent(encodeURIComponent($scope.videoSrc));
         };
 
