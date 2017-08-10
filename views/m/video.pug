@@ -13,9 +13,8 @@ block content
                     .form-group
                         button.ui.yellow.button.center-block(style='font-size: 2rem; border-radius: 0; letter-spacing: 3px; position: relative; font-family:"HYxindipaofu"') 我记住了,开始录制
                             input#video-file.form-control(type="file", accept="video/*", capture="camcorder", style='position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0;', onchange="angular.element(this).scope().videoChange()")
-    include ./my/partials/video-preview
-    include ./my/partials/video-player
-
+    include ./video/video-preview
+    include ./video/video-player
     include ./video/list
 
 block js
@@ -28,7 +27,7 @@ block js
             'buzzHeaderModule'
         ]);
     + js('/js/videoParserModule.min.js')
-    + js('/js/components/video/spa-route.js')
+    + js('/js/components/video/spa-route.js?test=aaa')
     + js('/js/components/video/list.js')
     + js('/node_modules/socket.io-client/dist/socket.io.slim.js')
     + js("/node_modules/angular-file-reader-module/dist/angular-file-reader.js")

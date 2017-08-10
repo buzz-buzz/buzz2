@@ -27,7 +27,8 @@ angular.module('buzzHeaderModule', ['angularQueryParserModule', 'servicesModule'
                             }
                         });
                 } else {
-                    throw result.data;
+                    // throw result.data;
+                    console.error('尝试请求用户信息失败，因为还没有登录。')
                 }
             });
     }])
@@ -59,8 +60,7 @@ angular.module('buzzHeaderModule', ['angularQueryParserModule', 'servicesModule'
                     $('.ui.dropdown.item')
                         .dropdown({
                             on: 'hover'
-                        })
-                        ;
+                        });
                 })
             });
         }
@@ -136,14 +136,14 @@ angular.module('buzzHeaderModule', ['angularQueryParserModule', 'servicesModule'
             }
         });
     }])
-    // .filter('percentage', ['$window', function ($window) {
-    //     return function (input, decimals, suffix) {
-    //         decimals = angular.isNumber(decimals) ? decimals : 3;
-    //         suffix = suffix || '%';
-    //         if ($window.isNaN(input)) {
-    //             return '';
-    //         }
-    //         return Math.round(input * Math.pow(10, decimals + 2)) / Math.pow(10, decimals) + suffix
-    //     };
-    // }]);
-    ;
+// .filter('percentage', ['$window', function ($window) {
+//     return function (input, decimals, suffix) {
+//         decimals = angular.isNumber(decimals) ? decimals : 3;
+//         suffix = suffix || '%';
+//         if ($window.isNaN(input)) {
+//             return '';
+//         }
+//         return Math.round(input * Math.pow(10, decimals + 2)) / Math.pow(10, decimals) + suffix
+//     };
+// }]);
+;

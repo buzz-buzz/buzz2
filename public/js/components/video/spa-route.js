@@ -19,7 +19,7 @@ angular.module('spaModule')
                 controllerAs: 'videoPlayerCtrl'
             });
 
-        // $routeProvider.otherwise('/video');
+        $routeProvider.otherwise('/video');
     }])
     .run(['$rootScope', function ($rootScope) {
         $rootScope.previousState;
@@ -243,17 +243,6 @@ angular.module('spaModule')
     .controller('videoPreviewCtrl', ['$scope', '$routeParams', '$http', 'subTitleParser', '$rootScope', '$location', 'requestTransformers', '$timeout', function ($scope, $routeParams, $http, subTitleParser, $rootScope, $location, requestTransformers, $timeout) {
         $scope.videoSrc = decodeURIComponent($routeParams.src);
 
-        $scope.url = location.href;
-
-        $scope.formData = {
-            video: null,
-            subtitle: 'I like drawing, and walking in nature'
-        };
-
-        if (!$scope.videoSrc) {
-            location.href = '/video';
-        }
-
         $scope.$watch('errorMessage', function (newValue, oldValue) {
             if (newValue) {
                 $timeout(function () {
@@ -266,150 +255,9 @@ angular.module('spaModule')
             location.href = '/video';
         };
 
-        $scope.sureUpload = function(){
-            $location.path('/video-player/' + encodeURIComponent($scope.videoSrc));
+        $scope.sureUpload = function () {
+            location.href = '/video-player/' + encodeURIComponent(encodeURIComponent($scope.videoSrc));
         };
-
-        var processor = {};
-
-        processor.doLoad = function doLoad() {
-            this.video = document.getElementById('video-player');
-
-            this.bg = document.getElementById('mask');
-
-            this.c0 = document.getElementById('c0');
-            if (this.c0) {
-                this.ctx0 = this.c0.getContext('2d');
-            }
-
-            this.c1 = document.getElementById('c1');
-            if (this.c1) {
-                this.ctx1 = this.c1.getContext('2d');
-            }
-
-            this.c2 = document.getElementById('c2');
-            if (this.c2) {
-                this.ctx2 = this.c2.getContext('2d');
-            }
-
-            var self = this;
-            this.video.addEventListener('play', function () {
-                if (self.c0 && self.c1 && self.c2) {
-                    self.width = self.video.videoWidth;
-                    self.height = self.video.videoHeight;
-                    self.c0.width = self.video.videoWidth;
-                    self.c0.height = self.video.videoHeight;
-                    self.c1.width = self.video.videoWidth;
-                    self.c1.height = self.video.videoHeight;
-                    self.c2.width = self.video.videoWidth;
-                    self.c2.height = self.video.videoHeight;
-                    self.c0.style.width = self.video.videoWidth;
-                    self.c0.style.height = self.video.videoHeight;
-                    self.c1.style.width = self.video.videoWidth;
-                    self.c1.style.height = self.video.videoHeight;
-                    self.c2.style.width = self.video.videoWidth;
-                    self.c2.style.height = self.video.videoHeight;
-
-                    self.timerCallback();
-                }
-            }, false);
-        };
-
-        processor.timerCallback = function timerCallback() {
-            if (this.video.paused || this.video.ended) {
-                return;
-            }
-            this.computeFrame();
-            var self = this;
-            setTimeout(function () {
-                self.timerCallback();
-            }, 0);
-        };
-
-        processor.computeFrame = function computeFrame() {
-            this.ctx0.drawImage(this.bg, 0, 0, this.bg.width, this.bg.height, 0, 0, this.width, this.height);
-
-            this.ctx1.drawImage(this.video, 0, 0, this.width, this.height);
-            var frame = this.ctx1.getImageData(0, 0, this.width, this.height);
-            var mask = this.ctx0.getImageData(0, 0, this.width, this.height);
-            var l = frame.data.length / 4;
-
-            for (var i = 0; i < l; i++) {
-                var j = maskPos(i, this.c1.width, this.c1.height, this.c0.width, this.c0.height);
-                if (!headArea(mask.data, j)) {
-                    setRGBA(frame.data, i, null, null, null, 0);
-                }
-            }
-            this.ctx2.putImageData(frame, 0, 0);
-            this.ctx0.putImageData(mask, 0, 0);
-            return;
-        };
-
-        function maskPos(i, w, h, w1, h1) {
-            var x = i % w;
-            var y = Math.floor((i + 1) / w);
-
-            var x1 = Math.round((w1 - w) / 2 + x);
-            var y1 = Math.round((h1 - h) / 2 + y);
-
-            var i1 = x1 + y1 * w1;
-            return i1;
-        }
-
-        function getRGBA(data, i) {
-            return {
-                r: data[i * 4 + 0],
-                g: data[i * 4 + 1],
-                b: data[i * 4 + 2],
-                a: data[i * 4 + 3]
-            };
-        }
-
-        function setRGBA(data, i, r, g, b, a) {
-            if (r != null) {
-                data[i * 4 + 0] = r;
-            }
-            if (g != null) {
-                data[i * 4 + 1] = g;
-            }
-            if (b != null) {
-                data[i * 4 + 2] = b;
-            }
-            if (a != null) {
-                data[i * 4 + 3] = a;
-            }
-        }
-
-        function headArea(data, pos) {
-            var rgba = getRGBA(data, pos);
-            return rgba.a === 0;
-            // return Math.abs(rgb.r - 204) < 10 && Math.abs(rgb.g - 204) < 10 && Math.abs(rgb.b - 255) < 10;
-        }
-
-        $http.get($scope.videoSrc + '.ass').then(function (res) {
-            $scope.subtitles = subTitleParser.parse(res.data);
-            console.log($scope.subtitles);
-        }).catch(function (reason) {
-            console.error(reason);
-            $scope.subtitle = {
-                text: '字幕正在生成中……'
-            };
-        });
-
-        angular.element(document).ready(function () {
-            var video = document.getElementById('video-player');
-            video.ontimeupdate = function (event) {
-                if (!$scope.subtitle || video.currentTime > $scope.subtitle.endSecond || video.currentTime < $scope.subtitle.startSecond) {
-                    $scope.subtitle = subTitleParser.findSubtitleBySecond($scope.subtitles, video.currentTime);
-                    $scope.$apply();
-                }
-            };
-
-            video.onloadedmetadata = function () {
-                processor.doLoad();
-            };
-
-        });
     }])
     .controller('videoPlayerCtrl', ['$scope', '$routeParams', '$rootScope', '$http', 'clientConfig', '$timeout', 'api', function ($scope, $routeParams, $rootScope, $http, clientConfig, $timeout, api) {
         $scope.videoSrc = decodeURIComponent($routeParams.src);
