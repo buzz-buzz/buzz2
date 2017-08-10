@@ -8,7 +8,7 @@ angular.module('spaModule')
                 controller: 'videoCtrl',
                 controllerAs: 'videoCtrl'
             })
-            .when('/video-preview', {
+            .when('/video-preview/:src', {
                 templateUrl: 'video-preview.html',
                 controller: 'videoPreviewCtrl',
                 controllerAs: 'videoPreviewCtrl'
@@ -17,7 +17,7 @@ angular.module('spaModule')
                 templateUrl: 'video-player.html',
                 controller: 'videoPlayerCtrl',
                 controllerAs: 'videoPlayerCtrl'
-            })
+            });
 
         // $routeProvider.otherwise('/video');
     }])
@@ -59,9 +59,7 @@ angular.module('spaModule')
                     },
                     transformRequest: requestTransformers.transformToFormData
                 }).then(function (res) {
-                    //$location.path('/video-player/' + encodeURIComponent(res.data));
-                    localStorage.setItem('videoPrewSrc',res.data);
-                    location.href = '/video-preview';
+                    $location.path('/video-preview/' + encodeURIComponent(res.data));
                 }).catch(function (reason) {
                     $scope.errorMessage = reason.statusText || reason;
                 }).finally(function () {
@@ -243,17 +241,14 @@ angular.module('spaModule')
         };
     }])
     .controller('videoPreviewCtrl', ['$scope', '$routeParams', '$http', 'subTitleParser', '$rootScope', '$location', 'requestTransformers', '$timeout', function ($scope, $routeParams, $http, subTitleParser, $rootScope, $location, requestTransformers, $timeout) {
-        //$scope.videoSrc = decodeURIComponent($routeParams.src);
+        $scope.videoSrc = decodeURIComponent($routeParams.src);
 
-        $scope.videoSrc = localStorage.getItem('videoPrewSrc');
         $scope.url = location.href;
 
         $scope.formData = {
             video: null,
             subtitle: 'I like drawing, and walking in nature'
         };
-
-        $scope.file = $rootScope.videoFile;
 
         if (!$scope.videoSrc) {
             location.href = '/video';
@@ -268,12 +263,11 @@ angular.module('spaModule')
         });
 
         $scope.tryAgain = function () {
-            localStorage.setItem('videoPrewSrc', undefined);
             location.href = '/video';
         };
 
         $scope.sureUpload = function(){
-            location.href = '/video-player/' + encodeURIComponent(encodeURIComponent($scope.videoSrc));
+            $location.path('/video-player/' + encodeURIComponent($scope.videoSrc));
         };
 
         var processor = {};

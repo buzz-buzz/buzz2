@@ -75,7 +75,7 @@ module.exports = function (app, router, render, server) {
     router
         .get('/video', saas.checkSaasReferer, renderVideoSPA)
         .get('/video-player/:path', saas.checkSaasReferer, renderVideoSPA)
-        .get('/video-preview', saas.checkSaasReferer, renderVideoSPA)
+        .get('/video-preview/:path', saas.checkSaasReferer, renderVideoSPA)
         .get('/video-list', saas.checkSaasReferer, renderVideoSPA)
         .put('/videos', function* (next) {
             try {
