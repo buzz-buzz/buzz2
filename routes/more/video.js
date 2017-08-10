@@ -124,28 +124,31 @@ ${part[1]}
             }
 
             if (videoStoredPath && srtStoredPath) {
-                let finalPath = ugcPaths.output;
+                // let finalPath = ugcPaths.output;
 
-                let r = yield proxy({
-                    host: config.hongda.host,
-                    port: config.hongda.port,
-                    path: '/burn_subtitle',
-                    method: 'POST',
-                    data: {
-                        srtPath: srtStoredPath,
-                        videoPath: videoStoredPath,
-                        outputPath: finalPath
-                    }
-                });
+                // let r = yield proxy({
+                //     host: config.hongda.host,
+                //     port: config.hongda.port,
+                //     path: '/burn_subtitle',
+                //     method: 'POST',
+                //     data: {
+                //         srtPath: srtStoredPath,
+                //         videoPath: videoStoredPath,
+                //         outputPath: finalPath
+                //     }
+                // });
 
-                if (r === 'done') {
-                    let encodedPath = new Buffer(finalPath).toString('base64');
-                    this.body = `/videos/${encodedPath}`;
-                } else {
-                    let err = '在生成字幕时产生了错误';
-                    greenSharedLogger.error(err);
-                    this.throw(err);
-                }
+                // if (r === 'done') {
+                //     let encodedPath = new Buffer(finalPath).toString('base64');
+                //     this.body = `/videos/${encodedPath}`;
+                // } else {
+                //     let err = '在生成字幕时产生了错误';
+                //     greenSharedLogger.error(err);
+                //     this.throw(err);
+                // }
+
+                let encodedPath = new Buffer(videoStoredPath).toString('base64');
+                this.body = `/videos/${encodedPath}`;
             }
         })
         .get('/videos/:path', function* (next) {

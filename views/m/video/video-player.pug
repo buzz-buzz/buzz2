@@ -1,10 +1,16 @@
 script(type="text/ng-template", id="video-player.html")
-    form.ui.form(style='padding: 0 15px; margin: 1rem; ')
+    .ui.container(ng-hide="hideVideo")
         .title(style='font-size: 30px; margin: 1rem 0; font-family:"HYxindipaofu"') 录制完成!
         p(style='font-size: 20px; margin: 1rem 0; font-family:"HYxindipaofu"') 以下是您已录制完成的视频 :
         video#video-uploaded(style="width: 100%; max-height: 250px;", controls="controls", autoplay, ng-src='{{videoSrc}}', type="video/*", crossorigin="Anonymous")
         .ui.share-friend(style='margin-top: 2rem;')
             button.btn.center-block(ng-click='shareToFriends()', style='font-size: 20px; background-color: #f7b52a; color: #fff; font-family:"HYxindipaofu"') 分享给朋友
-    .ui.dimmer#dimmer-video(ng-controller='videoShareCtrl', style='position: fixed; z-index: 1500;')
+    .ui.dimmer#dimmer-video(style='z-index: 1500;')
         .content(style='position: relative;', ng-click='closeDimmer()')
             img(src='//resource.buzzbuzzenglish.com/video-share-friends.png', style='width: 100%;')
+    .ui.dimmer#dimmer-processing
+        .content
+            p 该视频正在处理中，请稍后再回来查看……
+    .ui.dimmer#dimmer-error
+        .content    
+            p 在获取视频信息时碰到了错误，请稍后回来查看……

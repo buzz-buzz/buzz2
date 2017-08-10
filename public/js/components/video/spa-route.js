@@ -119,7 +119,7 @@ angular.module('spaModule')
             if (newValue) {
                 $timeout(function () {
                     $scope.errorMessage = '';
-                }, 2000)
+                }, 5000)
             }
         });
 
@@ -252,22 +252,40 @@ angular.module('spaModule')
         });
 
         $scope.tryAgain = function () {
-            location.href = '/video';
+            $location.path('/video');
         };
 
         $scope.sureUpload = function () {
-            location.href = '/video-player/' + encodeURIComponent(encodeURIComponent($scope.videoSrc));
+            $location.path('/video-player/' + encodeURIComponent($scope.videoSrc));
         };
     }])
     .controller('videoPlayerCtrl', ['$scope', '$routeParams', '$rootScope', '$http', 'clientConfig', '$timeout', 'api', function ($scope, $routeParams, $rootScope, $http, clientConfig, $timeout, api) {
         $scope.videoSrc = decodeURIComponent($routeParams.src);
-        console.log($scope.videoSrc);
-        $scope.url = location.href;
 
-        $scope.formData = {
-            video: null,
-            subtitle: 'I like drawing, and walking in nature'
-        };
+        $scope.hideVideo = false;
+
+        function showProcessing() {
+            $('#dimmer-processing').dimmer('show');
+            $scope.hideVideo = true;
+        }
+
+        function showError() {
+            $('#dimmer-error').dimmer('show');
+            $scope.hideVideo = true;
+        }
+
+        $http.get('/api/videos/' + $scope.videoSrc.replace('/videos/', ''))
+            .then(function (result) {
+                var status = result.data;
+                if (status.status !== 'done') {
+                    showProcessing();
+                } else {
+                    $scope.videoSrc = status.subtitled;
+                }
+            })
+            .catch(function () {
+                showError();
+            });
 
         $scope.shareToFriends = function () {
             $('#dimmer-video')
