@@ -14,6 +14,11 @@ function getSubtitledVideoPath(videoStoredPath) {
     return `${parsed.dir}${path.sep}subtitled-${parsed.base}`;
 }
 
+function getURIAddress(path) {
+    let encodedPath = new Buffer(path).toString('base64');
+    return `/videos/${encodedPath}`;
+}
+
 module.exports = {
     playable: function* () {
         if (this.state.hcd_user) {
@@ -62,24 +67,27 @@ module.exports = {
 
         let result = {
             status: 'done',
-            raw: videoStoredPath,
-            subtitle: srtStoredPath,
-            subtitled: subTitledVideoPath
+            raw: getURIAddress(videoStoredPath),
+            subtitle: getURIAddress(srtStoredPath),
+            subtitled: getURIAddress(subTitledVideoPath)
         };
 
-        if (!fs.existsSync(videoStoredPath)) {
-            result.status = 'novideo';
-            delete result.raw;
+        if (!fs.existsSync(subTitledVideoPath)) {
+            result.status = 'processing';
+            delete result.subtitled;
+            return result;
         }
 
         if (!fs.existsSync(srtStoredPath)) {
             result.status = 'nosub';
             delete result.subtitle;
+            return result;
         }
 
-        if (!fs.existsSync(subTitledVideoPath)) {
-            result.status = 'processing';
-            delete result.subtitled;
+        if (!fs.existsSync(videoStoredPath)) {
+            result.status = 'novideo';
+            delete result.raw;
+            return result;
         }
 
         return result;

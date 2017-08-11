@@ -43,23 +43,23 @@ angular.module('spaModule')
             }
         };
     }])
-    .factory('videoStatus', ['$http', '$q', function($http, $q){
+    .factory('videoStatus', ['$http', '$q', function ($http, $q) {
         return {
-          get:function(encodedVideoSrc){
-              var decoded = decodeURIComponent(encodedVideoSrc);
-              return $http.get('/api/videos/' + encodeURIComponent(decoded.replace('/videos/', '')))
-                  .then(function (result) {
-                      var status = result.data;
-                      if (status.status !== 'done') {
-                          return $q.reject('processing');
-                      } else {
-                          return $q.resolve(status.subtitled);
-                      }
-                  })
-                  .catch(function (reason) {
-                      return $q.reject(reason);
-                  });
-          }
+            get: function (encodedVideoSrc) {
+                var decoded = decodeURIComponent(encodedVideoSrc);
+                return $http.get('/api/videos/' + encodeURIComponent(decoded.replace('/videos/', '')))
+                    .then(function (result) {
+                        var status = result.data;
+                        if (status.status !== 'done') {
+                            return $q.reject('processing');
+                        } else {
+                            return $q.resolve(status.subtitled);
+                        }
+                    })
+                    .catch(function (reason) {
+                        return $q.reject(reason);
+                    });
+            }
         };
     }])
     .controller('videoCtrl', ['$scope', '$rootScope', '$http', 'requestTransformers', '$location', '$timeout', function ($scope, $rootScope, $http, requestTransformers, $location, $timeout) {
@@ -296,12 +296,12 @@ angular.module('spaModule')
             $scope.hideVideo = true;
         }
 
-        videoStatus.get($routeParams.src).then(function(videoPath){
+        videoStatus.get($routeParams.src).then(function (videoPath) {
             $scope.videoSrc = videoPath;
-        }).catch(function(reason){
-            if(reason === 'processing'){
+        }).catch(function (reason) {
+            if (reason === 'processing') {
                 showProcessing();
-            }else{
+            } else {
                 showError();
             }
         });
@@ -327,7 +327,7 @@ angular.module('spaModule')
         var sharable = {
             title: '我在Buzzbuzz自拍了英语视频，快来看看吧',
             desc: '邀请你看视频',
-            link: location.href.replace('video-player','video-share'),
+            link: location.href.replace('video-player', 'video-share'),
             imgUrl: 'https://resource.buzzbuzzenglish.com/wechat-share-friend.jpg'
         };
 
@@ -367,7 +367,7 @@ angular.module('spaModule')
             });
         });
     }])
-    .controller('videoShareFriendCtrl', ['$scope', '$routeParams', '$rootScope', '$http', 'clientConfig', '$timeout', 'api', 'videoStatus', function ($scope, $routeParams, $rootScope, $http, clientConfig, $timeout, api, videoStatus) {
+    .controller('videoShareFriendCtrl', ['$scope', '$routeParams', '$rootScope', '$http', 'clientConfig', '$timeout', 'api', 'videoStatus', '$location', function ($scope, $routeParams, $rootScope, $http, clientConfig, $timeout, api, videoStatus, $location) {
         $scope.hideVideo = false;
 
         function showProcessing() {
@@ -380,12 +380,12 @@ angular.module('spaModule')
             $scope.hideVideo = true;
         }
 
-        videoStatus.get($routeParams.src).then(function(videoPath){
+        videoStatus.get($routeParams.src).then(function (videoPath) {
             $scope.videoSrc = videoPath;
-        }).catch(function(reason){
-            if(reason === 'processing'){
+        }).catch(function (reason) {
+            if (reason === 'processing') {
                 showProcessing();
-            }else{
+            } else {
                 showError();
             }
         });
@@ -396,10 +396,7 @@ angular.module('spaModule')
                 .dimmer('show');
         };
 
-        $scope.playVideo = function(){
-            location.href = '/video';
+        $scope.playVideo = function () {
+            $location.path('/video');
         }
-
-
-    }])
-;
+    }]);
