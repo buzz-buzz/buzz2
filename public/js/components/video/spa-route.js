@@ -341,6 +341,37 @@ angular.module('spaModule')
                 jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'onMenuShareQZone'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
             });
 
+            function shareToTimelineSuccess(result) {
+                if (result.errMsg === 'shareTimeline:ok') {
+
+                } else {
+
+                }
+            }
+
+            function shareToTimelineCancel(result) {
+                if (result.errMsg === 'shareTimeline:cancel') {
+
+                } else {
+
+                }
+            }
+
+            function shareToFriendSuccess(result) {
+                if (result.errMsg === 'sendAppMessage:ok') {
+
+                } else {
+
+                }
+            }
+
+            function shareToFriendCancel(result) {
+                if (result.errMsg === 'sendAppMessage:cancel') {
+
+                } else {
+                }
+            }
+
             wx.ready(function () {
                 wx.onMenuShareTimeline(angular.extend({}, sharable, {
                     success: shareToTimelineSuccess,
