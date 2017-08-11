@@ -60,12 +60,13 @@ function simpleRender(app, router, render) {
 }
 
 function renderWithServerData(app, router, render) {
-    router.get('/sign-up', saas.checkSaasReferer, function* (next) {
+    router.get('/sign-up', saas.checkSaasReferer, membership.setHcdUserIfSignedIn, function* (next) {
         if (this.query.step && this.query.step == 2 && !this.state.hcd_user) {
             this.redirect(saas.generateUrl(this, '/sign-up?step=1'));
         } else {
             this.body = yield render.call(this, 'sign-up', {
-                config: config
+                config: config,
+                hcd_user: this.state.hcd_user
             });
         }
     });
