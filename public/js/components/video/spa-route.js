@@ -274,7 +274,7 @@ angular.module('spaModule')
             $scope.hideVideo = true;
         }
 
-        $http.get('/api/videos/' + $scope.videoSrc.replace('/videos/', ''))
+        $http.get('/api/videos/' + encodeURIComponent($scope.videoSrc.replace('/videos/', '')))
             .then(function (result) {
                 var status = result.data;
                 if (status.status !== 'done') {
