@@ -17,6 +17,11 @@ angular.module('spaModule')
                 templateUrl: 'video-player.html',
                 controller: 'videoPlayerCtrl',
                 controllerAs: 'videoPlayerCtrl'
+            })
+            .when('/video-share/:src', {
+                templateUrl: 'video-share.html',
+                controller: 'videoShareFriendCtrl',
+                controllerAs: 'videoShareFriendCtrl'
             });
 
         $routeProvider.otherwise('/video');
@@ -36,6 +41,25 @@ angular.module('spaModule')
                 $event.preventDefault();
                 $event.stopPropagation();
             }
+        };
+    }])
+    .factory('videoStatus', ['$http', '$q', function($http, $q){
+        return {
+          get:function(encodedVideoSrc){
+              var decoded = decodeURIComponent(encodedVideoSrc);
+              return $http.get('/api/videos/' + encodeURIComponent(decoded.replace('/videos/', '')))
+                  .then(function (result) {
+                      var status = result.data;
+                      if (status.status !== 'done') {
+                          return $q.reject('processing');
+                      } else {
+                          return $q.resolve(status.subtitled);
+                      }
+                  })
+                  .catch(function (reason) {
+                      return $q.reject(reason);
+                  });
+          }
         };
     }])
     .controller('videoCtrl', ['$scope', '$rootScope', '$http', 'requestTransformers', '$location', '$timeout', function ($scope, $rootScope, $http, requestTransformers, $location, $timeout) {
@@ -259,9 +283,7 @@ angular.module('spaModule')
             $location.path('/video-player/' + encodeURIComponent($scope.videoSrc));
         };
     }])
-    .controller('videoPlayerCtrl', ['$scope', '$routeParams', '$rootScope', '$http', 'clientConfig', '$timeout', 'api', function ($scope, $routeParams, $rootScope, $http, clientConfig, $timeout, api) {
-        $scope.videoSrc = decodeURIComponent($routeParams.src);
-
+    .controller('videoPlayerCtrl', ['$scope', '$routeParams', '$rootScope', '$http', 'clientConfig', '$timeout', 'api', 'videoStatus', function ($scope, $routeParams, $rootScope, $http, clientConfig, $timeout, api, videoStatus) {
         $scope.hideVideo = false;
 
         function showProcessing() {
@@ -274,18 +296,15 @@ angular.module('spaModule')
             $scope.hideVideo = true;
         }
 
-        $http.get('/api/videos/' + encodeURIComponent($scope.videoSrc.replace('/videos/', '')))
-            .then(function (result) {
-                var status = result.data;
-                if (status.status !== 'done') {
-                    showProcessing();
-                } else {
-                    $scope.videoSrc = status.subtitled;
-                }
-            })
-            .catch(function () {
+        videoStatus.get($routeParams.src).then(function(videoPath){
+            $scope.videoSrc = videoPath;
+        }).catch(function(reason){
+            if(reason === 'processing'){
+                showProcessing();
+            }else{
                 showError();
-            });
+            }
+        });
 
         $scope.shareToFriends = function () {
             document.getElementById('video-uploaded').style.display = 'none';
@@ -295,7 +314,11 @@ angular.module('spaModule')
     }])
     .controller('videoShareCtrl', ['$scope', '$routeParams', '$rootScope', '$http', 'clientConfig', '$timeout', 'api', function ($scope, $routeParams, $rootScope, $http, clientConfig, $timeout, api) {
         $scope.closeDimmer = function () {
-            document.getElementById('video-uploaded').style.display = 'block';
+            console.log('=========');
+            console.log(document.getElementById('video-uploaded').style.opacity);
+            console.log('=========');
+            document.getElementById('video-uploaded').style.opacity = 1;
+            console.log(document.getElementById('video-uploaded').style.opacity);
             $('#dimmer-video')
                 .dimmer('hide');
         };
@@ -304,7 +327,7 @@ angular.module('spaModule')
         var sharable = {
             title: '我在Buzzbuzz自拍了英语视频，快来看看吧',
             desc: '邀请你看视频',
-            link: location.href,
+            link: location.href.replace('video-player','video-share'),
             imgUrl: 'https://resource.buzzbuzzenglish.com/wechat-share-friend.jpg'
         };
 
@@ -343,5 +366,40 @@ angular.module('spaModule')
                 console.error(res);
             });
         });
+    }])
+    .controller('videoShareFriendCtrl', ['$scope', '$routeParams', '$rootScope', '$http', 'clientConfig', '$timeout', 'api', 'videoStatus', function ($scope, $routeParams, $rootScope, $http, clientConfig, $timeout, api, videoStatus) {
+        $scope.hideVideo = false;
+
+        function showProcessing() {
+            $('#dimmer-processing').dimmer('show');
+            $scope.hideVideo = true;
+        }
+
+        function showError() {
+            $('#dimmer-error').dimmer('show');
+            $scope.hideVideo = true;
+        }
+
+        videoStatus.get($routeParams.src).then(function(videoPath){
+            $scope.videoSrc = videoPath;
+        }).catch(function(reason){
+            if(reason === 'processing'){
+                showProcessing();
+            }else{
+                showError();
+            }
+        });
+
+        $scope.shareToFriends = function () {
+            document.getElementById('video-uploaded').style.opacity = 0;
+            $('#dimmer-video')
+                .dimmer('show');
+        };
+
+        $scope.playVideo = function(){
+            location.href = '/video';
+        }
+
+
     }])
 ;

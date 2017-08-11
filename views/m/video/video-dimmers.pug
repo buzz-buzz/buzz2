@@ -1,0 +1,9 @@
+.ui.dimmer#dimmer-video(style='z-index: 1500;', ng-controller='videoShareCtrl')
+    .content(style='position: relative;', ng-click='closeDimmer()')
+        img(src='//resource.buzzbuzzenglish.com/video-share-friends.png', style='width: 100%;')
+.ui.dimmer#dimmer-processing
+    .content
+        p 该视频正在处理中，请稍后再回来查看……
+.ui.dimmer#dimmer-error
+    .content
+        p 在获取视频信息时碰到了错误，请稍后回来查看……
