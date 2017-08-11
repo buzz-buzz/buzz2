@@ -327,6 +327,8 @@ angular.module('spaModule')
             imgUrl: 'https://resource.buzzbuzzenglish.com/wechat-share-friend.jpg'
         };
 
+        $rootScope.wechatSharable = sharable;
+
         $http.get(clientConfig.serviceUrls.wechat.sign.frontEnd, {
             params: {
                 url: encodeURIComponent(location.href)
