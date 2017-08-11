@@ -10,6 +10,11 @@ module.exports = function (app, route) {
         .get('/api/index', function* (next) {
             this.body = 'hello';
         })
+        .post('/api/videos/:encodedRawPath', function *(){
+            let rawPath = new Buffer(this.params.encodedRawPath, 'base64').toString();
+            videoBll.asyncApplyProcess(rawPath);
+            this.body = 'called';
+        })
         .get('/api/videos/:encodedRawPath', function* () {
             let rawPath = new Buffer(this.params.encodedRawPath, 'base64').toString();
             rawPath = rawPath.replace('subtitled-', '');

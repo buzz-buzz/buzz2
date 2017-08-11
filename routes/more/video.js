@@ -3,19 +3,14 @@
 const config = require('../../config');
 const buzz = require('../../service-proxy-for-server/buzz');
 const course = require('../../bll/course');
-const mount = require('koa-mount');
 const saas = require('../../bll/saas');
-const httpsHelper = require('../../bll/https');
 const fs = require('fs');
 const request = require('request');
-const koaBody = require('koa-body');
 const os = require('os');
 const path = require('path');
-const extname = path.extname;
 const parse = require('co-busboy');
 const exec = require('child_process').exec;
 const stream = require('koa-stream');
-const proxy = require('../../service-proxy/async-proxy');
 const greenSharedLogger = require('../../common/logger')('/routes/more/video.js');
 const videoBll = require('../../bll/video');
 
@@ -127,17 +122,7 @@ ${part[1]}
             if (videoStoredPath && srtStoredPath) {
                 let finalPath = ugcPaths.output;
 
-                proxy({
-                    host: config.hongda.host,
-                    port: config.hongda.port,
-                    path: '/burn_subtitle',
-                    method: 'POST',
-                    data: {
-                        srtPath: srtStoredPath,
-                        videoPath: videoStoredPath,
-                        outputPath: finalPath
-                    }
-                });
+                videoBll.asyncApplyProcess(videoStoredPath, srtStoredPath, finalPath);
 
                 // if (r === 'done') {
                 //     let encodedPath = new Buffer(finalPath).toString('base64');

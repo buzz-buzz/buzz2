@@ -3,6 +3,7 @@ const path = require('path');
 const os = require('os');
 const config = require('../config');
 const fs = require('fs');
+const asyncProxy = require('../service-proxy/async-proxy');
 
 function getSubtitleStoredPath(videoStoredPath) {
     let parsed = path.parse(videoStoredPath);
@@ -47,11 +48,11 @@ module.exports = {
     ugcPaths: function (fileName) {
         let base = this.ugcPath();
 
-        let videoStoredPath = path.join(base, `${Math.random().toString()}${fileName}`).replace('MOV', 'mp4').replace('mov', 'mp4');
-
-        let parsed = path.parse(videoStoredPath);
+        let r = Math.random().toString();
+        r = r.substr(r.length-5);
+        let videoStoredPath = path.join(base, `${r}${fileName}`);
         let srtStoredPath = getSubtitleStoredPath(videoStoredPath);
-        let finalPath = `${parsed.dir}${path.sep}subtitled-${parsed.base}`.replace('MOV', 'mp4').replace('mov', 'mp4');
+        let finalPath = getSubtitledVideoPath(videoStoredPath);
 
         return {
             raw: videoStoredPath,
@@ -61,7 +62,6 @@ module.exports = {
     },
 
     getStatusInfo: function (videoStoredPath) {
-        let parsed = path.parse(videoStoredPath);
         let srtStoredPath = getSubtitleStoredPath(videoStoredPath);
         let subTitledVideoPath = getSubtitledVideoPath(videoStoredPath);
 
@@ -91,5 +91,21 @@ module.exports = {
         }
 
         return result;
+    },
+
+    asyncApplyProcess: function(videoStoredPath, srtStoredPath, finalPath){
+        srtStoredPath = srtStoredPath || getSubtitleStoredPath(videoStoredPath);
+        finalPath = finalPath || getSubtitledVideoPath(videoStoredPath);
+        asyncProxy({
+            host: config.hongda.host,
+            port: config.hongda.port,
+            path: '/burn_subtitle',
+            method: 'POST',
+            data: {
+                srtPath: srtStoredPath,
+                videoPath: videoStoredPath,
+                outputPath: finalPath
+            }
+        });
     }
 };

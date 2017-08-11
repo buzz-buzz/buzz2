@@ -44,19 +44,27 @@ angular.module('spaModule')
         };
     }])
     .factory('videoStatus', ['$http', '$q', function ($http, $q) {
+        function callProcess(videoSrc){
+            $http.post('/api/videos/'+ videoSrc);
+        }
+
         return {
             get: function (encodedVideoSrc) {
                 var decoded = decodeURIComponent(encodedVideoSrc);
-                return $http.get('/api/videos/' + encodeURIComponent(decoded.replace('/videos/', '')))
+                var videoSrc = encodeURIComponent(decoded.replace('/videos/', ''));
+                return $http.get('/api/videos/' + videoSrc)
                     .then(function (result) {
                         var status = result.data;
                         if (status.status !== 'done') {
+                            callProcess(videoSrc);
+
                             return $q.reject('processing');
                         } else {
                             return $q.resolve(status.subtitled);
                         }
                     })
                     .catch(function (reason) {
+                        callProcess(videoSrc);
                         return $q.reject(reason);
                     });
             }

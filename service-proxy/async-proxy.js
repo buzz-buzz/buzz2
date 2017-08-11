@@ -27,6 +27,7 @@ function proxy(settings) {
     }
 
     try {
+        console.log('requesting to ', option);
         request(option);
     } catch (ex) {
         throw ex;
