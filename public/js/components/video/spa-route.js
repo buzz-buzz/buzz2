@@ -307,18 +307,14 @@ angular.module('spaModule')
         });
 
         $scope.shareToFriends = function () {
-            document.getElementById('video-uploaded').style.display = 'none';
+            document.getElementById('video-uploaded').style.opacity = 0;
             $('#dimmer-video')
                 .dimmer('show');
         };
     }])
     .controller('videoShareCtrl', ['$scope', '$routeParams', '$rootScope', '$http', 'clientConfig', '$timeout', 'api', function ($scope, $routeParams, $rootScope, $http, clientConfig, $timeout, api) {
         $scope.closeDimmer = function () {
-            console.log('=========');
-            console.log(document.getElementById('video-uploaded').style.opacity);
-            console.log('=========');
             document.getElementById('video-uploaded').style.opacity = 1;
-            console.log(document.getElementById('video-uploaded').style.opacity);
             $('#dimmer-video')
                 .dimmer('hide');
         };
