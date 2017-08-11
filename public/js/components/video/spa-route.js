@@ -288,12 +288,14 @@ angular.module('spaModule')
             });
 
         $scope.shareToFriends = function () {
+            document.getElementById('video-uploaded').style.display = 'none';
             $('#dimmer-video')
                 .dimmer('show');
         };
     }])
     .controller('videoShareCtrl', ['$scope', '$routeParams', '$rootScope', '$http', 'clientConfig', '$timeout', 'api', function ($scope, $routeParams, $rootScope, $http, clientConfig, $timeout, api) {
         $scope.closeDimmer = function () {
+            document.getElementById('video-uploaded').style.display = 'block';
             $('#dimmer-video')
                 .dimmer('hide');
         };

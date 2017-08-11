@@ -1,5 +1,5 @@
 angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'clientConfigModule', 'buzzHeaderModule', 'quizModule', 'serviceCacheModule', 'wechatShareModule', 'parserModule', 'DateModule'])
-    .run(['$rootScope', 'trackingX', 'queryParser', function ($rootScope, tracking, queryParser) {
+    .run(['$rootScope', 'trackingX', 'queryParser', '$timeout', function ($rootScope, tracking, queryParser, $timeout) {
         var query = queryParser.parse();
         tracking.sendX('play', {
             date: query.date,
@@ -48,6 +48,14 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
         if (query.trk_tag) {
             sessionStorage.setItem('trk_tag', query.trk_tag);
         }
+
+        $timeout(function(){
+            var isShow = localStorage.getItem('newFucTag');
+            if(!isShow){
+                document.getElementById("dimmer-once").style.display= "block";
+                document.getElementById("dimmer-once").style.opacity= 1;
+            }
+        }, 2000);
 
     }])
     .controller('VideoPlayerCtrl', ['$scope', '$sce', 'clientConfig', '$http', 'queryParser', '$rootScope', function ($scope, $sce, clientConfig, $http, queryParser, $rootScope) {
