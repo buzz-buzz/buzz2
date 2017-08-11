@@ -12,6 +12,14 @@ let getPackageJson = function () {
     return JSON.parse(fs.readFileSync('./package.json', 'utf8'));
 };
 
+gulp.task('bump-app-cache', function () {
+    let cachePath = './public/buzz.appcache';
+    let appCache = fs.readFileSync(cachePath, 'utf-8');
+    let json = getPackageJson();
+    let newCache = appCache.replace(/\#version\:\s.+\r?\n/, `#version: ${json.version}\n`);
+    fs.writeFileSync(cachePath, newCache);
+});
+
 gulp.task('bump-minor-patch', function () {
     return gulp.src(['./package.json'])
         .pipe(bump({
@@ -30,13 +38,13 @@ gulp.task('patch-time', function () {
 
     return gulp.src(['./package.json'])
         .pipe(bump({
-            version: json.version.replace(/\./g, '-') + '-' + new Date().getTime()
+            version: json.version + '-' + new Date().getTime()
         }))
         .pipe(gulp.dest('./'));
 });
 
 gulp.task('bump', function () {
-    runSequence('bump-minor-patch', 'patch-time');
+    runSequence('bump-minor-patch', 'bump-app-cache', 'patch-time');
 });
 
 gulp.task('bumpup', function () {
@@ -66,7 +74,7 @@ gulp.task('uglify-css', function (done) {
         .pipe(gulp.dest('public/css'));
 });
 
-gulp.task('default', ['uglify-js', 'uglify-css']);
+gulp.task('default', ['bump']);
 
 gulp.task('release', ['bump', 'uglify-js', 'uglify-css']);
 

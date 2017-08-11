@@ -1,6 +1,8 @@
 mixin js(src, disableCdn)
     - var sep = src.indexOf('?') >= 0 ? '&' : '?';
     - var cdn = disableCdn ?  '' : config.cdn;
+    if config.debug && (src.indexOf('/js') === 0 || src.indexOf('/public/js') === 0) && src.indexOf('.min') >= 0
+        - src = src.replace('.min', '')
     if src.indexOf('/node_modules') === 0 || src.indexOf('/js') === 0
         script(src=cdn + src + sep + 'v=' + config.version, type="text/javascript")&attributes(attributes)
     else
@@ -8,4 +10,6 @@ mixin js(src, disableCdn)
 
 mixin css(src, disableCdn)
     - var cdn = disableCdn ? '' : config.cdn;
+    if config.debug && (src.indexOf('/css') === 0 || src.indexOf('/public/css') === 0 && src.indexOf('semantic-ui') < 0) && src.indexOf('.min') >= 0
+        - src = src.replace('.min', '')
     link(rel="stylesheet", href=cdn + src + '?' + config.version)

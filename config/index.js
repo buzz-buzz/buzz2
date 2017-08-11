@@ -9,9 +9,10 @@ function getPackageJson() {
 
 let packageJson = getPackageJson();
 
+let version = packageJson.version.replace(/\./g, '-');
+
 let config = {
-    version: packageJson.version,
-    imageversion: packageJson.version
+    version: version
 };
 
 let configPath = util.format('./config_%s.js', (process.env.NODE_ENV || 'dev'));

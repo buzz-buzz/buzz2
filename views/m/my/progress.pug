@@ -483,15 +483,15 @@ body
                     .text.content.font.black.bold {{lessonCount}}
                 .pic.column
                     .img
-                        img(ng-src=`{{profile.avatar || '${config.cdn}/public/images/default_avatar.png?${config.imageversion}'}}`)
+                        img(ng-src=`{{profile.avatar || '${config.cdn}/public/images/default_avatar.png?${config.version}'}}`)
                     .text(ng-bind="profile.real_name")
                 .account.column
                     .text.head.font.black
-                        img(ng-src=`${config.cdn}/public/images/points.png?${config.imageversion}`)
+                        img(ng-src=`${config.cdn}/public/images/points.png?${config.version}`)
                     .text.content.font.black.bold {{totalScore}}
                 .account.column(ng-show="false")
                     .text.head.font.black
-                        img(ng-src=`${config.cdn}/public/images/medal.png?${config.imageversion}`)
+                        img(ng-src=`${config.cdn}/public/images/medal.png?${config.version}`)
                     .text.content.font.black.bold 5
         .row
             .box.process-head &nbsp;练习打卡日历
@@ -519,11 +519,11 @@ body
                 .learn.left
                     .title 练习全对
                     .content(style='display: inline-block;text-align: center;padding-top: .5em;')
-                        img(src=`${config.cdn}/public/images/correct.png?${config.imageversion}`, ng-repeat="i in [].constructor(weekPerformance.good) track by $index")
+                        img(src=`${config.cdn}/public/images/correct.png?${config.version}`, ng-repeat="i in [].constructor(weekPerformance.good) track by $index")
                 .learn.middle
                     .title 练习有错
                     .content(style='display: inline-block;text-align: center;padding-top: .5em;')
-                        img(src=`${config.cdn}/public/images/wrong_1.png?${config.imageversion}` ng-repeat="i in [].constructor(weekPerformance.bad) track by $index")
+                        img(src=`${config.cdn}/public/images/wrong_1.png?${config.version}` ng-repeat="i in [].constructor(weekPerformance.bad) track by $index")
 
                 .learn.right
                     .title 系统排名
@@ -541,7 +541,7 @@ body
                         span.font.black(ng-cloak) {{totalWord}}个
                         span.font.grey 单词
                     .chart.right(ng-click="expandContent(true)")
-                        img.valign-middle(src=`${config.cdn}/public/images/chart.png?${config.imageversion}`)
+                        img.valign-middle(src=`${config.cdn}/public/images/chart.png?${config.version}`)
                 .box.process-content(ng-if="expanded")
                     .expand-chart.row
                         .expand-chart.left.font.orange
@@ -549,13 +549,13 @@ body
                             span.font.black(ng-cloak) {{totalWord}}
                             span.font.grey 个单词
                         .expand-chart.right(ng-click="expandContent(false)")
-                            img.valign-middle(style="width:1.6em",src=`${config.cdn}/public/images/chart_off.png?${config.imageversion}`)
+                            img.valign-middle(style="width:1.6em",src=`${config.cdn}/public/images/chart_off.png?${config.version}`)
                     .expand-chart.row
                         .expand-chart.small.left.font.orange
-                            img(style="vertical-align:middle;width:1.5rem",src=`${config.cdn}/public/images/mini_bar.png?${config.imageversion}`)
+                            img(style="vertical-align:middle;width:1.5rem",src=`${config.cdn}/public/images/mini_bar.png?${config.version}`)
                             span.font.grey 你累计学习单词词量：个/周
                         .expand-chart.small.right
-                            img(style="vertical-align:middle;width:1.5rem",src=`${config.cdn}/public/images/mini_chart.png?${config.imageversion}`)
+                            img(style="vertical-align:middle;width:1.5rem",src=`${config.cdn}/public/images/mini_chart.png?${config.version}`)
                             span.font.grey 系统整体排名：名/周
                         .content_m(ng-controller="pcChartCtrl")
                             canvas#history-chart.chart.chart-bar(chart-data="data", chart-labels="labels", chart-series="series", chart-options="options" chart-dataset-override="datasetOverride",chart-colors="colors")
