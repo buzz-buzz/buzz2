@@ -12,7 +12,8 @@ let packageJson = getPackageJson();
 let version = packageJson.version.replace(/\./g, '-');
 
 let config = {
-    version: version
+    version: version,
+    NODE_ENV: process.env.NODE_ENV
 };
 
 let configPath = util.format('./config_%s.js', (process.env.NODE_ENV || 'dev'));

@@ -19,17 +19,19 @@ block content
     include ./video/list
 
 block js
-    script.
-        if(location.protocol !== 'https:' && (location.hostname === 'buzzbuzzenglish.com' || location.hostname === 'www.buzzbuzzenglish.com')) {
-            location.href = location.href.replace('http:', 'https:');
-        }
+    if config.NODE_ENV === 'prd'
+        script.
+            if(location.protocol !== 'https:' && (location.hostname === 'buzzbuzzenglish.com' || location.hostname === 'www.buzzbuzzenglish.com')) {
+                location.href = location.href.replace('http:', 'https:');
+            }
     script.
         angular.module('spaModule', [
             'ngRoute',
             'mobile-angular-ui',
             'angular-file-reader',
             'videoParserModule',
-            'buzzHeaderModule'
+            'buzzHeaderModule',
+            'wechatShareModule'
         ]);
     + js('/js/videoParserModule.min.js')
     + js('/js/components/video/spa-route.min.js')

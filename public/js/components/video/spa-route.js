@@ -288,7 +288,7 @@ angular.module('spaModule')
         };
 
         $scope.sureUpload = function () {
-            $location.path('/video-player/' + encodeURIComponent($scope.videoSrc));
+            $location.path('/video-player/' + atob($scope.videoSrc));
         };
     }])
     .controller('videoPlayerCtrl', ['$scope', '$routeParams', '$rootScope', '$http', 'clientConfig', '$timeout', 'api', 'videoStatus', function ($scope, $routeParams, $rootScope, $http, clientConfig, $timeout, api, videoStatus) {
@@ -304,7 +304,7 @@ angular.module('spaModule')
             $scope.hideVideo = true;
         }
 
-        videoStatus.get($routeParams.src).then(function (videoPath) {
+        videoStatus.get(encodeURIComponent(btoa($routeParams.src))).then(function (videoPath) {
             $scope.videoSrc = videoPath;
         }).catch(function (reason) {
             if (reason === 'processing') {
@@ -320,89 +320,58 @@ angular.module('spaModule')
                 .dimmer('show');
         };
     }])
-    .controller('videoShareCtrl', ['$scope', '$routeParams', '$rootScope', '$http', 'clientConfig', '$timeout', 'api', function ($scope, $routeParams, $rootScope, $http, clientConfig, $timeout, api) {
+    .controller('videoShareCtrl', ['$scope', '$routeParams', '$rootScope', '$http', 'clientConfig', '$timeout', 'api', '$q', function ($scope, $routeParams, $rootScope, $http, clientConfig, $timeout, api, $q) {
         $scope.closeDimmer = function () {
             document.getElementById('video-uploaded').style.opacity = 1;
             $('#dimmer-video')
                 .dimmer('hide');
         };
 
+
         //share to friends
         var sharable = {
             title: '我在Buzzbuzz自拍了英语视频，快来看看吧',
-            desc: '邀请你看视频',
+            desc: '邀请你看TA的自拍秀',
             link: location.href.replace('video-player', 'video-share'),
             imgUrl: 'https://resource.buzzbuzzenglish.com/wechat-share-friend.jpg'
         };
 
         $rootScope.wechatSharable = sharable;
 
-        $http.get(clientConfig.serviceUrls.wechat.sign.frontEnd, {
-            params: {
-                url: encodeURIComponent(location.href)
-            }
-        }).then(function (result) {
-            wx.config({
-                debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-                appId: result.data.appId, // 必填，公众号的唯一标识
-                timestamp: result.data.timestamp, // 必填，生成签名的时间戳
-                nonceStr: result.data.nonceStr, // 必填，生成签名的随机串
-                signature: result.data.signature, // 必填，签名，见附录1
-                jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'onMenuShareQZone'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
-            });
+        function wxReady() {
+            var dfd = $q.defer();
 
-            function shareToTimelineSuccess(result) {
-                if (result.errMsg === 'shareTimeline:ok') {
-
-                } else {
-
-                }
-            }
-
-            function shareToTimelineCancel(result) {
-                if (result.errMsg === 'shareTimeline:cancel') {
-
-                } else {
-
-                }
-            }
-
-            function shareToFriendSuccess(result) {
-                if (result.errMsg === 'sendAppMessage:ok') {
-
-                } else {
-
-                }
-            }
-
-            function shareToFriendCancel(result) {
-                if (result.errMsg === 'sendAppMessage:cancel') {
-
-                } else {
-                }
+            if (wx.isReady) {
+                dfd.resolve();
             }
 
             wx.ready(function () {
-                wx.onMenuShareTimeline(angular.extend({}, sharable, {
-                    success: shareToTimelineSuccess,
-                    cancel: shareToTimelineCancel,
-                    title: sharable.title + ' ' + sharable.desc
-                }));
-
-                wx.onMenuShareAppMessage(angular.extend({}, sharable, {
-                    success: shareToFriendSuccess,
-                    cancel: shareToFriendCancel,
-                    title: sharable.title
-                }));
-
-                $rootScope.$emit('wx:ready', sharable);
-                wx.isReady = true;
+                dfd.resolve();
             });
 
-            wx.error(function (res) {
-                console.error(res);
-            });
-        });
+            return dfd.promise;
+        }
+
+        function wechatSharable(sharable) {
+            try {
+                console.log("CTRL");
+                $rootScope.wechatSharable.desc = sharable.desc;
+                $rootScope.wechatSharable.title = sharable.title;
+
+                wxReady().then(function () {
+
+                    wx.onMenuShareTimeline(angular.extend({}, $rootScope.wechatSharable, {
+                        title: $rootScope.wechatSharable.title + ' ' + $rootScope.wechatSharable.desc
+                    }));
+
+                    wx.onMenuShareAppMessage(angular.extend({}, $rootScope.wechatSharable));
+                });
+            } catch (ex) {
+                console.error(ex);
+            }
+        }
+
+        wechatSharable(sharable);
     }])
     .controller('videoShareFriendCtrl', ['$scope', '$routeParams', '$rootScope', '$http', 'clientConfig', '$timeout', 'api', 'videoStatus', '$location', function ($scope, $routeParams, $rootScope, $http, clientConfig, $timeout, api, videoStatus, $location) {
         $scope.hideVideo = false;
@@ -417,7 +386,7 @@ angular.module('spaModule')
             $scope.hideVideo = true;
         }
 
-        videoStatus.get($routeParams.src).then(function (videoPath) {
+        videoStatus.get(encodeURIComponent(btoa($routeParams.src))).then(function (videoPath) {
             $scope.videoSrc = videoPath;
         }).catch(function (reason) {
             if (reason === 'processing') {
