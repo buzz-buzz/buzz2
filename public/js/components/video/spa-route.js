@@ -44,8 +44,8 @@ angular.module('spaModule')
         };
     }])
     .factory('videoStatus', ['$http', '$q', function ($http, $q) {
-        function callProcess(videoSrc){
-            $http.post('/api/videos/'+ videoSrc);
+        function callProcess(videoSrc) {
+            $http.post('/api/videos/' + videoSrc);
         }
 
         return {
@@ -154,123 +154,6 @@ angular.module('spaModule')
                 }, 5000)
             }
         });
-
-        $scope.mediaReady = false;
-        if (false && navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-            navigator.mediaDevices.getUserMedia({
-                video: true,
-                audio: true
-            }).then(function (stream) {
-                var video = document.querySelector('video#cam');
-                if (video) {
-                    video.src = window.URL.createObjectURL(stream);
-                    video.onloadedmetadata = function (e) {
-
-                    };
-                    localMediaStream = stream;
-                    $scope.mediaReady = true;
-                    $scope.$apply();
-                }
-            }).catch(function (err) {
-                console.error(err);
-                $scope.mediaReady = false;
-                $scope.$apply();
-            });
-        }
-
-        var recordedBlobs = [];
-        var mediaRecorder;
-        var localMediaStream;
-        $scope.playButton = {
-            disabled: true
-        };
-        $scope.recordedVideo = {};
-        $scope.stopRecording = function () {
-            mediaRecorder.stop();
-            console.log('Recorded Blobs: ', recordedBlobs);
-            $scope.recordedVideo.controls = true;
-            $scope.playButton.disabled = false;
-            $scope.countDown = false;
-        };
-
-        $scope.startRecording = function () {
-            $scope.countDown = true;
-            var options = {
-                mimeType: 'video/webm;codecs=vp9'
-            };
-            $scope.times = 40;
-            var timer = setInterval(contDown, 1000);
-
-            function contDown() {
-                $scope.times--;
-                if ($scope.times === 0) {
-                    $scope.stopRecording()
-                    clearInterval(timer)
-                    $scope.countDown = false;
-                }
-            }
-
-            if (!MediaRecorder.isTypeSupported(options.mimeType)) {
-                console.log(options.mimeType + ' is not Supported');
-                options = {
-                    mimeType: 'video/webm;codecs=vp8'
-                };
-                if (!MediaRecorder.isTypeSupported(options.mimeType)) {
-                    console.log(options.mimeType + ' is not Supported');
-                    options = {
-                        mimeType: 'video/webm'
-                    };
-                    if (!MediaRecorder.isTypeSupported(options.mimeType)) {
-                        console.log(options.mimeType + ' is not Supported');
-                        options = {
-                            mimeType: ''
-                        };
-                    }
-                }
-            }
-
-            try {
-                recordedBlobs = [];
-                mediaRecorder = new MediaRecorder(localMediaStream, options);
-                $scope.recording = true;
-            } catch (e) {
-                console.error('Exception while creating MediaRecorder: ' + e);
-                alert('Exception while creating MediaRecorder: ' +
-                    e + '. mimeType: ' + options.mimeType);
-                return;
-            }
-            console.log('Created MediaRecorder', mediaRecorder, 'with options', options);
-            mediaRecorder.onstop = handleStop;
-            mediaRecorder.ondataavailable = handleDataAvailable;
-            mediaRecorder.start(10); // collect 10ms of data
-            console.log('MediaRecorder started', mediaRecorder);
-        };
-
-        function handleStop() {
-            console.log('Recorder stopped: ', event);
-            $scope.recording = false;
-            $scope.$apply();
-        }
-
-        function handleDataAvailable(event) {
-            if (event.data && event.data.size > 0) {
-                recordedBlobs.push(event.data);
-            }
-
-            $scope.recording = true;
-            $scope.$apply();
-        }
-
-        $scope.play = function () {
-            var superBuffer = new Blob(recordedBlobs, {
-                type: 'video/webm'
-            });
-            $scope.recordedVideo.src = window.URL.createObjectURL(superBuffer);
-        };
-
-        $scope.allowRecording = function () {
-            return $scope.mediaReady && !$scope.recording;
-        };
     }])
     .controller('videoPreviewCtrl', ['$scope', '$routeParams', '$http', 'subTitleParser', '$rootScope', '$location', 'requestTransformers', '$timeout', function ($scope, $routeParams, $http, subTitleParser, $rootScope, $location, requestTransformers, $timeout) {
         $scope.videoSrc = decodeURIComponent($routeParams.src);
@@ -315,14 +198,14 @@ angular.module('spaModule')
         });
 
         $scope.shareToFriends = function () {
-            document.getElementById('video-uploaded').style.opacity = 0;
+            document.getElementById('video-uploaded').style.opacity = '0';
             $('#dimmer-video')
                 .dimmer('show');
         };
     }])
     .controller('videoShareCtrl', ['$scope', '$routeParams', '$rootScope', '$http', 'clientConfig', '$timeout', 'api', '$q', function ($scope, $routeParams, $rootScope, $http, clientConfig, $timeout, api, $q) {
         $scope.closeDimmer = function () {
-            document.getElementById('video-uploaded').style.opacity = 1;
+            document.getElementById('video-uploaded').style.opacity = '1';
             $('#dimmer-video')
                 .dimmer('hide');
         };

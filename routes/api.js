@@ -10,7 +10,7 @@ module.exports = function (app, route) {
         .get('/api/index', function* (next) {
             this.body = 'hello';
         })
-        .post('/api/videos/:encodedRawPath', function *(){
+        .post('/api/videos/:encodedRawPath', function* () {
             let rawPath = new Buffer(this.params.encodedRawPath, 'base64').toString();
             videoBll.asyncApplyProcess(rawPath);
             this.body = 'called';
@@ -25,7 +25,7 @@ module.exports = function (app, route) {
         .get('/api/videos', function* (next) {
             let dir = videoBll.ugcPath();
             let files = fs.readdirSync(dir);
-            this.body = files.filter(f => f.endsWith('.mp4')).map(f => {
+            this.body = files.filter(f => (f.toLowerCase().endsWith('.mp4') || f.toLowerCase().endsWith('.mov')) && f.startsWith('subtitled-')).map(f => {
                 let fullPath = path.join(dir, f);
                 let encodedPath = new Buffer(fullPath).toString('base64');
                 return {
