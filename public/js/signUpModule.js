@@ -35,6 +35,7 @@ angular.module('signUpModule', ['angularQueryParserModule', 'clientConfigModule'
             captcha: '',
             agreed: true,
             invite_code: queryParser.get('trk_tag') || sessionStorage.getItem('trk_tag'),
+            channel: queryParser.get('channel'),
             app_name: 'buzz'
         };
 
@@ -44,7 +45,10 @@ angular.module('signUpModule', ['angularQueryParserModule', 'clientConfigModule'
             tracking.sendX('sign-up.register', $scope.signUpData);
             service.put(clientConfig.serviceUrls.sso.signUp.frontEnd, $scope.signUpData)
                 .then(function (member_id) {
-                    tracking.sendX('sign-up.register.done', {member_id: member_id});
+                    tracking.sendX('sign-up.register.done', {
+                        member_id: member_id,
+                        channel: queryParser.get('channel')
+                    });
 
                     return service.post(clientConfig.serviceUrls.sso.signIn.frontEnd, {
                         value: $scope.signUpData.mobile,
@@ -60,22 +64,17 @@ angular.module('signUpModule', ['angularQueryParserModule', 'clientConfigModule'
                 });
         };
 
-        //错误提示方法  用户点击，提示框消失  或者三秒后自动消失
-        //用户点击消失
         $scope.errDone = function () {
             $scope.errorMessage = null;
         };
 
-        //3秒后中自动消失
         $scope.$watch('errorMessage', function (newValue, oldValue) {
             if (newValue) {
                 $timeout(function () {
                     $scope.errorMessage = null;
                 }, 3000)
             }
-        })
-
-
+        });
     }])
     .controller('infoCtrl', ['$scope', 'clientConfig', 'service', 'queryParser', 'serviceErrorParser', '$q', 'tracking', '$http', 'Grades', '$timeout', function ($scope, clientConfig, service, queryParser, serviceErrorParser, $q, tracking, $http, Grades, $timeout) {
         $scope.infoData = {
@@ -89,11 +88,11 @@ angular.module('signUpModule', ['angularQueryParserModule', 'clientConfigModule'
         $scope.submitInfo = function () {
             tracking.sendX('sign-up.step2.saveInfo.click', $scope.infoData);
             $q.all([service.post(clientConfig.serviceUrls.sso.profile.update.frontEnd, {
-                real_name: $scope.infoData.name,
-                gender: $scope.infoData.gender
-            }), $http.put(clientConfig.serviceUrls.buzz.profile.education.frontEnd, {
-                grade: '' + $scope.infoData.grade
-            })])
+                    real_name: $scope.infoData.name,
+                    gender: $scope.infoData.gender
+                }), $http.put(clientConfig.serviceUrls.buzz.profile.education.frontEnd, {
+                    grade: '' + $scope.infoData.grade
+                })])
                 .then(function (result) {
                     tracking.sendX('sign-up.step2.saveInfo.done', result);
                     location.href = '/';
@@ -119,5 +118,4 @@ angular.module('signUpModule', ['angularQueryParserModule', 'clientConfigModule'
                 }
             })
         };
-    }])
-;
+    }]);

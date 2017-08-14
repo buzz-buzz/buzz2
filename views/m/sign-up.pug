@@ -57,7 +57,7 @@ block content
                 include ../partial/errMsg_m.pug
 
 block js
-    script(src="/node_modules/ui-select/dist/select.min.js?2017-03-03")
-    script(src="/js/educationModule.min.js?2017-03-03")
-    script(src="/js/formModule.js?2017-03-03")
-    script(src="/js/signUpModule.min.js?2017-03-03")
+    + js("/node_modules/ui-select/dist/select.min.js")
+    + js("/js/educationModule.min.js")
+    + js("/js/formModule.min.js")
+    + js("/js/signUpModule.min.js")
