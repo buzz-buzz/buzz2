@@ -43,10 +43,6 @@ gulp.task('patch-time', function () {
         .pipe(gulp.dest('./'));
 });
 
-gulp.task('bump', function () {
-    runSequence('bump-minor-patch', 'bump-app-cache', 'patch-time');
-});
-
 gulp.task('bumpup', function () {
     return gulp.src(['./package.json'])
         .pipe(bump({
@@ -74,7 +70,7 @@ gulp.task('uglify-css', function (done) {
         .pipe(gulp.dest('public/css'));
 });
 
-gulp.task('default', ['bump']);
+gulp.task('default', []);
 
 gulp.task('release', ['bump', 'uglify-js', 'uglify-css']);
 

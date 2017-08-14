@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "start": "gulp && node app.js",
+    "start": "node app.js",
     "test": "mocha && gulp test",
     "server-test": "mocha"
   },
@@ -71,7 +71,7 @@
   },
   "name": "buzz",
   "description": "Install dependencies and run your app locally ###Install Dependencies### ``` npm install ```",
-  "version": "5.14.1-1502681224756",
+  "version": "5.14.2",
   "main": "app.js",
   "directories": {
     "test": "test"
