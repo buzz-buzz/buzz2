@@ -52,6 +52,10 @@ gulp.task('bumpup', function () {
         .pipe(gulp.dest('./'));
 });
 
+gulp.task('bump', function (done) {
+    runSequence('bump-minor-patch', 'patch-time');
+});
+
 gulp.task('uglify-js', function (done) {
     return gulp.src(['public/js/**/*.js', '!public/js/**/*.min.js'])
         .pipe(uglify())
