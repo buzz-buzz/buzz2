@@ -1,5 +1,7 @@
 angular.module('educationModule', [])
     .value('GradeDisplay', {
+        1: '一年级',
+        2: '二年级',
         3: '三年级',
         4: '四年级',
         5: '五年级',
@@ -13,6 +15,14 @@ angular.module('educationModule', [])
         B: '基础'
     })
     .value('Grades', [
+        {
+            key: '1',
+            name: '一年级'
+        },
+        {
+            key: '2',
+            name: '二年级'
+        },
         {
             key: '3',
             name: '三年级'
