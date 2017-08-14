@@ -9,12 +9,4 @@ block content
                 img(src='//resource.buzzbuzzenglish.com/survey-dimmer.png', style='width: 100%; height: 100%;')
 block js
     + js("/js/buzzHeaderModule.min.js")
-    + js('/js/components/spaModuleWithHeader.min.js')
-    script.
-        angular.module('spaModule', [
-            'ngRoute',
-            'mobile-angular-ui',
-            'buzzHeaderModule',
-            'wechatShareModule'
-        ]);
     + js('/js/components/survey/spa-route.min.js')
