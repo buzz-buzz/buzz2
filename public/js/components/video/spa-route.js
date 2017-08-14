@@ -288,7 +288,7 @@ angular.module('spaModule')
         };
 
         $scope.sureUpload = function () {
-            $location.path('/video-player/' + atob($scope.videoSrc));
+            $location.path('/video-player/' + btoa(encodeURIComponent($scope.videoSrc)));
         };
     }])
     .controller('videoPlayerCtrl', ['$scope', '$routeParams', '$rootScope', '$http', 'clientConfig', '$timeout', 'api', 'videoStatus', function ($scope, $routeParams, $rootScope, $http, clientConfig, $timeout, api, videoStatus) {
@@ -304,7 +304,7 @@ angular.module('spaModule')
             $scope.hideVideo = true;
         }
 
-        videoStatus.get(encodeURIComponent(btoa($routeParams.src))).then(function (videoPath) {
+        videoStatus.get(atob($routeParams.src)).then(function (videoPath) {
             $scope.videoSrc = videoPath;
         }).catch(function (reason) {
             if (reason === 'processing') {
@@ -386,7 +386,7 @@ angular.module('spaModule')
             $scope.hideVideo = true;
         }
 
-        videoStatus.get(encodeURIComponent(btoa($routeParams.src))).then(function (videoPath) {
+        videoStatus.get(atob($routeParams.src)).then(function (videoPath) {
             $scope.videoSrc = videoPath;
         }).catch(function (reason) {
             if (reason === 'processing') {
