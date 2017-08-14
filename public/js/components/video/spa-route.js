@@ -287,5 +287,5 @@ angular.module('spaModule')
 
         $scope.playVideo = function () {
             $location.path('/video');
-        }
+        };
     }]);
