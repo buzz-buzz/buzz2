@@ -10,4 +10,11 @@ block content
 block js
     + js("/js/buzzHeaderModule.min.js")
     + js('/js/components/spaModuleWithHeader.min.js')
+    script.
+        angular.module('spaModule', [
+            'ngRoute',
+            'mobile-angular-ui',
+            'buzzHeaderModule',
+            'wechatShareModule'
+        ]);
     + js('/js/components/survey/spa-route.min.js')
