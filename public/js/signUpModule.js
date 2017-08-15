@@ -110,7 +110,6 @@ angular.module('signUpModule', ['angularQueryParserModule', 'clientConfigModule'
 
             //3秒后中自动消失
             $scope.$watch('errorMessage', function (newValue, oldValue) {
-                console.log(newValue + "," + oldValue);
                 if (newValue) {
                     $timeout(function () {
                         $scope.errorMessage = null;
