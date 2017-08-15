@@ -10,8 +10,7 @@ module.exports = {
 
     captcha: {
         public: {
-            "host": "uat.bridgeplus.cn",
-            "port": "10001"
+            origin: "//uat.bridgeplus.cn:10001"
         },
         inner: {
             "host": "uat.bridgeplus.cn",

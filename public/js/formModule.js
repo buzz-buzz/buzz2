@@ -3,7 +3,7 @@ angular.module('formModule', ['clientConfigModule', 'servicesModule', 'errorPars
         $sceProvider.enabled(false);
     }])
     .directive('captcha', ['service', 'clientConfig', 'tracking', '$sce', '$http', function (service, clientConfig, tracking, $sce, $http) {
-        var captchaServiceDomain = '//' + clientConfig.captcha.host + ':' + clientConfig.captcha.port;
+        var captchaServiceOrigin = clientConfig.captcha.origin;
 
         return {
             restrict: 'A',
@@ -25,14 +25,14 @@ angular.module('formModule', ['clientConfigModule', 'servicesModule', 'errorPars
                     refreshing = true;
 
                     tracking.sendX('sign-up.changeIdentifyCode');
-                    var url = captchaServiceDomain + '/captcha/generator/p?appid=bplus';
+                    var url = captchaServiceOrigin + '/captcha/generator/p?appid=bplus';
                     $http.jsonp(url)
                         .then(function (result) {
                             result = result.data;
 
                             if (result.isSuccess) {
                                 result = result.result;
-                                $scope.captchaImageUrl = captchaServiceDomain + result.url;
+                                $scope.captchaImageUrl = captchaServiceOrigin + result.url;
                                 ngModel.$setViewValue(result.id);
 
                                 if (typeof successCallback === 'function') {
@@ -111,12 +111,12 @@ angular.module('formModule', ['clientConfigModule', 'servicesModule', 'errorPars
                 $scope.sendVerificationCode = function () {
                     tracking.sendX('sign-up.identifyPhone');
                     service.executePromiseAvoidDuplicate($scope, 'sendingVerificationCode', function () {
-                        return service.put(clientConfig.serviceUrls.sms.sendWithCaptcha.frontEnd, {
-                            captchaId: $scope.signUpData.captchaId,
-                            captcha: $scope.signUpData.captcha,
-                            mobile: $scope.signUpData.mobile
-                        });
-                    })
+                            return service.put(clientConfig.serviceUrls.sms.sendWithCaptcha.frontEnd, {
+                                captchaId: $scope.signUpData.captchaId,
+                                captcha: $scope.signUpData.captcha,
+                                mobile: $scope.signUpData.mobile
+                            });
+                        })
                         .then(function (result) {
                             $scope.verificationButtonClicked = true;
                             $scope.successMessage = $rootScope.message = '短信验证码已发送,请注意查收';
@@ -136,10 +136,8 @@ angular.module('formModule', ['clientConfigModule', 'servicesModule', 'errorPars
                             $scope.errorMessage = serviceErrorParser.getErrorMessage(reason);
                             $rootScope.successMessage = $rootScope.message = $scope.successMessage = $scope.message = null;
                             tracking.sendX('sign-up.identifyPhone.error');
-                        })
-                    ;
+                        });
                 };
             }
         };
-    }])
-;
+    }]);

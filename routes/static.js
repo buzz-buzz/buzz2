@@ -18,9 +18,9 @@ let getStaticSetting = function () {
 
 
 module.exports = function (app, router) {
-    router.get('/buzz.appcache', function () {
+    router.get('/buzz2.appcache', function () {
         this.set('Content-type', 'text/cache-manifest');
-        this.body = fs.readFileSync(__dirname + '/../public/buzz.appcache', 'utf-8');
+        this.body = fs.readFileSync(__dirname + '/../public/buzz2.appcache', 'utf-8');
     });
 
     app.use(require('koa-cors')({
