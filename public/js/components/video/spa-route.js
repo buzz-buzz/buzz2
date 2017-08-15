@@ -76,6 +76,8 @@ angular.module('spaModule')
             subtitle: 'I like drawing, and walking in nature'
         };
 
+        $scope.uploadAgainTag = false;
+
         $scope.uploadVideoToOwnServer = function () {
             var file = document.querySelector('input[id=video-file]').files[0];
 
@@ -94,6 +96,7 @@ angular.module('spaModule')
                     $location.path('/video-preview/' + encodeURIComponent(res.data));
                 }).catch(function (reason) {
                     $scope.errorMessage = reason.statusText || reason;
+                    $scope.uploadAgainTag = true;
                 }).finally(function () {
                     $scope.uploading = false;
                 });
@@ -105,6 +108,8 @@ angular.module('spaModule')
         $scope.videoChange = function () {
             $scope.uploadVideoToOwnServer();
         };
+
+
 
         $scope.uploadVideo = function () {
             var file = document.querySelector('input[id=video-file]');
