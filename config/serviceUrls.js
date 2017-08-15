@@ -152,7 +152,8 @@ module.exports = {
             limit: '/service-proxy/exercise/limit'
         },
         share: {
-            myLink: '/service-proxy/share/my-link'
+            myLink: '/service-proxy/share/my-link',
+            Link: '/service-proxy/share/link'
         },
         progress: {
             statistics: {

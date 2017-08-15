@@ -262,6 +262,12 @@ html(manifest="/buzz.appcache")
                         i.icon-qrcode
                         span &nbsp;&nbsp;&nbsp;
                         span.icon-chevron-thin-right(style="text-align: right;")
+                .row.bar.narrow.stackable.notch(ng-click="showInvite()",ng-controller="inCodeCtrl")
+                    span(style="flex: 4;") 我要邀请好友
+                    span.more(style="flex:1; text-align: right;")
+                        i.icon-share
+                        span &nbsp;&nbsp;&nbsp;
+                        span.icon-chevron-thin-right(style="text-align: right;")
                 .row.bar.narrow.stackable.notch(ng-click="showPaidCourse()")
                     span(style="flex: 4;") 我的预定课程
                     span.more(style="flex:1; text-align: right;")
@@ -325,6 +331,7 @@ html(manifest="/buzz.appcache")
     include ../tail.pug
     + tailcontent(false, false, false, true)
     include qrcode
+    include invite
     include ../../js
     + js("/js/formModule.min.js")
     + js("/js/accountModule.min.js")

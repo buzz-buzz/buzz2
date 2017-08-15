@@ -1,6 +1,6 @@
 angular.module('accountModule', ['clientConfigModule', 'buzzHeaderModule', 'educationModule', 'servicesModule', 'errorParserModule', 'formModule', 'angular-file-reader', 'wechatShareModule'])
     .run(['queryParser', function (queryParser) {
-        if(queryParser.get('trk_tag')){
+        if (queryParser.get('trk_tag')) {
             sessionStorage.setItem('trk_tag', queryParser.get('trk_tag'));
         }
     }])
@@ -46,12 +46,12 @@ angular.module('accountModule', ['clientConfigModule', 'buzzHeaderModule', 'educ
             event.stopPropagation();
         };
 
-        $scope.showPaidCourse = function(){
+        $scope.showPaidCourse = function () {
             location.href = '/my/paid-course';
             event.stopPropagation();
         };
 
-        $scope.showUserAccount = function(){
+        $scope.showUserAccount = function () {
             location.href = '/my/user-account';
             event.stopPropagation();
         };
@@ -92,7 +92,6 @@ angular.module('accountModule', ['clientConfigModule', 'buzzHeaderModule', 'educ
         $scope.showDetail = function () {
             $rootScope.$emit('modal:show' + modalId);
         };
-
         $rootScope.$watch('profile', function (newValue, oldValue) {
             if (newValue) {
                 buzzApi.getMySharingQrCode(newValue.invite_code, '300x300');
@@ -101,7 +100,6 @@ angular.module('accountModule', ['clientConfigModule', 'buzzHeaderModule', 'educ
     }])
     .controller('qrCodeModalCtrl', ['$scope', '$rootScope', 'modalFactory', 'buzzApi', function ($scope, $rootScope, modalFactory, buzzApi) {
         modalFactory.bootstrap($scope, $rootScope, '#qr-code');
-
         $rootScope.$watch('profile', function (newValue, oldValue) {
             if (newValue) {
                 buzzApi.getMyShareLink(newValue.invite_code).then(function (link) {
@@ -144,19 +142,19 @@ angular.module('accountModule', ['clientConfigModule', 'buzzHeaderModule', 'educ
         $http.get(clientConfig.serviceUrls.buzz.profile.latestAllEducation.frontEnd).then(function (result) {
             if (result.data.fav_topics && result.data.fav_topics.length) {
                 $scope.infoData.topics = result.data.fav_topics[0];
-                Array.prototype.contains = function ( needle ) {
+                Array.prototype.contains = function (needle) {
                     for (i in this) {
                         if (this[i] == needle) return true;
                     }
                     return false;
                 };
 
-                $scope.topicSelect=function(op){
-                   if($scope.infoData.topics.contains(op)){
-                       $scope.infoData.topics.remove(op);
-                   }else{
-                       $scope.infoData.topics.push(op);
-                   }
+                $scope.topicSelect = function (op) {
+                    if ($scope.infoData.topics.contains(op)) {
+                        $scope.infoData.topics.remove(op);
+                    } else {
+                        $scope.infoData.topics.push(op);
+                    }
                 }
             }
 
@@ -201,8 +199,8 @@ angular.module('accountModule', ['clientConfigModule', 'buzzHeaderModule', 'educ
     .controller('mobileInfoCtrl', ['$scope', 'clientConfig', '$q', 'Grades', 'service', '$rootScope', '$http', function ($scope, clientConfig, $q, Grades, service, $rootScope, $http) {
         var findGrade = function (val) {
             return Grades.find(function (gradeObj) {
-                    return gradeObj.key === val || val === gradeObj.name;
-                }) || {name: "", key: ""};
+                return gradeObj.key === val || val === gradeObj.name;
+            }) || { name: "", key: "" };
         };
 
         $scope.data = {
@@ -296,12 +294,12 @@ angular.module('accountModule', ['clientConfigModule', 'buzzHeaderModule', 'educ
                     file: file,
                     'x:category': 'upload-' + Math.random().toString()
                 }, {
-                    headers: {
-                        'X-Requested-With': undefined,
-                        'Content-Type': undefined
-                    },
-                    transformRequest: requestTransformers.transformToFormData
-                });
+                        headers: {
+                            'X-Requested-With': undefined,
+                            'Content-Type': undefined
+                        },
+                        transformRequest: requestTransformers.transformToFormData
+                    });
 
             } else {
                 console.log('失败，数据为空');
@@ -309,8 +307,8 @@ angular.module('accountModule', ['clientConfigModule', 'buzzHeaderModule', 'educ
         }
 
         $scope.uploadImg = function (resource) {
-            if(resource==='mobile'){
-                $rootScope.profile.errorMessage='上传中...';
+            if (resource === 'mobile') {
+                $rootScope.profile.errorMessage = '上传中...';
             }
             service.executePromiseAvoidDuplicate($scope, 'loading', function () {
                 return uploadImageIfAny()
@@ -322,37 +320,60 @@ angular.module('accountModule', ['clientConfigModule', 'buzzHeaderModule', 'educ
                         }
                         return infoHeadUrl;
                     }).then(function (infoHeadUrl) {
-                        var dataToUpdate = {avatar: infoHeadUrl};
+                        var dataToUpdate = { avatar: infoHeadUrl };
 
                         service.post(clientConfig.serviceUrls.sso.profile.update.frontEnd,
                             dataToUpdate).then(function () {
-                            $scope.infoHeadUrl = infoHeadUrl;
-                            $scope.$emit('info:updated', dataToUpdate);
-                            $scope.$emit("editDone");
+                                $scope.infoHeadUrl = infoHeadUrl;
+                                $scope.$emit('info:updated', dataToUpdate);
+                                $scope.$emit("editDone");
 
-                            if(resource==='pc'){
-                                $timeout(function () {
-                                    $scope.$emit('modal:hide');
-                                    $scope.successMessage = '';
-                                }, 1000);
-                            }
+                                if (resource === 'pc') {
+                                    $timeout(function () {
+                                        $scope.$emit('modal:hide');
+                                        $scope.successMessage = '';
+                                    }, 1000);
+                                }
 
-                            if(resource==='mobile'){
-                                $timeout(function () {
-                                    $rootScope.profile.errorMessage='';
-                                    document.getElementById('submitHeadUrl').style.display='none';
-                                    document.getElementById('preview').style.display='none';
-                                }, 1500);
-                            }
+                                if (resource === 'mobile') {
+                                    $timeout(function () {
+                                        $rootScope.profile.errorMessage = '';
+                                        document.getElementById('submitHeadUrl').style.display = 'none';
+                                        document.getElementById('preview').style.display = 'none';
+                                    }, 1500);
+                                }
 
-                        }).catch(function () {
-                            //todo
-                            $scope.$emit("editDone");
-                        });
+                            }).catch(function () {
+                                //todo
+                                $scope.$emit("editDone");
+                            });
                     })
                     ;
 
             });
         }
     }])
-;
+    .controller('inCodeCtrl', ['$scope', '$rootScope', 'buzzApi', function ($scope, $rootScope, buzzApi) {
+        var modalId = '#in-code';
+        $scope.showInvite = function () {
+            console.log("wcece")
+            $rootScope.$emit('modal:show' + modalId);
+        }
+    }])
+    .controller('inCodeModalCtrl', ['$scope', '$rootScope', 'modalFactory', 'buzzApi', function ($scope, $rootScope, modalFactory, buzzApi) {
+        modalFactory.bootstrap($scope, $rootScope, '#in-code');
+        $scope.channelData = {
+            data: ''
+        };
+        $scope.crateLink = function () {
+            channel = $scope.channelData.data,
+                $rootScope.$watch('profile', function (newValue, oldValue) {
+                    if (newValue) {
+                        buzzApi.getShareLink(newValue.invite_code, channel).then(function (link) {
+                            $scope.myShareLink = link;
+                        });
+                    }
+                });
+        }
+
+    }])

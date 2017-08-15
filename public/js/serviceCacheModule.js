@@ -16,8 +16,18 @@
                     return this.getMyShareLink(invite_code).then(function (link) {
                         return 'https://api.qrserver.com/v1/create-qr-code/?size=' + size + '&data=' + link;
                     });
-                }
+                },
+                getShareLink: function (invite_code, channel) {
+                    return api.get(clientConfig.serviceUrls.buzz.share.Link, {
+                        params: {
+                            invite_code: invite_code,
+                            channel: channel
+                        }
+                    }).then(function (result) {
+                        return location.origin + result.data;
+                    });
+                },
             };
         }])
-    ;
+        ;
 })();
