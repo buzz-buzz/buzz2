@@ -177,7 +177,7 @@ angular.module('spaModule')
             $location.path('/video-player/' + btoa(encodeURIComponent($scope.videoSrc)));
         };
     }])
-    .controller('videoPlayerCtrl', ['$scope', '$routeParams', '$rootScope', '$http', 'clientConfig', '$timeout', 'api', 'videoStatus', function ($scope, $routeParams, $rootScope, $http, clientConfig, $timeout, api, videoStatus) {
+    .controller('videoPlayerCtrl', ['$scope', '$routeParams', '$rootScope', '$http', 'clientConfig', '$timeout', 'api', 'videoStatus', '$location', function ($scope, $routeParams, $rootScope, $http, clientConfig, $timeout, api, videoStatus, $location) {
         $scope.hideVideo = false;
 
         function showProcessing() {
@@ -205,6 +205,10 @@ angular.module('spaModule')
             document.getElementById('video-uploaded').style.opacity = '0';
             $('#dimmer-video')
                 .dimmer('show');
+        };
+
+        $scope.gotoVideoRecord = function () {
+            $location.path('/video');
         };
     }])
     .controller('videoShareCtrl', ['$scope', '$routeParams', '$rootScope', '$http', 'clientConfig', '$timeout', 'api', '$q', function ($scope, $routeParams, $rootScope, $http, clientConfig, $timeout, api, $q) {

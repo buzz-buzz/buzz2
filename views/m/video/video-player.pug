@@ -3,9 +3,11 @@ script(type="text/ng-template", id="video-player.html")
         .title(style='font-size: 30px; margin: 1rem 0; font-family:"HYxindipaofu"') 录制完成!
         p(style='font-size: 20px; margin: 1rem 0; font-family:"HYxindipaofu"') 以下是您已录制完成的视频 :
         video#video-uploaded(style="width: 100%; max-height: 250px;", controls="controls", autoplay, crossorigin="Anonymous", preload, ng-src="{{videoStatus.subtitled.mov}}", type="video/*", poster="//resource.buzzbuzzenglish.com/image/png/buzz-poster.png")
-            source(ng-src="{{videoStatus.subtitled.mov}}", type='video/mp4')
             source(ng-src="{{videoStatus.subtitled.mp4}}", type='video/mp4;codecs="avc1.42E01E, mp4a.40.2"')
-            track(ng-src="{{videoStatus.vtt}}", label="English subtitles", kind="subtitles", srclang="en")
+            source(ng-src="{{videoStatus.subtitled.mov}}", type='video/mp4')
+            //- track(ng-src="{{videoStatus.vtt}}", label="English subtitles", kind="subtitles", srclang="en")
         .ui.share-friend(style='margin-top: 2rem;')
             button.btn.center-block(ng-click='shareToFriends()', style='font-size: 20px; background-color: #f7b52a; color: #fff; font-family:"HYxindipaofu"') 分享给朋友
+            br
+            button.btn.center-block(ng-click='gotoVideoRecord()', style='font-size: 20px; background-color: #f7b52a; color: #fff; font-family:"HYxindipaofu"') 再录一个
     include ./video-dimmers
