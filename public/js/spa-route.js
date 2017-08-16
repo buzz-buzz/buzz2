@@ -1,10 +1,10 @@
 angular.module('spaModule', [
-    'ngRoute',
-    'mobile-angular-ui',
-    'buzzModule',
-    'accountModule',
-    'buzzHistoryModule'
-])
+        'ngRoute',
+        'mobile-angular-ui',
+        'buzzModule',
+        'accountModule',
+        'buzzHistoryModule'
+    ])
     .config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
         $locationProvider.html5Mode(true);
 
@@ -20,34 +20,28 @@ angular.module('spaModule', [
             .when('/daily-exercise', {
                 templateUrl: 'daily-exercise.html',
                 controller: 'quizCtrl',
-                controllerAS: 'quizCtrl'
+                controllerAs: 'quizCtrl'
             })
             .when('/today-vocabulary', {
                 templateUrl: 'vocabulary.html',
                 controller: 'newWordCtrl',
-                controllerAS: 'newWordCtrl'
+                controllerAs: 'newWordCtrl'
             })
             .when('/avatar', {
                 templateUrl: 'avatar.html',
                 controller: 'viewAccountCtrl',
-                controllerAS: 'viewAccountCtrl'
-            })
-            .when('/mobile-history', {
-                templateUrl: 'history.html',
-                controller: 'historyCtrl',
-                controllerAS: 'historyCtrl'
+                controllerAs: 'viewAccountCtrl'
             })
             .when('/paid-course', {
                 templateUrl: 'my-paid-course.html',
                 controller: 'memberPaidCourseCtrl',
-                controllerAS: 'memberPaidCourseCtrl'
+                controllerAs: 'memberPaidCourseCtrl'
             })
             .when('/user-account', {
                 templateUrl: 'user-account.html',
                 controller: 'userAccountCtrl',
-                controllerAS: 'userAccountCtrl'
+                controllerAs: 'userAccountCtrl'
             });
 
         $routeProvider.otherwise('/weekly-quiz');
-    }])
-    ;
+    }]);

@@ -6,17 +6,11 @@ const course = require('../bll/course');
 const membership = require('../membership');
 const saas = require('../bll/saas');
 const courseList = require('./common/course-list');
+const cacheControl = require('../bll/cache-control');
 
 module.exports = function (app, router, render) {
     router
         .get('/my/today', saas.checkSaasReferer, membership.ensureAuthenticated, function* (next) {
-            if (!this.state.hcd_user.member_id) {
-                this.redirect(saas.generateUrl(this, '/my/history'), {
-                    config: config
-                });
-                return;
-            }
-
             let level = config.mock ? 'A' : yield buzz.getMemberCurrentLevel(this.state.hcd_user.member_id);
             if (!level || level === 'U') {
                 level = 'B';
@@ -28,14 +22,7 @@ module.exports = function (app, router, render) {
                 this.throw(500, 'failed to fetch latest course');
             }
 
-            if (!this.state.userAgent.isMobile || this.state.userAgent.isTablet) {
-                this.redirect(saas.generateUrl(this, '/my/play?date=' + latestCourse.date + '&cat=' + (latestCourse.category || '').toLowerCase() + '&level=' + level), {
-                    config: config
-                });
-                return;
-            }
-
-            this.redirect(saas.generateUrl(this, '/m/my/today?date=' + latestCourse.date + '&cat=' + latestCourse.category.toLowerCase() + '&level=' + level), {
+            this.redirect(saas.generateUrl(this, `/my/play?date=${latestCourse.date}&cat=${(latestCourse.category || '').toLowerCase()}&level=${level}&${this.request.querystring}`), {
                 config: config
             });
         })
@@ -76,6 +63,7 @@ module.exports = function (app, router, render) {
             }
         })
         .get('/my/account', saas.checkSaasReferer, membership.ensureAuthenticated, function* () {
+            cacheControl.noCache(this);
             if (!this.state.userAgent.isMobile || this.state.userAgent.isTablet) {
                 this.body = yield render.call(this, 'my/account', {
                     config: config
@@ -128,21 +116,6 @@ module.exports = function (app, router, render) {
                 title: '头像',
                 backUrl: 'javascript:location.href="/my/account"'
             });
-        })
-        .get('/my/mobile-history', saas.checkSaasReferer, membership.setHcdUserIfSignedIn, function* () {
-            if (!this.state.userAgent.isMobile || this.state.userAgent.isTablet) {
-                this.redirect(saas.generateUrl(this, '/my/history'), {
-                    config: config
-                });
-            } else {
-                this.body = yield render.call(this, 'm/history', {
-                    config: config,
-                    hcd_user: this.state.hcd_user,
-                    base: saas.getBaseFor(this, '/my/'),
-                    title: 'Buzzbuzz English',
-                    backUrl: 'javascript:location.href="/"'
-                });
-            }
         })
         .get('/my/paid-course', saas.checkSaasReferer, membership.ensureAuthenticated, function* () {
             this.body = yield render.call(this, 'm/my/my-paid-course', {

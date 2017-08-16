@@ -9,11 +9,14 @@ const fs = require('fs');
 const buzz = require('../service-proxy-for-server/buzz');
 const Koa = require('koa');
 const saas = require('../bll/saas');
+const trackingInfo = require('../bll/tracking-info');
+const cacheControl = require('../bll/cache-control');
 
 function mobileDetectRender(app, router) {
     let routes = ['/sign-in', '/sign-up', '/reset-password'];
     routes.forEach(function (route) {
-        router.get(route, saas.checkSaasReferer, function* (next) {
+        router.get(route, saas.checkSaasReferer, trackingInfo.checkReferer, function* (next) {
+            cacheControl.noCache(this);
             if (this.state.userAgent.isMobile && !this.state.userAgent.isTablet) {
                 this.redirect(saas.generateUrl(this, '/m' + route + this.request.search));
             } else {
@@ -28,6 +31,8 @@ function mobileRender(app, router, render) {
     routes.forEach(function (route) {
         let routename = '/m/' + route;
         router.get(routename, saas.checkSaasReferer, require('./wechatOAuth'), function* (next) {
+            console.log('=== no cache ===');
+            cacheControl.noCache(this);
             this.body = yield render.call(this, routename, {
                 config: config
             });

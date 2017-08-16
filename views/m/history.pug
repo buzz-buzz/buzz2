@@ -1,4 +1,4 @@
-extends ../m/mobile-layout
+extends ../m/mobile-master-layout
 
 block rightTopMenu
     if !hcd_user
@@ -26,8 +26,34 @@ block meta
         }
 
 block js
+    + js('/js/buzzHeaderModule.min.js')
+    + js('/js/parserModule.min.js')
+    + js('/js/DateModule.min.js')
+    + js('/js/quizModule.min.js')
+    + js('/js/buzzModule.min.js')
+    + js('/js/buzzModule/weeklyQuizCtrl.min.js')
+    + js("/js/buzzModule/newWordCtrl.min.js")
+    + js("/js/buzzModule/quizCtrl.min.js")
+    + js("/js/buzzHistoryModule.min.js")
+    + js("/js/level-ctrl.min.js")
+    + js("/js/formModule.min.js")
+    + js("/js/accountModule.min.js")
+    + js("/js/educationModule.min.js")
+    + js("/node_modules/angular-file-reader-module/dist/angular-file-reader.js")
+    + js("/js/components/spaModule.min.js")
+    + js("/js/spa-route.min.js")
     script.
         angular.module('spaModule')
+            .config(['$routeProvider', function($routeProvider){
+                $routeProvider
+                    .when('/', {
+                        templateUrl: 'history.html',
+                        controller: 'historyCtrl',
+                        controllerAS: 'historyCtrl'
+                    });
+                    
+                $routeProvider.otherwise('/weekly-quiz');
+            }])
             .run(['$rootScope', function ($rootScope) {
             }])
         ;

@@ -12,7 +12,13 @@ module.exports = {
                 hcd_user: this.state.hcd_user
             });
         } else {
-            this.redirect(saas.generateUrl(this, '/my/mobile-history'), { config: config });
+            this.body = yield renders.render.call(this, 'm/history', {
+                config: config,
+                hcd_user: this.state.hcd_user,
+                base: saas.getBaseFor(this, '/'),
+                title: 'Buzzbuzz English',
+                backUrl: 'javascript:location.href="/"'
+            });
         }
     }
 }

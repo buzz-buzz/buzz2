@@ -7,6 +7,7 @@ const mount = require('koa-mount');
 const qs = require('querystring');
 const membership = require('../../membership');
 const saas = require('../../bll/saas');
+const trackingInfo = require('../../bll/tracking-info');
 
 module.exports = function (app, router, render) {
     router
@@ -17,14 +18,17 @@ module.exports = function (app, router, render) {
                 base: saas.getBaseFor(this, '/m/')
             });
         })
-        .get('/m/my/today', saas.checkSaasReferer, membership.setHcdUserIfSignedIn, function* () {
+        .get('/m/my/today', saas.checkSaasReferer, membership.setHcdUserIfSignedIn, trackingInfo.checkReferer, function* () {
             if (!this.state.userAgent.isMobile || this.state.userAgent.isTablet) {
                 if (this.query.date && this.query.cat && this.query.level) {
                     this.redirect(saas.generateUrl(this, '/my/play?date=' + this.query.date + '&cat=' + this.query.cat + '&level=' + this.query.level), {
                         config: config
                     });
                 } else {
-                    this.redirect(saas.generateUrl(this, '/my/today'), { config: config, hcd_user: this.state.hcd_user });
+                    this.redirect(saas.generateUrl(this, '/my/today'), {
+                        config: config,
+                        hcd_user: this.state.hcd_user
+                    });
                 }
             } else {
                 this.body = yield render.call(this, '/m/my/today', {
@@ -39,6 +43,8 @@ module.exports = function (app, router, render) {
             });
         })
         .get('/m/player', saas.checkSaasReferer, function* () {
-            this.body = yield render.call(this, '/m/player', { config: config })
+            this.body = yield render.call(this, '/m/player', {
+                config: config
+            })
         })
 };
