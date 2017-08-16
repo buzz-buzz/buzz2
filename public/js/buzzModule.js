@@ -1,5 +1,5 @@
 angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'clientConfigModule', 'buzzHeaderModule', 'quizModule', 'serviceCacheModule', 'wechatShareModule', 'parserModule', 'DateModule'])
-    .run(['$rootScope', 'trackingX', 'queryParser', '$timeout', function ($rootScope, tracking, queryParser, $timeout) {
+    .run(['$rootScope', 'trackingX', 'queryParser', '$timeout', function($rootScope, tracking, queryParser, $timeout) {
         var query = queryParser.parse();
         tracking.sendX('play', {
             date: query.date,
@@ -8,7 +8,7 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
             trk_tag: query.trk_tag
         });
 
-        var parse = function (originData) {
+        var parse = function(originData) {
             var retData = {};
 
             if (originData) {
@@ -24,7 +24,7 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
             return retData;
         };
 
-        window.addEventListener("message", function (event) {
+        window.addEventListener("message", function(event) {
             if (event.data.type && event.data.type === 'ispring') {
                 var type = '';
                 switch ($rootScope.tabularIndex) {
@@ -49,16 +49,18 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
             sessionStorage.setItem('trk_tag', query.trk_tag);
         }
 
-        $timeout(function(){
+        $timeout(function() {
             var isShow = localStorage.getItem('newFucTag');
-            if(!isShow){
-                document.getElementById("dimmer-once").style.display= "block";
-                document.getElementById("dimmer-once").style.opacity= 1;
+            if (!isShow) {
+                if (document.getElementById("dimmer-once")) {
+                    document.getElementById("dimmer-once").style.display = "block";
+                    document.getElementById("dimmer-once").style.opacity = 1;
+                }
             }
         }, 2000);
 
     }])
-    .controller('VideoPlayerCtrl', ['$scope', '$sce', 'clientConfig', '$http', 'queryParser', '$rootScope', function ($scope, $sce, clientConfig, $http, queryParser, $rootScope) {
+    .controller('VideoPlayerCtrl', ['$scope', '$sce', 'clientConfig', '$http', 'queryParser', '$rootScope', function($scope, $sce, clientConfig, $http, queryParser, $rootScope) {
         $scope.loading = true;
 
         function getLesson() {
@@ -68,7 +70,7 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
         }
 
         getLesson()
-            .then(function (result) {
+            .then(function(result) {
                 $scope.queryString = location.search + '&video_path=' + (result.data.video_path) + '&new_words_path=' + result.data.new_words_path + '&lesson_id=' + result.data.lesson_id;
 
                 $scope.src = '/s/player' + $scope.queryString;
@@ -84,18 +86,16 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                 };
 
                 $scope.$emit('lessonInfo:got', $rootScope.lessonInfo);
-            })
-        ;
+            });
         $scope.$sce = $sce;
     }])
-    .controller('UpdateHitsCtrl', ['$scope', 'clientConfig', '$http', function ($scope, clientConfig, $http) {
-        window.addEventListener('message', function (event) {
+    .controller('UpdateHitsCtrl', ['$scope', 'clientConfig', '$http', function($scope, clientConfig, $http) {
+        window.addEventListener('message', function(event) {
             if (event.origin === location.origin && (typeof event.data === 'string') && event.data.indexOf('video:played//') === 0) {
                 try {
                     var data = JSON.parse(event.data.substr(14));
                     $http
-                        .post(clientConfig.serviceUrls.buzz.courseViews.frontEnd.replace(':category', data.category).replace(':level', data.level).replace(':lesson_id', data.lesson_id), {})
-                    ;
+                        .post(clientConfig.serviceUrls.buzz.courseViews.frontEnd.replace(':category', data.category).replace(':level', data.level).replace(':lesson_id', data.lesson_id), {});
                     $http.post(clientConfig.serviceUrls.buzz.memberCourse.save.frontEnd, {
                         lesson_id: data.lesson_id
                     });
@@ -108,22 +108,21 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
                 try {
                     var data = JSON.parse(event.data.substr(27));
                     console.log("send 80% to :" + data.lesson_id);
-                    $http.post(clientConfig.serviceUrls.buzz.lessonVisited.save.frontEnd + '?lesson_id=' + data.lesson_id, {})
-                    ;
+                    $http.post(clientConfig.serviceUrls.buzz.lessonVisited.save.frontEnd + '?lesson_id=' + data.lesson_id, {});
                 } catch (ex) {
                     console.error(ex);
                 }
             }
         }, false);
     }])
-    .controller('page2ParentCtrl', ['$scope', 'trackingX', 'queryParser', function ($scope, tracking, queryParser) {
+    .controller('page2ParentCtrl', ['$scope', 'trackingX', 'queryParser', function($scope, tracking, queryParser) {
         $scope.$root.tabularIndex = 0;
         //如果是PC端  初始值为1
         if (!navigator.userAgent.match(/(iPhone|iPod|Android|ios|Windows Phone)/i)) {
             $scope.$root.tabularIndex = Number(queryParser.get('tab')) || 1;
         }
 
-        $scope.$watch('tabularIndex', function (newVal, oldVal) {
+        $scope.$watch('tabularIndex', function(newVal, oldVal) {
             switch (newVal) {
                 case 1:
                     tracking.sendX('play.vocabularyTab.click');
@@ -139,7 +138,7 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
             }
         });
 
-        $scope.switchToTab = function (index) {
+        $scope.switchToTab = function(index) {
             if ($scope.$root.tabularIndex === index) {
                 $scope.$root.tabularIndex = 0;
             } else {
@@ -157,10 +156,10 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
         };
     }])
 
-    .controller('loginModalCtrl', ['$scope', 'modalFactory', '$rootScope', function ($scope, modalFactory, $rootScope) {
+.controller('loginModalCtrl', ['$scope', 'modalFactory', '$rootScope', function($scope, modalFactory, $rootScope) {
         var modalId = '#login';
         modalFactory.bootstrap($scope, $rootScope, modalId);
-        window.addEventListener('message', function (event) {
+        window.addEventListener('message', function(event) {
             if (event.origin === location.origin && (typeof event.data === 'string') && event.data.indexOf('video:restricted//') === 0) {
                 try {
                     $rootScope.$emit('modal:show' + modalId);
@@ -170,46 +169,45 @@ angular.module('buzzModule', ['angularQueryParserModule', 'servicesModule', 'cli
             }
         }, false);
     }])
-    .controller('auditModalCtrl', ['$scope', '$rootScope', 'modalFactory', function ($scope, $rootScope, modalFactory) {
+    .controller('auditModalCtrl', ['$scope', '$rootScope', 'modalFactory', function($scope, $rootScope, modalFactory) {
         modalFactory.bootstrap($scope, $rootScope, '#audit-modal');
 
-        $rootScope.$watch('lessonInfo', function (newValue, oldValue) {
+        $rootScope.$watch('lessonInfo', function(newValue, oldValue) {
             if (newValue && !newValue.enabled) {
                 $scope.showTheModal();
             }
         });
     }])
-    .controller('payingModalCtrl', ['$scope', '$rootScope', 'modalFactory', '$q', function ($scope, $rootScope, modalFactory, $q) {
+    .controller('payingModalCtrl', ['$scope', '$rootScope', 'modalFactory', '$q', function($scope, $rootScope, modalFactory, $q) {
         modalFactory.bootstrap($scope, $rootScope, '#paying-modal');
 
         var lessonInfoDfd = $q.defer();
         var profileDfd = $q.defer();
-        $rootScope.$watch('lessonInfo', function (newValue, oldValue) {
+        $rootScope.$watch('lessonInfo', function(newValue, oldValue) {
             if (newValue) {
                 lessonInfoDfd.resolve(newValue);
             }
         });
 
-        $rootScope.$watch('profile.tags', function (newValue, oldValue) {
+        $rootScope.$watch('profile.tags', function(newValue, oldValue) {
             if (newValue) {
                 profileDfd.resolve(newValue);
             }
         });
 
-        $q.all([lessonInfoDfd.promise.then(), profileDfd.promise.then()]).then(function (results) {
+        $q.all([lessonInfoDfd.promise.then(), profileDfd.promise.then()]).then(function(results) {
             var lessonInfo = results[0];
             var profileTags = results[1];
 
             if ((lessonInfo.tags && lessonInfo.tags.length) && (!profileTags || !profileTags.length || (
-                    lessonInfo.tags.filter(function (lt) {
+                    lessonInfo.tags.filter(function(lt) {
                         return profileTags.indexOf(lt) >= 0;
                     }).length <= 0 &&
-                    profileTags.filter(function (pt) {
+                    profileTags.filter(function(pt) {
                         return lessonInfo.tags.indexOf(pt) >= 0;
                     }).length <= 0
                 ))) {
                 $scope.showTheModal();
             }
         });
-    }])
-;
+    }]);
