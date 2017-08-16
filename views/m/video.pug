@@ -19,13 +19,28 @@ block js
             'angular-file-reader',
             'videoParserModule',
             'buzzHeaderModule',
-            'wechatShareModule'
+            'wechatShareModule',
+            "ngSanitize",
+            "com.2fdevs.videogular",
+            "com.2fdevs.videogular.plugins.controls",
+            "com.2fdevs.videogular.plugins.overlayplay",
+            "com.2fdevs.videogular.plugins.poster",
+            "com.2fdevs.videogular.plugins.buffering"
         ]);
     + js('/js/videoParserModule.min.js')
     + js('/js/components/video/spa-route.min.js')
     + js('/js/components/video/list.min.js')
     + js('/node_modules/socket.io-client/dist/socket.io.slim.js')
     + js("/node_modules/angular-file-reader-module/dist/angular-file-reader.js")
+
+    + js("/node_modules/angular-sanitize/angular-sanitize.min.js")
+    + js("/node_modules/videogular/dist/videogular/videogular.min.js")
+    + css("/node_modules/videogular-themes-default/videogular.min.css")
+    + js("/node_modules/videogular-controls/vg-controls.min.js")
+    + js("/node_modules/videogular-overlay-play/vg-overlay-play.min.js")
+    + js("/node_modules/videogular-buffering/vg-buffering.min.js")
+    + js("/node_modules/videogular-poster/vg-poster.min.js")
+
     + js("/js/buzzHeaderModule.min.js")
     script.
         angular.element(document).ready(function(){

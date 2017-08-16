@@ -46,7 +46,7 @@ angular.module('spaModule')
             };
         });
     }])
-    .factory('videoStatus', ['$http', '$q', function ($http, $q) {
+    .factory('videoStatus', ['$http', '$q', '$sce', function ($http, $q, $sce) {
         function callProcess(videoSrc) {
             $http.post('/api/videos/' + videoSrc);
         }
@@ -63,6 +63,33 @@ angular.module('spaModule')
 
                             return $q.reject('processing');
                         } else {
+                            status.videoConfig = {
+                                sources: [],
+                                tracks: [
+                                    {
+                                        src: status.vtt,
+                                        kind: 'subtitles',
+                                        srclang: 'en',
+                                        label: 'English',
+                                        default: ''
+                                    }
+                                ],
+                                preload: "preload",
+                                theme: {
+                                    url: "/node_modules/videogular-themes-default/videogular.min.css"
+                                },
+                                plugins: {
+                                    poster: "//resource.buzzbuzzenglish.com/image/png/buzz-poster.png"
+                                }
+                            };
+
+                            if (status.subtitled.mov) {
+                                status.videoConfig.sources.push({src: $sce.trustAsResourceUrl(status.subtitled.mov), type: 'video/mp4'});
+                            }
+
+                            if (status.subtitled.mp4) {
+                                status.videoConfig.sources.push({src: $sce.trustAsResourceUrl(status.subtitled.mp4), type: 'video/mp4'});
+                            }
                             return $q.resolve(status);
                         }
                     })
@@ -180,7 +207,7 @@ angular.module('spaModule')
             $location.path('/video-player/' + btoa(encodeURIComponent($scope.videoSrc)));
         };
     }])
-    .controller('videoPlayerCtrl', ['$scope', '$routeParams', '$rootScope', '$http', 'clientConfig', '$timeout', 'api', 'videoStatus', '$location', function ($scope, $routeParams, $rootScope, $http, clientConfig, $timeout, api, videoStatus, $location) {
+    .controller('videoPlayerCtrl', ['$scope', '$routeParams', '$rootScope', '$http', 'clientConfig', '$timeout', 'api', 'videoStatus', '$location', '$sce', function ($scope, $routeParams, $rootScope, $http, clientConfig, $timeout, api, videoStatus, $location, $sce) {
         $scope.hideVideo = false;
 
         function showProcessing() {
@@ -193,9 +220,9 @@ angular.module('spaModule')
             $scope.hideVideo = true;
         }
 
-        videoStatus.get(atob($routeParams.src)).then(function (videoStatus) {
-            $scope.videoStatus = videoStatus;
-            console.log($scope.videoStatus);
+        videoStatus.get(atob($routeParams.src)).then(function (status) {
+            $scope.videoStatus = status;
+            $scope.config = status.videoConfig;
         }).catch(function (reason) {
             if (reason === 'processing') {
                 showProcessing();
@@ -282,6 +309,7 @@ angular.module('spaModule')
 
         videoStatus.get(atob($routeParams.src)).then(function (status) {
             $scope.videoStatus = status;
+            $scope.config = status.videoConfig;
         }).catch(function (reason) {
             if (reason === 'processing') {
                 showProcessing();

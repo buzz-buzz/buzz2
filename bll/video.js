@@ -33,7 +33,9 @@ function getURIAddresses(pathObj) {
     let ret = {};
 
     Object.keys(pathObj).map(key => {
-        ret[key] = getURIAddress(pathObj[key]);
+        if(fs.existsSync(pathObj[key])){
+            ret[key] = getURIAddress(pathObj[key]);
+        }
     });
 
     return ret;
