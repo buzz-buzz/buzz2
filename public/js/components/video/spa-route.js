@@ -277,8 +277,8 @@ angular.module('spaModule')
             $scope.hideVideo = true;
         }
 
-        videoStatus.get(atob($routeParams.src)).then(function (videoPath) {
-            $scope.videoSrc = videoPath;
+        videoStatus.get(atob($routeParams.src)).then(function (status) {
+            $scope.videoStatus = status;
         }).catch(function (reason) {
             if (reason === 'processing') {
                 showProcessing();
