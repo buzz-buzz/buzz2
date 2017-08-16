@@ -1,6 +1,6 @@
 CACHE MANIFEST
 
-#version: 6.0.0
+#version: 7.0.2
 
 CACHE:
 #Generated:
@@ -61,8 +61,6 @@ CACHE:
 /css/vocabulary-printable.min.css
 /css/vocabulary.min.css
 #Other:
-
-
 /node_modules/socket.io-client/dist/socket.io.slim.js
 /node_modules/angular-file-reader-module/dist/angular-file-reader.js
 /lib/jwplayer/jwplayer.js
@@ -73,6 +71,7 @@ https://tracking.buzzbuzzenglish.com/js/t.js?write-key=BeUYw5s9DgGdga4XX02V0DuBY
 
 NETWORK:
 *
+/
 
 FALLBACK:
 / http://resource.buzzbuzzenglish.com/image/png/skin1.png
