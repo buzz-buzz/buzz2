@@ -60,7 +60,7 @@ angular.module('spaModule')
 
                             return $q.reject('processing');
                         } else {
-                            return $q.resolve(status.subtitled);
+                            return $q.resolve(status);
                         }
                     })
                     .catch(function (reason) {
@@ -108,8 +108,6 @@ angular.module('spaModule')
         $scope.videoChange = function () {
             $scope.uploadVideoToOwnServer();
         };
-
-
 
         $scope.uploadVideo = function () {
             var file = document.querySelector('input[id=video-file]');
@@ -192,8 +190,9 @@ angular.module('spaModule')
             $scope.hideVideo = true;
         }
 
-        videoStatus.get(atob($routeParams.src)).then(function (videoPath) {
-            $scope.videoSrc = videoPath;
+        videoStatus.get(atob($routeParams.src)).then(function (videoStatus) {
+            $scope.videoStatus = videoStatus;
+            console.log($scope.videoStatus);
         }).catch(function (reason) {
             if (reason === 'processing') {
                 showProcessing();

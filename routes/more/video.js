@@ -100,22 +100,25 @@ module.exports = function (app, router, render, server) {
             let ugcPaths;
             let videoStoredPath = '';
             let srtStoredPath = '';
+            let vttStoredPath = '';
             while ((part = yield parts)) {
                 if (part && part.filename) {
                     ugcPaths = videoBll.ugcPaths(part.filename);
                     videoStoredPath = ugcPaths.raw;
                     srtStoredPath = ugcPaths.srt;
+                    vttStoredPath = ugcPaths.vtt;
 
                     let stream = fs.createWriteStream(videoStoredPath);
                     part.pipe(stream);
                     console.log('uploading %s --> %s', part.filename, stream.path);
                 } else {
                     let srt = `1
-00:00:00,000 --> 00:00:04,375
+00:00:00,000 --> 00:00:10,375
 ${part[1]}
 
 `;
                     fs.writeFileSync(srtStoredPath, srt);
+                    fs.writeFileSync(vttStoredPath, 'WEBVTT FILE\n\n' + srt);
                 }
             }
 
@@ -148,7 +151,8 @@ ${part[1]}
                 // this.type = extname(fpath);
                 // this.body = fs.createReadStream(fpath);
                 yield stream.file(this, path.basename(fpath), {
-                    root: path.dirname(fpath)
+                    root: path.dirname(fpath),
+                    allowDownload: true
                 });
             } else {
                 this.body = `${fpath} is not a file or is deleted`;

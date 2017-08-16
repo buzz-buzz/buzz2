@@ -10,14 +10,33 @@ function getSubtitleStoredPath(videoStoredPath) {
     return `${parsed.dir}${path.sep}${parsed.name}.srt`;
 }
 
+function getVttStoredPath(videoStoredPath) {
+    let parsed = path.parse(videoStoredPath);
+    return `${parsed.dir}${path.sep}${parsed.name}.vtt`;
+}
+
 function getSubtitledVideoPath(videoStoredPath) {
     let parsed = path.parse(videoStoredPath);
-    return `${parsed.dir}${path.sep}subtitled-${parsed.base}`;
+    return {
+        mp4: `${parsed.dir}${path.sep}subtitled-${parsed.name}.mp4`,
+        mov: `${parsed.dir}${path.sep}subtitled-${parsed.name}.MOV`,
+        _: `${parsed.dir}${path.sep}subtitled-${parsed.base}`
+    };
 }
 
 function getURIAddress(path) {
     let encodedPath = new Buffer(path).toString('base64');
     return `/videos/${encodedPath}`;
+}
+
+function getURIAddresses(pathObj) {
+    let ret = {};
+
+    Object.keys(pathObj).map(key => {
+        ret[key] = getURIAddress(pathObj[key]);
+    });
+
+    return ret;
 }
 
 module.exports = {
@@ -49,30 +68,34 @@ module.exports = {
         let base = this.ugcPath();
 
         let r = Math.random().toString();
-        r = r.substr(r.length-5);
+        r = r.substr(r.length - 5);
         let videoStoredPath = path.join(base, `${r}${fileName}`);
         let srtStoredPath = getSubtitleStoredPath(videoStoredPath);
+        let vttStoredPath = getVttStoredPath(videoStoredPath);
         let finalPath = getSubtitledVideoPath(videoStoredPath);
 
         return {
             raw: videoStoredPath,
             srt: srtStoredPath,
-            output: finalPath
+            vtt: vttStoredPath,
+            output: finalPath._
         };
     },
 
     getStatusInfo: function (videoStoredPath) {
         let srtStoredPath = getSubtitleStoredPath(videoStoredPath);
         let subTitledVideoPath = getSubtitledVideoPath(videoStoredPath);
+        let vttPath = getVttStoredPath(videoStoredPath);
 
         let result = {
             status: 'done',
             raw: getURIAddress(videoStoredPath),
             subtitle: getURIAddress(srtStoredPath),
-            subtitled: getURIAddress(subTitledVideoPath)
+            vtt: getURIAddress(vttPath),
+            subtitled: getURIAddresses(subTitledVideoPath)
         };
 
-        if (!fs.existsSync(subTitledVideoPath)) {
+        if (!fs.existsSync(subTitledVideoPath._)) {
             result.status = 'processing';
             delete result.subtitled;
             return result;
@@ -93,9 +116,9 @@ module.exports = {
         return result;
     },
 
-    asyncApplyProcess: function(videoStoredPath, srtStoredPath, finalPath){
+    asyncApplyProcess: function (videoStoredPath, srtStoredPath, finalPath) {
         srtStoredPath = srtStoredPath || getSubtitleStoredPath(videoStoredPath);
-        finalPath = finalPath || getSubtitledVideoPath(videoStoredPath);
+        finalPath = finalPath || getSubtitledVideoPath(videoStoredPath)._;
         asyncProxy({
             host: config.hongda.host,
             port: config.hongda.port,
