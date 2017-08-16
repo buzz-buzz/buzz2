@@ -18,6 +18,12 @@ module.exports = function (app, route) {
         .get('/api/videos/:encodedRawPath', function* () {
             let rawPath = new Buffer(this.params.encodedRawPath, 'base64').toString();
             rawPath = rawPath.replace('subtitled-', '');
+            console.log('rawPath = ', rawPath);
+            if (!fs.existsSync(rawPath)) {
+                let parsed = path.parse(rawPath);
+                rawPath = `${parsed.dir}${path.sep}${parsed.name}.mp4`;
+                console.log('try rawPath = ', rawPath);
+            }
             let status = videoBll.getStatusInfo(rawPath);
 
             this.body = status;
@@ -30,8 +36,8 @@ module.exports = function (app, route) {
                 let encodedPath = new Buffer(fullPath).toString('base64');
                 return {
                     videoName: f,
-                    url: encodeURIComponent(encodeURIComponent(`/videos/${encodedPath}`))
-                }
+                    url: new Buffer(encodeURIComponent(`/videos/${encodedPath}`)).toString('base64')
+                };
             });
         });
 };

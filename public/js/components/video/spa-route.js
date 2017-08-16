@@ -26,22 +26,25 @@ angular.module('spaModule')
 
         $routeProvider.otherwise('/video');
     }])
-    .run(['$rootScope', function ($rootScope) {
-        $rootScope.previousState;
-        $rootScope.currentState;
-        $rootScope.$on('$stateChangeSuccess', function (ev, to, toParams, from, fromParams) {
-            $rootScope.previousState = from.name;
-            $rootScope.currentState = to.name;
-        });
+    .run(['$rootScope', '$location', function ($rootScope, $location) {
+        function makePath(urlTemplate, args) {
+            return urlTemplate.replace(/:[^\/]+/g, function (m, capturedGroup) {
+                return args[capturedGroup];
+            });
+        }
 
-        $rootScope.back = function ($event) {
-            if (history.length > 1) {
-                history.back();
-                $rootScope.$apply();
+        $rootScope.$on('$routeChangeSuccess', function (ev, current, previous) {
+            $rootScope.back = function ($event) {
                 $event.preventDefault();
                 $event.stopPropagation();
-            }
-        };
+
+                if (previous) {
+                    $location.path(makePath(previous.$$route.originalPath, previous.$$route.params));
+                } else {
+                    location.href = '/';
+                }
+            };
+        });
     }])
     .factory('videoStatus', ['$http', '$q', function ($http, $q) {
         function callProcess(videoSrc) {
