@@ -39,5 +39,13 @@ module.exports = function (app, router, parse) {
                 method: 'GET'
             }, proxyOption));
         })
+        .get('/service-proxy/buzz/courses/B/latest-new', function* () {
+            this.body = yield proxy(Object.assign({
+                path: Router.url('/courses/B/latest',{
+
+                }),
+                method: 'GET'
+            }, proxyOption));
+        })
         ;
 };

@@ -61,6 +61,39 @@ angular.module('spaModule')
                         if (status.status !== 'done') {
                             return $q.reject('processing');
                         } else {
+                            status.videoConfig = {
+                                sources: [],
+                                tracks: [
+                                    {
+                                        src: status.vtt,
+                                        kind: 'subtitles',
+                                        srclang: 'en',
+                                        label: 'English',
+                                        default: ''
+                                    }
+                                ],
+                                preload: "preload",
+                                theme: {
+                                    url: "/node_modules/videogular-themes-default/videogular.min.css"
+                                },
+                                plugins: {
+                                    poster: "//resource.buzzbuzzenglish.com/image/png/buzz-poster.png"
+                                }
+                            };
+
+                            if (status.subtitled.mov) {
+                                status.videoConfig.sources.push({
+                                    src: $sce.trustAsResourceUrl(status.subtitled.mov),
+                                    type: 'video/mp4'
+                                });
+                            }
+
+                            if (status.subtitled.mp4) {
+                                status.videoConfig.sources.push({
+                                    src: $sce.trustAsResourceUrl(status.subtitled.mp4),
+                                    type: 'video/mp4'
+                                });
+                            }
                             return $q.resolve(status);
                         }
                     })
@@ -70,7 +103,7 @@ angular.module('spaModule')
             }
         };
     }])
-    .controller('videoCtrl', ['$scope', '$rootScope', '$http', 'requestTransformers', '$location', '$timeout', function ($scope, $rootScope, $http, requestTransformers, $location, $timeout) {
+    .controller('videoCtrl', ['$scope', '$rootScope', '$http', 'requestTransformers', '$location', '$timeout', 'api', function ($scope, $rootScope, $http, requestTransformers, $location, $timeout, api) {
         $scope.formData = {
             video: null,
             subtitle: 'I like drawing, and walking in nature'
@@ -157,6 +190,23 @@ angular.module('spaModule')
                 }, 5000)
             }
         });
+
+        //get new subtitle
+        api.get('/service-proxy/buzz/courses/B/latest-new')
+            .then(function (res) {
+                return res.data.video_path;
+            })
+            .then(function (video_path) {
+                api.get(video_path)
+                    .then(function (res) {
+                        if (res.data.title) {
+                            //$scope.formData.subtitle = res.data.title;
+                        }
+                    });
+            })
+        ;
+
+
     }])
     .controller('videoPreviewCtrl', ['$scope', '$routeParams', '$http', 'subTitleParser', '$rootScope', '$location', 'requestTransformers', '$timeout', function ($scope, $routeParams, $http, subTitleParser, $rootScope, $location, requestTransformers, $timeout) {
         $scope.videoSrc = decodeURIComponent($routeParams.src);
