@@ -10,6 +10,11 @@ function getVttStoredPath(videoStoredPath) {
     return `${parsed.dir}${path.sep}${parsed.name}.vtt`;
 }
 
+function getExpectedVttStoredPath(videoPath){
+    let parsed = path.parse(videoPath);
+    return `${parsed.dir}${path.sep}$exp-{parsed.name}.vtt`;
+}
+
 function getURIAddress(path) {
     let encodedPath = new Buffer(path).toString('base64');
     return `/videos/${encodedPath}`;
@@ -59,10 +64,12 @@ module.exports = {
         r = r.substr(r.length - 5);
         let videoStoredPath = path.join(base, `${r}${fileName}`);
         let vttStoredPath = getVttStoredPath(videoStoredPath);
+        let expectedVttPath = getExpectedVttStoredPath(videoStoredPath);
 
         return {
             raw: videoStoredPath,
-            vtt: vttStoredPath
+            vtt: vttStoredPath,
+            expVtt: expectedVttPath
         };
     },
 
@@ -88,7 +95,7 @@ ${dialog}
         };
 
         if (!fs.existsSync(vttPath)) {
-            this.generateVtt(vttPath);
+            this.asyncGenerateVtt(videoStoredPath);
 
             result.status = 'nosub';
             delete result.vtt;
@@ -102,6 +109,18 @@ ${dialog}
         }
 
         return result;
+    },
+
+    asyncGenerateVtt: function(videoPath){
+        asyncProxy({
+            host: config.hongda.host,
+            port: config.hongda.port,
+            path: '/recognize',
+            method: 'POST',
+            data: {
+                videoPath: videoPath
+            }
+        });
     },
 
     asyncApplyProcess: function (videoStoredPath, srtStoredPath, finalPath) {

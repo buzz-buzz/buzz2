@@ -105,7 +105,7 @@ module.exports = function (app, router, render, server) {
                 if (part && part.filename) {
                     ugcPaths = videoBll.ugcPaths(part.filename);
                     videoStoredPath = ugcPaths.raw;
-                    vttStoredPath = ugcPaths.vtt;
+                    vttStoredPath = ugcPaths.expVtt;
 
                     let stream = fs.createWriteStream(videoStoredPath);
                     part.pipe(stream);
