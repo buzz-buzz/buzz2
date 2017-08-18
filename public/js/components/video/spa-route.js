@@ -59,42 +59,12 @@ angular.module('spaModule')
                     .then(function (result) {
                         var status = result.data;
                         if (status.status !== 'done') {
-                            callProcess(videoSrc);
-
                             return $q.reject('processing');
                         } else {
-                            status.videoConfig = {
-                                sources: [],
-                                tracks: [
-                                    {
-                                        src: status.vtt,
-                                        kind: 'subtitles',
-                                        srclang: 'en',
-                                        label: 'English',
-                                        default: ''
-                                    }
-                                ],
-                                preload: "preload",
-                                theme: {
-                                    url: "/node_modules/videogular-themes-default/videogular.min.css"
-                                },
-                                plugins: {
-                                    poster: "//resource.buzzbuzzenglish.com/image/png/buzz-poster.png"
-                                }
-                            };
-
-                            if (status.subtitled.mov) {
-                                status.videoConfig.sources.push({src: $sce.trustAsResourceUrl(status.subtitled.mov), type: 'video/mp4'});
-                            }
-
-                            if (status.subtitled.mp4) {
-                                status.videoConfig.sources.push({src: $sce.trustAsResourceUrl(status.subtitled.mp4), type: 'video/mp4'});
-                            }
                             return $q.resolve(status);
                         }
                     })
                     .catch(function (reason) {
-                        callProcess(videoSrc);
                         return $q.reject(reason);
                     });
             }

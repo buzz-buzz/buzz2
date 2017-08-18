@@ -5,23 +5,9 @@ const config = require('../config');
 const fs = require('fs');
 const asyncProxy = require('../service-proxy/async-proxy');
 
-function getSubtitleStoredPath(videoStoredPath) {
-    let parsed = path.parse(videoStoredPath);
-    return `${parsed.dir}${path.sep}${parsed.name}.srt`;
-}
-
 function getVttStoredPath(videoStoredPath) {
     let parsed = path.parse(videoStoredPath);
     return `${parsed.dir}${path.sep}${parsed.name}.vtt`;
-}
-
-function getSubtitledVideoPath(videoStoredPath) {
-    let parsed = path.parse(videoStoredPath);
-    return {
-        mp4: `${parsed.dir}${path.sep}subtitled-${parsed.name}.mp4`,
-        mov: `${parsed.dir}${path.sep}subtitled-${parsed.name}.MOV`,
-        _: `${parsed.dir}${path.sep}subtitled-${parsed.base}`
-    };
 }
 
 function getURIAddress(path) {
@@ -72,40 +58,40 @@ module.exports = {
         let r = Math.random().toString();
         r = r.substr(r.length - 5);
         let videoStoredPath = path.join(base, `${r}${fileName}`);
-        let srtStoredPath = getSubtitleStoredPath(videoStoredPath);
         let vttStoredPath = getVttStoredPath(videoStoredPath);
-        let finalPath = getSubtitledVideoPath(videoStoredPath);
 
         return {
             raw: videoStoredPath,
-            srt: srtStoredPath,
-            vtt: vttStoredPath,
-            output: finalPath._
+            vtt: vttStoredPath
         };
     },
 
+    generateVtt: function(vttPath, dialog){
+        dialog = dialog || 'I like drawing, and walking in nature';
+        let vtt = `WEBVTT FILE
+
+1
+00:00:00.000 --> 00:00:10.375
+${dialog}
+
+`;
+        fs.writeFile(vttPath, 'WEBVTT FILE\n\n' + vtt);
+    },
+
     getStatusInfo: function (videoStoredPath) {
-        let srtStoredPath = getSubtitleStoredPath(videoStoredPath);
-        let subTitledVideoPath = getSubtitledVideoPath(videoStoredPath);
         let vttPath = getVttStoredPath(videoStoredPath);
 
         let result = {
             status: 'done',
             raw: getURIAddress(videoStoredPath),
-            subtitle: getURIAddress(srtStoredPath),
-            vtt: getURIAddress(vttPath),
-            subtitled: getURIAddresses(subTitledVideoPath)
+            vtt: getURIAddress(vttPath)
         };
 
-        if (!fs.existsSync(subTitledVideoPath._)) {
-            result.status = 'processing';
-            delete result.subtitled;
-            return result;
-        }
+        if (!fs.existsSync(vttPath)) {
+            this.generateVtt(vttPath);
 
-        if (!fs.existsSync(srtStoredPath)) {
             result.status = 'nosub';
-            delete result.subtitle;
+            delete result.vtt;
             return result;
         }
 

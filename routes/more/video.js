@@ -105,40 +105,18 @@ module.exports = function (app, router, render, server) {
                 if (part && part.filename) {
                     ugcPaths = videoBll.ugcPaths(part.filename);
                     videoStoredPath = ugcPaths.raw;
-                    srtStoredPath = ugcPaths.srt;
                     vttStoredPath = ugcPaths.vtt;
 
                     let stream = fs.createWriteStream(videoStoredPath);
                     part.pipe(stream);
                     console.log('uploading %s --> %s', part.filename, stream.path);
                 } else {
-                    let srt = `1
-00:00:00,000 --> 00:00:10,375
-${part[1]}
-
-`;
-                    fs.writeFileSync(srtStoredPath, srt);
-                    fs.writeFileSync(vttStoredPath, 'WEBVTT FILE\n\n' + srt);
+                    videoBll.generateVtt(vttStoredPath, part[1]);
                 }
             }
 
-            if (videoStoredPath && srtStoredPath) {
-                let finalPath = ugcPaths.output;
-
-                videoBll.asyncApplyProcess(videoStoredPath, srtStoredPath, finalPath);
-
-                // if (r === 'done') {
-                //     let encodedPath = new Buffer(finalPath).toString('base64');
-                //     this.body = `/videos/${encodedPath}`;
-                // } else {
-                //     let err = '在生成字幕时产生了错误';
-                //     greenSharedLogger.error(err);
-                //     this.throw(err);
-                // }
-
-                let encodedPath = new Buffer(videoStoredPath).toString('base64');
-                this.body = `/videos/${encodedPath}`;
-            }
+            let encodedPath = new Buffer(videoStoredPath).toString('base64');
+            this.body = `/videos/${encodedPath}`;
         })
         .get('/videos/:path', function* (next) {
             let fpath = new Buffer(this.params.path, 'base64').toString();
