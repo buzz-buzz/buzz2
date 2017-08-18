@@ -12,7 +12,7 @@ function getVttStoredPath(videoStoredPath) {
 
 function getExpectedVttStoredPath(videoPath){
     let parsed = path.parse(videoPath);
-    return `${parsed.dir}${path.sep}$exp-{parsed.name}.vtt`;
+    return `${parsed.dir}${path.sep}exp-${parsed.name}.vtt`;
 }
 
 function getURIAddress(path) {
