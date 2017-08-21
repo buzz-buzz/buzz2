@@ -15,11 +15,13 @@ const membership = require('./membership/index.js');
 const renders = require('./common/enhanced-render');
 const render = renders.render;
 const enhancedRender = renders.enhancedRender;
+const trackingInfo = require('./bll/tracking-info');
 
 const server = require('http').createServer(app.callback());
 
 app.use(userAgent());
 app.use(logger());
+app.use(trackingInfo.rememberSource);
 
 app.on('error', function (err, ctx) {
     greenSharedLogger.error(err);

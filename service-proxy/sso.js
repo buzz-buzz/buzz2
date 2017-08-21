@@ -93,6 +93,14 @@ module.exports = function (app, router, parse) {
     function* parseData(next) {
         this.upstreamData = yield parse(this.request);
 
+        if (!this.upstreamData.trk_tag && this.cookies.get('trk_tag')) {
+            this.upstreamData.trk_tag = this.cookies.get('trk_tag');
+        }
+
+        if (!this.upstreamData.channel && this.cookies.get('channel')) {
+            this.upstreamData.channel = this.cookies.get('channel');
+        }
+
         yield next;
     }
 
@@ -185,6 +193,5 @@ module.exports = function (app, router, parse) {
                 method: 'POST',
                 data: data
             }, proxyOption));
-        })
-        ;
+        });
 };

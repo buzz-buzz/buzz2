@@ -1,7 +1,5 @@
 'use strict';
 
-
-
 const URL = require('url');
 
 module.exports = {
@@ -15,6 +13,24 @@ module.exports = {
             console.log(parsed);
 
             return this.redirect(`${this.url}${sep}trk_tag=${parsed.trk_tag || ''}&channel=${parsed.channel || ''}`);
+        }
+
+        yield next;
+    },
+
+    rememberSource: function* (next) {
+        let o = {
+            expires: 0,
+            path: '/',
+            httpOnly: true
+        };
+
+        if (this.query.trk_tag) {
+            this.cookies.set('trk_tag', this.query.trk_tag, o);
+        }
+
+        if (this.query.channel) {
+            this.cookies.set('channel', this.query.channel, o);
         }
 
         yield next;
