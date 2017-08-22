@@ -10,7 +10,12 @@ function getVttStoredPath(videoStoredPath) {
     return `${parsed.dir}${path.sep}${parsed.name}.vtt`;
 }
 
-function getExpectedVttStoredPath(videoPath){
+function getScorePath(videoStoredPath) {
+    let parsed = path.parse(videoStoredPath);
+    return `${parsed.dir}${path.sep}${parsed.name}.score`;
+}
+
+function getExpectedVttStoredPath(videoPath) {
     let parsed = path.parse(videoPath);
     return `${parsed.dir}${path.sep}exp-${parsed.name}.vtt`;
 }
@@ -24,7 +29,7 @@ function getURIAddresses(pathObj) {
     let ret = {};
 
     Object.keys(pathObj).map(key => {
-        if(fs.existsSync(pathObj[key])){
+        if (fs.existsSync(pathObj[key])) {
             ret[key] = getURIAddress(pathObj[key]);
         }
     });
@@ -73,7 +78,7 @@ module.exports = {
         };
     },
 
-    generateVtt: function(vttPath, dialog){
+    generateVtt: function (vttPath, dialog) {
         dialog = dialog || 'I like drawing, and walking in nature';
         let vtt = `WEBVTT FILE
 
@@ -86,20 +91,30 @@ ${dialog}
     },
 
     getStatusInfo: function (videoStoredPath) {
+        let expVttPath = getExpectedVttStoredPath(videoStoredPath);
         let vttPath = getVttStoredPath(videoStoredPath);
+        let scorePath = getScorePath(videoStoredPath);
 
         let result = {
             status: 'done',
             raw: getURIAddress(videoStoredPath),
-            vtt: getURIAddress(vttPath)
+            vtt: getURIAddress(expVttPath),
+            actualVtt: getURIAddress(vttPath)
         };
 
-        if (!fs.existsSync(vttPath)) {
-            this.asyncGenerateVtt(videoStoredPath);
-
+        if (!fs.existsSync(expVttPath)) {
             result.status = 'nosub';
             delete result.vtt;
             return result;
+        }
+
+        if (!fs.existsSync(vttPath)) {
+            result.status = 'recognizing';
+            return result;
+        }
+
+        if (fs.existsSync(scorePath)) {
+            result.score = fs.readFileSync(scorePath, 'utf-8');
         }
 
         if (!fs.existsSync(videoStoredPath)) {
@@ -111,7 +126,7 @@ ${dialog}
         return result;
     },
 
-    asyncGenerateVtt: function(videoPath){
+    asyncGenerateVtt: function (videoPath) {
         asyncProxy({
             host: config.hongda.host,
             port: config.hongda.port,
