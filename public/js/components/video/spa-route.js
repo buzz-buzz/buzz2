@@ -58,6 +58,8 @@ angular.module('spaModule')
                 return $http.get('/api/videos/' + videoSrc)
                     .then(function (result) {
                         var status = result.data;
+                        status.status = 'done';
+                        status.score = .2;
                         if (status.status !== 'done') {
                             return $q.reject('processing');
                         } else {
@@ -219,8 +221,16 @@ angular.module('spaModule')
         }
 
         videoStatus.get(atob($routeParams.src)).then(function (status) {
+            console.log('-------status-------');
             $scope.videoStatus = status;
             $scope.config = status.videoConfig;
+            if($scope.videoStatus.score &&　parseFloat($scope.videoStatus.score)){
+                //显示分数
+                console.log('-------score-------');
+                $scope.videoStatus.score = parseInt(parseFloat($scope.videoStatus.score) * 100);
+                document.getElementById('video-uploaded').style.opacity = '0';
+                $('#dimmer-video-grade').dimmer('show');
+            }
         }).catch(function (reason) {
             if (reason === 'processing') {
                 showProcessing();
@@ -228,6 +238,20 @@ angular.module('spaModule')
                 showError();
             }
         });
+
+        $scope.closeVideoGrade = function(){
+            //大于30 关闭modal  小于30 重新录制
+            if($scope.videoStatus.score >= 30){
+                $('#dimmer-video-grade').dimmer('hide');
+                document.getElementById('video-uploaded').style.opacity = '1';
+            }else{
+                $location.path('/video');
+            }
+        };
+
+        $scope.doNothing = function(){
+            event.stopPropagation();
+        };
 
         $scope.shareToFriends = function () {
             document.getElementById('video-uploaded').style.opacity = '0';
@@ -325,4 +349,5 @@ angular.module('spaModule')
         $scope.playVideo = function () {
             $location.path('/video');
         };
-    }]);
+    }])
+;
