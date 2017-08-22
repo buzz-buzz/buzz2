@@ -34,9 +34,11 @@ module.exports = function (app, route) {
             this.body = files.filter(f => (f.toLowerCase().endsWith('.mp4') || f.toLowerCase().endsWith('.mov'))).map(f => {
                 let fullPath = path.join(dir, f);
                 let encodedPath = new Buffer(fullPath).toString('base64');
+                let stat = fs.statSync(fullPath);
                 return {
                     videoName: f,
-                    url: new Buffer(encodeURIComponent(`/videos/${encodedPath}`)).toString('base64')
+                    url: new Buffer(encodeURIComponent(`/videos/${encodedPath}`)).toString('base64'),
+                    mtime: stat.mtime
                 };
             });
         });

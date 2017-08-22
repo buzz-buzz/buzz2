@@ -1,3 +1,8 @@
 script(type="text/ng-template", id="video-list.html")
-    .list-group
-        a.list-group-item(ng-repeat="v in videos", ng-href="/video-player/{{v.url}}") {{v.videoName}}
+    .ui.container
+        .ui.two.cards(style='margin-top: .5em;')
+            .card(ng-repeat='v in videos')
+                a.img(ng-href="/video-player/{{v.url}}")
+                    img(src='//resource.buzzbuzzenglish.com/image/png/buzz-poster.png')
+                .extra(style='background-color: #eee;') {{v.mtime.substr(0, 10) + ' 上传'}}
+                    .ui.star.rating(data-rating="4")

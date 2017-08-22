@@ -159,6 +159,7 @@ angular.module('spaModule')
         });
 
         //get new subtitle
+        //todo: subtitle server list
         api.get('/service-proxy/buzz/courses/B/latest-new')
             .then(function (res) {
                 return res.data.video_path;
@@ -166,14 +167,12 @@ angular.module('spaModule')
             .then(function (video_path) {
                 api.get(video_path)
                     .then(function (res) {
-                        if (res.data.title) {
-                            //$scope.formData.subtitle = res.data.title;
+                        if (res.data.dialogue) {
+                            $scope.formData.subtitle = res.data.dialogue;
                         }
                     });
             })
         ;
-
-
     }])
     .controller('videoPreviewCtrl', ['$scope', '$routeParams', '$http', 'subTitleParser', '$rootScope', '$location', 'requestTransformers', '$timeout', function ($scope, $routeParams, $http, subTitleParser, $rootScope, $location, requestTransformers, $timeout) {
         $scope.videoSrc = decodeURIComponent($routeParams.src);
