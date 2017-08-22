@@ -58,8 +58,6 @@ angular.module('spaModule')
                 return $http.get('/api/videos/' + videoSrc)
                     .then(function (result) {
                         var status = result.data;
-                        status.status = 'done';
-                        status.score = .2;
                         if (status.status !== 'done') {
                             return $q.reject('processing');
                         } else {
@@ -161,11 +159,11 @@ angular.module('spaModule')
             }
         });
 
-        $scope.changeDialogue = function(){
-            if($scope.dialogueList){
-                if($scope.dialogueIndex < $scope.dialogueList.length - 1){
-                    $scope.dialogueIndex ++;
-                }else{
+        $scope.changeDialogue = function () {
+            if ($scope.dialogueList) {
+                if ($scope.dialogueIndex < $scope.dialogueList.length - 1) {
+                    $scope.dialogueIndex++;
+                } else {
                     $scope.dialogueIndex = 0;
                 }
                 $scope.formData.subtitle = $scope.dialogueList[$scope.dialogueIndex];
@@ -176,13 +174,13 @@ angular.module('spaModule')
         //todo: subtitle server list
         api.get('/service-proxy/buzz/video/subtitle-list')
             .then(function (dialogueList) {
-                if(dialogueList.data.length > 0){
+                if (dialogueList.data.length > 0) {
                     $scope.formData.subtitle = dialogueList.data[0];
                     $scope.dialogueIndex = 0;
                     $scope.dialogueList = dialogueList.data;
                 }
 
-                if(dialogueList.data.length > 1){
+                if (dialogueList.data.length > 1) {
                     $scope.changeDialogueTag = true;
                 }
             })
@@ -224,7 +222,7 @@ angular.module('spaModule')
             console.log('-------status-------');
             $scope.videoStatus = status;
             $scope.config = status.videoConfig;
-            if($scope.videoStatus.score &&　parseFloat($scope.videoStatus.score)){
+            if ($scope.videoStatus.score && parseFloat($scope.videoStatus.score)) {
                 //显示分数
                 console.log('-------score-------');
                 $scope.videoStatus.score = parseInt(parseFloat($scope.videoStatus.score) * 100);
@@ -239,17 +237,17 @@ angular.module('spaModule')
             }
         });
 
-        $scope.closeVideoGrade = function(){
+        $scope.closeVideoGrade = function () {
             //大于30 关闭modal  小于30 重新录制
-            if($scope.videoStatus.score >= 30){
+            if ($scope.videoStatus.score >= 30) {
                 $('#dimmer-video-grade').dimmer('hide');
                 document.getElementById('video-uploaded').style.opacity = '1';
-            }else{
+            } else {
                 $location.path('/video');
             }
         };
 
-        $scope.doNothing = function(){
+        $scope.doNothing = function () {
             event.stopPropagation();
         };
 

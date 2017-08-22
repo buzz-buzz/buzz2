@@ -109,6 +109,7 @@ ${dialog}
         }
 
         if (!fs.existsSync(vttPath)) {
+            this.asyncGenerateVtt(videoStoredPath);
             result.status = 'recognizing';
             return result;
         }
