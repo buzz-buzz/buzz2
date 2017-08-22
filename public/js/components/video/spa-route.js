@@ -77,6 +77,7 @@ angular.module('spaModule')
         };
 
         $scope.uploadAgainTag = false;
+        $scope.changeDialogueTag = false;
 
         $scope.uploadVideoToOwnServer = function () {
             var file = document.querySelector('input[id=video-file]').files[0];
@@ -158,19 +159,30 @@ angular.module('spaModule')
             }
         });
 
+        $scope.changeDialogue = function(){
+            if($scope.dialogueList){
+                if($scope.dialogueIndex < $scope.dialogueList.length - 1){
+                    $scope.dialogueIndex ++;
+                }else{
+                    $scope.dialogueIndex = 0;
+                }
+                $scope.formData.subtitle = $scope.dialogueList[$scope.dialogueIndex];
+            }
+        };
+
         //get new subtitle
         //todo: subtitle server list
-        api.get('/service-proxy/buzz/courses/B/latest-new')
-            .then(function (res) {
-                return res.data.video_path;
-            })
-            .then(function (video_path) {
-                api.get(video_path)
-                    .then(function (res) {
-                        if (res.data.dialogue) {
-                            $scope.formData.subtitle = res.data.dialogue;
-                        }
-                    });
+        api.get('/service-proxy/buzz/video/subtitle-list')
+            .then(function (dialogueList) {
+                if(dialogueList.data.length > 0){
+                    $scope.formData.subtitle = dialogueList.data[0];
+                    $scope.dialogueIndex = 0;
+                    $scope.dialogueList = dialogueList.data;
+                }
+
+                if(dialogueList.data.length > 1){
+                    $scope.changeDialogueTag = true;
+                }
             })
         ;
     }])
