@@ -219,17 +219,15 @@ angular.module('spaModule')
         }
 
         videoStatus.get(atob($routeParams.src)).then(function (status) {
-            console.log('-------status-------');
             $scope.videoStatus = status;
             $scope.config = status.videoConfig;
             if ($scope.videoStatus.score && parseFloat($scope.videoStatus.score)) {
                 //显示分数
-                console.log('-------score-------');
                 $scope.videoStatus.score = parseInt(parseFloat($scope.videoStatus.score) * 100);
-                $timeout(function(){
-                    document.getElementById('video-uploaded').style.opacity = '0';
-                    $('#dimmer-video-grade').dimmer('show');
-                }, 1000);
+                document.getElementById('video-uploaded').style.opacity = '0';
+                $('#dimmer-video-grade').dimmer({
+                    closable: false
+                }).dimmer('show');
             }
         }).catch(function (reason) {
             if (reason === 'processing') {
@@ -250,7 +248,8 @@ angular.module('spaModule')
         };
 
         $scope.doNothing = function () {
-            event.stopPropagation();
+            event.preventDefault();
+            console.log('==Default==');
         };
 
         $scope.shareToFriends = function () {
