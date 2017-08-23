@@ -87,7 +87,7 @@ module.exports = {
 ${dialog}
 
 `;
-        fs.writeFile(vttPath, 'WEBVTT FILE\n\n' + vtt);
+        fs.writeFile(vttPath, 'WEBVTT FILE\n\n' + vtt, function () {});
     },
 
     getStatusInfo: function (videoStoredPath) {
