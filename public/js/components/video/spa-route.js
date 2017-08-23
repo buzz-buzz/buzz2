@@ -226,8 +226,10 @@ angular.module('spaModule')
                 //显示分数
                 console.log('-------score-------');
                 $scope.videoStatus.score = parseInt(parseFloat($scope.videoStatus.score) * 100);
-                document.getElementById('video-uploaded').style.opacity = '0';
-                $('#dimmer-video-grade').dimmer('show');
+                $timeout(function(){
+                    document.getElementById('video-uploaded').style.opacity = '0';
+                    $('#dimmer-video-grade').dimmer('show');
+                }, 1000);
             }
         }).catch(function (reason) {
             if (reason === 'processing') {
