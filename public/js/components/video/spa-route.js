@@ -58,6 +58,8 @@ angular.module('spaModule')
                 return $http.get('/api/videos/' + videoSrc)
                     .then(function (result) {
                         var status = result.data;
+                        //status.score = 0.9;
+                        //status.status = 'done';
                         if (status.status !== 'done') {
                             return $q.reject('processing');
                         } else {
@@ -254,8 +256,9 @@ angular.module('spaModule')
 
         $scope.shareToFriends = function () {
             document.getElementById('video-uploaded').style.opacity = '0';
-            $('#dimmer-video')
-                .dimmer('show');
+            $('#dimmer-video').dimmer({
+                closable: false
+            }).dimmer('show');
         };
 
         $scope.gotoVideoRecord = function () {
@@ -341,8 +344,9 @@ angular.module('spaModule')
 
         $scope.shareToFriends = function () {
             document.getElementById('video-uploaded').style.opacity = 0;
-            $('#dimmer-video')
-                .dimmer('show');
+            $('#dimmer-video').dimmer({
+                closable: false
+            }).dimmer('show');
         };
 
         $scope.playVideo = function () {
