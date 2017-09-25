@@ -145,7 +145,8 @@ module.exports = function (app, router, render, server) {
                     .replace(':path', Buffer(`/videos/${encodedPath}`).toString('base64')),
                 method: 'POST',
                 data: {
-                    dialogue: formData.subtitle
+                    dialogue: formData.subtitle,
+                    video_vfx: formData.recipes || []
                 }
             }, proxyOption));
 

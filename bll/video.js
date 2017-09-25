@@ -156,14 +156,6 @@ ${dialog}
             actualVtt: getURIAddress(vttPath)//识别后的 actualVtt
         };
 
-        if (fs.existsSync(pasteredNosePath)) {
-            result.pasteredNose = getURIAddress(pasteredNosePath);
-        }
-
-        if (fs.existsSync(cartoonizedPath)) {
-            result.cartoonized = getURIAddress(cartoonizedPath);
-        }
-
         if (fs.existsSync(pasteredPath)) {
             result.pastered = getURIAddress(pasteredPath);
         }
@@ -256,6 +248,10 @@ ${dialog}
             }
         }
 
+        if(data.pastered){
+            data.video_vfx_path = data.pastered;
+        }
+
         delete data.actualVtt;
         delete data.raw;
 
@@ -269,10 +265,6 @@ ${dialog}
     },
 
     checkVideoDone: function (video) {
-        if(video && video.score){
-            return true;
-        }else{
-            return false;
-        }
+        return video && video.score;
     }
 };
