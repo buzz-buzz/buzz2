@@ -112,11 +112,18 @@ ${dialog}
     getStatusInfo: function*(videoId){
         let videoData = yield this.getStatusInfoFromDb(videoId);
         if(videoData && videoData.score && videoData.score <= 30){
+            if(videoData.status !== 0){
+                this.getStatusInfoFromFileSystem(videoData.video_path, videoData);
+            }
             videoData.status = 0;
             return videoData;
         }
 
         if(this.checkVideoDone(videoData)){
+            if(!videoData.video_vfx_path){
+                let data = this.getStatusInfoFromFileSystem(videoData.video_path, videoData);
+                return data;
+            }
             videoData.status = 3;
             return videoData;
         }else{
@@ -155,7 +162,7 @@ ${dialog}
         let pasteredNosePath = getPasteredNosePath(videoStoredPath);
 
         let result = {
-            status: 'done',
+            status: 3,
             raw: getURIAddress(videoStoredPath),
             vtt: getURIAddress(expVttPath),//字幕文件 vtt
             actualVtt: getURIAddress(vttPath)//识别后的 actualVtt
@@ -166,7 +173,7 @@ ${dialog}
         }
 
         if (!fs.existsSync(expVttPath)) {
-            result.status = 'nosub';
+            result.status = 2;
             delete result.vtt;
             this.asyncSaveVideoStatus(videoData, result);
             return result;
@@ -182,7 +189,7 @@ ${dialog}
             }
 
             this.asyncGenerateVtt(videoStoredPath, r);
-            result.status = 'recognizing';
+            result.status = 2;
             delete result.actualVtt;
             this.asyncSaveVideoStatus(videoData, result);
             return result;
@@ -193,7 +200,7 @@ ${dialog}
         }
 
         if (!fs.existsSync(videoStoredPath)) {
-            result.status = 'novideo';
+            result.status = 2;
             delete result.raw;
             this.asyncSaveVideoStatus(videoData, result);
             return result;
@@ -237,11 +244,6 @@ ${dialog}
 
     asyncSaveVideoStatus: function (videoData, data) {
         data.actual_vtt = data.actualVtt || '';
-        if(data.status === 'done'){
-            data.status = 3;
-        }else{
-            data.status = 2;
-        }
 
         if(data.score){
             data.score = parseInt(parseFloat(data.score) * 100);
@@ -270,6 +272,6 @@ ${dialog}
     },
 
     checkVideoDone: function (video) {
-        return video && video.score && video.video_vfx_path;
+        return video && video.score;
     }
 };
