@@ -111,8 +111,13 @@ ${dialog}
 
     getStatusInfo: function*(videoId){
         let videoData = yield this.getStatusInfoFromDb(videoId);
+        if(videoData && videoData.score && videoData.score <= 30){
+            videoData.status = 0;
+            return videoData;
+        }
+
         if(this.checkVideoDone(videoData)){
-            videoData.status = 'done';
+            videoData.status = 3;
             return videoData;
         }else{
             let data = this.getStatusInfoFromFileSystem(videoData.video_path, videoData);

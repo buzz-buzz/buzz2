@@ -30,7 +30,7 @@ angular
                         .get('/api/videos/' + video_id)
                         .then(function (result) {
                             var status = result.data;
-                            if (status.status !== 'done') {
+                            if (status.status === 2) {
                                 return $q.reject('processing');
                             } else {
                                 return $q.resolve(status);
