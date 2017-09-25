@@ -265,6 +265,6 @@ ${dialog}
     },
 
     checkVideoDone: function (video) {
-        return video && video.score && video_vfx_path;
+        return video && video.score && video.video_vfx_path;
     }
 };
