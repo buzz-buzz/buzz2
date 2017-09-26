@@ -344,8 +344,38 @@ angular
                 $scope.hideVideo = true;
             }
 
+            function updateLikesStatus(){
+                Array.prototype.contains = function ( item ) {
+                    for (var i in this) {
+                        if (this[i] == item) return true;
+                    }
+                    return false;
+                };
+
+                //读member_id
+                var strCookie = document.cookie;
+                var arrCookie = strCookie.split(";");
+
+                var member_id;
+                for (var i = 0; i < arrCookie.length; i++) {
+                    var arr = arrCookie[i].split("=");
+                    if ("mid" == arr[0]) {
+                        member_id = arr[1];
+                        break;
+                    }
+                }
+
+                if($scope.likes.length && $scope.likes.contains(member_id)){
+                    document.getElementById('thumbsUp').style.color = '#f7b52a';
+                }else{
+                    document.getElementById('thumbsUp').style.color = 'white';
+                }
+            }
+
             //video_id get video info
             videoStatus.get($routeParams.video_id).then(function (status) {
+                $scope.likes = status.likes;
+                updateLikesStatus();
                 if(status.status !== 0){
                     hideProcessing();
                     hideError();
@@ -412,7 +442,19 @@ angular
                         $scope.videoShare = true;
                         $scope.$apply();
                     })
-            })
+            });
+
+            //点赞
+            $scope.thumbsUp = function(){
+                console.log('=========thumbs up click=============');
+               //调用api /service-proxy/buzz/video/info/thumbs/:video_id
+                $http.post('/service-proxy/buzz/video/info/thumbs/' + $routeParams.video_id)
+                    .then(function(response){
+                        //获取like list
+                        $scope.likes = response.data;
+                        updateLikesStatus();
+                    });
+            };
         }
     ])
     .controller('jwPlayerCtrl', [

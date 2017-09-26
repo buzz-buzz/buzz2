@@ -78,5 +78,20 @@ module.exports = function (app, router, parse) {
                 path: path,
                 method: 'GET'
             }, proxyOption));
-        });
+        })
+        .post('/service-proxy/buzz/video/info/thumbs/:video_id', membership.ensureAuthenticated, function* () {
+            let video_id = this.params.video_id;
+            let member_id = this.state.hcd_user.member_id;
+
+            let path = Router.url('/video/info/:member_id/thumb_up/:video_id', {
+                video_id: video_id,
+                member_id: member_id
+            });
+
+            this.body = yield proxy(Object.assign({
+                path: path,
+                method: 'POST'
+            }, proxyOption));
+        })
+    ;
 };
