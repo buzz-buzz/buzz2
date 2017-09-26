@@ -111,20 +111,11 @@ ${dialog}
 
     getStatusInfo: function*(videoId){
         let videoData = yield this.getStatusInfoFromDb(videoId);
-        if(videoData && videoData.score && videoData.score <= 30){
-            if(videoData.status !== 0){
-                this.getStatusInfoFromFileSystem(videoData.video_path, videoData);
-            }
-            videoData.status = 0;
-            return videoData;
-        }
 
         if(this.checkVideoDone(videoData)){
-            if(!videoData.video_vfx_path){
-                let data = this.getStatusInfoFromFileSystem(videoData.video_path, videoData);
-                return data;
+            if(videoData.score <= 30 && videoData.status !== 0){
+                videoData.status = 0;
             }
-            videoData.status = 3;
             return videoData;
         }else{
             let data = this.getStatusInfoFromFileSystem(videoData.video_path, videoData);
@@ -272,6 +263,6 @@ ${dialog}
     },
 
     checkVideoDone: function (video) {
-        return video && video.score;
+        return (video && video.score && video.score > 30 && video.video_vfx_path) || (video && video.score && video.score <= 30 && !video.video_vfx_path);
     }
 };
