@@ -29,11 +29,21 @@ angular
                     return $http
                         .get('/api/videos/' + video_id)
                         .then(function (result) {
-                            var status = result.data;
-                            if (status.status === 2) {
+                            var videoInfo = result.data;
+                            console.log(videoInfo);
+                            if (!videoInfo.raw) {
+                                videoInfo.raw = atob(videoInfo.video_path);
+                            }
+
+                            if (!videoInfo.pastered) {
+                                videoInfo.pastered = videoInfo.video_vfx_path;
+                            }
+
+                            console.log(videoInfo);
+                            if (videoInfo.status === 2) {
                                 return $q.reject('processing');
                             } else {
-                                return $q.resolve(status);
+                                return $q.resolve(videoInfo);
                             }
                         })
                         .catch(function (reason) {
@@ -160,7 +170,7 @@ angular
                 videoStatus
                     .get($routeParams.video_id)
                     .then(function (status) {
-                        if(status.status !== 0){
+                        if (status.status !== 0) {
                             hideProcessing();
                             hideError();
                             $scope.videoStatus = status;
@@ -177,7 +187,7 @@ angular
                             }
                             hideProcessing();
                             hideError();
-                        }else{
+                        } else {
                             showOffLineDimmer();
                         }
                     })
@@ -312,12 +322,28 @@ angular
 
                     sharable.link = sharable.link + '?trk_tag=' + profile.invite_code;
                     sharable.title = profile.display_name + sharable.title;
+                    if (profile.avatar) {
+                        sharable.imgUrl = profile.avatar;
+                    }
                 }
                 wechatSharable(sharable);
             }
 
             $rootScope.$on('//profile:got', handleProfile);
 
+            function videoInfoGet() {
+                var dfd = $q.defer();
+                $scope.$on('//video-info:got', function (event, status) {
+                    dfd.resolve(status);
+                });
+                return dfd.promise;
+            }
+
+            videoInfoGet().then(function (status) {
+                if (status.poster) {
+                    sharable.imgUrl = status.poster;
+                }
+            });
         }
     ])
     .controller('videoShareFriendCtrl', [
@@ -344,8 +370,8 @@ angular
                 $scope.hideVideo = true;
             }
 
-            function updateLikesStatus(){
-                Array.prototype.contains = function ( item ) {
+            function updateLikesStatus() {
+                Array.prototype.contains = function (item) {
                     for (var i in this) {
                         if (this[i] == item) return true;
                     }
@@ -365,9 +391,9 @@ angular
                     }
                 }
 
-                if($scope.likes.length && $scope.likes.contains(member_id)){
+                if ($scope.likes.length && $scope.likes.contains(member_id)) {
                     document.getElementById('thumbsUp').style.color = '#f7b52a';
-                }else{
+                } else {
                     document.getElementById('thumbsUp').style.color = 'white';
                 }
             }
@@ -376,7 +402,7 @@ angular
             videoStatus.get($routeParams.video_id).then(function (status) {
                 $scope.likes = status.likes;
                 updateLikesStatus();
-                if(status.status !== 0){
+                if (status.status !== 0) {
                     hideProcessing();
                     hideError();
                     $scope.videoStatus = status;
@@ -393,7 +419,7 @@ angular
                     }
                     hideProcessing();
                     hideError();
-                }else{
+                } else {
                     showOffLineDimmer();
                 }
             }).catch(function (reason) {
@@ -445,11 +471,11 @@ angular
             });
 
             //点赞
-            $scope.thumbsUp = function(){
+            $scope.thumbsUp = function () {
                 console.log('=========thumbs up click=============');
-               //调用api /service-proxy/buzz/video/info/thumbs/:video_id
+                //调用api /service-proxy/buzz/video/info/thumbs/:video_id
                 $http.post('/service-proxy/buzz/video/info/thumbs/' + $routeParams.video_id)
-                    .then(function(response){
+                    .then(function (response) {
                         //获取like list
                         $scope.likes = response.data;
                         updateLikesStatus();
@@ -492,11 +518,11 @@ angular
                         aspectratio: metaData.videoWidth + ':' + metaData.videoHeight,
                         playlist: [{
                             description: status.description,
-                            image: '//resource.buzzbuzzenglish.com/image/png/buzz-poster.png',
+                            image: status.poster || '//resource.buzzbuzzenglish.com/image/png/buzz-poster.png',
                             stretching: 'none',
                             sources: [{
                                 file: status.raw + '.mp4',
-                                image: '//resource.buzzbuzzenglish.com/image/png/buzz-poster.png',
+                                image: status.poster || '//resource.buzzbuzzenglish.com/image/png/buzz-poster.png',
                                 label: '原始文件'
                             }]
                         }]
@@ -509,35 +535,15 @@ angular
                             'default': true
                         }];
                     }
-                    if (status.pasteredNose) {
-                        options
-                            .playlist[0]
-                            .sources
-                            .push({
-                                file: status.pasteredNose + '.mp4',
-                                image: '//resource.buzzbuzzenglish.com/image/png/buzz-poster.png',
-                                "default": true,
-                                label: '猫须效果'
-                            });
-                    }
                     if (status.pastered) {
                         options
                             .playlist[0]
                             .sources
                             .push({
                                 file: status.pastered + '.mp4',
-                                image: '//resource.buzzbuzzenglish.com/image/png/buzz-poster.png',
-                                label: '墨镜效果'
-                            });
-                    }
-                    if (status.cartoonized) {
-                        options
-                            .playlist[0]
-                            .sources
-                            .push({
-                                file: status.cartoonized + '.mp4',
-                                image: '//resource.buzzbuzzenglish.com/image/png/buzz-poster.png',
-                                label: '卡通效果'
+                                image: status.poster || '//resource.buzzbuzzenglish.com/image/png/buzz-poster.png',
+                                label: '贴纸效果',
+                                'default': true
                             });
                     }
                     var video = document.getElementById('video-uploaded');

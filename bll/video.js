@@ -21,19 +21,19 @@ function getScorePath(videoStoredPath) {
     return `${parsed.dir}${path.sep}${parsed.name}.score`;
 }
 
-function getCartoonizedPath(videoPath) {
-    let parsed = path.parse(videoPath);
-    return `${parsed.dir}${path.sep}c-${parsed.base}`;
-}
-
 function getPasteredPath(videoPath) {
     let parsed = path.parse(videoPath);
-    return `${parsed.dir}${path.sep}p-${parsed.base}`;
+    return `${parsed.dir}${path.sep}n-${parsed.base}`;
 }
 
-function getPasteredNosePath(videoPath) {
+function getPosterPath(videoPath) {
     let parsed = path.parse(videoPath);
-    return `${parsed.dir}${path.sep}n-${parsed.base}`;
+    return `${parsed.dir}${path.sep}${parsed.name}.png`;
+}
+
+function getRecipesPath(videoPath) {
+    let parsed = path.parse(videoPath);
+    return `${parsed.dir}${path.sep}${parsed.name}.recipes`;
 }
 
 function getExpectedVttStoredPath(videoPath) {
@@ -61,7 +61,7 @@ function getURIAddresses(pathObj) {
 }
 
 module.exports = {
-    playable: function * () {
+    playable: function* () {
         if (this.state.hcd_user) {
             this.body = {
                 start: -Infinity,
@@ -109,15 +109,15 @@ ${dialog}
         fs.writeFileSync(vttPath, vtt, 'utf-8');
     },
 
-    getStatusInfo: function*(videoId){
+    getStatusInfo: function* (videoId) {
         let videoData = yield this.getStatusInfoFromDb(videoId);
 
-        if(this.checkVideoDone(videoData)){
-            if(videoData.score <= 30 && videoData.status !== 0){
+        if (this.checkVideoDone(videoData)) {
+            if (videoData.score <= 30 && videoData.status !== 0) {
                 videoData.status = 0;
             }
             return videoData;
-        }else{
+        } else {
             let data = this.getStatusInfoFromFileSystem(videoData.video_path, videoData);
             return data;
         }
@@ -148,19 +148,24 @@ ${dialog}
         let expVttPath = getExpectedVttStoredPath(videoStoredPath);
         let vttPath = getVttStoredPath(videoStoredPath);
         let scorePath = getScorePath(videoStoredPath);
-        let cartoonizedPath = getCartoonizedPath(videoStoredPath);
         let pasteredPath = getPasteredPath(videoStoredPath);
-        let pasteredNosePath = getPasteredNosePath(videoStoredPath);
+        let posterPath = getPosterPath(videoStoredPath);
+        let recipesPath = getRecipesPath(videoStoredPath);
 
         let result = {
             status: 3,
             raw: getURIAddress(videoStoredPath),
+            video_path: getURIAddress(videoStoredPath),
             vtt: getURIAddress(expVttPath),//字幕文件 vtt
             actualVtt: getURIAddress(vttPath)//识别后的 actualVtt
         };
 
         if (fs.existsSync(pasteredPath)) {
             result.pastered = getURIAddress(pasteredPath);
+        }
+
+        if (fs.existsSync(posterPath)) {
+            result.poster = getURIAddress(posterPath);
         }
 
         if (!fs.existsSync(expVttPath)) {
@@ -170,15 +175,18 @@ ${dialog}
             return result;
         }
 
-        if (!fs.existsSync(vttPath)) {
-            let r = [];
-
+        let r = ['recipe_nose'];
+        if (fs.existsSync(recipesPath)) {
             try {
-                r = JSON.parse(fs.readFileSync(vttPath.replace('.vtt', '.recipes')).toString());
+                r = JSON.parse(fs.readFileSync(recipesPath).toString());
             } catch (ex) {
                 r = ['recipe_nose'];
             }
+        }
 
+        console.log('------- vtt = ------', vttPath);
+        if (!fs.existsSync(vttPath)) {
+            console.log('>>>> generating vtt...');
             this.asyncGenerateVtt(videoStoredPath, r);
             result.status = 2;
             delete result.actualVtt;
@@ -197,12 +205,24 @@ ${dialog}
             return result;
         }
 
+        if(!fs.existsSync(pasteredPath)){
+            result.status = 2;
+            delete result.pastered;
+
+            console.log('pastered not exists !!!!', pasteredPath);
+            this.asyncGenerateVtt(videoStoredPath, r);
+            this.asyncSaveVideoStatus(videoData, result);
+            return result;
+        }
+
         //异步存DB
+        console.log('========== saving ============');
+        console.log(videoData, result);
         this.asyncSaveVideoStatus(videoData, result);
         return result;
     },
 
-    getStatusInfoFromDb: function*(videoId) {
+    getStatusInfoFromDb: function* (videoId) {
         //get video data from buzz-server
         let path = Router.url('/video/path/info/:video_id', {
             video_id: videoId
@@ -213,7 +233,7 @@ ${dialog}
             method: 'GET'
         }, proxyOption));
 
-        if(typeof videoData == 'string'){
+        if (typeof videoData == 'string') {
             videoData = JSON.parse(videoData);
         }
 
@@ -236,17 +256,17 @@ ${dialog}
     asyncSaveVideoStatus: function (videoData, data) {
         data.actual_vtt = data.actualVtt || '';
 
-        if(data.score){
+        if (data.score) {
             data.score = parseInt(parseFloat(data.score) * 100);
-            if(data.score > 30){
+            if (data.score > 30) {
                 data.status = 3;
-            }else{
+            } else {
                 data.status = 0;
                 data.remark = 'low score, pronunciation';
             }
         }
 
-        if(data.pastered){
+        if (data.pastered) {
             data.video_vfx_path = data.pastered;
         }
 
