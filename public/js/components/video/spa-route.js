@@ -40,6 +40,7 @@ angular
                             }
 
                             console.log(videoInfo);
+                            videoInfo.status = 3;
                             if (videoInfo.status === 2) {
                                 return $q.reject('processing');
                             } else {
@@ -401,9 +402,25 @@ angular
             $scope.keepModal = function ($event) {
                 $event.stopPropagation();
             };
+
+            $scope.closeLoginAskDimmer = function(){
+                document.getElementById('login-ask').style.display = 'none';
+                document.getElementById('login-ask').style.opacity = '0';
+                console.log('====hello====');
+                document
+                    .getElementById('video-uploaded')
+                    .style
+                    .opacity = 1;
+            };
+
+            $scope.Login = function(){
+                location.href = '/sign-in';
+            };
             //video_id get video info
             videoStatus.get($routeParams.video_id).then(function (status) {
                 $scope.likes = status.likes;
+                status.status = 3;
+                status.score = .8;
                 updateLikesStatus();
                 if (status.status !== 0) {
                     hideProcessing();
@@ -445,7 +462,7 @@ angular
                                 document
                                     .getElementById('video-uploaded')
                                     .style
-                                    .opacity = '0';
+                                    .opacity = 0;
                                 $('#dimmer-video').dimmer('show');
                             })
                             .catch(function (reason) {
@@ -478,9 +495,14 @@ angular
                 $http.post('/service-proxy/buzz/video/info/thumbs/' + $routeParams.video_id )
                     .then(function(response){
                         //获取like list
-                        if(response && response.data && response.data === '用户未登录'){
-                            //需要登录的提示
-                            console.log('==需要登录===');
+                        if(response && response.data && response.data === 'no member_id'){
+                            //弹出登录框
+                            document.getElementById('login-ask').style.opacity = 1;
+                            document.getElementById('login-ask').style.display = 'block';
+                            document
+                                .getElementById('video-uploaded')
+                                .style
+                                .opacity = '0';
                         }else{
                             $scope.likes = response.data;
                             updateLikesStatus();

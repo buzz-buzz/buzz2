@@ -95,7 +95,7 @@ module.exports = function (app, router, parse) {
                     method: 'POST'
                 }, proxyOption));
             }else{
-                this.body = '用户未登录';
+                this.body = 'no member_id';
             }
         })
     ;
