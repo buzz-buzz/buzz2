@@ -31,6 +31,7 @@ angular
                         .then(function (result) {
                             var videoInfo = result.data;
                             console.log(videoInfo);
+                            videoInfo.status='0'
                             if (!videoInfo.raw) {
                                 videoInfo.raw = atob(videoInfo.video_path);
                             }
