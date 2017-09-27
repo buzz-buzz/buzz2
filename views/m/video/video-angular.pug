@@ -1,5 +1,5 @@
 div(ng-controller="jwPlayerCtrl", style='position: relative;')
-    video#video-uploaded(style="width: 100%;", controls, crossorigin="Anonymous", preload, ng-src="{{videoStatus.pastered || videoStatus.raw}}", type="video/*", poster="{{videoStatus.poster || '//resource.buzzbuzzenglish.com/image/png/buzz-poster.png'}}")
+    video#video-uploaded(style="width: 100%;", controls, crossorigin="Anonymous", preload, ng-src="{{videoStatus.pastered || videoStatus.raw}}", type="video/*", poster="{{videoStatus.pastered_poster || videoStatus.poster || '//resource.buzzbuzzenglish.com/image/png/buzz-poster.png'}}")
         track(ng-src="{{videoStatus.vtt}}", label="English", kind="subtitles", srclang="en", default)
     .video-navbar(style="position: absolute; right: 0; top: 0; width:15%; height: 100%; padding: 1em 0; display: flex; flex-direction: column; justify-content: center;")
         a.btn.btn-navbar.active(ng-click="shareToFriends()", ng-show="videoStatus.status !== 2 && videoStatus.status !== 0")

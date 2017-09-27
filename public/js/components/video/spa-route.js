@@ -40,8 +40,6 @@ angular
                             }
 
                             console.log(videoInfo);
-                            videoInfo.status = 3;
-                            videoInfo.score = .8;
                             if (videoInfo.status === 2) {
                                 return $q.reject('processing');
                             } else {
@@ -343,8 +341,9 @@ angular
             }
 
             videoInfoGet().then(function (status) {
-                if (status.pastered_poster) {
-                    sharable.imgUrl = status.pastered_poster;
+                var poster = status.pastered_poster || status.poster;
+                if (poster) {
+                    sharable.imgUrl = poster;
 
                     wechatSharable(sharable);
                 }
@@ -627,10 +626,10 @@ angular
                     if (video.currentTime === 0 || video.ended) {
                         var videoPlayer = jwplayer('video-uploaded').setup(options);
 
-                        videoPlayer.on('setupError', function(){
+                        videoPlayer.on('setupError', function () {
                             videoPlayer.remove();
                         });
-                        
+
                         $scope.$emit('//video-player:got', videoPlayer)
                     }
                 });
