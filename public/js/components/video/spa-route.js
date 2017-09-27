@@ -430,7 +430,7 @@ angular
                     }
                 }
 
-                if ($scope.likes.length && $scope.likes.contains(member_id)) {
+                if ($scope.likes && $scope.likes.length && $scope.likes.contains(member_id)) {
                     document.getElementById('thumbsUp').style.color = '#f7b52a';
                 } else {
                     document.getElementById('thumbsUp').style.color = 'white';
