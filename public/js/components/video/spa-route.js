@@ -367,8 +367,46 @@ angular
                 $scope.hideVideo = true;
             }
 
+            function hideProcessing() {
+                $('#dimmer-processing').dimmer('hide');
+                $scope.hideVideo = false;
+            }
+
             function showError() {
                 $('#dimmer-error').dimmer('show');
+                $scope.hideVideo = true;
+            }
+
+            function hideError() {
+                $('#dimmer-error').dimmer('hide');
+                $scope.hideVideo = false;
+            }
+
+            function showGoodScoreDimmer() {
+                $timeout(function () {
+                    $('#dimmer-good-score').dimmer('show');
+                    $scope.hideVideo = true;
+                }, 1000);
+            }
+
+            function hideGoodScoreDimmer() {
+                $('#dimmer-good-score')
+                    .dimmer('toggle')
+                    .dimmer('hide');
+                $scope.hideVideo = false;
+            }
+
+            function showBadScoreDimmer() {
+                $('#dimmer-bad-score')
+                    .dimmer({
+                        closable: true
+                    })
+                    .dimmer('show');
+                $scope.hideVideo = true;
+            }
+
+            function showOffLineDimmer() {
+                $('#dimmer-off-line').dimmer('show');
                 $scope.hideVideo = true;
             }
 
