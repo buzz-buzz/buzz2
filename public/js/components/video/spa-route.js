@@ -343,6 +343,10 @@ angular
             videoInfoGet().then(function (status) {
                 var poster = status.pastered_poster || status.poster;
                 if (poster) {
+                    if (poster.indexOf('http') <= 0) {
+                        poster = 'https://buzzbuzzenglish.com' + poster;
+                    }
+
                     sharable.imgUrl = poster;
 
                     wechatSharable(sharable);
