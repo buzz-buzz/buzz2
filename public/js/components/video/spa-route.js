@@ -41,7 +41,6 @@ angular
                             }
 
                             console.log(videoInfo);
-                            videoInfo.status = 3;
                             if (videoInfo.status === 2) {
                                 return $q.reject('processing');
                             } else {
@@ -418,35 +417,36 @@ angular
                 location.href = '/sign-in';
             };
             //video_id get video info
-            videoStatus.get($routeParams.video_id).then(function (status) {
-                $scope.likes = status.likes;
-                status.status = 3;
-                status.score = .8;
-                updateLikesStatus();
-                if (status.status !== 0) {
-                    hideProcessing();
-                    hideError();
-                    $scope.videoStatus = status;
-                    $scope.$broadcast('//video-info:got', status);
-                    if ($scope.videoStatus.score && parseFloat($scope.videoStatus.score)) {
-                        if ($scope.videoStatus.score < 1) {
-                            $scope.videoStatus.score = parseInt(parseFloat($scope.videoStatus.score) * 100);
+            videoStatus
+                .get($routeParams.video_id)
+                .then(function (status) {
+                    if (status.status !== 0) {
+                        hideProcessing();
+                        hideError();
+                        $scope.videoStatus = status;
+                        $scope.$broadcast('//video-info:got', status);
+                        if ($scope.videoStatus.score && parseFloat($scope.videoStatus.score)) {
+                            if ($scope.videoStatus.score < 1) {
+                                $scope.videoStatus.score = parseInt(parseFloat($scope.videoStatus.score) * 100);
+                            }
+                            if ($scope.videoStatus.score > 30) {
+                                showGoodScoreDimmer();
+                            } else {
+                                showBadScoreDimmer();
+                            }
                         }
-                        if ($scope.videoStatus.score > 30) {
-                            showGoodScoreDimmer();
-                        } else {
-                            showBadScoreDimmer();
-                        }
+                        hideProcessing();
+                        hideError();
+                    } else {
+                        showOffLineDimmer();
                     }
-                    hideProcessing();
-                    hideError();
-                } else {
-                    showOffLineDimmer();
-                }
-            }).catch(function (reason) {
+                })
+                .catch(function (reason) {
                 if (reason === 'processing') {
                     showProcessing();
                 } else {
+                    console.log('=====video error=====');
+                    console.log(reason);
                     showError();
                 }
             });
