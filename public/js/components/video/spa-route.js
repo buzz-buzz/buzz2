@@ -397,7 +397,9 @@ angular
                     document.getElementById('thumbsUp').style.color = 'white';
                 }
             }
-
+            $scope.keepModal = function ($event) {
+                $event.stopPropagation();
+            };
             //video_id get video info
             videoStatus.get($routeParams.video_id).then(function (status) {
                 $scope.likes = status.likes;

@@ -1,0 +1,10 @@
+.ui.dimmer#login-ask
+    .content
+            .body(style="padding: 1em;")
+                .center.aligned.container(style="background: #fff; max-width: 280px;padding: 2rem;" ng-click="keepModal($event)" ng-cloak)
+                    img(src="//resource.buzzbuzzenglish.com/image22_03.png", style="max-width: 180px;")
+                    p(style="color:#000;") BuzzBuzz提示:您还没有登录，无法使用点赞功能，请先登录！
+                    p
+                        a.yellow.button(href="/sign-in", style="padding-left: 2em!important; padding-right: 2em!important; white-space: nowrap; color: white!important;") 已有账号，去登录
+                    p
+                        a.linear.basic.button(href="/sign-up", style="padding-left: 2em!important; padding-right: 2em!important; white-space: nowrap;") 没有账号，去注册
