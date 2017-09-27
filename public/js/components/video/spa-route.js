@@ -40,6 +40,8 @@ angular
                             }
 
                             console.log(videoInfo);
+                            videoInfo.status = 3;
+                            videoInfo.score = .8;
                             if (videoInfo.status === 2) {
                                 return $q.reject('processing');
                             } else {
@@ -209,6 +211,7 @@ angular
 
             $scope.closeVideoGrade = function () {
                 if ($scope.videoStatus.score > 30) {
+                    console.log('======hide good score======');
                     hideGoodScoreDimmer();
                 } else {
                     $location.path('/video');
@@ -422,12 +425,18 @@ angular
                 var arrCookie = strCookie.split(";");
 
                 var member_id;
-                for (var i = 0; i < arrCookie.length; i++) {
-                    var arr = arrCookie[i].split("=");
-                    if ("mid" == arr[0]) {
-                        member_id = arr[1];
-                        break;
+                if(arrCookie.length > 0){
+                    for (var i = 0; i < arrCookie.length; i++) {
+                        var arr = arrCookie[i].split("=");
+                        if ("mid" == arr[0]) {
+                            member_id = arr[1];
+                            break;
+                        }
                     }
+                }
+
+                if(!member_id){
+                    member_id = '00000000-0000-0000-0000-000000000000';
                 }
 
                 if ($scope.likes && $scope.likes.length && $scope.likes.contains(member_id)) {
@@ -438,6 +447,14 @@ angular
             }
             $scope.keepModal = function ($event) {
                 $event.stopPropagation();
+            };
+
+            $scope.closeVideoGrade = function () {
+                if ($scope.videoStatus.score > 30) {
+                    hideGoodScoreDimmer();
+                } else {
+                    $location.path('/video');
+                }
             };
 
             $scope.closeLoginAskDimmer = function(){
