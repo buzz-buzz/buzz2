@@ -31,6 +31,11 @@ function getPosterPath(videoPath) {
     return `${parsed.dir}${path.sep}${parsed.name}.png`;
 }
 
+function getPasteredPosterPath(videoPath) {
+    let parsed = path.parse(videoPath);
+    return `${parsed.dir}${path.sep}n-${parsed.name}.png`;
+}
+
 function getRecipesPath(videoPath) {
     let parsed = path.parse(videoPath);
     return `${parsed.dir}${path.sep}${parsed.name}.recipes`;
@@ -150,6 +155,7 @@ ${dialog}
         let scorePath = getScorePath(videoStoredPath);
         let pasteredPath = getPasteredPath(videoStoredPath);
         let posterPath = getPosterPath(videoStoredPath);
+        let pasteredPosterPath = getPasteredPosterPath(videoStoredPath);
         let recipesPath = getRecipesPath(videoStoredPath);
 
         let result = {
@@ -166,6 +172,10 @@ ${dialog}
 
         if (fs.existsSync(posterPath)) {
             result.poster = getURIAddress(posterPath);
+        }
+
+        if (fs.existsSync(pasteredPath)) {
+            result.pastered_poster = getURIAddress(pasteredPosterPath);
         }
 
         if (!fs.existsSync(expVttPath)) {
@@ -205,7 +215,7 @@ ${dialog}
             return result;
         }
 
-        if(!fs.existsSync(pasteredPath)){
+        if (!fs.existsSync(pasteredPath)) {
             result.status = 2;
             delete result.pastered;
 

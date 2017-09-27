@@ -343,8 +343,8 @@ angular
             }
 
             videoInfoGet().then(function (status) {
-                if (status.poster) {
-                    sharable.imgUrl = status.poster;
+                if (status.pastered_poster) {
+                    sharable.imgUrl = status.pastered_poster;
                 }
             });
         }
@@ -425,7 +425,7 @@ angular
                 var arrCookie = strCookie.split(";");
 
                 var member_id;
-                if(arrCookie.length > 0){
+                if (arrCookie.length > 0) {
                     for (var i = 0; i < arrCookie.length; i++) {
                         var arr = arrCookie[i].split("=");
                         if ("mid" == arr[0]) {
@@ -435,7 +435,7 @@ angular
                     }
                 }
 
-                if(!member_id){
+                if (!member_id) {
                     member_id = '00000000-0000-0000-0000-000000000000';
                 }
 
@@ -445,6 +445,7 @@ angular
                     document.getElementById('thumbsUp').style.color = 'white';
                 }
             }
+
             $scope.keepModal = function ($event) {
                 $event.stopPropagation();
             };
@@ -457,7 +458,7 @@ angular
                 }
             };
 
-            $scope.closeLoginAskDimmer = function(){
+            $scope.closeLoginAskDimmer = function () {
                 document.getElementById('login-ask').style.display = 'none';
                 document.getElementById('login-ask').style.opacity = '0';
                 console.log('====hello====');
@@ -467,7 +468,7 @@ angular
                     .opacity = 1;
             };
 
-            $scope.Login = function(){
+            $scope.Login = function () {
                 location.href = '/sign-in';
             };
             //video_id get video info
@@ -497,14 +498,14 @@ angular
                     }
                 })
                 .catch(function (reason) {
-                if (reason === 'processing') {
-                    showProcessing();
-                } else {
-                    console.log('=====video error=====');
-                    console.log(reason);
-                    showError();
-                }
-            });
+                    if (reason === 'processing') {
+                        showProcessing();
+                    } else {
+                        console.log('=====video error=====');
+                        console.log(reason);
+                        showError();
+                    }
+                });
 
             $scope.shareToFriends = function () {
                 $scope.loading = true;
@@ -547,11 +548,11 @@ angular
             });
 
             //thumbs up
-            $scope.thumbsUp = function(){
-                $http.post('/service-proxy/buzz/video/info/thumbs/' + $routeParams.video_id )
-                    .then(function(response){
+            $scope.thumbsUp = function () {
+                $http.post('/service-proxy/buzz/video/info/thumbs/' + $routeParams.video_id)
+                    .then(function (response) {
                         //获取like list
-                        if(response && response.data && response.data === 'no member_id'){
+                        if (response && response.data && response.data === 'no member_id') {
                             //弹出登录框
                             document.getElementById('login-ask').style.opacity = 1;
                             document.getElementById('login-ask').style.display = 'block';
@@ -559,7 +560,7 @@ angular
                                 .getElementById('video-uploaded')
                                 .style
                                 .opacity = '0';
-                        }else{
+                        } else {
                             $scope.likes = response.data;
                             updateLikesStatus();
                         }
@@ -625,7 +626,7 @@ angular
                             .sources
                             .push({
                                 file: status.pastered + '.mp4',
-                                image: status.poster || '//resource.buzzbuzzenglish.com/image/png/buzz-poster.png',
+                                image: status.pastered_poster || '//resource.buzzbuzzenglish.com/image/png/buzz-poster.png',
                                 label: '贴纸效果',
                                 'default': true
                             });
