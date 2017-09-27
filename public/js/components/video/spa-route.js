@@ -359,6 +359,7 @@ angular
         'weixin',
         function ($scope, $routeParams, $rootScope, $http, clientConfig, $timeout, api, videoStatus, $location, weixin) {
             $scope.hideVideo = false;
+            $scope.isSharePage = true;
 
             function showProcessing() {
                 $('#dimmer-processing').dimmer('show');
@@ -472,15 +473,18 @@ angular
                     })
             });
 
-            //点赞
-            $scope.thumbsUp = function () {
-                console.log('=========thumbs up click=============');
-                //调用api /service-proxy/buzz/video/info/thumbs/:video_id
-                $http.post('/service-proxy/buzz/video/info/thumbs/' + $routeParams.video_id)
-                    .then(function (response) {
+            //thumbs up
+            $scope.thumbsUp = function(){
+                $http.post('/service-proxy/buzz/video/info/thumbs/' + $routeParams.video_id )
+                    .then(function(response){
                         //获取like list
-                        $scope.likes = response.data;
-                        updateLikesStatus();
+                        if(response && response.data && response.data === '用户未登录'){
+                            //需要登录的提示
+                            console.log('==需要登录===');
+                        }else{
+                            $scope.likes = response.data;
+                            updateLikesStatus();
+                        }
                     });
             };
         }
