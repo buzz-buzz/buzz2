@@ -626,6 +626,11 @@ angular
                     var video = document.getElementById('video-uploaded');
                     if (video.currentTime === 0 || video.ended) {
                         var videoPlayer = jwplayer('video-uploaded').setup(options);
+
+                        videoPlayer.on('setupError', function(){
+                            videoPlayer.remove();
+                        });
+                        
                         $scope.$emit('//video-player:got', videoPlayer)
                     }
                 });
