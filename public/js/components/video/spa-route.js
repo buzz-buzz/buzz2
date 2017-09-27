@@ -31,7 +31,6 @@ angular
                         .then(function (result) {
                             var videoInfo = result.data;
                             console.log(videoInfo);
-                            videoInfo.status='0'
                             if (!videoInfo.raw) {
                                 videoInfo.raw = atob(videoInfo.video_path);
                             }
@@ -458,6 +457,7 @@ angular
             videoStatus
                 .get($routeParams.video_id)
                 .then(function (status) {
+                    updateLikesStatus();
                     if (status.status !== 0) {
                         hideProcessing();
                         hideError();
