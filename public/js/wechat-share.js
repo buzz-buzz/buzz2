@@ -76,7 +76,8 @@ angular.module('wechatShareModule', ['clientConfigModule', 'buzzHeaderModule'])
             function shareToFriendCancel(result) {
                 if (result.errMsg === 'sendAppMessage:cancel') {
 
-                } else {}
+                } else {
+                }
             }
 
             weixin.ready().then(function () {
@@ -116,19 +117,26 @@ angular.module('wechatShareModule', ['clientConfigModule', 'buzzHeaderModule'])
                 }
 
                 if (wx.errorHappened) {
-                    dfd.reject('上次注册微信接口时发生了错误');
+                    dfd.reject('上次注册微信接口时发生了错误 : ' + wx.errorDetail);
+                    return dfd.promise;
+                }
+
+                if (wx.isReady) {
+                    dfd.resolve();
                     return dfd.promise;
                 }
 
                 wx.error(function () {
                     wx.errorHappened = true;
-                    dfd.reject('微信接口发生了错误');
+                    wx.errorDetail = JSON.stringify(arguments);
+                    dfd.reject('微信接口发生了错误: ' + JSON.stringify(arguments));
                 });
 
                 wx.ready(function () {
                     if (wx.errorHappened) {
                         dfd.reject('微信接口已准备好，但是微信接口发生了错误');
                     } else {
+                        wx.isReady = true;
                         dfd.resolve();
                     }
                 });
