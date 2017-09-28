@@ -38,6 +38,7 @@ angular
                                 videoInfo.pastered = videoInfo.video_vfx_path;
                             }
 
+                            console.log(videoInfo);
                             if (videoInfo.status === 2) {
                                 return $q.reject('processing');
                             } else {
