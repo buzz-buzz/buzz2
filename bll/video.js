@@ -66,7 +66,7 @@ function getURIAddresses(pathObj) {
 }
 
 module.exports = {
-    playable: function* () {
+    playable: function*() {
         if (this.state.hcd_user) {
             this.body = {
                 start: -Infinity,
@@ -114,7 +114,7 @@ ${dialog}
         fs.writeFileSync(vttPath, vtt, 'utf-8');
     },
 
-    getStatusInfo: function* (videoId) {
+    getStatusInfo: function*(videoId) {
         let videoData = yield this.getStatusInfoFromDb(videoId);
 
         if (this.checkVideoDone(videoData)) {
@@ -231,7 +231,7 @@ ${dialog}
         return result;
     },
 
-    getStatusInfoFromDb: function* (videoId) {
+    getStatusInfoFromDb: function*(videoId) {
         //get video data from buzz-server
         let path = Router.url('/video/path/info/:video_id', {
             video_id: videoId
@@ -241,6 +241,10 @@ ${dialog}
             path: path,
             method: 'GET'
         }, proxyOption));
+
+        if (typeof videoData == 'string') {
+            videoData = JSON.parse(videoData);
+        }
 
         return videoData;
     },
