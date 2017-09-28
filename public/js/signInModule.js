@@ -12,7 +12,8 @@ angular.module('signInModule', ['angularQueryParserModule', 'clientConfigModule'
             '/my/history': '登录成功，正在跳转至历史课程页面……',
             '/my/progress': '登录成功，正在跳转至我的进度页面……',
             '/m/my/my': '登录成功，正在跳转至【我的】页面……',
-            '/my/account': '登录成功，正在跳转至账号信息页面……'
+            '/my/account': '登录成功，正在跳转至账号信息页面……',
+            'video-share-page': '登录成功，正在跳转至视频分享页面……',
         });
 
         $translateProvider.preferredLanguage('zh');
@@ -37,7 +38,7 @@ angular.module('signInModule', ['angularQueryParserModule', 'clientConfigModule'
                     return result;
                 })
                 .catch(function (reason) {
-                    var Message = reason.message.replace(/(\?[a-z]=.*\d)-[0-9]{1}-[0-9]{1}-[0-9]{13}(&[a-z]=.*\d{13})/g, '');
+                    var Message = reason.message.replace(/(\?.*$)/g, '').replace(/\/video-share\/.*$/g, 'video-share-page');
                     $scope.errorMessage = serviceErrorParser.getErrorMessage(Message);
                     tracking.sendX('log-in.login.afterClick.error', reason);
                 });

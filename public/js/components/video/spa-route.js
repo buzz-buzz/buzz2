@@ -30,7 +30,6 @@ angular
                         .get('/api/videos/' + video_id)
                         .then(function (result) {
                             var videoInfo = result.data;
-                            console.log(videoInfo);
                             if (!videoInfo.raw) {
                                 videoInfo.raw = atob(videoInfo.video_path);
                             }
@@ -39,7 +38,6 @@ angular
                                 videoInfo.pastered = videoInfo.video_vfx_path;
                             }
 
-                            console.log(videoInfo);
                             if (videoInfo.status === 2) {
                                 return $q.reject('processing');
                             } else {
@@ -209,7 +207,6 @@ angular
 
             $scope.closeVideoGrade = function () {
                 if ($scope.videoStatus.score > 30) {
-                    console.log('======hide good score======');
                     hideGoodScoreDimmer();
                 } else {
                     $location.path('/video');
@@ -451,10 +448,6 @@ angular
                 }
             }
 
-            $scope.keepModal = function ($event) {
-                $event.stopPropagation();
-            };
-
             $scope.closeVideoGrade = function () {
                 if ($scope.videoStatus.score > 30) {
                     hideGoodScoreDimmer();
@@ -466,7 +459,6 @@ angular
             $scope.closeLoginAskDimmer = function () {
                 document.getElementById('login-ask').style.display = 'none';
                 document.getElementById('login-ask').style.opacity = '0';
-                console.log('====hello====');
                 document
                     .getElementById('video-uploaded')
                     .style
@@ -474,7 +466,7 @@ angular
             };
 
             $scope.Login = function () {
-                location.href = '/sign-in';
+                location.href = '/sign-in?return_url=' + location.pathname;
             };
             //video_id get video info
             videoStatus
