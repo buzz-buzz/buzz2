@@ -129,7 +129,6 @@ ${dialog}
     },
 
     getStatusInfoFromFileSystem: function (videoStoredPath, videoData) {
-        console.log('get status from file system');
         let encodedVideoSrc = new Buffer(videoStoredPath, 'base64').toString();
         let decoded = decodeURIComponent(encodedVideoSrc);
         let videoSrc = encodeURIComponent(decoded.replace('/videos/', ''));
@@ -242,10 +241,6 @@ ${dialog}
             path: path,
             method: 'GET'
         }, proxyOption));
-
-        if (typeof videoData == 'string') {
-            videoData = JSON.parse(videoData);
-        }
 
         return videoData;
     },
