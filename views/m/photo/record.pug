@@ -1,0 +1,14 @@
+script(type="text/ng-template", id="photo.html")
+    form.ui.form(ng-class="{'error': !!errorMessage, 'loading': uploading || loading}")
+        include ../../partial/formMessage
+        fieldset
+            legend(style='text-align: center; font-size: 40px; padding-top: 2rem; border: none; margin-bottom: 0; font-weight: 800;')
+            .ui.container
+                .form-group
+                    label.ui.yellow.button.center-block(style='font-size: 2rem; border-radius: 0; letter-spacing: 3px; position: relative;', for="photo-file") Select the 1st face
+                    input#photo-file.form-control(type="file", accept="image/*", capture, style='position: absolute; top: 0; left: 0;clip:rect(0 0 0 0);', onchange="angular.element(this).scope().photoChange(this)")
+                    img(ng-src="{{photo1Src}}", alt="face")
+                    label.ui.yellow.button.center-block(style='font-size: 2rem; border-radius: 0; letter-spacing: 3px; position: relative;"', for="photo-file-2") Select the 2nd face
+                    input#photo-file-2.form-control(type="file", accept="image/*", capture, style="position: absolute; top: 0; left: 0; clip:rect(0 0 0 0);", onchange="angular.element(this).scope().photo2Change(this)")
+                    img(ng-src="{{photo2Src}}", alt="face")
+                    button.ui.yellow.button.center-block(style='font-size: 2rem; border-radius: 0; letter-spacing: 3px; position: relative; ', ng-click='upload()') Upload

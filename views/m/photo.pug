@@ -1,0 +1,32 @@
+extends ./mobile-master-layout
+block content
+    include ./photo/record
+    include ./photo/result
+
+
+block js
+    script.
+        angular.module('spaModule', [
+            'ngRoute',
+            'mobile-angular-ui',
+            'angular-file-reader'
+        ])
+        .config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
+        $locationProvider.html5Mode(true);
+
+        $routeProvider
+            .when('/photo', {
+                templateUrl: 'photo.html',
+                controller: 'photoCtrl',
+                controllerAs: 'photoCtrl'
+            })
+            .when('/photo/:encodedPath', {
+                templateUrl: 'result.html',
+                controller: 'resultCtrl',
+                controllerAs: 'resultCtrl'
+            });
+
+             $routeProvider.otherwise('/photo');
+        }])
+    + js('/js/components/photo/spa-route.min.js')
+    + js("/node_modules/angular-file-reader-module/dist/angular-file-reader.js")
